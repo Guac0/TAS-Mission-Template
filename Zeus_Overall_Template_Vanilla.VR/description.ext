@@ -1,0 +1,30 @@
+respawnOnStart = 1; // 1 - Dont respawn on start. Don't run respawn script on start. 0 - Dont respawn on start. Run respawn script on start. 1 - Respawn on start. Run respawn script on start.
+disabledAI = 1; // 0: disabled - 1: enabled. Default: 0
+
+//Enables the AceX kill tracker in your mission, example by Guac
+class CfgDebriefingSections {
+	class acex_killTracker {
+		title = "ACEX Killed Events";
+		variable = "acex_killTracker_outputText";
+	};
+};
+
+//delete if not using this section
+class CfgMusic
+{
+	sounds[] = {01,02};
+	class 01
+	{
+		name = "Example Sound 1";
+		sound[] = {"ExampleSound1.ogg", db+1, 1.0};
+		titles[] = {0,""};
+		musicClass = "TASMusicClass"; //needs the TAS addon to work, adds it to zeus (probably)
+	};
+	class 02
+	{
+		name = "Example Sound 2";
+		sound[] = {"ExampleSound2.ogg", db+1, 1.0};
+		titles[] = {0,""};
+		musicClass = "TASMusicClass";
+	};
+};
