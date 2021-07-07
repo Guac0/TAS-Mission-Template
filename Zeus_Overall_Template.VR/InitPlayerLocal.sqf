@@ -63,16 +63,5 @@ TAS_fnc_AfkScript =
 //25 for P, 0x10C for User Action 19
 ["TAS Keybindings","afk_script_key","Run TAS Afk Script", {call TAS_fnc_AfkScript}, "", [25, [false, true, false]]] call CBA_fnc_addKeybind;
 
-//FOB Script
-sleep 2; //wait for init
-if !(FOBEnabled) exitWith {systemChat "FOB building disabled"};
-
-// Vars for picking medic class
-private _builders = ["CMD_Actual"]; //var names of roles with access to fob building
-									//Depending on mission, add more/less, such as the other members of the command element, a dedicated logi crew, or the alpha SL (if GC not used), or all SLs
-//fobUsed = false;
-private _playerClass = vehicleVarName player;
-if (_playerClass in _builders) then {
-	FH_Unpack_Action = ["unpackFOB","Unpack Foward Operating Base","",{[] execVM "scripts\buildccp\unpack_platoon.sqf";},{true}] call ace_interact_menu_fnc_createAction;
-	[player, 1, ["ACE_SelfActions"], FH_Unpack_Action] call ace_interact_menu_fnc_addActionToObject;
-};
+//Add FOB Script
+[] execVM "buildfob\initfob.sqf";
