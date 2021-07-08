@@ -47,19 +47,19 @@ if !(FOBEnabled) exitWith {systemChat "FOB/Rallypoint building disabled"}; //if 
 //} forEach ["fobMarker","rallypointCmdMarker","rallypointAlphaMarker"]; //create the markers via script (unused, placed in editor instead)
 fobBuilt = false;
 publicVariable "fobBuilt";
-cmdRallyUsed = false;
-publicVariable "cmdRallyUsed";
-alphaRallyUsed = false;
-publicVariable "alphaRallyUsed";
-bravoRallyUsed = false;
-publicVariable "bravoRallyUsed";
-charlieRallyUsed = false;
-publicVariable "charlieRallyUsed";
-deltaRallyUsed = false;
-publicVariable "deltaRallyUsed";
-echoRallyUsed = false;
-publicVariable "echoRallyUsed";
-foxtrotRallyUsed = false;
-publicVariable "foxtrotRallyUsed";
+rallyCmdUsed = false;
+publicVariable "rallyCmdUsed";
+rallyAlphaUsed = false;
+publicVariable "rallyAlphaUsed";
+rallyBravoUsed = false;
+publicVariable "rallyBravoUsed";
+rallyCharlieUsed = false;
+publicVariable "rallyCharlieUsed";
+rallyDeltaUsed = false;
+publicVariable "rallyDeltaUsed";
+rallyEchoUsed = false;
+publicVariable "rallyEchoUsed";
+rallyFoxtrotUsed = false;
+publicVariable "rallyFoxtrotUsed";
 
 //dont place anything below fob because it'll exit if fob is disabled
