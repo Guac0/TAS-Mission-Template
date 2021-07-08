@@ -1,4 +1,4 @@
-//short sleep for server to read init file
+//short sleep for server to read init file, probably bad
 sleep 1;
 
 //dynamic groups code
@@ -11,7 +11,28 @@ if (local player) then {
 };
 
 //Add TAS Afk Script
-[] execVM "afkScript.sqf";
+[] execVM "Scripts\afkScript.sqf";
 
 //Add FOB Script
 [] execVM "buildfob\initfob.sqf";
+
+//Register TAS_globalTFAR as a function if enabled in initServer, also add tutorial diary entry
+if (TAS_globalTFAREnabled) then { 
+	TAS_fnc_globalTFAR = compile preprocessFile "Scripts\TAS_globalTFAR.sqf";
+	player createDiaryRecord ["Diary", ["TAS Global TFAR Script", "Sets all Short Range radios to a single channel for Zeus/Lore events. Restores radios to prior channel when run a second time. Can be executed from either debug console or via triggle by using remoteExecCall on TAS_fnc_globalTFAR."]];
+};
+
+//radio setup
+if (autoRadioLoadoutsEnabled) then {
+	player linkItem radioPersonal;
+	if (leader group player == player) then {player addBackpack radioBackpack;};
+	systemChat "Radio loadout init finished.";
+};
+
+//ctab setup
+if (ctabEnabled) then {
+	player addItem "ItemcTabHCam"; //give all players a helmetcam
+	if (leader group player != player) then {player linkItem "itemAndroid";}; //give riflemen an android in their gps slot
+	if (leader group player == player) then {player linkItem "itemcTab"; player addItem "itemAndroid";}; //give leadership an android in their inventories and a tablet in their gps slot
+	systemChat "cTab loadout init finished.";
+};

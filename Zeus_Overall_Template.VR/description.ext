@@ -1,4 +1,4 @@
-respawnOnStart = 1; // 1 - Dont respawn on start. Don't run respawn script on start. 0 - Dont respawn on start. Run respawn script on start. 1 - Respawn on start. Run respawn script on start.
+respawnOnStart = -1; // 1 - Dont respawn on start. Don't run respawn script on start. 0 - Dont respawn on start. Run respawn script on start. 1 - Respawn on start. Run respawn script on start.
 disabledAI = 1; // 0: disabled - 1: enabled. Default: 0
 
 //Enables the AceX kill tracker in your mission, example by Guac

@@ -1,5 +1,5 @@
 //FOB Script
-sleep 1; //wait for init
+sleep 1; //wait for init, probably bad
 if !(FOBEnabled) exitWith {systemChat "FOB/Rallypoint building disabled"};
 
 // Vars for picking those who can place the fob

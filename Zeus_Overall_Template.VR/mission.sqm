@@ -6,9 +6,13 @@ class EditorData
 	scaleGridStep=1;
 	autoGroupingDist=10;
 	toggles=513;
+	mods[]=
+	{
+		"3denEnhanced"
+	};
 	class ItemIDProvider
 	{
-		nextID=184;
+		nextID=189;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +20,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=82;
+		nextID=98;
 	};
 	class Camera
 	{
-		pos[]={59.059479,51.17572,34.251152};
-		dir[]={-0.006199854,-0.31996644,0.94740862};
-		up[]={-0.0020938194,0.94742882,0.31995958};
-		aside[]={0.99997854,0,0.0065438724};
+		pos[]={134.50668,55.337727,8.2787828};
+		dir[]={-0.83902484,-0.46638328,0.28024027};
+		up[]={-0.44236305,0.88458383,0.14775202};
+		aside[]={0.31680456,1.374865e-007,0.94849879};
 	};
 };
 binarizationWanted=0;
@@ -43,13 +47,14 @@ addons[]=
 	"A3_Characters_F_Mark",
 	"A3_Soft_F_Gamma_Truck_01",
 	"A3_Soft_F_Exp_Truck_01",
-	"A3_Ui_F"
+	"A3_Ui_F",
+	"tfar_antennas"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=12;
+		items=13;
 		class Item0
 		{
 			className="A3_Modules_F_Curator";
@@ -133,6 +138,12 @@ class AddonsMetaData
 			name="Arma 3 - User Interface";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
+		};
+		class Item12
+		{
+			className="tfar_antennas";
+			name="tfar_antennas";
+			url="https://github.com/michail-nikolaev/task-force-arma-3-radio";
 		};
 	};
 };
@@ -248,7 +259,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=60;
+		items=65;
 		class Item0
 		{
 			dataType="Layer";
@@ -914,6 +925,25 @@ class Mission
 			{
 				class Attribute0
 				{
+					property="TFAR_freq_sr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; } else { _value = [str _value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="48";
+						};
+					};
+				};
+				class Attribute1
+				{
 					property="groupID";
 					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
@@ -931,7 +961,26 @@ class Mission
 						};
 					};
 				};
-				nAttributes=1;
+				class Attribute2
+				{
+					property="TFAR_freq_lr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; } else { _value = [str _value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="50";
+						};
+					};
+				};
+				nAttributes=3;
 			};
 		};
 		class Item2
@@ -1194,6 +1243,25 @@ class Mission
 			{
 				class Attribute0
 				{
+					property="TFAR_freq_sr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; } else { _value = [str _value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="49";
+						};
+					};
+				};
+				class Attribute1
+				{
 					property="groupID";
 					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
@@ -1211,7 +1279,26 @@ class Mission
 						};
 					};
 				};
-				nAttributes=1;
+				class Attribute2
+				{
+					property="TFAR_freq_lr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; } else { _value = [str _value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="50";
+						};
+					};
+				};
+				nAttributes=3;
 			};
 		};
 		class Item3
@@ -1351,6 +1438,25 @@ class Mission
 			{
 				class Attribute0
 				{
+					property="TFAR_freq_sr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; } else { _value = [str _value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="40";
+						};
+					};
+				};
+				class Attribute1
+				{
 					property="groupID";
 					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
@@ -1368,7 +1474,26 @@ class Mission
 						};
 					};
 				};
-				nAttributes=1;
+				class Attribute2
+				{
+					property="TFAR_freq_lr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; } else { _value = [str _value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="50";
+						};
+					};
+				};
+				nAttributes=3;
 			};
 		};
 		class Item4
@@ -1508,6 +1633,25 @@ class Mission
 			{
 				class Attribute0
 				{
+					property="TFAR_freq_sr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; } else { _value = [str _value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="45";
+						};
+					};
+				};
+				class Attribute1
+				{
 					property="groupID";
 					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
@@ -1525,7 +1669,26 @@ class Mission
 						};
 					};
 				};
-				nAttributes=1;
+				class Attribute2
+				{
+					property="TFAR_freq_lr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; } else { _value = [str _value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="50";
+						};
+					};
+				};
+				nAttributes=3;
 			};
 		};
 		class Item5
@@ -1724,6 +1887,25 @@ class Mission
 			{
 				class Attribute0
 				{
+					property="TFAR_freq_sr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; } else { _value = [str _value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="30";
+						};
+					};
+				};
+				class Attribute1
+				{
 					property="groupID";
 					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
@@ -1741,7 +1923,26 @@ class Mission
 						};
 					};
 				};
-				nAttributes=1;
+				class Attribute2
+				{
+					property="TFAR_freq_lr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; } else { _value = [str _value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="50";
+						};
+					};
+				};
+				nAttributes=3;
 			};
 		};
 		class Item6
@@ -1940,6 +2141,25 @@ class Mission
 			{
 				class Attribute0
 				{
+					property="TFAR_freq_sr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; } else { _value = [str _value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="35";
+						};
+					};
+				};
+				class Attribute1
+				{
 					property="groupID";
 					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
@@ -1957,7 +2177,26 @@ class Mission
 						};
 					};
 				};
-				nAttributes=1;
+				class Attribute2
+				{
+					property="TFAR_freq_lr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; } else { _value = [str _value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="50";
+						};
+					};
+				};
+				nAttributes=3;
 			};
 		};
 		class Item7
@@ -2272,6 +2511,25 @@ class Mission
 			{
 				class Attribute0
 				{
+					property="TFAR_freq_sr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; } else { _value = [str _value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="60";
+						};
+					};
+				};
+				class Attribute1
+				{
 					property="groupID";
 					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
@@ -2289,7 +2547,26 @@ class Mission
 						};
 					};
 				};
-				nAttributes=1;
+				class Attribute2
+				{
+					property="TFAR_freq_lr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; } else { _value = [str _value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="50";
+						};
+					};
+				};
+				nAttributes=3;
 			};
 		};
 		class Item8
@@ -2604,6 +2881,25 @@ class Mission
 			{
 				class Attribute0
 				{
+					property="TFAR_freq_sr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; } else { _value = [str _value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="65";
+						};
+					};
+				};
+				class Attribute1
+				{
 					property="groupID";
 					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
@@ -2621,7 +2917,26 @@ class Mission
 						};
 					};
 				};
-				nAttributes=1;
+				class Attribute2
+				{
+					property="TFAR_freq_lr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; } else { _value = [str _value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="50";
+						};
+					};
+				};
+				nAttributes=3;
 			};
 		};
 		class Item9
@@ -2936,6 +3251,25 @@ class Mission
 			{
 				class Attribute0
 				{
+					property="TFAR_freq_sr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; } else { _value = [str _value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="70";
+						};
+					};
+				};
+				class Attribute1
+				{
 					property="groupID";
 					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
@@ -2953,7 +3287,26 @@ class Mission
 						};
 					};
 				};
-				nAttributes=1;
+				class Attribute2
+				{
+					property="TFAR_freq_lr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; } else { _value = [str _value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="50";
+						};
+					};
+				};
+				nAttributes=3;
 			};
 		};
 		class Item10
@@ -3268,6 +3621,25 @@ class Mission
 			{
 				class Attribute0
 				{
+					property="TFAR_freq_sr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; } else { _value = [str _value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="75";
+						};
+					};
+				};
+				class Attribute1
+				{
 					property="groupID";
 					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
@@ -3285,7 +3657,26 @@ class Mission
 						};
 					};
 				};
-				nAttributes=1;
+				class Attribute2
+				{
+					property="TFAR_freq_lr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; } else { _value = [str _value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="50";
+						};
+					};
+				};
+				nAttributes=3;
 			};
 		};
 		class Item11
@@ -5204,7 +5595,7 @@ class Mission
 			dataType="Comment";
 			class PositionInfo
 			{
-				position[]={81.708603,5,109.86328};
+				position[]={90.9412,5,110.90726};
 			};
 			title="Custom Music, READ THIS";
 			description="see description.ext for code. Delete that section in description.ext and these triggers if you are not using custom music. To use, put your own .ogg music files into the mission root and edit description.ext so it has the correct filepath and name for them. If you change the name, you may need to update the triggers as well. Go to the very bottom of the triggers for the music section.";
@@ -5626,6 +6017,25 @@ class Mission
 			{
 				class Attribute0
 				{
+					property="TFAR_freq_sr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; } else { _value = [str _value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="80";
+						};
+					};
+				};
+				class Attribute1
+				{
 					property="groupID";
 					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
@@ -5643,7 +6053,26 @@ class Mission
 						};
 					};
 				};
-				nAttributes=1;
+				class Attribute2
+				{
+					property="TFAR_freq_lr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; } else { _value = [str _value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="50";
+						};
+					};
+				};
+				nAttributes=3;
 			};
 		};
 		class Item47
@@ -5960,6 +6389,25 @@ class Mission
 			{
 				class Attribute0
 				{
+					property="TFAR_freq_sr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; } else { _value = [str _value,8,512,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_sr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="85";
+						};
+					};
+				};
+				class Attribute1
+				{
 					property="groupID";
 					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
@@ -5977,7 +6425,26 @@ class Mission
 						};
 					};
 				};
-				nAttributes=1;
+				class Attribute2
+				{
+					property="TFAR_freq_lr";
+					expression="if (_value isEqualTo '' || _value isEqualTo []) exitWith {}; if (_value isEqualType '') then { _value = [_value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; } else { _value = [str _value,9,87,30,10] call tfar_fnc_parseFrequenciesInput; _this setVariable ['TFAR_freq_lr',_value,true]; }";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="50";
+						};
+					};
+				};
+				nAttributes=3;
 			};
 		};
 		class Item48
@@ -6368,6 +6835,70 @@ class Mission
 			colorName="ColorCIV";
 			alpha=0;
 			id=174;
+		};
+		class Item60
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={109.951,21.563423,123};
+			};
+			side="Empty";
+			flags=5;
+			class Attributes
+			{
+			};
+			id=184;
+			type="TFAR_Land_Communication_F";
+		};
+		class Item61
+		{
+			dataType="Comment";
+			class PositionInfo
+			{
+				position[]={109.77305,5,123.23096};
+			};
+			title="tfar radio tower for extended range";
+			id=185;
+		};
+		class Item62
+		{
+			dataType="Comment";
+			class PositionInfo
+			{
+				position[]={77.971031,5,234.84814};
+			};
+			title="GO TO INITSERVER.SQF TO CUSTOMIZE RADIOS AND SCRIPT SETTINGS";
+			id=186;
+		};
+		class Item63
+		{
+			dataType="Trigger";
+			position[]={91.996002,5,99.056999};
+			class Attributes
+			{
+				text="Run TAS_fnc_globalTFAR";
+				condition="call{this}";
+				onActivation="call{remoteExecCall [""TAS_fnc_globalTFAR""];}";
+				sizeA=0;
+				sizeB=0;
+				repeatable=1;
+				activationBy="GOLF";
+				isServerOnly=1;
+			};
+			id=187;
+			type="EmptyDetector";
+		};
+		class Item64
+		{
+			dataType="Comment";
+			class PositionInfo
+			{
+				position[]={91.480003,5,99.358002};
+			};
+			title="TAS_fnc_globalTFAR trigger";
+			description="see documentation in TAS_globalTFAR.sqf";
+			id=188;
 		};
 	};
 	class Connections
