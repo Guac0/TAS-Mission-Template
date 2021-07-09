@@ -9,7 +9,7 @@ publicVariable "AfkEnabled";
 //turn FOB on/off
 FOBEnabled = true; //set to false to disable FOB building and rallypoints
 publicVariable "FOBEnabled";
-useSmallRally = false; //set to true if you want to use the small rallypoint without a supply crate
+useSmallRally = true; //set to true if you want to use the small rallypoint without a supply crate
 publicVariable "useSmallRally";
 
 //turn TAS_globalTFAR on/off
@@ -58,7 +58,7 @@ publicVariable "ctabEnabled";
 	0,													// Priority
 	false,												// Remove on completion
 	false												// Show in unconscious state 
-] remoteExec ["BIS_fnc_holdActionAdd", 0, AceHealObject];	// MP compatible implementation
+] remoteExec ["BIS_fnc_holdActionAdd", 0, AceHealObject];	// MP compatible implementation, is JIP compatible
 
 //Register TAS_globalTFAR as a function
 if (TAS_globalTFAREnabled) then { TAS_fnc_globalTFAR = compile preprocessFile "Scripts\TAS_globalTFAR.sqf"; };

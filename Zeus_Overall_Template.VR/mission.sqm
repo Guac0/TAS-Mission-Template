@@ -20,14 +20,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=98;
+		nextID=106;
 	};
 	class Camera
 	{
 		pos[]={134.50668,55.337727,8.2787828};
-		dir[]={-0.83902484,-0.46638328,0.28024027};
-		up[]={-0.44236305,0.88458383,0.14775202};
-		aside[]={0.31680456,1.374865e-007,0.94849879};
+		dir[]={-0.83902031,-0.46638077,0.28023893};
+		up[]={-0.44235811,0.88458401,0.14775085};
+		aside[]={0.31680304,-7.4505806e-009,0.94849122};
 	};
 };
 binarizationWanted=0;
@@ -6866,9 +6866,9 @@ class Mission
 			dataType="Comment";
 			class PositionInfo
 			{
-				position[]={77.971031,5,234.84814};
+				position[]={77.971001,5,234.84801};
 			};
-			title="GO TO INITSERVER.SQF TO CUSTOMIZE RADIOS AND SCRIPT SETTINGS";
+			title="GO TO INITSERVER.SQF TO CUSTOMIZE SCRIPT SETTINGS";
 			id=186;
 		};
 		class Item63

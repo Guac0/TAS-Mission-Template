@@ -14,5 +14,5 @@ if (useSmallRally == false) then {
 }; //spawn the rallypoint composition, size depends on mission params in initServer
 "rallypointCmdMarker" setMarkerPos getPos player; //updates the rallypoint's position on map
 [player, format ["Group rallypoint established by %1 at gridref %2.", name player, mapGridPosition player]] remoteExec ["groupChat", group player];
-rallyCmdUsed = true; //tell people that the squad's rally is used and so it must be deleted before being respawned
+rallyCmdUsed = true; //tell game that the squad's rally is used and so it must be deleted before being respawned
 publicVariable "rallyCmdUsed"; //might be unneccessary

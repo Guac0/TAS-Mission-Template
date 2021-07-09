@@ -4,9 +4,7 @@
 //defined as a script in initPlayerLocal.sqf
 //example: remoteExecCall ["TAS_fnc_globalTFAR", -2]; // Executed everywhere except on the server.
 
-if !(TAS_globalTFAREnabled) exitWith {systemChat "Global TFAR System Disabled!"};
-
-//diary entry in initPlayerLocal
+//diary entry and fail message in initPlayerLocal
 
 //setup variable if not previously made
 private _playerRadioIsGlobal = player getVariable ["playerRadioGlobal", false];

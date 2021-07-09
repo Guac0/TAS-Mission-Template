@@ -2,7 +2,7 @@
 //Written by Guac
 //Requirements: CBA, ACE
 
-if !(AfkEnabled) exitWith {systemChat "Afk System Disabled"};
+if !(AfkEnabled) exitWith {systemChat "Afk System Disabled."};
 
 //make a diary record tutorial
 player createDiaryRecord ["Diary", ["TAS Afk Script", "To start/stop the AFK script, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Run AFK Script. By default, it will be Left Control + O."]];
@@ -23,9 +23,9 @@ TAS_fnc_AfkScript =
 		[_AfkPlayer, false] remoteExec ["hideObjectGlobal", 2];
 		_AfkPlayer allowDamage true;
 		_AfkPlayer setCaptive false;
-		_AfkPlayer setVariable ["TAS_Afk",false];
 		[_AfkPlayer] call ace_medical_treatment_fnc_fullHealLocal; //heal again because sometimes explosives damage even when afk
-		format ["%1 is back from being AFK", name _AfkPlayer] remoteExec ["globalChat", 0]; //if someone goes afk excessively, then they might be abusing the heal
+		[_AfkPlayer, format ["%1 is back from being AFK", name _AfkPlayer]] remoteExec ["globalChat", 0]; //if someone goes afk excessively, then they might be abusing the heal
+		_AfkPlayer setVariable ["TAS_Afk",false];
 	};
 	
 	//when player goes AFK, disable their simulation, make them invisible, and take away their loadout (so they don't have access to radio)
@@ -42,12 +42,10 @@ TAS_fnc_AfkScript =
 		_AfkPlayer allowDamage false;
 		_AfkPlayer setCaptive true;
 		[_AfkPlayer] call ace_medical_treatment_fnc_fullHealLocal;
-		//_AfkPlayer enableSimulationGlobal false;
 		[_AfkPlayer, true] remoteExec ["hideObjectGlobal", 2];
 		[_AfkPlayer, false] remoteExec ["enableSimulationGlobal", 2];
 		_AfkPlayer setVariable ["TAS_Afk",true];
-		_AfkPlayer globalChat format ["%1 went AFK.", name _AfkPlayer];
-		format ["%1 is now AFK", name _AfkPlayer] remoteExec ["globalChat", 0];
+		[_AfkPlayer, format ["%1 is now AFK", name _AfkPlayer]] remoteExec ["globalChat", 0];
 		systemChat "See your diary entries for how to exit AFK.";
 	};
 };
@@ -57,3 +55,5 @@ TAS_fnc_AfkScript =
 #define USER_19 0x10C
 //25 for P, 0x10C for User Action 19
 ["TAS Keybindings","afk_script_key","Run TAS Afk Script", {call TAS_fnc_AfkScript}, "", [25, [false, true, false]]] call CBA_fnc_addKeybind;
+
+systemChat "TAS Afk Script init finished.";
