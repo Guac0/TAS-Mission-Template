@@ -1,20 +1,32 @@
 //short sleep for server to read init file, probably bad
 sleep 1;
 
+//setup variable names of leadership positions for loadout assignment
+private _leadership = ["CMD_Actual","CMD_JTAC","AIR_1_Actual","AIR_2_Actual","GROUND_1_Actual","GROUND_2_Actual","ALPHA_Actual","BRAVO_Actual","CHARLIE_Actual","DELTA_Actual","ECHO_Actual","FOXTROT_Actual"];
+private _playerClass = vehicleVarName player;
+
 //dynamic groups code
 ["InitializePlayer", [player, true]] call BIS_fnc_dynamicGroups; // Initializes the player/client side Dynamic Groups framework and registers the player group
 
 //disableStamina
-if (local player) then { 
-  player enableFatigue false; 
+if (local player) then {
+  player enableFatigue false;
   player addMPEventhandler ["MPRespawn", {player enableFatigue false}]; 
 };
 
 //Add TAS Afk Script
-[] execVM "Scripts\afkScript.sqf";
+if (AfkEnabled) then {
+	[] execVM "Scripts\afkScript.sqf";
+} else {
+	systemChat "Afk System disabled.";
+};
 
 //Add FOB Script
-[] execVM "buildfob\initfob.sqf";
+if (FOBEnabled) then {
+	[] execVM "buildfob\initfob.sqf";
+} else {
+	systemChat "FOB/Rallypoint building disabled.";
+};
 
 //Register TAS_globalTFAR as a function if enabled in initServer, also add tutorial diary entry
 if (TAS_globalTFAREnabled) then { 
@@ -28,7 +40,7 @@ if (TAS_globalTFAREnabled) then {
 //radio setup
 if (autoRadioLoadoutsEnabled) then {
 	player linkItem radioPersonal;
-	if (leader group player == player) then {player addBackpack radioBackpack;};
+	if (_playerClass in _leadership) then {player addBackpack radioBackpack;};
 	systemChat "Radio loadout init finished. It may take a second for Teamspeak to initialize your radio fully.";
 } else {
 	systemChat "TFAR automatic radio assignment disabled."
@@ -36,9 +48,9 @@ if (autoRadioLoadoutsEnabled) then {
 
 //ctab setup
 if (ctabEnabled) then {
-	player addItem "ItemcTabHCam"; //give all players a helmetcam
-	if (leader group player != player) then {player linkItem "itemAndroid";}; //give riflemen an android in their gps slot
-	if (leader group player == player) then {player linkItem "itemcTab"; player addItem "itemAndroid";}; //give leadership an android in their inventories and a tablet in their gps slot
+	player addItem "ItemcTabHCam"; //give all players a helmetcam, will auto delete hcam if inventory is full
+	player linkItem "itemAndroid"; //give everyone an android in their gps slot, will be overwriten if they are leadership
+	if (_playerClass in _leadership) then {player linkItem "itemcTab"; player addItem "itemAndroid";}; //give leadership an android in their inventories and a tablet in their gps slot (will delete existing item), will auto delete android if inventory is full
 	systemChat "cTab loadout init finished.";
 } else {
 	systemChat "cTab automatic item assignment disabled."

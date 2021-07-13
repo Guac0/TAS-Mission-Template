@@ -20,9 +20,11 @@ if ( _playerRadioIsGlobal == false) then { //if player has not had radio set to 
 	[_activeSwRadio, 8] call TFAR_fnc_setAdditionalSwChannel;
 	[_activeSwRadio, 0] call TFAR_fnc_setAdditionalSwStereo;
 	player setVariable ["playerRadioGlobal", true];
+	systemChat "TAS_fnc_globalTFAR applied successfully.";
 } else { //if radio is already global, then undo it back to the cached settings
 	_activeSwRadio = call TFAR_fnc_ActiveSwRadio; //do this again because private var would be stuck in the then section
 	[_activeSwRadio, (player getVariable "originalAdditionalChannel")] call TFAR_fnc_setAdditionalSwChannel;
 	[_activeSwRadio, (player getVariable "originalAdditionalStereo")] call TFAR_fnc_setAdditionalSwStereo;
 	player setVariable ["playerRadioGlobal", false];
+	systemChat "TAS_fnc_globalTFAR undone successfully.";
 };
