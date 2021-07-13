@@ -6,17 +6,18 @@
 AfkEnabled = true; //set to false to disable AFK script from being added
 publicVariable "AfkEnabled";
 
-//turn FOB on/off
+//turn FOB on/off, if on needs some eden setup see documentation elsewhere
 FOBEnabled = false; //set to false to disable FOB building and rallypoints
 publicVariable "FOBEnabled";
 useSmallRally = true; //set to true if you want to use the small rallypoint without a supply crate
 publicVariable "useSmallRally";
 
-//turn TAS_globalTFAR on/off
+//turn TAS_globalTFAR on/off, if on then make sure you have a way to activate it (i recommend a trigger, see template)
 TAS_globalTFAREnabled = true;
 publicVariable "TAS_globalTFAREnabled";
 
-//tfar radio assignment init
+//tfar radio assignment init, for SL LR backpack assignment needs SLs to have the preset variable names for SLs(see template)
+//if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
 autoRadioLoadoutsEnabled = true; //defaults to true
 publicVariable "autoRadioLoadoutsEnabled";
 radioPersonal = "TFAR_anprc152"; //defaults to the 152, used by indep but is standard issue in TAS
@@ -24,15 +25,17 @@ publicVariable "radioPersonal";
 radioBackpack = "TFAR_anprc155_coyote"; //defaults to 155 coyote
 publicVariable "TFAR_anprc155_coyote";
 
-//automatically assign appropriate ctab items
+//automatically assign appropriate ctab items, for SL rugged tablet assignment needs preset variable names for SLs (see template)
+//if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
 ctabEnabled = true; //default true
 publicVariable "ctabEnabled";
 
 //turn the AFK heal object on or off
-//see description of it below in initServer.sqf Code
+//see description of it below in initServer.sqf Code, needs an object in eden named "AceHealObject"
 //recommend you keep on as it is a core thing like dynamic groups, only here for easy turning off in case someone forgets the object
 aceHealObjectEnabled = true; //defaults to true
 publicVariable "aceHealObjectEnabled";
+
 
 
 

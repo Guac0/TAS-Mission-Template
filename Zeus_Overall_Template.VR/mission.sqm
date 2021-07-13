@@ -20,14 +20,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=130;
+		nextID=146;
 	};
 	class Camera
 	{
-		pos[]={161.55339,149.83583,-94.251183};
-		dir[]={-0.37264439,-0.44783863,0.81275952};
-		up[]={-0.18664792,0.89411479,0.40708992};
-		aside[]={0.90901083,-1.6472768e-008,0.41677496};
+		pos[]={-9.9739323,78.557701,-71.04332};
+		dir[]={0.32160529,-0.430787,0.84321737};
+		up[]={0.15352029,0.90245128,0.40251389};
+		aside[]={0.9343586,-3.4560799e-009,-0.35636893};
 	};
 };
 binarizationWanted=0;
@@ -391,7 +391,7 @@ class CustomAttributes
 					};
 					class value
 					{
-						items=3;
+						items=4;
 						class Item0
 						{
 							class data
@@ -434,6 +434,20 @@ class CustomAttributes
 								value="Counter";
 							};
 						};
+						class Item3
+						{
+							class data
+							{
+								class type
+								{
+									type[]=
+									{
+										"STRING"
+									};
+								};
+								value="Spectator";
+							};
+						};
 					};
 				};
 			};
@@ -463,20 +477,20 @@ class Mission
 	};
 	class Entities
 	{
-		items=65;
+		items=64;
 		class Item0
 		{
 			dataType="Layer";
 			name="Zeus";
 			class Entities
 			{
-				items=5;
+				items=4;
 				class Item0
 				{
 					dataType="Logic";
 					class PositionInfo
 					{
-						position[]={48.467999,5,110.757};
+						position[]={46.015903,5,110.46985};
 					};
 					init="call{[this, [-1, -2, 0]] call bis_fnc_setcuratorvisionmodes; Iranzan setVariable [""showNotification"", false];}";
 					id=0;
@@ -567,97 +581,6 @@ class Mission
 					dataType="Logic";
 					class PositionInfo
 					{
-						position[]={46.287998,5,110.673};
-					};
-					init="call{[this, [-1, -2, 0]] call bis_fnc_setcuratorvisionmodes; Iranzan setVariable [""showNotification"", false];}";
-					id=1;
-					type="ModuleCurator_F";
-					class CustomAttributes
-					{
-						class Attribute0
-						{
-							property="ModuleCurator_F_Owner";
-							expression="_this setVariable ['Owner',_value,true];";
-							class Value
-							{
-								class data
-								{
-									class type
-									{
-										type[]=
-										{
-											"STRING"
-										};
-									};
-									value="76561198234172740";
-								};
-							};
-						};
-						class Attribute1
-						{
-							property="ModuleCurator_F_Forced";
-							expression="_this setVariable ['Forced',_value,true];";
-							class Value
-							{
-								class data
-								{
-									class type
-									{
-										type[]=
-										{
-											"SCALAR"
-										};
-									};
-									value=0;
-								};
-							};
-						};
-						class Attribute2
-						{
-							property="ModuleCurator_F_Name";
-							expression="_this setVariable ['Name',_value,true];";
-							class Value
-							{
-								class data
-								{
-									class type
-									{
-										type[]=
-										{
-											"STRING"
-										};
-									};
-									value="Guac Zeus";
-								};
-							};
-						};
-						class Attribute3
-						{
-							property="ModuleCurator_F_Addons";
-							expression="_this setVariable ['Addons',_value,true];";
-							class Value
-							{
-								class data
-								{
-									class type
-									{
-										type[]=
-										{
-											"SCALAR"
-										};
-									};
-									value=3;
-								};
-							};
-						};
-						nAttributes=4;
-					};
-				};
-				class Item2
-				{
-					dataType="Logic";
-					class PositionInfo
-					{
 						position[]={44.251999,5,110.526};
 					};
 					init="call{[this, [-1, -2, 0]] call bis_fnc_setcuratorvisionmodes; Iranzan setVariable [""showNotification"", false];}";
@@ -744,7 +667,7 @@ class Mission
 						nAttributes=4;
 					};
 				};
-				class Item3
+				class Item2
 				{
 					dataType="Logic";
 					class PositionInfo
@@ -835,7 +758,7 @@ class Mission
 						nAttributes=4;
 					};
 				};
-				class Item4
+				class Item3
 				{
 					dataType="Logic";
 					class PositionInfo
@@ -7122,20 +7045,10 @@ class Mission
 				position[]={48.334,5,113.061};
 			};
 			title="Zeuses";
-			description="3 player Zeuses, 1 admin Zeus, 1 Guac Zeus. Remove unneeded ones (especially Guac's zeus). Also, having an admin be in a normal zeus slot when there is also admin zeus may cause issues when the admin logs out. Consider deleting it if the Zeus will be the admin.";
+			description="3 player Zeuses, 1 admin Zeus, 1 Guac Zeus. Remove unneeded ones. Also, having an admin be in a normal zeus slot when there is also admin zeus may cause issues when the admin logs out. Consider deleting it if the Zeus will be the admin.";
 			id=112;
 		};
 		class Item29
-		{
-			dataType="Comment";
-			class PositionInfo
-			{
-				position[]={46.292,5,110.688};
-			};
-			title="Remove Guac Zeus If Desired";
-			id=113;
-		};
-		class Item30
 		{
 			dataType="Comment";
 			class PositionInfo
@@ -7146,7 +7059,7 @@ class Mission
 			description="Uses a holdaction in init.sqf to ace heal all infantry in 100m when activated by a player. Can be disabled in mission maker options. Must be disabled if you don't have an object with this variable name in your mission file, else it will throw an error.";
 			id=114;
 		};
-		class Item31
+		class Item30
 		{
 			dataType="Comment";
 			class PositionInfo
@@ -7156,7 +7069,7 @@ class Mission
 			title="Command Team";
 			id=115;
 		};
-		class Item32
+		class Item31
 		{
 			dataType="Comment";
 			class PositionInfo
@@ -7167,7 +7080,7 @@ class Mission
 			description="Replace the 2-man rotary-wing crews with a fixed-wing pilot if needed.";
 			id=116;
 		};
-		class Item33
+		class Item32
 		{
 			dataType="Comment";
 			class PositionInfo
@@ -7177,7 +7090,7 @@ class Mission
 			title="4x Standard Infantry Squads (5-man each)";
 			id=117;
 		};
-		class Item34
+		class Item33
 		{
 			dataType="Comment";
 			class PositionInfo
@@ -7188,7 +7101,7 @@ class Mission
 			description="Replace roles as needed for vehicles with larger/smaller crews.";
 			id=118;
 		};
-		class Item35
+		class Item34
 		{
 			dataType="Comment";
 			class PositionInfo
@@ -7199,7 +7112,7 @@ class Mission
 			description="Either manually replace with correct units through ""Type"" menu, replace all units with NATO Survivors through type menu (can do all units at once this way) and let players make their own kits, or delete prebuilt and replace with faction's units in asset browser (not recommended since this resets the custom preset attributes of each, as well as their variable names so remember to reapply those). Also change the vehicle selection available to suit the mission/assets/faction, or remove entirely";
 			id=119;
 		};
-		class Item36
+		class Item35
 		{
 			dataType="Comment";
 			class PositionInfo
@@ -7210,7 +7123,7 @@ class Mission
 			description="Advise you just follow one of the ways in the BLUFOR guide and then once ingame use Zeus modules to switch the side of each group. Alternatively, you can group units to an opfor/indfor units in Eden to change their side, then delete the AI opfor/indofr unit and the player units will stay as opfor/indfor. Remember to reapply the group's callsign and double check that group leader is the right unit!";
 			id=120;
 		};
-		class Item37
+		class Item36
 		{
 			dataType="Comment";
 			class PositionInfo
@@ -7221,7 +7134,7 @@ class Mission
 			description="see description.ext for code. Delete that section in description.ext and these triggers if you are not using custom music. To use, put your own .ogg music files into the mission root and edit description.ext so it has the correct filepath and name for them. If you change the name, you may need to update the triggers as well. Go to the very bottom of the triggers for the music section.";
 			id=121;
 		};
-		class Item38
+		class Item37
 		{
 			dataType="Trigger";
 			position[]={92.333,5,112.796};
@@ -7236,7 +7149,7 @@ class Mission
 			id=122;
 			type="EmptyDetector";
 		};
-		class Item39
+		class Item38
 		{
 			dataType="Trigger";
 			position[]={93.052002,5,108.361};
@@ -7251,7 +7164,7 @@ class Mission
 			id=123;
 			type="EmptyDetector";
 		};
-		class Item40
+		class Item39
 		{
 			dataType="Comment";
 			class PositionInfo
@@ -7262,7 +7175,7 @@ class Mission
 			description="found in general attributes of mission, left unchecked in template for dev reasons";
 			id=124;
 		};
-		class Item41
+		class Item40
 		{
 			dataType="Comment";
 			class PositionInfo
@@ -7273,7 +7186,7 @@ class Mission
 			description="On the folder containing this mission change, change the ""VR"" with the mapcode of the map you want to have this mission on (example: ""Altis"" for Altis, other official maps are the same naming scheme but modded maps may have weird mapcodes for them). Then, open up the mission file in editor and place the units onto where they should start, as well as modifying anything else you want/adding enemies.";
 			id=125;
 		};
-		class Item42
+		class Item41
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -7286,7 +7199,7 @@ class Mission
 			id=126;
 			type="HeadlessClient_F";
 		};
-		class Item43
+		class Item42
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -7299,7 +7212,7 @@ class Mission
 			id=127;
 			type="HeadlessClient_F";
 		};
-		class Item44
+		class Item43
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -7312,7 +7225,7 @@ class Mission
 			id=128;
 			type="HeadlessClient_F";
 		};
-		class Item45
+		class Item44
 		{
 			dataType="Comment";
 			class PositionInfo
@@ -7323,7 +7236,7 @@ class Mission
 			description="Just leave them be. If running LAMBS, consult the guide on whether/how to use them.";
 			id=129;
 		};
-		class Item46
+		class Item45
 		{
 			dataType="Group";
 			side="West";
@@ -7886,7 +7799,7 @@ class Mission
 				nAttributes=3;
 			};
 		};
-		class Item47
+		class Item46
 		{
 			dataType="Group";
 			side="West";
@@ -8449,7 +8362,7 @@ class Mission
 				nAttributes=3;
 			};
 		};
-		class Item48
+		class Item47
 		{
 			dataType="Comment";
 			class PositionInfo
@@ -8459,7 +8372,7 @@ class Mission
 			title="2x Weapons Squads";
 			id=142;
 		};
-		class Item49
+		class Item48
 		{
 			dataType="Comment";
 			class PositionInfo
@@ -8469,7 +8382,7 @@ class Mission
 			title="Rallypoint Markers (alpha set to 0), Don't Delete";
 			id=144;
 		};
-		class Item50
+		class Item49
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -8673,7 +8586,7 @@ class Mission
 				nAttributes=10;
 			};
 		};
-		class Item51
+		class Item50
 		{
 			dataType="Object";
 			class PositionInfo
@@ -8750,7 +8663,7 @@ class Mission
 				nAttributes=3;
 			};
 		};
-		class Item52
+		class Item51
 		{
 			dataType="Marker";
 			position[]={0,5,2};
@@ -8761,7 +8674,7 @@ class Mission
 			alpha=0;
 			id=167;
 		};
-		class Item53
+		class Item52
 		{
 			dataType="Marker";
 			position[]={0,5,3};
@@ -8772,7 +8685,7 @@ class Mission
 			alpha=0;
 			id=168;
 		};
-		class Item54
+		class Item53
 		{
 			dataType="Marker";
 			position[]={0,5,4};
@@ -8783,7 +8696,7 @@ class Mission
 			alpha=0;
 			id=169;
 		};
-		class Item55
+		class Item54
 		{
 			dataType="Marker";
 			position[]={0,5,5};
@@ -8794,7 +8707,7 @@ class Mission
 			alpha=0;
 			id=170;
 		};
-		class Item56
+		class Item55
 		{
 			dataType="Marker";
 			position[]={0,5,1};
@@ -8805,7 +8718,7 @@ class Mission
 			alpha=0;
 			id=171;
 		};
-		class Item57
+		class Item56
 		{
 			dataType="Marker";
 			position[]={0,5,0};
@@ -8816,7 +8729,7 @@ class Mission
 			alpha=0;
 			id=172;
 		};
-		class Item58
+		class Item57
 		{
 			dataType="Marker";
 			position[]={0,5,6};
@@ -8827,7 +8740,7 @@ class Mission
 			alpha=0;
 			id=173;
 		};
-		class Item59
+		class Item58
 		{
 			dataType="Marker";
 			position[]={0,5,7};
@@ -8838,7 +8751,7 @@ class Mission
 			alpha=0;
 			id=174;
 		};
-		class Item60
+		class Item59
 		{
 			dataType="Object";
 			class PositionInfo
@@ -8853,7 +8766,7 @@ class Mission
 			id=184;
 			type="TFAR_Land_Communication_F";
 		};
-		class Item61
+		class Item60
 		{
 			dataType="Comment";
 			class PositionInfo
@@ -8863,7 +8776,7 @@ class Mission
 			title="tfar radio tower for extended range";
 			id=185;
 		};
-		class Item62
+		class Item61
 		{
 			dataType="Comment";
 			class PositionInfo
@@ -8873,15 +8786,14 @@ class Mission
 			title="GO TO INITSERVER.SQF TO CUSTOMIZE SCRIPT SETTINGS";
 			id=186;
 		};
-		class Item63
+		class Item62
 		{
 			dataType="Trigger";
 			position[]={91.996002,5,99.056999};
 			class Attributes
 			{
 				text="Run TAS_fnc_globalTFAR";
-				condition="call{this}";
-				onActivation="call{remoteExecCall [""TAS_fnc_globalTFAR""];}";
+				onActivation="remoteExecCall [""TAS_fnc_globalTFAR""];";
 				sizeA=0;
 				sizeB=0;
 				repeatable=1;
@@ -8891,7 +8803,7 @@ class Mission
 			id=187;
 			type="EmptyDetector";
 		};
-		class Item64
+		class Item63
 		{
 			dataType="Comment";
 			class PositionInfo

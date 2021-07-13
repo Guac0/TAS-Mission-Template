@@ -17,7 +17,7 @@ if ( _playerRadioIsGlobal == false) then { //if player has not had radio set to 
 	player setVariable ["originalAdditionalChannel", _originalAdditionalChannel];
 	player setVariable ["originalAdditionalStereo", _originalAdditionalStereo];
 	[_activeSwRadio, 8, "87"] call TFAR_fnc_SetChannelFrequency; //these two lines determine global channel and frequency, freq is the max freq LRs can go to
-	[_activeSwRadio, 8] call TFAR_fnc_setAdditionalSwChannel;
+	[_activeSwRadio, 7] call TFAR_fnc_setAdditionalSwChannel; //lower by 1 cause internally this fnc is zero-based
 	[_activeSwRadio, 0] call TFAR_fnc_setAdditionalSwStereo;
 	player setVariable ["playerRadioGlobal", true];
 	systemChat "TAS_fnc_globalTFAR applied successfully.";
