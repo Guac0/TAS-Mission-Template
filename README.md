@@ -10,6 +10,7 @@ Loadout system also needs minor setup but setup can be skipped, if skipped then 
 For more information on a specific script, open its files and look at the comments there. Ask Guac if you have questions.
 
 Dependencies:
+
 Shortlist assuming that all scripts are enabled: CBA_A3, ACE3, TFAR, cTab. Recommend you also load 3den Enhanced.
 
 Long list: 3den Enhanced (for eden stuff, is not a strict dependency and will load without it), ACE3 Explosvies, ACE3 Cargo, tfar_antennas, cTab (if cTab loadout script is enabled), tfar (if TFAR loadout script is enabled), CBA_A3 (if AFK script is enabled), ACE3 Interactions (if FOB system is enabled).
