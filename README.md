@@ -4,7 +4,7 @@ See the documentation in Eden (comment modules). You can customize and disable t
 
 I would not recommend taking specific scripts from the template out to use in your own missions without consulting Guac as much of the code depends on the majority of the files being present. Instead, copy all the files in the template and simply disable the scripts you don't want to run via the options in initServer.sqf.
 
-The FOB system and the AceHealObject are the only two scripts that NEED to be setup in the Eden mission file (FOB needs extensive setup, see the FOB Readme/comments in the eden template, while the Ace Heal Object only needs an object named "AceHealObject", preferable a Huron medical container). Both do not need to be setup if it is disabled in initServer.sqf. All other scripts need no setup in eden (except for loadout, read on) and just need their script files to be in the mission folder.
+The FOB system and the AceHealObject are the only two scripts that NEED to be setup in the Eden mission file (FOB needs extensive setup, see the FOB Readme/comments in the eden template; while the Ace Heal Object only needs an object named "AceHealObject", preferably a Huron medical container). Both do not need to be setup if it is disabled in initServer.sqf. All other scripts need no setup in eden (except for loadout, read on) and just need their script files to be in the mission folder.
 Loadout system also needs minor setup but setup can be skipped, if skipped then the SL gear assignment (radio backpack and cTab rugged tablet) will be skipped and they will only recieve the standard rifleman gear (personal radio, android, and helmetcam).
 
 For more information on a specific script, open its files and look at the comments there. Ask Guac if you have questions.
