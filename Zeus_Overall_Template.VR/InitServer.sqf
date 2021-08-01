@@ -23,11 +23,11 @@ publicVariable "autoRadioLoadoutsEnabled";
 radioPersonal = "TFAR_anprc152"; //defaults to the 152, used by indep but is standard issue in TAS
 publicVariable "radioPersonal";
 radioBackpack = "TFAR_anprc155_coyote"; //defaults to 155 coyote
-publicVariable "TFAR_anprc155_coyote";
+publicVariable "radioBackpack";
 
 //automatically assign appropriate ctab items, for SL rugged tablet assignment needs preset variable names for SLs (see template)
 //if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
-ctabEnabled = true; //default true
+ctabEnabled = false; //default false (since ctab isnt in scifi modpack)
 publicVariable "ctabEnabled";
 
 //turn the AFK heal object on or off
