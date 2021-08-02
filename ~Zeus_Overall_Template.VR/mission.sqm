@@ -20,18 +20,18 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=154;
+		nextID=162;
 	};
 	class Camera
 	{
-		pos[]={58.550068,37.400215,76.355278};
-		dir[]={-0.035871342,-0.56984025,0.8209908};
-		up[]={-0.024874529,0.82175171,0.56930745};
-		aside[]={0.99906409,2.9380953e-007,0.043650169};
+		pos[]={57.582291,57.355675,54.459641};
+		dir[]={-0.035870977,-0.56983155,0.82097834};
+		up[]={-0.024873899,0.82176149,0.56928843};
+		aside[]={0.99904692,1.8626451e-009,0.04365132};
 	};
 };
 binarizationWanted=0;
-sourceName="Zeus_Overall_Template";
+sourceName="~Zeus_Overall_Template";
 addons[]=
 {
 	"A3_Modules_F_Curator_Curator",

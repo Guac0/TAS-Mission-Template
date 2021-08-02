@@ -12,7 +12,7 @@ class EditorData
 	};
 	class ItemIDProvider
 	{
-		nextID=197;
+		nextID=196;
 	};
 	class MarkerIDProvider
 	{
@@ -20,14 +20,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=154;
+		nextID=146;
 	};
 	class Camera
 	{
-		pos[]={58.550068,37.400215,76.355278};
-		dir[]={-0.035871342,-0.56984025,0.8209908};
-		up[]={-0.024874529,0.82175171,0.56930745};
-		aside[]={0.99906409,2.9380953e-007,0.043650169};
+		pos[]={-9.9739323,78.557701,-71.04332};
+		dir[]={0.32160529,-0.430787,0.84321737};
+		up[]={0.15352029,0.90245128,0.40251389};
+		aside[]={0.9343586,-3.4560799e-009,-0.35636893};
 	};
 };
 binarizationWanted=0;
@@ -477,7 +477,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=65;
+		items=64;
 		class Item0
 		{
 			dataType="Layer";
@@ -7045,7 +7045,7 @@ class Mission
 				position[]={48.334,5,113.061};
 			};
 			title="Zeuses";
-			description="3 player Zeuses, 1 admin Zeus, 1 Guac Zeus. Remove unneeded ones. Also, having an admin be in a normal zeus slot when there is also admin zeus may cause issues when the admin logs out. Consider deleting it if the Zeus will be the admin. Also, each has some init code that is probably outdated but it's not doing any harm so leave it in.";
+			description="3 player Zeuses, 1 admin Zeus, 1 Guac Zeus. Remove unneeded ones. Also, having an admin be in a normal zeus slot when there is also admin zeus may cause issues when the admin logs out. Consider deleting it if the Zeus will be the admin.";
 			id=112;
 		};
 		class Item29
@@ -8813,17 +8813,6 @@ class Mission
 			title="TAS_fnc_globalTFAR trigger";
 			description="see documentation in TAS_globalTFAR.sqf";
 			id=188;
-		};
-		class Item64
-		{
-			dataType="Comment";
-			class PositionInfo
-			{
-				position[]={67.692833,5,119.60938};
-			};
-			title="Respawn In Vehicle Code";
-			description="To add a respawn to a vehicle, use the following code:  " \n "[<target>,<position>] call BIS_fnc_addRespawnPosition; where target is a side (blufor, opfor) and position is the variable name of the vehicle. Note that I have no idea what happens if the respawn vehicle dies and/or respawns using a respawn vehicle module.";
-			id=196;
 		};
 	};
 	class Connections
