@@ -1,9 +1,7 @@
 //script file that spawns a squad rallypoint, execVM'd from the SL that uses the action. Unique file for each squad.
 //14 instances of first letter uppercase, 1 instance of full word
 //if (rallyCmdUsed == nil) then {rallyCmdUsed = false; publicVariable "rallyCmdUsed";}; //if variable is nonexistant, create it (first time setup)
-_nearestUnits = nearestObjects [player,["Man","Car","Tank"],150];//if enemies are within 150m, exit with fail message
-_enemySides = playerSide call BIS_fnc_enemySides;
-if ( { _x countSide _nearestUnits > 0 } forEach _enemySides ) exitWith {systemChat "Rallypoint creation failure, enemies are within 150m!"};
+if ( player countEnemy nearestObjects [player,["Man","Car","Tank"],150] > 0 ) exitWith {systemChat "Rallypoint creation failure, enemies are within 150m!"};
 if (rallyCmdUsed == false) then { "rallypointCmdMarker" setMarkerAlpha 1; };  //first time rally is created, set its marker to visible
 if (rallyCmdUsed == true) then { {deleteVehicle _x} forEach rallypointCmd; rallypointCmdRespawn call BIS_fnc_removeRespawnPosition;}; //if rallypoint already exists, delete it so the new one can be spawned
 rallypointCmdRespawn = [side player, getPos player, "Command Rallypoint"] call BIS_fnc_addRespawnPosition;

@@ -12,7 +12,7 @@ class EditorData
 	};
 	class ItemIDProvider
 	{
-		nextID=197;
+		nextID=199;
 	};
 	class MarkerIDProvider
 	{
@@ -20,14 +20,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=154;
+		nextID=162;
 	};
 	class Camera
 	{
-		pos[]={58.550068,37.400215,76.355278};
-		dir[]={-0.035871342,-0.56984025,0.8209908};
-		up[]={-0.024874529,0.82175171,0.56930745};
-		aside[]={0.99906409,2.9380953e-007,0.043650169};
+		pos[]={53.162228,128.32648,26.370903};
+		dir[]={0.060209811,-0.73170745,0.67895436};
+		up[]={0.064634316,0.68161875,0.72884715};
+		aside[]={0.99609089,-3.7252903e-009,-0.088333547};
 	};
 };
 binarizationWanted=0;
@@ -45,10 +45,10 @@ addons[]=
 	"A3_Supplies_F_Heli_Slingload",
 	"ace_cargo",
 	"A3_Characters_F_Mark",
-	"A3_Soft_F_Gamma_Truck_01",
-	"A3_Soft_F_Exp_Truck_01",
 	"A3_Ui_F",
-	"tfar_antennas"
+	"tfar_antennas",
+	"A3_Soft_F_Gamma_Truck_01",
+	"A3_Soft_F_Exp_Truck_01"
 };
 class AddonsMetaData
 {
@@ -120,30 +120,30 @@ class AddonsMetaData
 		};
 		class Item9
 		{
-			className="A3_Soft_F_Gamma";
-			name="Arma 3 - Unarmored Land Vehicles";
-			author="Bohemia Interactive";
-			url="https://www.arma3.com";
-		};
-		class Item10
-		{
-			className="A3_Soft_F_Exp";
-			name="Arma 3 Apex - Unarmored Land Vehicles";
-			author="Bohemia Interactive";
-			url="https://www.arma3.com";
-		};
-		class Item11
-		{
 			className="A3_Ui_F";
 			name="Arma 3 - User Interface";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item12
+		class Item10
 		{
 			className="tfar_antennas";
 			name="tfar_antennas";
 			url="https://github.com/michail-nikolaev/task-force-arma-3-radio";
+		};
+		class Item11
+		{
+			className="A3_Soft_F_Gamma";
+			name="Arma 3 - Unarmored Land Vehicles";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item12
+		{
+			className="A3_Soft_F_Exp";
+			name="Arma 3 Apex - Unarmored Land Vehicles";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
 		};
 	};
 };
@@ -873,7 +873,6 @@ class Mission
 						rank="MAJOR";
 						name="Z1";
 						description="Zeus 1@Zeus";
-						isPlayer=1;
 						isPlayable=1;
 					};
 					id=7;
@@ -1246,6 +1245,7 @@ class Mission
 						rank="LIEUTENANT";
 						name="CMD_Actual";
 						description="Commander@Ground Command";
+						isPlayer=1;
 						isPlayable=1;
 					};
 					id=20;
@@ -8588,10 +8588,172 @@ class Mission
 		};
 		class Item50
 		{
+			dataType="Marker";
+			position[]={0,5,2};
+			name="rallypointAlphaMarker";
+			text="Alpha Squad Rallypoint";
+			type="mil_flag";
+			colorName="ColorCIV";
+			alpha=0;
+			id=167;
+		};
+		class Item51
+		{
+			dataType="Marker";
+			position[]={0,5,3};
+			name="rallypointBravoMarker";
+			text="Bravo Squad Rallypoint";
+			type="mil_flag";
+			colorName="ColorCIV";
+			alpha=0;
+			id=168;
+		};
+		class Item52
+		{
+			dataType="Marker";
+			position[]={0,5,4};
+			name="rallypointCharlieMarker";
+			text="Charlie Squad Rallypoint";
+			type="mil_flag";
+			colorName="ColorCIV";
+			alpha=0;
+			id=169;
+		};
+		class Item53
+		{
+			dataType="Marker";
+			position[]={0,5,5};
+			name="rallypointDeltaMarker";
+			text="Delta Squad Rallypoint";
+			type="mil_flag";
+			colorName="ColorCIV";
+			alpha=0;
+			id=170;
+		};
+		class Item54
+		{
+			dataType="Marker";
+			position[]={0,5,1};
+			name="rallypointCmdMarker";
+			text="Command Element Rallypoint";
+			type="mil_flag";
+			colorName="ColorCIV";
+			alpha=0;
+			id=171;
+		};
+		class Item55
+		{
+			dataType="Marker";
+			position[]={0,5,0};
+			name="FobMarker";
+			text="FOB";
+			type="mil_flag";
+			colorName="ColorCIV";
+			alpha=0;
+			id=172;
+		};
+		class Item56
+		{
+			dataType="Marker";
+			position[]={0,5,6};
+			name="rallypointEchoMarker";
+			text="Echo Squad Rallypoint";
+			type="mil_flag";
+			colorName="ColorCIV";
+			alpha=0;
+			id=173;
+		};
+		class Item57
+		{
+			dataType="Marker";
+			position[]={0,5,7};
+			name="rallypointFoxtrotMarker";
+			text="Foxtrot Squad Rallypoint";
+			type="mil_flag";
+			colorName="ColorCIV";
+			alpha=0;
+			id=174;
+		};
+		class Item58
+		{
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={48.132999,7.3134775,149.209};
+				position[]={109.951,21.563423,123};
+			};
+			side="Empty";
+			flags=5;
+			class Attributes
+			{
+			};
+			id=184;
+			type="TFAR_Land_Communication_F";
+		};
+		class Item59
+		{
+			dataType="Comment";
+			class PositionInfo
+			{
+				position[]={109.77305,5,123.23096};
+			};
+			title="tfar radio tower for extended range";
+			id=185;
+		};
+		class Item60
+		{
+			dataType="Comment";
+			class PositionInfo
+			{
+				position[]={77.971001,5,234.84801};
+			};
+			title="GO TO INITSERVER.SQF TO CUSTOMIZE SCRIPT SETTINGS";
+			id=186;
+		};
+		class Item61
+		{
+			dataType="Trigger";
+			position[]={91.996002,5,99.056999};
+			class Attributes
+			{
+				text="Run TAS_fnc_globalTFAR";
+				onActivation="remoteExecCall [""TAS_fnc_globalTFAR""];";
+				sizeA=0;
+				sizeB=0;
+				repeatable=1;
+				activationBy="GOLF";
+				isServerOnly=1;
+			};
+			id=187;
+			type="EmptyDetector";
+		};
+		class Item62
+		{
+			dataType="Comment";
+			class PositionInfo
+			{
+				position[]={91.480003,5,99.358002};
+			};
+			title="TAS_fnc_globalTFAR trigger";
+			description="see documentation in TAS_globalTFAR.sqf";
+			id=188;
+		};
+		class Item63
+		{
+			dataType="Comment";
+			class PositionInfo
+			{
+				position[]={67.692833,5,119.60938};
+			};
+			title="Respawn In Vehicle Code";
+			description="To add a respawn to a vehicle, use the following code:  " \n "[<target>,<position>] call BIS_fnc_addRespawnPosition; where target is a side (blufor, opfor) and position is the variable name of the vehicle. Note that I have no idea what happens if the respawn vehicle dies and/or respawns using a respawn vehicle module.";
+			id=196;
+		};
+		class Item64
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={47.983002,7.3134775,149.79401};
 			};
 			side="Empty";
 			flags=4;
@@ -8599,30 +8761,11 @@ class Mission
 			{
 				name="logistics_vehicle";
 			};
-			id=160;
+			id=198;
 			type="B_Truck_01_box_F";
 			class CustomAttributes
 			{
 				class Attribute0
-				{
-					property="ace_isMedicalVehicle";
-					expression="_this setVariable [""ace_medical_isMedicalVehicle"", _value, true]";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"BOOL"
-								};
-							};
-							value=0;
-						};
-					};
-				};
-				class Attribute1
 				{
 					property="ammoBox";
 					expression="[_this,_value] call bis_fnc_initAmmoBox;";
@@ -8641,189 +8784,8 @@ class Mission
 						};
 					};
 				};
-				class Attribute2
-				{
-					property="ace_isRepairVehicle";
-					expression="if (_value != (if (isNumber (configOf _this >> ""ace_repair_canRepair"")) then {getNumber (configOf _this >> ""ace_repair_canRepair"")} else {0})) then {_this setVariable ['ace_isRepairVehicle', _value, true]}";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"SCALAR"
-								};
-							};
-							value=0;
-						};
-					};
-				};
-				nAttributes=3;
+				nAttributes=1;
 			};
-		};
-		class Item51
-		{
-			dataType="Marker";
-			position[]={0,5,2};
-			name="rallypointAlphaMarker";
-			text="Alpha Squad Rallypoint";
-			type="mil_flag";
-			colorName="ColorCIV";
-			alpha=0;
-			id=167;
-		};
-		class Item52
-		{
-			dataType="Marker";
-			position[]={0,5,3};
-			name="rallypointBravoMarker";
-			text="Bravo Squad Rallypoint";
-			type="mil_flag";
-			colorName="ColorCIV";
-			alpha=0;
-			id=168;
-		};
-		class Item53
-		{
-			dataType="Marker";
-			position[]={0,5,4};
-			name="rallypointCharlieMarker";
-			text="Charlie Squad Rallypoint";
-			type="mil_flag";
-			colorName="ColorCIV";
-			alpha=0;
-			id=169;
-		};
-		class Item54
-		{
-			dataType="Marker";
-			position[]={0,5,5};
-			name="rallypointDeltaMarker";
-			text="Delta Squad Rallypoint";
-			type="mil_flag";
-			colorName="ColorCIV";
-			alpha=0;
-			id=170;
-		};
-		class Item55
-		{
-			dataType="Marker";
-			position[]={0,5,1};
-			name="rallypointCmdMarker";
-			text="Command Element Rallypoint";
-			type="mil_flag";
-			colorName="ColorCIV";
-			alpha=0;
-			id=171;
-		};
-		class Item56
-		{
-			dataType="Marker";
-			position[]={0,5,0};
-			name="FobMarker";
-			text="FOB";
-			type="mil_flag";
-			colorName="ColorCIV";
-			alpha=0;
-			id=172;
-		};
-		class Item57
-		{
-			dataType="Marker";
-			position[]={0,5,6};
-			name="rallypointEchoMarker";
-			text="Echo Squad Rallypoint";
-			type="mil_flag";
-			colorName="ColorCIV";
-			alpha=0;
-			id=173;
-		};
-		class Item58
-		{
-			dataType="Marker";
-			position[]={0,5,7};
-			name="rallypointFoxtrotMarker";
-			text="Foxtrot Squad Rallypoint";
-			type="mil_flag";
-			colorName="ColorCIV";
-			alpha=0;
-			id=174;
-		};
-		class Item59
-		{
-			dataType="Object";
-			class PositionInfo
-			{
-				position[]={109.951,21.563423,123};
-			};
-			side="Empty";
-			flags=5;
-			class Attributes
-			{
-			};
-			id=184;
-			type="TFAR_Land_Communication_F";
-		};
-		class Item60
-		{
-			dataType="Comment";
-			class PositionInfo
-			{
-				position[]={109.77305,5,123.23096};
-			};
-			title="tfar radio tower for extended range";
-			id=185;
-		};
-		class Item61
-		{
-			dataType="Comment";
-			class PositionInfo
-			{
-				position[]={77.971001,5,234.84801};
-			};
-			title="GO TO INITSERVER.SQF TO CUSTOMIZE SCRIPT SETTINGS";
-			id=186;
-		};
-		class Item62
-		{
-			dataType="Trigger";
-			position[]={91.996002,5,99.056999};
-			class Attributes
-			{
-				text="Run TAS_fnc_globalTFAR";
-				onActivation="remoteExecCall [""TAS_fnc_globalTFAR""];";
-				sizeA=0;
-				sizeB=0;
-				repeatable=1;
-				activationBy="GOLF";
-				isServerOnly=1;
-			};
-			id=187;
-			type="EmptyDetector";
-		};
-		class Item63
-		{
-			dataType="Comment";
-			class PositionInfo
-			{
-				position[]={91.480003,5,99.358002};
-			};
-			title="TAS_fnc_globalTFAR trigger";
-			description="see documentation in TAS_globalTFAR.sqf";
-			id=188;
-		};
-		class Item64
-		{
-			dataType="Comment";
-			class PositionInfo
-			{
-				position[]={67.692833,5,119.60938};
-			};
-			title="Respawn In Vehicle Code";
-			description="To add a respawn to a vehicle, use the following code:  " \n "[<target>,<position>] call BIS_fnc_addRespawnPosition; where target is a side (blufor, opfor) and position is the variable name of the vehicle. Note that I have no idea what happens if the respawn vehicle dies and/or respawns using a respawn vehicle module.";
-			id=196;
 		};
 	};
 	class Connections
@@ -8878,7 +8840,7 @@ class Mission
 			class Item4
 			{
 				linkID=4;
-				item0=160;
+				item0=198;
 				item1=159;
 				class CustomData
 				{

@@ -7,7 +7,7 @@ AfkEnabled = true; //set to false to disable AFK script from being added
 publicVariable "AfkEnabled";
 
 //turn FOB on/off, if on needs some eden setup see documentation elsewhere
-FOBEnabled = false; //set to false to disable FOB building and rallypoints
+FOBEnabled = true; //set to false to disable FOB building and rallypoints
 publicVariable "FOBEnabled";
 useSmallRally = true; //set to true if you want to use the small rallypoint without a supply crate
 publicVariable "useSmallRally";
