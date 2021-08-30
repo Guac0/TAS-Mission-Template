@@ -11,6 +11,6 @@ For more information on a specific script, open its files and look at the commen
 
 Dependencies:
 
-Shortlist assuming that all scripts are enabled: CBA_A3, ACE3, TFAR, cTab. Recommend you also load 3den Enhanced.
+Shortlist assuming that all scripts are enabled: CBA_A3, ACE3, TFAR, cTab, ZEN. Recommend you also load 3den Enhanced.
 
-Long list: 3den Enhanced (for eden stuff, is not a strict dependency and will load without it), ACE3 Explosvies, ACE3 Cargo, tfar_antennas, cTab (if cTab loadout script is enabled), tfar (if TFAR loadout script is enabled), CBA_A3 (if AFK script is enabled), ACE3 Interactions (if FOB system is enabled).
+Long list: 3den Enhanced (for eden stuff, is not a strict dependency and will load without it), ACE3 Explosvies, ACE3 Cargo, tfar_antennas, cTab (if cTab loadout script is enabled), Zeus Enhanced (if you have the custom resupply script in the init.sqf),tfar (if TFAR loadout script is enabled), CBA_A3 (if AFK script is enabled), ACE3 Interactions (if FOB system is enabled).

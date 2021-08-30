@@ -41,7 +41,7 @@ TAS_fnc_AfkScript =
 		removeAllWeapons _AfkPlayer;
 		_AfkPlayer allowDamage false;
 		_AfkPlayer setCaptive true;
-		[_AfkPlayer] call ace_medical_treatment_fnc_fullHealLocal;
+		[_AfkPlayer] call ace_medical_treatment_fnc_fullHealLocal; //watch out: if players realize they get a heal with the afk script, they might abuse it. Going afk is logged in chat.
 		[_AfkPlayer, true] remoteExec ["hideObjectGlobal", 2];
 		[_AfkPlayer, false] remoteExec ["enableSimulationGlobal", 2];
 		_AfkPlayer setVariable ["TAS_Afk",true];

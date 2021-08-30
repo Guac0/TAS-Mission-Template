@@ -1,5 +1,5 @@
-//short sleep for server to read init file, probably bad
-sleep 1;
+
+sleep 1; //wait for mission start (server init will happen in map screen)
 
 //setup variable names of leadership positions for loadout assignment
 private _leadership = ["CMD_Actual","CMD_JTAC","AIR_1_Actual","AIR_2_Actual","GROUND_1_Actual","GROUND_2_Actual","ALPHA_Actual","BRAVO_Actual","CHARLIE_Actual","DELTA_Actual","ECHO_Actual","FOXTROT_Actual"];
@@ -15,14 +15,14 @@ if (local player) then {
 };
 
 //Add TAS Afk Script
-if (AfkEnabled) then {
-	[] execVM "Scripts\afkScript.sqf";
+if (TAS_afkEnabled) then {
+	[] execVM "Scripts\TAS_afkScript.sqf";
 } else {
 	systemChat "Afk System disabled.";
 };
 
 //Add FOB Script
-if (FOBEnabled) then {
+if (TAS_fobEnabled) then {
 	[] execVM "buildfob\initfob.sqf";
 } else {
 	systemChat "FOB/Rallypoint building disabled.";
@@ -38,20 +38,27 @@ if (TAS_globalTFAREnabled) then {
 };
 
 //radio setup
-if (autoRadioLoadoutsEnabled) then {
-	player linkItem radioPersonal;
-	if (_playerClass in _leadership) then {player addBackpack radioBackpack;};
+if (TAS_autoRadioLoadoutsEnabled) then {
+	player linkItem TAS_radioPersonal;
+	if (_playerClass in _leadership) then {player addBackpack TAS_radioBackpack;};
 	systemChat "Radio loadout init finished. It may take a second for Teamspeak to initialize your radio fully.";
 } else {
 	systemChat "TFAR automatic radio assignment disabled."
 };
 
 //ctab setup
-if (ctabEnabled) then {
+if (TAS_ctabEnabled) then {
 	player addItem "ItemcTabHCam"; //give all players a helmetcam, will auto delete hcam if inventory is full
 	player linkItem "itemAndroid"; //give everyone an android in their gps slot, will be overwriten if they are leadership
 	if (_playerClass in _leadership) then {player linkItem "itemcTab"; player addItem "itemAndroid";}; //give leadership an android in their inventories and a tablet in their gps slot (will delete existing item), will auto delete android if inventory is full
 	systemChat "cTab loadout init finished.";
 } else {
 	systemChat "cTab automatic item assignment disabled."
+};
+
+if (TAS_bftEnabled) then {
+	[] execVM "scripts\QS_icons.sqf";
+	systemChat "QS BFT initiated.";
+} else {
+	systemChat "QS BFT disabled.";
 };
