@@ -9,17 +9,42 @@ if (TAS_fobBuilt == true) exitWith {systemChat "FOB already built!"}; //fail if 
 //_nearEntities = player nearEntities [["Man","Car","Tank"],150];
 //_nearEnemies = player countEnemy _nearEntities;
 _enemySides = [side player] call BIS_fnc_enemySides;
-_radius = 300;
+_radius = TAS_fobDistance; //parameter from initServer.sqf, default 300
 _nearEnemies = allUnits select {_x distance player < _radius AND side _x in _enemySides};
 _nearEnemiesNumber = count _nearEnemies;
 
-if ( _nearEnemiesNumber > 0 ) exitWith {systemChat "FOB creation failure, enemies are within 300m!"};
+if ( _nearEnemiesNumber > 0 ) exitWith {systemChat format ["FOB creation failure, enemies are within %1m!",TAS_fobDistance]};
 
 if (TAS_fobBuilt == false) then { "fobMarker" setMarkerAlpha 1; }; //first time fob is created, set its marker to visible
 
 FOB_objects = [getPos logistics_vehicle, getDir logistics_vehicle, call (compile (preprocessFileLineNumbers "buildfob\fobComposition.sqf"))] call BIS_fnc_ObjectsMapper; //spawn the fob composition
 _fobArsenals = nearestObjects [position logistics_vehicle, ["B_CargoNet_01_ammo_F"], 25]; //add unlimited arsenals to appropraite boxes, maybe change
-{ [_x, true] call ace_arsenal_fnc_initBox; ["AmmoboxInit",[_x,true]] call BIS_fnc_arsenal; } forEach _fobArsenals;
+if (TAS_fobUseFullArsenals) then {
+	{
+		[_x, true] call ace_arsenal_fnc_initBox;
+		["AmmoboxInit",[_x,true]] call BIS_fnc_arsenal;
+	} forEach _fobArsenals;
+} else {
+	{
+		_box = _x;
+		clearItemCargoGlobal _box; clearWeaponCargoGlobal _box; clearMagazineCargoGlobal _box;
+		
+		{
+			// Current result is saved in variable _x
+			_box addMagazineCargoGlobal [primaryWeaponMagazine _x select 0, 6]; 
+		} forEach allPlayers;
+		
+		//add medical in priority order
+		_box addItemCargoGlobal ["ACE_fieldDressing", 75];
+		_box addItemCargoGlobal ["ACE_morphine", 40];
+		_box addItemCargoGlobal ["ACE_epinephrine", 20];
+		_box addItemCargoGlobal ["ACE_bloodIV_500", 20];
+		_box addItemCargoGlobal ["ACE_bloodIV", 10]; //1000 ml
+		_box addItemCargoGlobal ["ACE_tourniquet", 15];
+		_box addItemCargoGlobal ["ACE_Earplugs", 10];
+	} forEach _fobArsenals;
+};
+
 
 fobRespawn = [side player, getPos player, "FOB Respawn"] call BIS_fnc_addRespawnPosition;
 "fobMarker" setMarkerPos getPos logistics_vehicle; //updates the rallypoint's position on map

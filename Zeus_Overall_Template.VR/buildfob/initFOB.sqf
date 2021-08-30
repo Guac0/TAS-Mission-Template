@@ -9,8 +9,8 @@ private _FOB_builders = ["CMD_Actual","CMD_Engineer","CMD_JTAC","CMD_Medic","ALP
 private _playerClass = vehicleVarName player;
 if (!isNil "logistics_vehicle") then { //check if the logistics_vehicle actually exists so we dont get errors
 	if (_playerClass in _FOB_builders) then {
-		//FOB_Action = ["FOBAction","Place FOB (Can only be used once!!!)","",{[] execVM "buildfob\FobBuild.sqf";},{true}] call ace_interact_menu_fnc_createAction; //old action without progressbar */
-		FOB_Action = ["FOBAction","Place FOB (Can only be used once!!!)","",{[15,[],{[] execVM "buildfob\FobBuild.sqf";},{},"Establishing FOB..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
+		//FOB_Action = ["FOBAction","Place FOB (Can only be used once!!!)","",{[] execVM "buildfob\fobBuild.sqf";},{true}] call ace_interact_menu_fnc_createAction; //old action without progressbar */
+		FOB_Action = ["FOBAction","Place FOB (Can only be used once!!!)","",{[15,[],{[] execVM "buildfob\fobBuild.sqf";},{},"Establishing FOB..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
 		[logistics_vehicle, 0, ["ACE_MainActions"], FOB_Action] call ace_interact_menu_fnc_addActionToObject; //note that action will only be accessible when outside the vehicle
 		//[logistics_vehicle, 1, ["ACE_SelfActions"], FOB_Action] call ace_interact_menu_fnc_addActionToObject; //note that action will only be accessible when inside the vehicle, doesnt work with progressbar
 	};

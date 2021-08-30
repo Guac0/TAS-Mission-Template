@@ -9,16 +9,20 @@ publicVariable "TAS_afkEnabled";
 
 //turn FOB on/off, if on needs some eden setup see documentation elsewhere
 //Required Mods: ACE
-TAS_fobEnabled = true; //set to false to disable FOB building and rallypoints
+TAS_fobEnabled = false; //default false, set to false to disable FOB building and rallypoints
 publicVariable "TAS_fobEnabled";
-TAS_fobUseFullArsenals = true; //default true. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
+TAS_fobUseFullArsenals = false; //default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
 publicVariable "TAS_fobUseFullArsenals";
+TAS_fobDistance = 300; //default 300 meters, if enemies are within this range then FOB cannot be created
+publicVariable "TAS_fobDistance";
 TAS_useSmallRally = true; //set to true if you want to use the small rallypoint without a supply crate
 publicVariable "TAS_useSmallRally";
+TAS_rallyDistance = 150; //default 150 meters, if enemies are within this range then rallypoint cannot be created
+publicVariable "TAS_rallyDistance";
 
 //turn TAS_globalTFAR on/off, if on then make sure you have a way to activate it (i recommend a trigger, see template)
 //Required Mods: TFAR
-TAS_globalTFAREnabled = true;
+TAS_globalTFAREnabled = true; //default true, no effect if you dont call it using the trigger or a script
 publicVariable "TAS_globalTFAREnabled";
 
 //tfar radio assignment init, for SL LR backpack assignment needs SLs to have the preset variable names for SLs(see template)
@@ -28,7 +32,7 @@ TAS_autoRadioLoadoutsEnabled = true; //defaults to true
 publicVariable "TAS_autoRadioLoadoutsEnabled";
 TAS_radioPersonal = "TFAR_anprc152"; //defaults to the 152, used by indep but is standard issue in TAS
 publicVariable "TAS_radioPersonal";
-TAS_radioBackpack = "TFAR_anprc155_coyote"; //defaults to 155 coyote
+TAS_radioBackpack = "TFAR_anprc155_coyote"; //defaults to 155 coyote, change to what you wnat
 publicVariable "TAS_radioBackpack";
 
 //automatically assign appropriate ctab items, for SL rugged tablet assignment needs preset variable names for SLs (see template)
@@ -56,7 +60,7 @@ publicVariable "TAS_aceSpectateObjectEnabled";
 //Requires a vehicle named "logistics_vehicle" in your mission (recommend that it is also invincible)
 //After respawning, this forces the player to wait the specified duration (while either spectating/editing loadout/chilling in base) before being TPed to the respawn vic
 //Required Mods: ACE
-TAS_respawnInVehicle = true; //default false
+TAS_respawnInVehicle = false; //default false
 publicVariable "TAS_respawnInVehicle";
 TAS_respawnInVehicleTime = 50; //default 50, note that this is in addition to the respawn timer
 publicVariable "TAS_respawnInVehicleTime";
@@ -72,9 +76,9 @@ publicVariable "TAS_zeusResupply";
 //Choose between respawning with config loadout (default in vanilla, not recommended), respawning with gear you had when you died, and respawning with gear that you preset at the arsenal
 //players save their loadout at the heal object
 TAS_respawnWithDeathGear = false; //default false
-publicVariable "TAS_respawnWithDeathGear";
+publicVariable "TAS_respawnDeathGear";
 TAS_respawnWithArsenalGear = true; //default true
-publicVariable "TAS_respawnArsenalDeathGear";
+publicVariable "TAS_respawnArsenalGear";
 
 
 

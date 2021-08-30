@@ -6,11 +6,11 @@
 //_nearEntities = player nearEntities [["Man","Car","Tank"],150];
 //_nearEnemies = player countEnemy _nearEntities;
 _enemySides = [side player] call BIS_fnc_enemySides;
-_radius = 150;
+_radius = TAS_rallyDistance; //parameter from initServer.sqf, default 150
 _nearEnemies = allUnits select {_x distance player < _radius AND side _x in _enemySides};
 _nearEnemiesNumber = count _nearEnemies;
 
-if ( _nearEnemiesNumber > 0 ) exitWith {systemChat "Rallypoint creation failure, enemies are within 150m!"};
+if ( _nearEnemiesNumber > 0 ) exitWith {systemChat format ["Rallypoint creation failure, enemies are within %1m!",TAS_rallyDistance]};
 
 if (TAS_rallyCmdUsed == false) then { "rallypointCmdMarker" setMarkerAlpha 1; };  //first time rally is created, set its marker to visible
 if (TAS_rallyCmdUsed == true) then { {deleteVehicle _x} forEach TAS_rallypointCmd; TAS_rallypointCmdRespawn call BIS_fnc_removeRespawnPosition;}; //if rallypoint already exists, delete it so the new one can be spawned
