@@ -12,7 +12,7 @@ class EditorData
 	};
 	class ItemIDProvider
 	{
-		nextID=333;
+		nextID=338;
 	};
 	class MarkerIDProvider
 	{
@@ -20,14 +20,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=274;
+		nextID=287;
 	};
 	class Camera
 	{
-		pos[]={61.096989,29.184689,152.3517};
-		dir[]={-0.64267254,-0.76462811,0.048196636};
-		up[]={-0.76249111,0.64446807,0.057182081};
-		aside[]={0.074784227,1.6936974e-007,0.9972052};
+		pos[]={122.52471,68.641144,134.68208};
+		dir[]={-0.69411457,-0.68681413,-0.21576647};
+		up[]={-0.65588051,0.72681379,-0.20388012};
+		aside[]={-0.29685295,1.2548117e-007,0.95496011};
 	};
 };
 binarizationWanted=0;
@@ -53,13 +53,14 @@ addons[]=
 	"A3_Misc_F_Helpers",
 	"A3_Structures_F_Ind_Cargo",
 	"ace_medical_treatment",
-	"ace_rearm"
+	"ace_rearm",
+	"A3_Structures_F_Mil_Helipads"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=16;
+		items=17;
 		class Item0
 		{
 			className="A3_Modules_F_Curator";
@@ -171,6 +172,13 @@ class AddonsMetaData
 			name="ACE3 - Rearm";
 			author="ACE-Team";
 			url="http://ace3mod.com/";
+		};
+		class Item16
+		{
+			className="A3_Structures_F_Mil";
+			name="Arma 3 - Military Buildings and Structures";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
 		};
 	};
 };
@@ -801,7 +809,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=78;
+		items=79;
 		class Item0
 		{
 			dataType="Layer";
@@ -11893,7 +11901,7 @@ class Mission
 							dataType="Comment";
 							class PositionInfo
 							{
-								position[]={130.83414,5,150.31471};
+								position[]={130.83414,5,160.45238};
 							};
 							title="Automatic Repair Zone";
 							description="Will automatically rearm, refuel, repair any player vehicle that enters.";
@@ -11902,25 +11910,7 @@ class Mission
 						class Item7
 						{
 							dataType="Trigger";
-							position[]={130.83501,5,150.33701};
-							class Attributes
-							{
-								text="Automatic Repair Zone";
-								onActivation="{_x setDamage 0} Foreach thislist; " \n "{_x setFuel 0} Foreach thislist; " \n "{_x setVehicleAmmo 1} Foreach thislist;" \n "{_x setFuel 1} Foreach thislist;";
-								sizeA=5;
-								sizeB=5;
-								sizeC=5;
-								repeatable=1;
-								activationBy="ANYPLAYER";
-								isRectangle=1;
-							};
-							id=248;
-							type="EmptyDetectorArea10x10";
-						};
-						class Item8
-						{
-							dataType="Trigger";
-							position[]={130.73932,5,164.07549};
+							position[]={130.739,5,122.25407};
 							class Attributes
 							{
 								text="Dialogue Template";
@@ -11937,18 +11927,18 @@ class Mission
 							id=251;
 							type="EmptyDetectorArea10x10";
 						};
-						class Item9
+						class Item8
 						{
 							dataType="Comment";
 							class PositionInfo
 							{
-								position[]={131.01833,5,164.0795};
+								position[]={131.01833,5,122.25858};
 							};
 							title="Dialogue Template";
 							description="See the wiki article on the BIS_fnc_EXP_camp_playSubtitles for more information. Note that the DUI menu will partially hide the convo, players can set a keybind to hide DUI.";
 							id=252;
 						};
-						class Item10
+						class Item9
 						{
 							dataType="Object";
 							class PositionInfo
@@ -11986,7 +11976,7 @@ class Mission
 								nAttributes=1;
 							};
 						};
-						class Item11
+						class Item10
 						{
 							dataType="Object";
 							class PositionInfo
@@ -12024,9 +12014,28 @@ class Mission
 								nAttributes=1;
 							};
 						};
+						class Item11
+						{
+							dataType="Trigger";
+							position[]={130.67101,5,160.24266};
+							class Attributes
+							{
+								text="Automatic Repair Zone Improved";
+								condition="{!isNull objectParent player && driver (thisList select 0) == player && isTouchingGround _x && speed _x < 1} count thisList > 0";
+								onActivation="_handle = [(thisList select 0)] execVM ""Scripts\ServiceHeli.sqf"";";
+								sizeA=10;
+								sizeB=10;
+								sizeC=10;
+								repeatable=1;
+								activationBy="ANYPLAYER";
+								isRectangle=1;
+							};
+							id=333;
+							type="EmptyDetectorArea10x10";
+						};
 					};
 					id=231;
-					atlOffset=0.00071048737;
+					atlOffset=0.00017738342;
 				};
 				class Item1
 				{
@@ -12059,7 +12068,7 @@ class Mission
 				};
 			};
 			id=323;
-			atlOffset=-2.4996448;
+			atlOffset=-2.4999113;
 		};
 		class Item77
 		{
@@ -12071,6 +12080,21 @@ class Mission
 			title="ALSO READ THE FULL TEXT OF EVERY COMMENT, INCLUDING THE TOOLTIP!";
 			description="not my fault if something breaks because you didn't read.";
 			id=328;
+		};
+		class Item78
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={130.847,5,160.181};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+			};
+			id=337;
+			type="Land_HelipadSquare_F";
 		};
 	};
 	class Connections
