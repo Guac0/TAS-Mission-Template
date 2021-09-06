@@ -19,7 +19,7 @@ if (TAS_fobBuilt == false) then { "fobMarker" setMarkerAlpha 1; }; //first time 
 
 FOB_objects = [getPos logistics_vehicle, getDir logistics_vehicle, call (compile (preprocessFileLineNumbers "buildfob\fobComposition.sqf"))] call BIS_fnc_ObjectsMapper; //spawn the fob composition
 _fobArsenals = nearestObjects [position logistics_vehicle, ["B_CargoNet_01_ammo_F"], 25]; //add unlimited arsenals to appropraite boxes, maybe change
-if (TAS_fobUseFullArsenals) then {
+if (TAS_fobFullArsenals) then {
 	{
 		[_x, true] call ace_arsenal_fnc_initBox;
 		["AmmoboxInit",[_x,true]] call BIS_fnc_arsenal;
@@ -49,6 +49,7 @@ if (TAS_fobUseFullArsenals) then {
 fobRespawn = [side player, getPos player, "FOB Respawn"] call BIS_fnc_addRespawnPosition;
 "fobMarker" setMarkerPos getPos logistics_vehicle; //updates the rallypoint's position on map
 
-[[blufor, "HQ"], format ["FOB established by %1 at gridref %2.", name player, mapGridPosition logistics_vehicle]] remoteExec ["sideChat", side player];
+_playerSide = side group player;
+[[_playerSide, "HQ"], format ["FOB established by %1 at gridref %2.", name player, mapGridPosition logistics_vehicle]] remoteExec ["sideChat", side player];
 TAS_fobBuilt = true;
 publicVariable "TAS_fobBuilt";

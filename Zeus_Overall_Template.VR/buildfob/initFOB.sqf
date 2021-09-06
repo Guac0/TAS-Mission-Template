@@ -58,4 +58,5 @@ if (vehicleVarName player == "FOXTROT_Actual") then {
 };
 
 //debug init finished
-systemChat "FOB/Rallypoint system init finished.";
+//systemChat "FOB/Rallypoint system init finished.";
+player createDiaryRecord ["tasMissionTemplate", ["FOB/Rallypoints", "Enabled. Squad Leads can self-ace-interact to place a rallypoint assuming no enemies are within a certain distance. To place the FOB, ace interact with the logistics vehicle."]];

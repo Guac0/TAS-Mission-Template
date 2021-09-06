@@ -4,9 +4,6 @@
 
 //if !(AfkEnabled) exitWith {systemChat "Afk System Disabled."}; //handled in initPlayerLocal
 
-//make a diary record tutorial
-player createDiaryRecord ["Diary", ["TAS Afk Script", "To start/stop the AFK script, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Run AFK Script. By default, it will be Left Control + Left Alt + O."]];
-
 //function to use in making/unmaking afk
 TAS_fnc_AfkScript = 
 {
@@ -56,4 +53,6 @@ TAS_fnc_AfkScript =
 //25 for P, 0x10C for User Action 19
 ["TAS Keybindings","afk_script_key_v2","Run TAS Afk Script", {call TAS_fnc_AfkScript}, "", [24, [false, true, true]]] call CBA_fnc_addKeybind;
 
-systemChat "TAS Afk Script init finished.";
+//systemChat "TAS Afk Script init finished.";
+//make a diary record tutorial
+player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Enabled. To start/stop the AFK script, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Run AFK Script. By default, it will be Left Control + Left Alt + O."]];

@@ -5,34 +5,34 @@
 //turn afk script on/off
 //Required mods: CBA
 TAS_afkEnabled = true; //set to false to disable AFK script from being added
-publicVariable "TAS_afkEnabled";
+publicVariable "TAS_afkEnabled"; //don't touch any of the publicVariable lines
 
-//turn FOB on/off, if on needs some eden setup see documentation elsewhere
+//turn FOB on/off, if on needs some eden setup see documentation elsewhere. setup already done in the template if you dont break it
 //Required Mods: ACE
 TAS_fobEnabled = false; //default false, set to false to disable FOB building and rallypoints
-publicVariable "TAS_fobEnabled";
-TAS_fobUseFullArsenals = false; //default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
-publicVariable "TAS_fobUseFullArsenals";
+TAS_fobFullArsenals = false; //default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
 TAS_fobDistance = 300; //default 300 meters, if enemies are within this range then FOB cannot be created
-publicVariable "TAS_fobDistance";
 TAS_useSmallRally = true; //set to true if you want to use the small rallypoint without a supply crate
-publicVariable "TAS_useSmallRally";
 TAS_rallyDistance = 150; //default 150 meters, if enemies are within this range then rallypoint cannot be created
+publicVariable "TAS_fobEnabled";
+publicVariable "TAS_fobFullArsenals";
+publicVariable "TAS_fobDistance";
+publicVariable "TAS_useSmallRally";
 publicVariable "TAS_rallyDistance";
 
 //turn TAS_globalTFAR on/off, if on then make sure you have a way to activate it (i recommend a trigger, see template)
 //Required Mods: TFAR
-TAS_globalTFAREnabled = true; //default true, no effect if you dont call it using the trigger or a script
-publicVariable "TAS_globalTFAREnabled";
+TAS_globalTfarEnabled = true; //default true, no effect if you dont call it using the trigger or a script
+publicVariable "TAS_globalTfarEnabled";
 
 //tfar radio assignment init, for SL LR backpack assignment needs SLs to have the preset variable names for SLs(see template)
 //if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
 //Required Mods: TFAR
-TAS_autoRadioLoadoutsEnabled = true; //defaults to true
-publicVariable "TAS_autoRadioLoadoutsEnabled";
+TAS_radiosEnabled = true; //defaults to true
 TAS_radioPersonal = "TFAR_anprc152"; //defaults to the 152, used by indep but is standard issue in TAS
+TAS_radioBackpack = "TFAR_anprc155_coyote"; //defaults to 155 coyote ("TFAR_anprc155_coyote"), change to what you want. Leaving empty ("") will not assign a backpack radio (useful if you preconfigured unique radio loadouts in eden)
+publicVariable "TAS_radiosEnabled";
 publicVariable "TAS_radioPersonal";
-TAS_radioBackpack = "TFAR_anprc155_coyote"; //defaults to 155 coyote, change to what you wnat
 publicVariable "TAS_radioBackpack";
 
 //automatically assign appropriate ctab items, for SL rugged tablet assignment needs preset variable names for SLs (see template)
@@ -52,8 +52,8 @@ publicVariable "TAS_bftEnabled";
 //also includes player-only spectator as a secondary option on the same box
 //Required Mods: ACE
 TAS_aceHealObjectEnabled = true; //defaults to true
-publicVariable "TAS_aceHealObjectEnabled";
 TAS_aceSpectateObjectEnabled = true; //defaults to true
+publicVariable "TAS_aceHealObjectEnabled";
 publicVariable "TAS_aceSpectateObjectEnabled";
 
 //This script adds a custom system for respawning in a forward logistics vehicle
@@ -61,8 +61,8 @@ publicVariable "TAS_aceSpectateObjectEnabled";
 //After respawning, this forces the player to wait the specified duration (while either spectating/editing loadout/chilling in base) before being TPed to the respawn vic
 //Required Mods: ACE
 TAS_respawnInVehicle = false; //default false
-publicVariable "TAS_respawnInVehicle";
 TAS_respawnInVehicleTime = 50; //default 50, note that this is in addition to the respawn timer
+publicVariable "TAS_respawnInVehicle";
 publicVariable "TAS_respawnInVehicleTime";
 
 //Adds two custom resupply modules to Zeus
@@ -73,11 +73,11 @@ publicVariable "TAS_respawnInVehicleTime";
 TAS_zeusResupply = true; //default true
 publicVariable "TAS_zeusResupply";
 
-//Choose between respawning with config loadout (default in vanilla, not recommended), respawning with gear you had when you died, and respawning with gear that you preset at the arsenal
+//Choose between respawning with config loadout (default in vanilla, not recommended. set both options to false to pick this option), respawning with gear you had when you died, and respawning with gear that you preset at the arsenal
 //players save their loadout at the heal object
-TAS_respawnWithDeathGear = false; //default false
+TAS_respawnDeathGear = false; //default false
+TAS_respawnArsenalGear = true; //default true
 publicVariable "TAS_respawnDeathGear";
-TAS_respawnWithArsenalGear = true; //default true
 publicVariable "TAS_respawnArsenalGear";
 
 
@@ -106,13 +106,13 @@ if (TAS_aceHealObjectEnabled) then {
 		{_nearPlayers = AceHealObject nearEntities ["Man", 100]; {[objNull, _x] call ace_medical_treatment_fnc_fullHeal} forEach _nearPlayers},													// Code executed on completion
 		{},													// Code executed on interrupted
 		[],													// Arguments passed to the scripts as _this select 3
-		2,													// Action duration [s]
+		1,													// Action duration [s]
 		5,													// Priority
 		false,												// Remove on completion
 		false												// Show in unconscious state 
 	] remoteExec ["BIS_fnc_holdActionAdd", 0, AceHealObject];	// MP compatible implementation, is JIP compatible
 } else {
-	systemChat "Ace Heal Object disabled.";
+	//systemChat "Ace Heal Object disabled.";
 };
 
 if (TAS_aceSpectateObjectEnabled) then {
@@ -135,7 +135,7 @@ if (TAS_aceSpectateObjectEnabled) then {
 		false												// Show in unconscious state 
 	] remoteExec ["BIS_fnc_holdActionAdd", 0, AceHealObject];	// MP compatible implementation, is JIP compatible
 } else {
-	systemChat "Ace Spectate Object disabled.";
+	//systemChat "Ace Spectate Object disabled.";
 };
 
 if (TAS_respawnWithArsenalGear) then {
@@ -157,14 +157,15 @@ if (TAS_respawnWithArsenalGear) then {
 		false												// Show in unconscious state 
 	] remoteExec ["BIS_fnc_holdActionAdd", 0, AceHealObject];	// MP compatible implementation, is JIP compatible
 } else {
-	systemChat "Respawn with Arsenal Loadout disabled.";
+	//systemChat "Respawn with Arsenal Loadout disabled.";
 };
 
 //Register TAS_globalTFAR as a function
 if (TAS_globalTFAREnabled) then {
-	TAS_fnc_globalTFAR = compile preprocessFile "Scripts\TAS_globalTFAR.sqf";
+	TAS_fnc_globalTFAR = compile preprocessFile "scripts\TAS_globalTFAR.sqf";
+	systemChat "TAS Global TFAR System enabled (server debug)."
 } else {
-	systemChat "TAS Global TFAR System disabled."
+	systemChat "TAS Global TFAR System disabled (server debug)."
 };
 
 //setup fob variables if fob system is enabled
