@@ -138,7 +138,7 @@ if (TAS_aceSpectateObjectEnabled) then {
 	//systemChat "Ace Spectate Object disabled.";
 };
 
-if (TAS_respawnWithArsenalGear) then {
+if (TAS_respawnArsenalGear) then {
 	[
 		AceHealObject,											// Object the action is attached to
 		"Save Loadout",										// Title of the action
