@@ -75,7 +75,7 @@ publicVariable "TAS_zeusResupply";
 
 //Choose between respawning with config loadout (default in vanilla, not recommended. set both options to false to pick this option), respawning with gear you had when you died, and respawning with gear that you preset at the arsenal
 //players save their loadout at the heal object
-TAS_respawnDeathGear = false; //default false
+TAS_respawnDeathGear = false; //default false --- DO NOT SET BOTH respawnDeathGear AND respawnArsenalGear to true!!!
 TAS_respawnArsenalGear = true; //default true
 publicVariable "TAS_respawnDeathGear";
 publicVariable "TAS_respawnArsenalGear";
