@@ -1,5 +1,5 @@
 //respawn with death gear
-if (TAS_respawnWithDeathGear) then {
+if (TAS_respawnDeathGear) then {
 	player setUnitLoadout (player getVariable ["deathLoadout",[]]); //Load dead player's loadout
 	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Death Loadout", "Enabled. You will respawn with the gear you had equipped when you died."]];
 } else {
@@ -8,7 +8,7 @@ if (TAS_respawnWithDeathGear) then {
 };
 
 //respawn with saved gear
-if (TAS_respawnWithArsenalGear) then {
+if (TAS_respawnArsenalGear) then {
 	player setUnitLoadout (player getVariable ["arsenalLoadout",[]]); //Load player's saved loadout
 	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Saved Loadout", "Enabled. Interact with the heal/spectate object in order to save your loadout."]];
 } else {
