@@ -1,6 +1,6 @@
 # TAS Mission Template
 
-Placeholder line, this will be replaced by the link to the Youtube tutorial for those that prefer a video guide rather than viewing the comment modules in the template.
+View the video guide to this mission template for Arma 3 here: https://www.youtube.com/watch?v=g_OlNxJ2ERA.
 
 See the documentation in Eden (comment modules). You can customize and disable the various scripts by looking at initServer.sqf, there is no need to delete files to disable scripts.
 
