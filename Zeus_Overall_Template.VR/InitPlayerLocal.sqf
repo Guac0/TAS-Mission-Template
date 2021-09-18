@@ -101,3 +101,26 @@ if (TAS_zeusResupply) then {
 	//systemChat "Custom Zeus resupply modules disabled.";
 	player createDiaryRecord ["tasMissionTemplate", ["Custom Zeus Resupply Modules", "Disabled."]];
 };
+
+//respawn with death gear
+if (TAS_respawnDeathGear) then {
+	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Death Loadout", "Enabled. You will respawn with the gear you had equipped when you died."]];
+} else {
+	//systemChat "Respawn with Arsenal Loadout disabled.";
+	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Death Loadout", "Disabled."]];
+};
+
+//respawn with saved gear
+if (TAS_respawnArsenalGear) then {
+	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Saved Loadout", "Enabled. Interact with the heal/spectate object in order to save your loadout."]];
+} else {
+	//systemChat "Respawn with Arsenal Loadout disabled.";
+	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Saved Loadout", "Disabled."]];
+};
+
+//respawn in vehicle
+if (TAS_respawnInVehicle) then {
+	player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Enabled. After a waiting period specified by the mission maker, respawning players will be teleported into the logistics vehicle. During this waiting time, respawning players can spectate, edit their loadout, or hang out at base."]];
+} else {
+	player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Disabled."]];
+};

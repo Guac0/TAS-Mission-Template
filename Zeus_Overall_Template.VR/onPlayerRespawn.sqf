@@ -1,19 +1,14 @@
 //respawn with death gear
 if (TAS_respawnDeathGear) then {
-	player setUnitLoadout (player getVariable ["deathLoadout",[]]); //Load dead player's loadout
-	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Death Loadout", "Enabled. You will respawn with the gear you had equipped when you died."]];
-} else {
+	player setUnitLoadout (player getVariable ["deathLoadout",[]]); //Load dead player's loadout} else {
 	//systemChat "Respawn with Arsenal Loadout disabled.";
-	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Death Loadout", "Disabled."]];
 };
 
 //respawn with saved gear
 if (TAS_respawnArsenalGear) then {
 	player setUnitLoadout (player getVariable ["arsenalLoadout",[]]); //Load player's saved loadout
-	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Saved Loadout", "Enabled. Interact with the heal/spectate object in order to save your loadout."]];
 } else {
 	//systemChat "Respawn with Arsenal Loadout disabled.";
-	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Saved Loadout", "Disabled."]];
 };
 
 //respawn in vehicle
@@ -28,9 +23,8 @@ if (TAS_respawnInVehicle) then {
 	hintSilent "";
 	[false,false,false] call ace_spectator_fnc_setSpectator; //end spectator if applicable
 	player moveInCargo logistics_vehicle; //get in respawn vic in passenger seat
-	player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Enabled. After a waiting period specified by the mission maker, respawning players will be teleported into the logistics vehicle. During this waiting time, respawning players can spectate, edit their loadout, or hang out at base."]];
 } else {
-	player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Disabled."]];
+	//systemChat "respawn in vehicle disabled";
 };
 
 //stamina on respawn is covered in initPlayerLocal
