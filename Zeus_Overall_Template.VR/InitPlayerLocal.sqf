@@ -112,6 +112,7 @@ if (TAS_respawnDeathGear) then {
 
 //respawn with saved gear
 if (TAS_respawnArsenalGear) then {
+	player setVariable ["arsenalLoadout",getUnitLoadout player]; //setup initial loadout so doesnt use config loadout if not done by player
 	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Saved Loadout", "Enabled. Interact with the heal/spectate object in order to save your loadout."]];
 } else {
 	//systemChat "Respawn with Arsenal Loadout disabled.";
