@@ -8,11 +8,15 @@ TAS_afkEnabled = true; //set to false to disable AFK script from being added
 publicVariable "TAS_afkEnabled"; //don't touch any of the publicVariable lines
 
 //turn FOB on/off, if on needs some eden setup see documentation elsewhere. setup already done in the template if you dont break it
+//What this does is give every Squad Lead an ace self interact to establish a "Rallypoint" at their position (if no enemies are within the stated range)
+//Rallypoints are respawn positions for the players' side, and if using the large rally, also have a small ammobox
+//FOB system adds an action to every SL (and command engineer) to the "logistics_truck" vehicle to establish a small base with arsenals and a respawn position
+//If you want to disable rallypoints while keeping FOB or vice versa, set the distances from enemies to like 99999 or something absurdly high
 //Required Mods: ACE
-TAS_fobEnabled = false; //default false, set to false to disable FOB building and rallypoints
+TAS_fobEnabled = true; //default false, set to false to disable FOB building and rallypoints
 TAS_fobFullArsenals = false; //default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
 TAS_fobDistance = 300; //default 300 meters, if enemies are within this range then FOB cannot be created
-TAS_useSmallRally = true; //set to true if you want to use the small rallypoint without a supply crate
+TAS_useSmallRally = true; //default true, set to true if you want to use the small rallypoint without a supply crate
 TAS_rallyDistance = 150; //default 150 meters, if enemies are within this range then rallypoint cannot be created
 publicVariable "TAS_fobEnabled";
 publicVariable "TAS_fobFullArsenals";
@@ -80,7 +84,18 @@ TAS_respawnArsenalGear = true; //default true
 publicVariable "TAS_respawnDeathGear";
 publicVariable "TAS_respawnArsenalGear";
 
+//Displays markers in the bottom left of the map that display the server's and HC's FPS and number of local groups/units
+//might be desirable to turn off if you don't want players to see
+TAS_fpsDisplayEnabled = true; //default true
+publicVariable "TAS_fpsDisplayEnabled";
 
+//Adds an "Create Resupply Box" action to a whiteboard that spawns the zeus resupply box on the jump target object.
+//Useful for allowing players to run logi without zeus intervention to create resupply box.
+//Needs the "Create Resupply Box" whiteboard and "Resupply Spawn Helper" parachute jump target from mission.sqm to work
+TAS_resupplyObjectEnabled = true; //default true
+publicVariable "TAS_resupplyObjectEnabled";
+
+//to add a custom fortify preset, go to description.ext and follow the instructions there
 
 /////////////////////////////////////
 /////////initServer.sqf Code/////////
@@ -88,6 +103,12 @@ publicVariable "TAS_respawnArsenalGear";
 
 //dynamic groups code
 ["Initialize", [true]] call BIS_fnc_dynamicGroups; // Initializes the Dynamic Groups framework and groups led by a player at mission start will be registered
+
+//If AceHealObject does not exist but options that require it are turned on, then display a warning that those options will be disabled
+if ((isNil "AceHealObject") && (TAS_respawnArsenalGear || TAS_aceHealObjectEnabled || TAS_aceSpectateObjectEnabled)) then {
+	systemchat "WARNING: You have turned on mission template options that require the AceHealObject to be present in your mission, but it does not exist! Disabling functions that require the heal object to be present...";
+	diag_log text "TAS-Mission-Template WARNING: You have turned on mission template options that require the AceHealObject to be present in your mission, but it does not exist! Disabling functions that require the heal object to be present...";
+};
 
 //automated (non-zeus) ace heal by Guac
 //Instantly ace full heals all players within 100m
@@ -157,15 +178,40 @@ if (!isNil "AceHealObject") then { //check if the ace heal object actually exist
 		] remoteExec ["BIS_fnc_holdActionAdd", 0, AceHealObject];	// MP compatible implementation, is JIP compatible
 	} else {
 		//systemChat "Respawn with Arsenal Loadout disabled.";
+		//diag_log text "Respawn with Arsenal Loadout disabled.";
 	};
 };
 
+if (TAS_resupplyObjectEnabled) then { //check if the ace heal object actually exists so we dont get errors
+	if ((!isNil "CreateResupplyObject") && (!isNil "ResupplySpawnHelper")) then {
+		[
+			CreateResupplyObject,											// Object the action is attached to
+			"Spawn Resupply Box",										// Title of the action
+			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
+			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
+			"_this distance _target < 15",						// Condition for the action to be shown
+			"_caller distance _target < 15",						// Condition for the action to progress
+			{},													// Code executed when action starts
+			{},													// Code executed on every progress tick
+			{[] execVM "scripts\AmmoCrateFromAction.sqf";},													// Code executed on completion
+			{},													// Code executed on interrupted
+			[],													// Arguments passed to the scripts as _this select 3
+			1,													// Action duration [s]
+			5,													// Priority
+			false,												// Remove on completion
+			false												// Show in unconscious state 
+		] remoteExec ["BIS_fnc_holdActionAdd", 0, CreateResupplyObject];	// MP compatible implementation, is JIP compatible
+	} else { //if resupply object stuff is turned on but missing the objects needed for it to work, then display a warning that the resupply system will be disabled.
+		systemChat "WARNING: Resupply Creator enabled, but missing the relevant spawner object(s) in mission! Disabling resupply creator...";
+		diag_log text "TAS-Mission-Template WARNING: Resupply Creator enabled, but missing the relevant spawner object(s) in mission! Disabling resupply creator...";
+	};
+};
 //Register TAS_globalTFAR as a function
 if (TAS_globalTFAREnabled) then {
 	TAS_fnc_globalTFAR = compile preprocessFile "scripts\TAS_globalTFAR.sqf";
-	systemChat "TAS Global TFAR System enabled (server debug).";
+	//systemChat "TAS Global TFAR System enabled (server debug).";
 } else {
-	systemChat "TAS Global TFAR System disabled (server debug).";
+	//systemChat "TAS Global TFAR System disabled (server debug).";
 };
 
 //setup fob variables if fob system is enabled
@@ -189,4 +235,11 @@ if (TAS_fobEnabled) then {
 	publicVariable "TAS_rallyEchoUsed";
 	TAS_rallyFoxtrotUsed = false;
 	publicVariable "TAS_rallyFoxtrotUsed";
+};
+
+//show fps script by Mildly Interested/Bassbeard
+//Code here is for main server, headless client is in initServer.sqf
+if (TAS_fpsDisplayEnabled) then {
+	[] execVM "scripts\show_fps.sqf";
+	diag_log text "TAS-Mission-Template --------------------[Executed show_fps on Server]--------------------"; //will show in server logs
 };

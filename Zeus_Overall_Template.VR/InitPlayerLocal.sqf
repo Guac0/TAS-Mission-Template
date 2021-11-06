@@ -86,15 +86,15 @@ if (TAS_aceSpectateObjectEnabled) then {
 } else {
 	//systemChat "Ace Spectate Object disabled.";
 	player createDiaryRecord ["tasMissionTemplate", ["Ace Spectate Object", "Disabled."]];
-};	
+};
 
 //adds two resupply options to ZEN under the "Resupply" catagory
 //each spawns a large crate with medical and 6 mags for each player's weapon
 //to customize contents of resupply, edit the files in scripts\ammocrate.sqf and ammocratepara.sqf
 //REQUIRES ZEN TO BE LOADED (on all clients! although maybe just the zeus if you adjusted the code [i.e. not init.sqf] https://zen-mod.github.io/ZEN/#/frameworks/custom_modules)
 if (TAS_zeusResupply) then {
-	["Resupply", "Spawn Resupply Crate", {[_this select 0]execVM "scripts\AmmoCrate.sqf"}] call zen_custom_modules_fnc_register;
-	["Resupply", "Paradrop Resupply Crate", {[_this select 0]execVM "scripts\AmmoCratePara.sqf"}] call zen_custom_modules_fnc_register;
+	["Resupply", "Spawn Resupply Crate", {[_this select 0] execVM "scripts\AmmoCrate.sqf"}] call zen_custom_modules_fnc_register;
+	["Resupply", "Paradrop Resupply Crate", {[_this select 0] execVM "scripts\AmmoCratePara.sqf"}] call zen_custom_modules_fnc_register;
 	//systemChat "Custom Zeus resupply modules enabled.";
 	player createDiaryRecord ["tasMissionTemplate", ["Custom Zeus Resupply Modules", "Enabled. Adds two custom resupply modules to Zeus. One spawns the crate at the cursor location, while the other paradrops it. Each spawns a large crate with medical and 6 mags for each player's weapon."]];
 } else {
@@ -124,4 +124,16 @@ if (TAS_respawnInVehicle) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Enabled. After a waiting period specified by the mission maker, respawning players will be teleported into the logistics vehicle. During this waiting time, respawning players can spectate, edit their loadout, or hang out at base."]];
 } else {
 	player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Disabled."]];
+};
+
+if (TAS_fpsDisplayEnabled) then {
+	player createDiaryRecord ["tasMissionTemplate", ["FPS Counter (by MildlyInterested)", "Enabled. In the bottom left of the map you will see markers for the server and any HCs with various debug information."]];
+} else {
+	player createDiaryRecord ["tasMissionTemplate", ["FPS Counter (by MildlyInterested)", "Disabled."]];
+};
+
+if (TAS_resupplyObjectEnabled) then {
+	player createDiaryRecord ["tasMissionTemplate", ["Resupply Object Spawner", "Enabled. At base, players will be able to spawn a supply crate with ammo and medical for all the players."]];
+} else {
+	player createDiaryRecord ["tasMissionTemplate", ["Resupply Object Spawner", "Disabled."]];
 };

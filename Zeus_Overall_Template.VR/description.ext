@@ -9,6 +9,20 @@ class CfgDebriefingSections {
 	};
 };
 
+class ACEX_Fortify_Presets {
+    class TAS_Fortify_Objects {
+		displayName = "TAS Fortify Objects";
+        objects[] = {
+            //To add new items, copy the line two lines below, remove the comment slash marks, and replace classname and cost as needed
+			//Change 5 to whatever cost you want for the object
+			//You will also need to place the fortify module in Eden, set it to the "TAS_Fortify_Objects" preset
+			//{"Insert Object Classname Here", 5},
+            {"Land_Plank_01_4m_F", 5},
+            {"Land_Plank_01_8m_F", 10} //last entry do not include a comma at the end
+        };
+    };
+};
+
 //defines custom music, copy and change the "2"s to "3"s to create a third entry
 //replace "ExampleSound1.ogg" with your own sound file and name it the same thing
 //see the comment in the mission file for more information
