@@ -13,7 +13,7 @@ publicVariable "TAS_afkEnabled"; //don't touch any of the publicVariable lines
 //FOB system adds an action to every SL (and command engineer) to the "logistics_truck" vehicle to establish a small base with arsenals and a respawn position
 //If you want to disable rallypoints while keeping FOB or vice versa, set the distances from enemies to like 99999 or something absurdly high
 //Required Mods: ACE
-TAS_fobEnabled = true; //default false, set to false to disable FOB building and rallypoints
+TAS_fobEnabled = false; //default false, set to false to disable FOB building and rallypoints
 TAS_fobFullArsenals = false; //default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
 TAS_fobDistance = 300; //default 300 meters, if enemies are within this range then FOB cannot be created
 TAS_useSmallRally = true; //default true, set to true if you want to use the small rallypoint without a supply crate
