@@ -16,9 +16,9 @@ private _playerRadioIsGlobal = player getVariable ["playerRadioGlobal", false];
 
 
 if ( _playerRadioIsGlobal == false) then { //if player has not had radio set to global most recently then cache current additional data and set additional to global
-	_activeSwRadio = call TFAR_fnc_ActiveSwRadio;
-	_originalAdditionalChannel = _activeSwRadio call TFAR_fnc_getAdditionalSwChannel;
-	_originalAdditionalStereo = _activeSwRadio call TFAR_fnc_getAdditionalSwStereo;
+	private _activeSwRadio = call TFAR_fnc_ActiveSwRadio;
+	private _originalAdditionalChannel = _activeSwRadio call TFAR_fnc_getAdditionalSwChannel;
+	private _originalAdditionalStereo = _activeSwRadio call TFAR_fnc_getAdditionalSwStereo;
 	player setVariable ["originalAdditionalChannel", _originalAdditionalChannel];
 	player setVariable ["originalAdditionalStereo", _originalAdditionalStereo];
 	[_activeSwRadio, 8, "87"] call TFAR_fnc_SetChannelFrequency; //these two lines determine global channel and frequency, freq is the max freq LRs can go to
@@ -27,7 +27,7 @@ if ( _playerRadioIsGlobal == false) then { //if player has not had radio set to 
 	player setVariable ["playerRadioGlobal", true];
 	//systemChat "TAS_fnc_globalTFAR applied successfully.";
 } else { //if radio is already global, then undo it back to the cached settings
-	_activeSwRadio = call TFAR_fnc_ActiveSwRadio; //do this again because private var would be stuck in the then section
+	private _activeSwRadio = call TFAR_fnc_ActiveSwRadio; //do this again because private var would be stuck in the then section
 	[_activeSwRadio, (player getVariable "originalAdditionalChannel")] call TFAR_fnc_setAdditionalSwChannel;
 	[_activeSwRadio, (player getVariable "originalAdditionalStereo")] call TFAR_fnc_setAdditionalSwStereo;
 	player setVariable ["playerRadioGlobal", false];

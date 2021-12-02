@@ -1,9 +1,9 @@
 params [["_position", [0,0,0], [[]], 3], ["_attachedObject", objNull, [objNull]]];
-_position = _this select 0;
-_h = _position param [2, 0];
+private _position = _this select 0;
+private _h = _position param [2, 0];
 _h = _h + 75;
 _position set [2, _h];
-_box = "B_CargoNet_01_ammo_F" createVehicle [0,0,0];
+private _box = "B_CargoNet_01_ammo_F" createVehicle [0,0,0];
 _box setPosATL _position;
 
 parachute_1 = "B_parachute_02_F" createVehicle [0,0,0];

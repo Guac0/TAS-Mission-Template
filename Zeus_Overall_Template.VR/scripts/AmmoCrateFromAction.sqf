@@ -1,6 +1,6 @@
 //params [["_position", [0,0,0], [[]], 3], ["_attachedObject", objNull, [objNull]]];
-_position = getPos ResupplySpawnHelper;
-_box = "B_supplyCrate_F" createVehicle _position;
+private _position = getPos ResupplySpawnHelper;
+private _box = "B_supplyCrate_F" createVehicle _position;
 clearItemCargoGlobal _box; clearWeaponCargoGlobal _box; clearMagazineCargoGlobal _box;
 
 {
