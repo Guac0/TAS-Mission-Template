@@ -5,25 +5,28 @@
 
 //_nearEntities = player nearEntities [["Man","Car","Tank"],150];
 //_nearEnemies = player countEnemy _nearEntities;
-_enemySides = [side player] call BIS_fnc_enemySides;
-_radius = TAS_rallyDistance; //parameter from initServer.sqf, default 150
-_nearEnemies = allUnits select {_x distance player < _radius AND side _x in _enemySides};
-_nearEnemiesNumber = count _nearEnemies;
+private _enemySides = [side player] call BIS_fnc_enemySides;
+private _radius = TAS_rallyDistance; //parameter from initServer.sqf, default 150
+private _nearEnemies = allUnits select {_x distance player < _radius AND side _x in _enemySides};
+private _nearEnemiesNumber = count _nearEnemies;
+private _playerSide = side group player;
 
 if ( _nearEnemiesNumber > 0 ) exitWith {systemChat format ["Rallypoint creation failure, enemies are within %1m!",TAS_rallyDistance]};
 
 if (TAS_rallyEchoUsed == false) then { "rallypointEchoMarker" setMarkerAlpha 1; };  //first time rally is created, set its marker to visible
 if (TAS_rallyEchoUsed == true) then { {deleteVehicle _x} forEach TAS_rallypointEcho; TAS_rallypointEchoRespawn call BIS_fnc_removeRespawnPosition;}; //if rallypoint already exists, delete it so the new one can be spawned
-TAS_rallypointEchoRespawn = [side player, getPos player, "Echo Rallypoint"] call BIS_fnc_addRespawnPosition;
+TAS_rallypointEchoRespawn = [side player, getPos player, "Echo Rallypoint"] call BIS_fnc_addRespawnPosition; //not private so we can delete later
+"rallypointEchoMarker" setMarkerPos getPos player; //updates the rallypoint's position on map
 
 if (TAS_useSmallRally == false) then {
-	TAS_rallypointEcho = [getPos player, getDir player, call (compile (preprocessFileLineNumbers "buildfob\rallypointComposition.sqf"))] call BIS_fnc_ObjectsMapper;
+	TAS_rallypointEcho = [getPos player, getDir player, call (compile (preprocessFileLineNumbers "buildfob\rallypointComposition.sqf"))] call BIS_fnc_ObjectsMapper; //not private so we can delete later
 } else {
 	TAS_rallypointEcho = [getPos player, getDir player, call (compile (preprocessFileLineNumbers "buildfob\rallypointSmallComposition.sqf"))] call BIS_fnc_ObjectsMapper;
 }; //spawn the rallypoint composition, size depends on mission params in initServer
 
-"rallypointEchoMarker" setMarkerPos getPos player; //updates the rallypoint's position on map
-[player, format ["Group rallypoint established by %1 at gridref %2.", name player, mapGridPosition player]] remoteExec ["groupChat", group player];
+[player, format ["Echo rallypoint established by %1 at gridref %2.", name player, mapGridPosition player]] remoteExec ["sideChat", _playerSide]; //tell everyone on same side about it
 
 TAS_rallyEchoUsed = true; //tell game that the squad's rally is used and so it must be deleted before being respawned
-publicVariable "TAS_rallyEchoUsed"; //might be unneccessary
+publicVariable "TAS_rallyEchoUsed"; //might be unneccessary since only 1 person can be SL so don't need public, just exist on SL's machine
+										//might also need TAS_rallypointEchoRespawn and TAS_rallypointEcho to be public for functionality in case SL disconnects and is replaced
+											//for now, keep local to current SL machine since it's an edge case and would use up much bandwidth to publicVariable
