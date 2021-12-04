@@ -7,7 +7,8 @@
 
 //diary entry and fail message in initPlayerLocal
 
-//if !(isServer) exitWith {};
+//if (isServer) exitWith {}; //server doesnt need to run it, sometimes it won't have the "-2" in remoteExecCall because that breaks non-dedi testing
+
 private _headlessClients = entities "HeadlessClient_F";
 private _humanPlayers = allPlayers - _headlessClients;
 
