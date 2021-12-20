@@ -11,11 +11,8 @@ private _playerClass = vehicleVarName player;
 //dynamic groups code
 ["InitializePlayer", [player, true]] call BIS_fnc_dynamicGroups; // Initializes the player/client side Dynamic Groups framework and registers the player group
 
-//disableStamina
-if (local player) then {
-  player enableFatigue false;
-  player addMPEventhandler ["MPRespawn", {player enableFatigue false}]; 
-};
+//disableStamina, simple way since the more complicated way with addMPEventhandler bugged out recently. Must be here and in onPlayerRespawn
+player enableFatigue false;
 
 //Add TAS Afk Script
 if (TAS_afkEnabled) then {
