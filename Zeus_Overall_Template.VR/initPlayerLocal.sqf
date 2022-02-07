@@ -49,6 +49,17 @@ if (TAS_radiosEnabled) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Disabled."]];
 	//systemChat "TFAR automatic radio assignment disabled."
 };
+if (TAS_radioAdditionals) then {
+	private _standardRadioAssignment = [] spawn {
+		waitUntil {(call TFAR_fnc_haveSWRadio)}; //wait until have radio
+		[(call TFAR_fnc_activeSwRadio), 1] call TFAR_fnc_setAdditionalSwChannel; //set Channel 2 to additional (0-based index)
+		[(call TFAR_fnc_ActiveSWRadio), 2] call TFAR_fnc_setAdditionalSwStereo; //set additional channel to right ear only
+		[(call TFAR_fnc_ActiveSWRadio), 1] call TFAR_fnc_setSwStereo; //set main channel to left ear
+	};
+	player createDiaryRecord ["tasMissionTemplate", ["Radio Additional Channels Assignment", "Enabled. Your left ear is your main channel (capslock to transmit and by default is the squad-wide net), while your right ear is your additional channel (T to transmit, usually the fireteam net). Your Long Range radio remains unchanged."]];
+} else {
+	player createDiaryRecord ["tasMissionTemplate", ["Radio Additional Channels Assignment", "Disabled."]];
+};
 
 //ctab setup
 if (TAS_ctabEnabled) then {
@@ -60,6 +71,74 @@ if (TAS_ctabEnabled) then {
 } else {
 	//systemChat "cTab automatic item assignment disabled."
 	player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Disabled."]];
+};
+
+if (TAS_populateInventory) then {
+	//clear items (should remove everything in cargo of uniform/vest/backpack, wont remove radios and gps and etc)
+	removeAllItems player;
+	{player removeMagazine _x} forEach magazines player;
+	//for "_i" from 1 to 10 do { player addItem " " };
+
+	//basic medical
+	for "_i" from 1 to 16 do { player addItem "ACE_fieldDressing" };
+	for "_i" from 1 to 8 do { player addItem "ACE_morphine" };
+	for "_i" from 1 to 2 do { player addItem "ACE_epinephrine" };
+	for "_i" from 1 to 3 do { player addItem "ACE_tourniquet"};
+	for "_i" from 1 to 2 do { player addItem "ACE_bloodIV_500" };
+
+	//misc
+	for "_i" from 1 to 2 do { player addItem "ACE_CableTie" };
+	player addItem "ACE_Earplugs";
+	player addItem "ACE_EntrenchingTool";
+	//player linkItem "ItemGPS";
+	//player linkItem "ItemMap";
+	//player linkItem "ItemWatch";
+	//player linkItem "ItemCompass";
+	//player linkItem "TFAR_anprc152";
+	
+	//grenades
+	for "_i" from 1 to 2 do { player addItem "HandGrenade" }; //vanilla m67, v40 is MiniGrenade
+	for "_i" from 1 to 2 do { player addItem "SmokeShell" }; //white smoke
+	for "_i" from 1 to 1 do { player addItem "SmokeShellPurple" }; //purple smoke
+
+	//ammo
+	for "_i" from 1 to 8 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
+	//for "_i" from 1 to 4 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 1) }; //special ammo, usually but not always tracers. Buggy so just double the amount of standard mags
+	for "_i" from 1 to 1 do { player addItem ([handgunWeapon player] call CBA_fnc_compatibleMagazines select 0) };
+	if (secondaryWeapon player != "") then {
+		for "_i" from 1 to 2 do { player addItem ([secondaryWeapon player] call CBA_fnc_compatibleMagazines select 0) }; //add launcher ammo if player has launcher
+	};
+
+	//medic special stuff
+	//https://github.com/acemod/ACE3/blob/master/addons/medical_treatment/functions/fnc_isMedic.sqf
+	private _bisMedic = player getUnitTrait "Medic";
+	private _aceMedic = [player,1] call ace_medical_treatment_fnc_isMedic;
+	private _aceDoctor = [player,2] call ace_medical_treatment_fnc_isMedic;
+	if ( _bisMedic == true || _aceMedic == true || _aceDoctor == true ) then {
+		for "_i" from 1 to 40 do { player addItem "ACE_fieldDressing" };
+		for "_i" from 1 to 20 do { player addItem "ACE_morphine" };
+		for "_i" from 1 to 15 do { player addItem "ACE_epinephrine" };
+		for "_i" from 1 to 6 do { player addItem "ACE_tourniquet"};
+		for "_i" from 1 to 10 do { player addItem "ACE_bloodIV_500" };
+		for "_i" from 1 to 6 do { player addItem "ACE_bloodIV" };
+		player addItem "ACE_personalAidKit";
+		//player addItem "ACE_surgicalKit";
+	};
+
+	//https://github.com/acemod/ACE3/blob/e4be783f80db5730ad5c351d611206a245b35a0f/addons/repair/functions/fnc_isEngineer.sqf
+	//engineer gaming
+	private _bisEngineer = player getUnitTrait "engineer";
+	private _bisEOD = player getUnitTrait "explosiveSpecialist";
+	private _aceEngineer = [player, 1] call ace_repair_fnc_isEngineer;
+	if ( _bisEngineer == true || _bisEOD == true || _aceEngineer == true ) then {
+		player addItem "ToolKit";
+		player addItem "MineDetector";
+		player addItem "ACE_DefusalKit";
+	};
+
+	player createDiaryRecord ["tasMissionTemplate", ["Inventory Population", "Enabled. You have been given basic medical, grenade, ammo, and loadout-specific supplies."]];
+} else {
+	player createDiaryRecord ["tasMissionTemplate", ["Inventory Population", "Disabled"]];
 };
 
 if (TAS_bftEnabled) then {
