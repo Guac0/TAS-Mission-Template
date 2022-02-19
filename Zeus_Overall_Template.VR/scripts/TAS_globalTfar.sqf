@@ -2,39 +2,71 @@
 //sets all players' short range radios' to alternate channel for zeus to broadcast on
 //call it a second time to undo the changes
 //defined as a script in initPlayerLocal.sqf
-//example: remoteExecCall ["TAS_fnc_globalTfar", -2]; // Executed everywhere except on the server.
+//example: remoteExecCall ["TAS_fnc_globalTfar", 2]; //Executed only on the server
 //rewrite as remoteExec here?
 
 //diary entry and fail message in initPlayerLocal
 
-//if (isServer) exitWith {}; //server doesnt need to run it, sometimes it won't have the "-2" in remoteExecCall because that breaks non-dedi testing
+if !(isServer) exitWith { diag_log format ["Exiting TAS_fnc_globalTFAR: only server can run this function!"]; }; //only server should run this due to remoteExecs
 
 private _headlessClients = entities "HeadlessClient_F";
 private _humanPlayers = allPlayers - _headlessClients;
 
-//setup variable if not previously made
-private _playerRadioIsGlobal = player getVariable ["playerRadioGlobal", false];
+//setup variable if not previously made. Default to false
+private _playerRadiosAreGlobal = missionNamespace getVariable ["playersRadioGlobal", false];
+diag_log format ["Running TAS_globalTfar on server. Current playersRadioGlobal value: %1",_playerRadiosAreGlobal];
 
+if (_playerRadiosAreGlobal == false) then { //if player has not had radio set to global most recently then cache current additional data and set additional to global
+	
+	[[],{
+		private _activeSwRadio = call TFAR_fnc_ActiveSwRadio;
+		private _originalAdditionalChannel = _activeSwRadio call TFAR_fnc_getAdditionalSwChannel;
+		private _originalAdditionalStereo = _activeSwRadio call TFAR_fnc_getAdditionalSwStereo;
+		player setVariable ["originalAdditionalChannel", _originalAdditionalChannel];
+		player setVariable ["originalAdditionalStereo", _originalAdditionalStereo];
+		[_activeSwRadio, 8, "87"] call TFAR_fnc_SetChannelFrequency; //these two lines determine global channel and frequency, freq is the max freq LRs can go to
+		[_activeSwRadio, 7] call TFAR_fnc_setAdditionalSwChannel; //lower by 1 cause internally this fnc is zero-based
+		[_activeSwRadio, 0] call TFAR_fnc_setAdditionalSwStereo;
+		player setVariable ["playersRadioGlobal", true];
+		
+		diag_log format ["TAS_fnc_globalTFAR applied successfully."];
+	}] remoteExec ["spawn",_humanPlayers];
 
-if ( _playerRadioIsGlobal == false) then { //if player has not had radio set to global most recently then cache current additional data and set additional to global
-	private _activeSwRadio = call TFAR_fnc_ActiveSwRadio;
-	private _originalAdditionalChannel = _activeSwRadio call TFAR_fnc_getAdditionalSwChannel;
-	private _originalAdditionalStereo = _activeSwRadio call TFAR_fnc_getAdditionalSwStereo;
-	player setVariable ["originalAdditionalChannel", _originalAdditionalChannel];
-	player setVariable ["originalAdditionalStereo", _originalAdditionalStereo];
-	[_activeSwRadio, 8, "87"] call TFAR_fnc_SetChannelFrequency; //these two lines determine global channel and frequency, freq is the max freq LRs can go to
-	[_activeSwRadio, 7] call TFAR_fnc_setAdditionalSwChannel; //lower by 1 cause internally this fnc is zero-based
-	[_activeSwRadio, 0] call TFAR_fnc_setAdditionalSwStereo;
-	player setVariable ["playerRadioGlobal", true];
-	//systemChat "TAS_fnc_globalTFAR applied successfully.";
 } else { //if radio is already global, then undo it back to the cached settings
-	private _activeSwRadio = call TFAR_fnc_ActiveSwRadio; //do this again because private var would be stuck in the then section
-	[_activeSwRadio, (player getVariable "originalAdditionalChannel")] call TFAR_fnc_setAdditionalSwChannel;
-	[_activeSwRadio, (player getVariable "originalAdditionalStereo")] call TFAR_fnc_setAdditionalSwStereo;
-	player setVariable ["playerRadioGlobal", false];
-	//systemChat "TAS_fnc_globalTFAR undone successfully.";
+	
+	[[],{
+		private _activeSwRadio = call TFAR_fnc_ActiveSwRadio; //do this again because private var would be stuck in the then section
+		[_activeSwRadio, (player getVariable "originalAdditionalChannel")] call TFAR_fnc_setAdditionalSwChannel;
+		[_activeSwRadio, (player getVariable "originalAdditionalStereo")] call TFAR_fnc_setAdditionalSwStereo;
+		player setVariable ["playersRadioGlobal", false];
+		
+		diag_log format ["TAS_fnc_globalTFAR undone successfully."];
+	}] remoteExec ["spawn",_humanPlayers];
+
 };
 
+
+
+/*
+if ( _playerRadiosAreGlobal == false) then { //if player has not had radio set to global most recently then cache current additional data and set additional to global
+			private _activeSwRadio = call TFAR_fnc_ActiveSwRadio;
+			private _originalAdditionalChannel = _activeSwRadio call TFAR_fnc_getAdditionalSwChannel;
+			private _originalAdditionalStereo = _activeSwRadio call TFAR_fnc_getAdditionalSwStereo;
+			player setVariable ["originalAdditionalChannel", _originalAdditionalChannel];
+			player setVariable ["originalAdditionalStereo", _originalAdditionalStereo];
+			[_activeSwRadio, 8, "87"] call TFAR_fnc_SetChannelFrequency; //these two lines determine global channel and frequency, freq is the max freq LRs can go to
+			[_activeSwRadio, 7] call TFAR_fnc_setAdditionalSwChannel; //lower by 1 cause internally this fnc is zero-based
+			[_activeSwRadio, 0] call TFAR_fnc_setAdditionalSwStereo;
+			player setVariable ["playersRadioGlobal", true];
+			//systemChat "TAS_fnc_globalTFAR applied successfully.";
+		} else { //if radio is already global, then undo it back to the cached settings
+			private _activeSwRadio = call TFAR_fnc_ActiveSwRadio; //do this again because private var would be stuck in the then section
+			[_activeSwRadio, (player getVariable "originalAdditionalChannel")] call TFAR_fnc_setAdditionalSwChannel;
+			[_activeSwRadio, (player getVariable "originalAdditionalStereo")] call TFAR_fnc_setAdditionalSwStereo;
+			player setVariable ["playersRadioGlobal", false];
+			//systemChat "TAS_fnc_globalTFAR undone successfully.";
+		};
+*/
 
 /*{
     {

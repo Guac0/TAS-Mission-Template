@@ -213,3 +213,20 @@ if (TAS_resupplyObjectEnabled) then {
 } else {
 	player createDiaryRecord ["tasMissionTemplate", ["Resupply Object Spawner", "Disabled."]];
 };
+
+//JIP compat for globalTFAR
+//if player has not had radio set to global most recently then cache current additional data and set additional to global
+private _playerRadiosAreGlobal = missionNamespace getVariable ["playersRadioGlobal", false];
+if (_playerRadiosAreGlobal == true) then {
+	private _activeSwRadio = call TFAR_fnc_ActiveSwRadio;
+	private _originalAdditionalChannel = _activeSwRadio call TFAR_fnc_getAdditionalSwChannel;
+	private _originalAdditionalStereo = _activeSwRadio call TFAR_fnc_getAdditionalSwStereo;
+	player setVariable ["originalAdditionalChannel", _originalAdditionalChannel];
+	player setVariable ["originalAdditionalStereo", _originalAdditionalStereo];
+	[_activeSwRadio, 8, "87"] call TFAR_fnc_SetChannelFrequency; //these two lines determine global channel and frequency, freq is the max freq LRs can go to
+	[_activeSwRadio, 7] call TFAR_fnc_setAdditionalSwChannel; //lower by 1 cause internally this fnc is zero-based
+	[_activeSwRadio, 0] call TFAR_fnc_setAdditionalSwStereo;
+	player setVariable ["playersRadioGlobal", true];
+	
+	diag_log format ["TAS_fnc_globalTFAR applied successfully during JIP."];
+};
