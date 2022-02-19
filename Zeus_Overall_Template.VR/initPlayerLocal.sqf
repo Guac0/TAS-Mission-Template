@@ -230,3 +230,12 @@ if (_playerRadiosAreGlobal == true) then {
 	
 	diag_log format ["TAS_fnc_globalTFAR applied successfully during JIP."];
 };
+
+
+//window break setup
+if (TAS_aceWindowBreak) then {
+	[] execVM "scripts\ifx_windowBreak.sqf";
+	player createDiaryRecord ["tasMissionTemplate", ["Ace Window Break by IndigoFox", "Enabled. Walk up to any window and you will see an ace interaction somewhere near it in order to break it."]];
+} else {
+	player createDiaryRecord ["tasMissionTemplate", ["Ace Window Break by IndigoFox", "Disabled."]];
+};

@@ -44,6 +44,11 @@ publicVariable "TAS_fpsDisplayEnabled";
 TAS_spawnUnitsOnHC = false; //default false
 publicVariable "TAS_spawnUnitsOnHC";
 
+//Script by IndigoFox that adds an ace interact to all windows which breaks them upon use.
+//Source: https://www.reddit.com/r/armadev/comments/sv72xa/let_your_players_break_windows_using_ace/?utm_source=share&utm_medium=ios_app&utm_name=iossmf
+TAS_aceWindowBreak = true; //default true
+publicVariable "TAS_aceWindowBreak";
+
 
 
 //////////////////////////////////
