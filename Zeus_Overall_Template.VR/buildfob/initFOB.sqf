@@ -14,7 +14,7 @@ if (isNil "logistics_vehicle") then {
 player createDiaryRecord ["Diary", ["Rallypoint/FOB Script", "Allows all Squad Leaders to place down a rallypoint via a self ace interaction that contains a tent and a respawn position. Rallypoints cannot be placed within 150m of enemies. Depending on mission settings, a small emergency resupply crate will also be included at the rallypoint. Members of the Command team (plus the Alpha squad leader as a fallback) will be able to place down a fairly-sized FOB via an ace interaction on the HEMTT (BOX) truck, and the FOB will include minor defensive structures, vehicle RRR boxes, and arsenals for players. The FOB can only be placed once and cannot be placed if enemies are within 300m, while rallypoints have no limit on their number of uses (although each new use will delete the squad's previous rallypoint)."]];
 
 // Vars for picking those who can place the fob
-private _FOB_builders = ["CMD_Actual","CMD_Engineer","CMD_JTAC","CMD_Medic","ALPHA_Actual"]; //var names of roles with access to fob building
+private _FOB_builders = ["Z1","Z2","Z3","CMD_Actual","CMD_Engineer","CMD_JTAC","CMD_Medic","ALPHA_Actual","BRAVO_Actual","CHARLIE_Actual","DELTA_Actual","ECHO_Actual","FOXTROT_Actual"]; //var names of roles with access to fob building
 									//Depending on mission, add more/less, such as the other members of the command element, a dedicated logi crew, or the alpha SL (if GC not used), or all SLs
 private _playerClass = vehicleVarName player;
 if (!isNil "logistics_vehicle") then { //check if the logistics_vehicle actually exists so we dont get errors
