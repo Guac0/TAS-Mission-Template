@@ -1,49 +1,24 @@
-////////////////////////////////////
-/////////Mission Maker Options//////
-////////////////////////////////////
+///////////////////////////////////////////
+////////////Mission Maker Options//////////
+///////////////////////////////////////////
+
+
+
+//////////////////////////////////
+/////Scripts/Functions Options////
+//////////////////////////////////
+
+
 
 //turn afk script on/off
 //Required mods: CBA
 TAS_afkEnabled = true; //set to false to disable AFK script from being added
 publicVariable "TAS_afkEnabled"; //don't touch any of the publicVariable lines
 
-//turn FOB on/off, if on needs some eden setup see documentation elsewhere. setup already done in the template if you dont break it
-//What this does is give every Squad Lead an ace self interact to establish a "Rallypoint" at their position (if no enemies are within the stated range)
-//Rallypoints are respawn positions for the players' side, and if using the large rally, also have a small ammobox
-//FOB system adds an action to every SL (and command engineer) to the "logistics_truck" vehicle to establish a small base with arsenals and a respawn position
-//If you want to disable rallypoints while keeping FOB or vice versa, set the distances from enemies to like 99999 or something absurdly high
-//Required Mods: ACE
-TAS_fobEnabled = false; //default false, set to false to disable FOB building and rallypoints
-TAS_fobFullArsenals = false; //default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
-TAS_fobDistance = 300; //default 300 meters, if enemies are within this range then FOB cannot be created
-TAS_useSmallRally = true; //default true, set to true if you want to use the small rallypoint without a supply crate
-TAS_rallyDistance = 150; //default 150 meters, if enemies are within this range then rallypoint cannot be created
-publicVariable "TAS_fobEnabled";
-publicVariable "TAS_fobFullArsenals";
-publicVariable "TAS_fobDistance";
-publicVariable "TAS_useSmallRally";
-publicVariable "TAS_rallyDistance";
-
 //turn TAS_globalTFAR on/off, if on then make sure you have a way to activate it (i recommend a trigger, see template)
 //Required Mods: TFAR
 TAS_globalTfarEnabled = true; //default true, no effect if you dont call it using the trigger or a script
 publicVariable "TAS_globalTfarEnabled";
-
-//tfar radio assignment init, for SL LR backpack assignment needs SLs to have the preset variable names for SLs(see template)
-//if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
-//Required Mods: TFAR
-TAS_radiosEnabled = true; //defaults to true
-TAS_radioPersonal = "TFAR_anprc152"; //defaults to the 152, used by indep but is standard issue in TAS
-TAS_radioBackpack = "TFAR_anprc155_coyote"; //defaults to 155 coyote ("TFAR_anprc155_coyote"), change to what you want. Leaving empty ("") will not assign a backpack radio (useful if you preconfigured unique radio loadouts in eden)
-publicVariable "TAS_radiosEnabled";
-publicVariable "TAS_radioPersonal";
-publicVariable "TAS_radioBackpack";
-
-//automatically assign appropriate ctab items, for SL rugged tablet assignment needs preset variable names for SLs (see template)
-//if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
-//Required Mods: CTAB
-TAS_ctabEnabled = false; //default false (since ctab isnt in scifi modpack)
-publicVariable "TAS_ctabEnabled";
 
 //Initiates Quicksilver's Blue Force Tracking on map/gps
 //Customize its settings in scripts/QS_icons if you want to
@@ -59,6 +34,64 @@ TAS_aceHealObjectEnabled = true; //defaults to true
 TAS_aceSpectateObjectEnabled = true; //defaults to true
 publicVariable "TAS_aceHealObjectEnabled";
 publicVariable "TAS_aceSpectateObjectEnabled";
+
+//Displays markers in the bottom left of the map that display the server's and HC's FPS and number of local groups/units
+//might be desirable to turn off if you don't want players to see
+TAS_fpsDisplayEnabled = true; //default true
+publicVariable "TAS_fpsDisplayEnabled";
+
+//Special logic in init.sqf for spawning AI directly on HCs. Advanced usage only and requires extensive setup. Do not touch unless Guac tells you to.
+TAS_spawnUnitsOnHC = false; //default false
+publicVariable "TAS_spawnUnitsOnHC";
+
+//Script by IndigoFox that adds an ace interact to all windows which breaks them upon use.
+//Source: https://www.reddit.com/r/armadev/comments/sv72xa/let_your_players_break_windows_using_ace/?utm_source=share&utm_medium=ios_app&utm_name=iossmf
+TAS_aceWindowBreak = true; //default true
+publicVariable "TAS_aceWindowBreak";
+
+
+
+//////////////////////////////////
+/////////Inventory Options////////
+//////////////////////////////////
+
+
+
+//tfar radio assignment init, for SL LR backpack assignment needs SLs to have the preset variable names for SLs(see template)
+//if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
+//Required Mods: TFAR
+TAS_radiosEnabled = true; //defaults to true
+TAS_radioPersonal = "TFAR_anprc152"; //defaults to the 152, used by indep but is standard issue in TAS
+TAS_radioBackpack = "TFAR_anprc155_coyote"; //defaults to 155 coyote ("TFAR_anprc155_coyote"), change to what you want. Leaving empty ("") will not assign a backpack radio (useful if you preconfigured unique radio loadouts in eden)
+TAS_radioAdditionals = false; //Sets channel 2 as an additional at game start. What frequency it is set is controlled by the tfar attributes of each character in eden.
+publicVariable "TAS_radiosEnabled";
+publicVariable "TAS_radioPersonal";
+publicVariable "TAS_radioBackpack";
+publicVariable "TAS_radioAdditionals";
+
+//automatically assign appropriate ctab items, for SL rugged tablet assignment needs preset variable names for SLs (see template)
+//if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
+//Required Mods: CTAB
+TAS_ctabEnabled = false; //default false (since ctab isnt in scifi modpack)
+publicVariable "TAS_ctabEnabled";
+
+//Automatically gives appropriate inventory items to players, loosely based on class. Clears eden inventory (but doesnt change clothing or weapons)
+//Medical: 16x basic bandages, 8x morphine, 3x TQs, 2x epi, 2x 500ml blood
+	//If medic, extra 40 basic bandages, 20 morphine, 15 epi, 6 TQs, 10x 500 ml blood, 6x 1000ml blood, 1x PAK
+//Ammo: 4x standard primary mags, 4x special mags, 2x pistol mags (if have pistol), 2x launcher mags (if have launcher)
+//Misc: 1x entrenching tool
+//Grenades: 2x M67s, 2x white smoke, 1x purple smoke
+//If engineer, gives 1x toolkit, 1x mine detector
+TAS_populateInventory = true; //default true
+publicVariable "TAS_populateInventory";
+
+
+
+//////////////////////////////////
+//Respawns and Logistics Options//
+//////////////////////////////////
+
+
 
 //This script adds a custom system for respawning in a forward logistics vehicle
 //Requires a vehicle named "logistics_vehicle" in your mission (recommend that it is also invincible)
@@ -84,22 +117,44 @@ TAS_respawnArsenalGear = true; //default true
 publicVariable "TAS_respawnDeathGear";
 publicVariable "TAS_respawnArsenalGear";
 
-//Displays markers in the bottom left of the map that display the server's and HC's FPS and number of local groups/units
-//might be desirable to turn off if you don't want players to see
-TAS_fpsDisplayEnabled = true; //default true
-publicVariable "TAS_fpsDisplayEnabled";
-
 //Adds an "Create Resupply Box" action to a whiteboard that spawns the zeus resupply box on the jump target object.
 //Useful for allowing players to run logi without zeus intervention to create resupply box.
 //Needs the "Create Resupply Box" whiteboard and "Resupply Spawn Helper" parachute jump target from mission.sqm to work
 TAS_resupplyObjectEnabled = true; //default true
 publicVariable "TAS_resupplyObjectEnabled";
 
+//turn FOB on/off, if on needs some eden setup see documentation elsewhere. setup already done in the template if you dont break it
+//What this does is give every Squad Lead an ace self interact to establish a "Rallypoint" at their position (if no enemies are within the stated range)
+//Rallypoints are respawn positions for the players' side, and if using the large rally, also have a small ammobox
+//FOB system adds an action to every SL (and command engineer) to the "logistics_truck" vehicle to establish a small base with arsenals and a respawn position
+//If you want to disable rallypoints while keeping FOB or vice versa, set the distances from enemies to like 99999 or something absurdly high
+//Required Mods: ACE
+TAS_fobEnabled = false; //default false, set to false to disable FOB building and rallypoints
+TAS_fobFullArsenals = false; //default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
+TAS_fobDistance = 300; //default 300 meters, if enemies are within this range then FOB cannot be created
+TAS_useSmallRally = true; //default true, set to true if you want to use the small rallypoint without a supply crate
+TAS_rallyDistance = 150; //default 150 meters, if enemies are within this range then rallypoint cannot be created
+publicVariable "TAS_fobEnabled";
+publicVariable "TAS_fobFullArsenals";
+publicVariable "TAS_fobDistance";
+publicVariable "TAS_useSmallRally";
+publicVariable "TAS_rallyDistance";
+
+
+
 //to add a custom fortify preset, go to description.ext and follow the instructions there
 
-/////////////////////////////////////
-/////////initServer.sqf Code/////////
-/////////////////////////////////////
+
+
+
+
+///////////////////////////////////////////
+//////initServer.sqf Code, don't touch/////
+///////////////////////////////////////////
+
+
+
+
 
 //dynamic groups code
 ["Initialize", [true]] call BIS_fnc_dynamicGroups; // Initializes the Dynamic Groups framework and groups led by a player at mission start will be registered

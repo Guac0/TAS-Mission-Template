@@ -27,4 +27,5 @@ if (TAS_respawnInVehicle) then {
 	//systemChat "respawn in vehicle disabled";
 };
 
-//stamina on respawn is covered in initPlayerLocal
+//disable vanilla stamina on respawn
+player enableFatigue false;
