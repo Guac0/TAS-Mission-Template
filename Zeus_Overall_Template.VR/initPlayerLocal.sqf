@@ -4,9 +4,19 @@ sleep 1; //wait for mission start (server init will happen in map screen)
 //setup diary subject
 player createDiarySubject ["tasMissionTemplate","Mission Template","media\logo256x256.paa"];
 
-//setup variable names of leadership positions for loadout assignment
-private _leadership = ["Z1","Z2","Z3","CMD_Actual","CMD_JTAC","AIR_1_Actual","AIR_2_Actual","GROUND_1_Actual","GROUND_2_Actual","ALPHA_Actual","BRAVO_Actual","CHARLIE_Actual","DELTA_Actual","ECHO_Actual","FOXTROT_Actual"];
+//setup leadership trait for later usage
+private _leadershipVariableNames = ["Z1","Z2","Z3","CMD_Actual","CMD_JTAC","AIR_1_Actual","AIR_2_Actual","GROUND_1_Actual","GROUND_2_Actual","ALPHA_Actual","BRAVO_Actual","CHARLIE_Actual","DELTA_Actual","ECHO_Actual","FOXTROT_Actual"];
+private _leadershipRoleDescriptions = ["Zeus","Ground Command","Officer","JTAC","TACP","Pilot","Commander","Squad Leader","Radioman"]; //Case sensitive (so don't worry about copilot showing up). Team leader is explicitly not on this due to it might be being used for fireteam stuff under the SL
 private _playerClass = vehicleVarName player;
+private _roleDescription = roleDescription player;
+{
+	if (_x in _roleDescription) then {
+		player setVariable ["TAS_PlayerisLeadership",true];
+	};
+} forEach _leadershipRoleDescriptions;
+if (_playerClass in _leadershipVariableNames) then {
+	player setVariable ["TAS_PlayerisLeadership",true];
+};
 
 //dynamic groups code
 ["InitializePlayer", [player, true]] call BIS_fnc_dynamicGroups; // Initializes the player/client side Dynamic Groups framework and registers the player group
@@ -42,7 +52,7 @@ if (TAS_globalTfarEnabled) then {
 //radio setup
 if (TAS_radiosEnabled) then {
 	player linkItem TAS_radioPersonal;
-	if (_playerClass in _leadership) then {player addBackpack TAS_radioBackpack;};
+	if (player getVariable ["TAS_PlayerIsLeadership",false]) then {player addBackpack TAS_radioBackpack;};
 	player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Enabled. It may take a second for Teamspeak to initialize your radios. If your radio freq shows up as blank, do not panic as this happens when it is set via script. All SRs are set on squad freq and LRs on 50."]];
 	//systemChat "Radio loadout init finished. It may take a second for Teamspeak to initialize your radio fully.";
 } else {
@@ -65,7 +75,7 @@ if (TAS_radioAdditionals) then {
 if (TAS_ctabEnabled) then {
 	player addItem "ItemcTabHCam"; //give all players a helmetcam, will auto delete hcam if inventory is full
 	player linkItem "itemAndroid"; //give everyone an android in their gps slot, will be overwriten if they are leadership
-	if (_playerClass in _leadership) then {player linkItem "itemcTab"; player addItem "itemAndroid";}; //give leadership an android in their inventories and a tablet in their gps slot (will delete existing item), will auto delete android if inventory is full
+	if (player getVariable ["TAS_PlayerIsLeadership",false]) then {player linkItem "itemcTab"; player addItem "itemAndroid";}; //give leadership an android in their inventories and a tablet in their gps slot (will delete existing item), will auto delete android if inventory is full
 	//systemChat "cTab loadout init finished.";
 	player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Enabled. All units have recieved an Android and helmet cam, while leadership have also recieved a rugged tablet."]];
 } else {
