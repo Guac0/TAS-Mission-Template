@@ -19,10 +19,20 @@ if (_playerClass in _leadershipVariableNames) then {
 };
 
 //dynamic groups code
-["InitializePlayer", [player, true]] call BIS_fnc_dynamicGroups; // Initializes the player/client side Dynamic Groups framework and registers the player group
+if (TAS_dynamicGroupsEnabled) then {
+	["InitializePlayer", [player, true]] call BIS_fnc_dynamicGroups; // Initializes the player/client side Dynamic Groups framework and registers the player group
+	player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Enabled."]];
+} else {
+	player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Disabled."]];
+};
 
 //disableStamina, simple way since the more complicated way with addMPEventhandler bugged out recently. Must be here and in onPlayerRespawn
-player enableFatigue false;
+if (TAS_vanillaStaminaDisabled) then {
+	player enableFatigue false;
+	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Disabled."]];
+} else {
+	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Enabled."]];
+}
 
 //Add TAS Afk Script
 if (TAS_afkEnabled) then {

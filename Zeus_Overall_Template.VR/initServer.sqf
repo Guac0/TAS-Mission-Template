@@ -20,6 +20,10 @@ publicVariable "TAS_afkEnabled"; //don't touch any of the publicVariable lines
 TAS_globalTfarEnabled = true; //default true, no effect if you dont call it using the trigger or a script
 publicVariable "TAS_globalTfarEnabled";
 
+//Enables the Dynamic Groups system.
+TAS_dynamicGroupsEnabled = true; //default true
+publicVariable "TAS_dynamicGroupsEnabled";
+
 //Initiates Quicksilver's Blue Force Tracking on map/gps
 //Customize its settings in scripts/QS_icons if you want to
 TAS_bftEnabled = true; //default true
@@ -56,6 +60,10 @@ publicVariable "TAS_aceWindowBreak";
 //////////////////////////////////
 
 
+
+//Disables vanilla stamina at mission start and on player respawn.
+TAS_vanillaStaminaDisabled = true; //defaults to true
+publicVariable "TAS_vanillaStaminaDisabled";
 
 //tfar radio assignment init, for SL LR backpack assignment needs SLs to have the preset variable names for SLs(see template)
 //if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
