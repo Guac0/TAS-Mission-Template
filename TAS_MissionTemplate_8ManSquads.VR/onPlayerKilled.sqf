@@ -1,0 +1,1 @@
+player setVariable ["deathLoadout",getUnitLoadout player]; //Save dead player's loadout
