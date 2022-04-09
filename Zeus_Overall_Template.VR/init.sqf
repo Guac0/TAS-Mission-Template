@@ -1,7 +1,12 @@
 
 sleep 1; //wait for mission start (so we can recieve the vars from initServer.sqf)
 
-//everything below this is for HCs only
+
+
+//////////////////////////////////////////////////////////////////
+/////ALL CODE BELOW WILL ONLY BE EXECUTED ON HEADLESS CLIENTS/////
+//////////////////////////////////////////////////////////////////
+
 if (isDedicated || hasInterface) exitWith {};
 
 diag_log format ["Init.sqf: Client has survived beheading."];
