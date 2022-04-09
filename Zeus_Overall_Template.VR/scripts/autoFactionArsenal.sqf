@@ -1,47 +1,74 @@
-//execute this with the following. Replace CIV_F with the faction you want to grab gear from (get classname of faction from config viewer)
-//"CIV_F" execVM "autoArsenalFaction.sqf";
+//execute this with the following. Replace CIV_F with the faction(s) you want to grab gear from (get classname of faction from config viewer)
+//["CIV_F"] execVM "scripts\autoFactionArsenal.sqf"; //only grab the gear from one faction
+//["BLU_F","IND_F","IND_G_F","OPF_F","CIV_F"] execVM "scripts\autoFactionArsenal.sqf"; //grabs gear from the 5 main vanilla factions
 
-//get faction classname from passed argument
-private _faction = _this;
+//get the array of factions
+private _factionList = _this;
 
-//get the list of classnames of all the units of given faction
-//single quotes are becuase of outside large quotes
-private _MyUnitArray = ("(configname _x iskindOf 'CAManBase') && (getNumber (_x >> 'scope') >= 2) && (gettext (_x >> 'faction') == _faction)" configClasses (configfile >> "CfgVehicles")) apply {configName _x};
-_MyUnitArray = _MyUnitArray arrayIntersect _MyUnitArray; //remove duplicated items
+//setup our array of stuff to export
+private _allExportItems = [];
 
-//spawn a fake group for createUnit. east works, civ doesnt
-private _group = createGroup [east, true];
-
-//spawn all the units at origin and add them to our array to check later
-//double check that they all survive long enough to get copied
-private _allCreatedUnits = [];
+//do the whole equipment grabbing for each given faction
 {
-	private _createdUnit = _group createUnit [_x,[0,0,0],[],0,"CAN_COLLIDE"];
-	_createdUnit disableAI "ALL";
-	_allCreatedUnits pushBackUnique _createdUnit;
-} forEach _myUnitArray;
+	//get faction classname from passed argument
+	private _faction = _x;
 
-private _allFactionUnitsItems = [];
-{
-	private _tempWeapons = weapons _x;
+		systemChat str _faction;
+	systemChat str _factionList;
+
+	//get the list of classnames of all the units of given faction
+	//single quotes are becuase of outside large quotes
+	private _MyUnitArray = ("(configname _x iskindOf 'CAManBase') && (getNumber (_x >> 'scope') >= 2) && (gettext (_x >> 'faction') == _faction)" configClasses (configfile >> "CfgVehicles")) apply {configName _x};
+	_MyUnitArray = _MyUnitArray arrayIntersect _MyUnitArray; //remove duplicated items
+
+	//spawn a fake group for createUnit. east works, civ doesnt
+	private _group = createGroup [east, true];
+
+	//spawn all the units at origin and add them to our array to check later
+	//double check that they all survive long enough to get copied
+	private _allCreatedUnits = [];
 	{
-		//if ( "(configname _x iskindOf 'CAManBase') && (getNumber (_x >> 'scope') >= 2) && (gettext (_x >> 'faction') == _faction)" configClasses (configfile >> "CfgVehicles") ) then {
-		//	LinkedItems
-		//	inheritsFrom _x;
-		//};
-		private _mags = [_x,true] call CBA_fnc_compatibleMagazines;
-		_allFactionUnitsItems = _allFactionUnitsItems + _mags; 
-	} forEach _tempWeapons;
-	_allFactionUnitsItems = _allFactionUnitsItems + [(headgear _x)] + [(goggles _x)] + (assignedItems _x) + (backpackitems _x)+ [(backpack _x)] + (uniformItems _x) + [(uniform _x)] + (vestItems _x) + [(vest _x)] + (magazines _x) + (weapons _x) + (primaryWeaponItems _x)+ (primaryWeaponMagazine _x) + (handgunMagazine _x) + (handgunItems _x) + (secondaryWeaponItems _x) + (secondaryWeaponMagazine _x)
-} forEach _allCreatedUnits;
-//_allFactionUnitsItems = _allFactionUnitsItems select {count _x > 0}; //remove any empty indexes. Might be unneccessary? */
-_allFactionUnitsItems = _allFactionUnitsItems arrayIntersect _allFactionUnitsItems; //remove duplicated items
+		private _createdUnit = _group createUnit [_x,[0,0,0],[],0,"CAN_COLLIDE"];
+		_createdUnit disableAI "ALL";
+		_allCreatedUnits pushBackUnique _createdUnit;
+	} forEach _myUnitArray;
 
-//add misc inventory items like bandages. By default, only has whatever's in the misc category with ACE + vanilla loaded
+	private _allFactionUnitsItems = [];
+	{
+		private _tempWeapons = weapons _x;
+		{
+			//if ( "(configname _x iskindOf 'CAManBase') && (getNumber (_x >> 'scope') >= 2) && (gettext (_x >> 'faction') == _faction)" configClasses (configfile >> "CfgVehicles") ) then {
+			//	LinkedItems
+			//	inheritsFrom _x;
+			//};
+			private _mags = [_x,true] call CBA_fnc_compatibleMagazines;
+			_allFactionUnitsItems = _allFactionUnitsItems + _mags; 
+		} forEach _tempWeapons;
+		_allFactionUnitsItems = _allFactionUnitsItems + [(headgear _x)] + [(goggles _x)] + (assignedItems _x) + (backpackitems _x)+ [(backpack _x)] + (uniformItems _x) + [(uniform _x)] + (vestItems _x) + [(vest _x)] + (magazines _x) + (weapons _x) + (primaryWeaponItems _x)+ (primaryWeaponMagazine _x) + (handgunMagazine _x) + (handgunItems _x) + (secondaryWeaponItems _x) + (secondaryWeaponMagazine _x)
+	} forEach _allCreatedUnits;
+	//_allFactionUnitsItems = _allFactionUnitsItems select {count _x > 0}; //remove any empty indexes. Might be unneccessary? */
+	_allFactionUnitsItems = _allFactionUnitsItems arrayIntersect _allFactionUnitsItems; //remove duplicated items
+
+	//add the given faction's gear to the export list
+	_allExportItems = _allExportItems + _allFactionUnitsItems;
+	_allExportItems = _allExportItems arrayIntersect _allExportItems; //remove duplicated items
+
+	//clean up after ourselves
+	{ deleteVehicle _x } forEach _allCreatedUnits;
+} forEach _factionList;
+
+//misc inventory items like bandages. By default, only has whatever's in the misc category with ACE + vanilla loaded
 //private _allInventoryItems = [];
 //_allInventoryItems = "configname _x iskindOf 'InventoryItem_Base_F'" configClasses (configfile >> "CfgWeapons") apply {configName _x};
 private _allMiscItems = ["ACE_RangeTable_82mm","ACE_adenosine","ACE_artilleryTable","ACE_ATragMX","ACE_Banana","ACE_fieldDressing","ACE_packingBandage","ACE_quikclot","ACE_bloodIV","ACE_bloodIV_250","ACE_bloodIV_500","ACE_bodyBag","ACE_CableTie","ACE_Can_Franta","ACE_Can_RedGull","ACE_Can_Spirit","ACE_Canteen","ACE_Canteen_Empty","ACE_Canteen_Half","ACE_Chemlight_Shield","ACE_DAGR","ACE_DeadManSwitch","ACE_DefusalKit","ACE_EntrenchingTool","ACE_epinephrine","FirstAidKit","ACE_Fortify","ACE_Humanitarian_Ration","ACE_HuntIR_monitor","ACE_IR_Strobe_Item","ACE_Kestrel4500","ACE_Flashlight_KSF1","ACE_M26_Clacker","ACE_Clacker","ACE_Flashlight_XL50","ACE_MapTools","Medikit","ACE_microDAGR","MineDetector","ACE_morphine","ACE_MRE_ChickenTikkaMasala","ACE_MRE_ChickenHerbDumplings","ACE_MRE_CreamChickenSoup","ACE_MRE_CreamTomatoSoup","ACE_MRE_LambCurry","ACE_MRE_MeatballsPasta","ACE_MRE_SteakVegetables","ACE_personalAidKit","ACE_plasmaIV","ACE_plasmaIV_500","ACE_RangeCard","ACE_rope12","ACE_rope15","ACE_rope27","ACE_rope3","ACE_rope36","ACE_rope6","ACE_salineIV","ACE_salineIV_250","ACE_salineIV_500","ACE_Sandbag_empty","ACE_SpareBarrel_Item","ACE_splint","ACE_SpottingScope","ACE_SpraypaintBlack","ACE_SpraypaintBlue","ACE_SpraypaintRed","ACE_Tripod","ACE_surgicalKit","ToolKit","ACE_UAVBattery","ACE_WaterBottle","ACE_WaterBottle_Empty","ACE_WaterBottle_Half","ACE_wirecutter","ACE_tourniquet","ACE_SpraypaintGreen","ACE_rope18","ACE_plasmaIV_250","ACE_MRE_BeefStew","ACE_Flashlight_MX991","ACE_EarPlugs","ACE_Cellphone","ACE_elasticBandage"];
-private _allItems = _allFactionUnitsItems + _allMiscItems;
+
+//personal and backpack radios. Only the ones in default tfar beta.
+private _allRadios = ["TFAR_anprc148jem","TFAR_anprc152","TFAR_anprc154","TFAR_fadak","TFAR_pnr1000a","ItemRadio","TFAR_rf7800str","TFAR_anarc164","TFAR_anarc210","TFAR_anprc155","TFAR_anprc155_coyote","TFAR_bussole","TFAR_mr3000","TFAR_mr3000_bwmod_tropen","TFAR_mr3000_multicam","TFAR_mr3000_rhs","TFAR_mr6000l","TFAR_mr3000_bwmod","B_RadioBag_01_black_F","B_RadioBag_01_digi_F","B_RadioBag_01_eaf_F","B_RadioBag_01_ghex_F","B_RadioBag_01_hex_F","B_RadioBag_01_tropic_F","B_RadioBag_01_oucamo_F","B_RadioBag_01_wdl_F","B_RadioBag_01_mtp_F","TFAR_rt1523g","TFAR_rt1523g_big","TFAR_rt1523g_big_bwmod","TFAR_rt1523g_big_bwmod_tropen","TFAR_rt1523g_black","TFAR_rt1523g_fabric","TFAR_rt1523g_green","TFAR_rt1523g_rhs","TFAR_rt1523g_sage","TFAR_rt1523g_bwmod","TFAR_rt1523g_big_rhs"];
+
+//all facewear. This needs to be adjusted for the current modpack. By default, has vanilla nad ace items.
+private _allFacewear = ["TFAR_anprc148jem","TFAR_anprc152","TFAR_anprc154","TFAR_fadak","TFAR_pnr1000a","ItemRadio","TFAR_rf7800str","G_AirPurifyingRespirator_02_olive_F","G_AirPurifyingRespirator_02_sand_F","G_AirPurifyingRespirator_01_F","G_Aviator","G_Balaclava_blk","G_Balaclava_combat","G_Balaclava_lowprofile","G_Balaclava_oli","G_Bandanna_aviator","G_Bandanna_beast","G_Bandanna_blk","G_Bandanna_khk","G_Bandanna_oli","G_Bandanna_shades","G_Bandanna_sport","G_Bandanna_tan","G_Blindfold_01_black_F","G_Blindfold_01_white_F","G_Combat","G_Combat_Goggles_tna_F","G_Diving","G_I_Diving","G_O_Diving","G_B_Diving","G_Lady_Blue","None","G_RegulatorMask_F","G_Respirator_blue_F","G_Respirator_white_F","G_Respirator_yellow_F","G_EyeProtectors_F","G_EyeProtectors_Earpiece_F","G_Shades_Black","G_Shades_Blue","G_Shades_Green","G_Shades_Red","G_Spectacles","G_Sport_Red","G_Sport_Blackyellow","G_Sport_BlackWhite","G_Sport_Checkered","G_Sport_Blackred","G_Sport_Greenblack","G_Squares_Tinted","G_Squares","G_Balaclava_TI_G_blk_F","G_Balaclava_TI_tna_F","G_Tactical_Clear","G_Tactical_Black","G_Spectacles_Tinted","G_Goggles_VR","G_WirelessEarpiece_F","G_Balaclava_TI_G_tna_F","G_Balaclava_TI_blk_F","G_Lowprofile","G_AirPurifyingRespirator_02_black_F"];
+
+private _allItems = _allExportItems + _allMiscItems + _allRadios + _allFacewear;
 _allItems = _allItems arrayIntersect _allItems; //remove common (duplicated) items
 
 //export
@@ -49,10 +76,7 @@ private _box = "B_supplyCrate_F" createVehicle (getPos player);
 [_box, _allItems] call ace_arsenal_fnc_initBox;
 [_box, player] call ace_arsenal_fnc_openBox;
 copyToClipboard str _allItems;
-systemChat format ["All inventory items of %1 copied to clipboard and example Ace arsenal opened!",_faction];
-
-//clean up after ourselves
-{ deleteVehicle _x } forEach _allCreatedUnits;
+systemChat format ["All inventory items of given faction(s) copied to clipboard and example Ace arsenal opened!"];
 
 //CFP USA DES 2003
 //["CUP_H_USArmy_HelmetMICH_DCU","","ItemMap","ItemCompass","ItemWatch","ItemRadio","CUP_NVG_PVS14_Hide","FirstAidKit","CUP_30Rnd_556x45_Stanag","CUP_U_B_BDUv2_gloves_DCU_US","CUP_V_B_Interceptor_Rifleman_M81","CUP_arifle_M4A1_CCO_Laser","CUP_acc_ANPEQ_2_Black_Top","CUP_optic_CompM2_low","CUP_100Rnd_TE4_LRT4_Red_Tracer_762x51_Belt_M","CUP_B_USPack_Coyote_AmmoMG","CUP_H_USArmy_HelmetMICH_ESS_DCU","CUP_B_USPack_Coyote","CUP_Javelin_M","CUP_B_USPack_Coyote_AT","CFP_BoonieHat_DCU","CFP_BDU_USDCU3","CUP_1Rnd_HEDP_M203","CFP_BDU_USDCU4","CUP_V_B_Interceptor_Grenadier_M81","CUP_arifle_M4A1_M203_Holo_Laser","CUP_acc_ANPEQ_2","CUP_optic_HoloBlack","CUP_NVG_PVS7_Hide","CUP_Vector21Nite","CUP_7Rnd_45ACP_1911","CUP_V_B_Interceptor_Base_M81","CUP_arifle_M4A1","CUP_hgun_Colt1911","CUP_15Rnd_9x19_M9","CUP_arifle_M4A1_ACOG_Laser","CUP_hgun_M9","CUP_optic_ACOG2","CUP_1Rnd_StarFlare_White_M203","CUP_1Rnd_StarFlare_Red_M203","CUP_1Rnd_StarFlare_Green_M203","CUP_1Rnd_Smoke_M203","CUP_1Rnd_SmokeRed_M203","CUP_1Rnd_SmokeGreen_M203","CUP_B_USPack_Coyote_TL","CUP_arifle_M4A1_M203_ACOG_Laser","CFP_BDU_USDCU2","CUP_arifle_M4A1_CCO_flashlight","CUP_launch_M136_Loaded","CUP_acc_Flashlight","CUP_M136_M","CUP_launch_MAAWS_Scope","CUP_optic_MAAWS_Scope","CUP_MAAWS_HEAT_M","CUP_launch_Javelin","CUP_launch_FIM92Stinger_Loaded","CUP_Stinger_M","CUP_B_AssaultPack_Coyote","CUP_200Rnd_TE4_Red_Tracer_556x45_M249","CUP_lmg_M249","CUP_lmg_M240_ElcanM143","CUP_optic_ElcanM145","ItemGPS","CUP_U_B_USArmy_Ghillie","V_HarnessO_gry","CUP_arifle_M4A1_M203_ANPAS13c1_Laser","CUP_optic_AN_PAS_13c1","CUP_20Rnd_762x51_B_M110","CUP_srifle_M110_ANPVS10","CUP_optic_AN_PVS_10","CUP_bipod_VLTOR_Modpod","CUP_srifle_M110_ANPAS13c2","CUP_optic_AN_PAS_13c2","CUP_10Rnd_127x99_M107","CUP_srifle_M107_Desert","20Rnd_762x51_Mag","CUP_srifle_M14","CUP_Mine_M","CUP_PipeBomb_M","CUP_B_USArmy_MinePack","CUP_arifle_M4A1_LeupoldMk4CQT_Laser","CUP_optic_LeupoldMk4_CQ_T","ToolKit","MineDetector","CUP_B_USArmy_EOD","CUP_B_USArmy_Engineer","CUP_H_USMC_Crew_Helmet","CUP_H_USMC_Helmet_Pilot","CUP_U_B_USArmy_PilotOverall","CUP_V_B_PilotVest","Binocular","CUP_12Rnd_45ACP_mk23","CFP_RAID_DCU1","CFP_V_Delta_3","CUP_arifle_M4A3_black","CUP_hgun_Mk23","CFP_B_USPack_OD","CUP_1Rnd_HE_M203","CUP_arifle_M4A1_BUIS_GL","CUP_srifle_M14_DMR","CUP_lmg_m249_pip3","ACE_RangeTable_82mm","ACE_adenosine","ACE_artilleryTable","ACE_ATragMX","ACE_Banana","ACE_fieldDressing","ACE_packingBandage","ACE_quikclot","ACE_bloodIV","ACE_bloodIV_250","ACE_bloodIV_500","ACE_bodyBag","ACE_CableTie","ACE_Can_Franta","ACE_Can_RedGull","ACE_Can_Spirit","ACE_Canteen","ACE_Canteen_Empty","ACE_Canteen_Half","ACE_Chemlight_Shield","ACE_DAGR","ACE_DeadManSwitch","ACE_DefusalKit","ACE_EntrenchingTool","ACE_epinephrine","ACE_Fortify","ACE_Humanitarian_Ration","ACE_HuntIR_monitor","ACE_IR_Strobe_Item","ACE_Kestrel4500","ACE_Flashlight_KSF1","ACE_M26_Clacker","ACE_Clacker","ACE_Flashlight_XL50","ACE_MapTools","Medikit","ACE_microDAGR","ACE_morphine","ACE_MRE_ChickenTikkaMasala","ACE_MRE_ChickenHerbDumplings","ACE_MRE_CreamChickenSoup","ACE_MRE_CreamTomatoSoup","ACE_MRE_LambCurry","ACE_MRE_MeatballsPasta","ACE_MRE_SteakVegetables","ACE_personalAidKit","ACE_plasmaIV","ACE_plasmaIV_500","ACE_RangeCard","ACE_rope12","ACE_rope15","ACE_rope27","ACE_rope3","ACE_rope36","ACE_rope6","ACE_salineIV","ACE_salineIV_250","ACE_salineIV_500","ACE_Sandbag_empty","ACE_SpareBarrel_Item","ACE_splint","ACE_SpottingScope","ACE_SpraypaintBlack","ACE_SpraypaintBlue","ACE_SpraypaintRed","ACE_Tripod","ACE_surgicalKit","ACE_UAVBattery","ACE_WaterBottle","ACE_WaterBottle_Empty","ACE_WaterBottle_Half","ACE_wirecutter","ACE_tourniquet","ACE_SpraypaintGreen","ACE_rope18","ACE_plasmaIV_250","ACE_MRE_BeefStew","ACE_Flashlight_MX991","ACE_EarPlugs","ACE_Cellphone","ACE_elasticBandage"]
