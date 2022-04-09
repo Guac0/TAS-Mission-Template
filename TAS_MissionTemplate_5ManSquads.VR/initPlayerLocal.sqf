@@ -32,7 +32,7 @@ if (TAS_vanillaStaminaDisabled) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Disabled."]];
 } else {
 	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Enabled."]];
-}
+};
 
 //Add TAS Afk Script
 if (TAS_afkEnabled) then {
