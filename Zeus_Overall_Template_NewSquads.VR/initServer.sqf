@@ -20,6 +20,10 @@ publicVariable "TAS_afkEnabled"; //don't touch any of the publicVariable lines
 TAS_globalTfarEnabled = true; //default true, no effect if you dont call it using the trigger or a script
 publicVariable "TAS_globalTfarEnabled";
 
+//Enables the Dynamic Groups system.
+TAS_dynamicGroupsEnabled = true; //default true
+publicVariable "TAS_dynamicGroupsEnabled";
+
 //Initiates Quicksilver's Blue Force Tracking on map/gps
 //Customize its settings in scripts/QS_icons if you want to
 TAS_bftEnabled = true; //default true
@@ -46,7 +50,7 @@ publicVariable "TAS_spawnUnitsOnHC";
 
 //Script by IndigoFox that adds an ace interact to all windows which breaks them upon use.
 //Source: https://www.reddit.com/r/armadev/comments/sv72xa/let_your_players_break_windows_using_ace/?utm_source=share&utm_medium=ios_app&utm_name=iossmf
-TAS_aceWindowBreak = true; //default true
+TAS_aceWindowBreak = false; //default false
 publicVariable "TAS_aceWindowBreak";
 
 
@@ -56,6 +60,10 @@ publicVariable "TAS_aceWindowBreak";
 //////////////////////////////////
 
 
+
+//Disables vanilla stamina at mission start and on player respawn.
+TAS_vanillaStaminaDisabled = true; //defaults to true
+publicVariable "TAS_vanillaStaminaDisabled";
 
 //tfar radio assignment init, for SL LR backpack assignment needs SLs to have the preset variable names for SLs(see template)
 //if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
@@ -152,9 +160,10 @@ publicVariable "TAS_rallyDistance";
 //////initServer.sqf Code, don't touch/////
 ///////////////////////////////////////////
 
-
-
-
+if ((isNil "logistics_vehicle") && TAS_respawnInVehicle) then {
+	systemchat "WARNING: TAS_respawnInVehicle requires that the logistics_vehicle to be present in your mission, but it does not exist! Expect errors!";
+	diag_log text "TAS-Mission-Template WARNING: TAS_respawnInVehicle requires that the logistics_vehicle to be present in your mission, but it does not exist! Expect errors!";
+};
 
 //dynamic groups code
 ["Initialize", [true]] call BIS_fnc_dynamicGroups; // Initializes the Dynamic Groups framework and groups led by a player at mission start will be registered
