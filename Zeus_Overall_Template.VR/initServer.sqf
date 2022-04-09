@@ -46,7 +46,7 @@ publicVariable "TAS_spawnUnitsOnHC";
 
 //Script by IndigoFox that adds an ace interact to all windows which breaks them upon use.
 //Source: https://www.reddit.com/r/armadev/comments/sv72xa/let_your_players_break_windows_using_ace/?utm_source=share&utm_medium=ios_app&utm_name=iossmf
-TAS_aceWindowBreak = true; //default true
+TAS_aceWindowBreak = false; //default false
 publicVariable "TAS_aceWindowBreak";
 
 
@@ -152,9 +152,10 @@ publicVariable "TAS_rallyDistance";
 //////initServer.sqf Code, don't touch/////
 ///////////////////////////////////////////
 
-
-
-
+if ((isNil "logistics_vehicle") && TAS_respawnInVehicle) then {
+	systemchat "WARNING: TAS_respawnInVehicle requires that the logistics_vehicle to be present in your mission, but it does not exist! Expect errors!";
+	diag_log text "TAS-Mission-Template WARNING: TAS_respawnInVehicle requires that the logistics_vehicle to be present in your mission, but it does not exist! Expect errors!";
+};
 
 //dynamic groups code
 ["Initialize", [true]] call BIS_fnc_dynamicGroups; // Initializes the Dynamic Groups framework and groups led by a player at mission start will be registered
