@@ -1,0 +1,12 @@
+::uses blufor 5 man template as source
+::update 5 man
+robocopy "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_5ManSquads_Blu.VR" "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_5ManSquads_Ind.VR" *.* /e /purge /xf mission.sqm
+robocopy "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_5ManSquads_Blu.VR" "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_5ManSquads_Red.VR" *.* /e /purge /xf mission.sqm
+::update 8 man
+robocopy "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_5ManSquads_Blu.VR" "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_8ManSquads_Blu.VR" *.* /e /purge /xf mission.sqm
+robocopy "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_5ManSquads_Blu.VR" "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_8ManSquads_Ind.VR" *.* /e /purge /xf mission.sqm
+robocopy "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_5ManSquads_Blu.VR" "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_8ManSquads_Red.VR" *.* /e /purge /xf mission.sqm
+::update 10 man
+robocopy "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_5ManSquads_Blu.VR" "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_10ManSquads_Blu.VR" *.* /e /purge /xf mission.sqm
+robocopy "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_5ManSquads_Blu.VR" "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_10ManSquads_Ind.VR" *.* /e /purge /xf mission.sqm
+robocopy "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_5ManSquads_Blu.VR" "C:\Users\andre\Documents\Arma 3 - Other Profiles\Guac\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_10ManSquads_Red.VR" *.* /e /purge /xf mission.sqm
