@@ -6,17 +6,42 @@ player createDiarySubject ["tasMissionTemplate","Mission Template","media\logo25
 
 //setup leadership trait for later usage
 private _leadershipVariableNames = ["Z1","Z2","Z3","CMD_Actual","CMD_JTAC","AIR_1_Actual","AIR_2_Actual","GROUND_1_Actual","GROUND_2_Actual","ALPHA_Actual","BRAVO_Actual","CHARLIE_Actual","DELTA_Actual","ECHO_Actual","FOXTROT_Actual"];
-private _leadershipRoleDescriptions = ["Zeus","Ground Command","Officer","JTAC","TACP","Pilot","Commander","Squad Leader","Radioman"]; //Case sensitive (so don't worry about copilot showing up). Team leader is explicitly not on this due to it might be being used for fireteam stuff under the SL
+private _leadershipRoleDescriptions = ["Zeus","Ground Command","Officer","JTAC","TACP","Pilot","Commander","Squad Leader","Radioman","RTO"]; //Case sensitive (so don't worry about copilot showing up). Team leader is explicitly not on this due to it might be being used for fireteam stuff under the SL
 private _playerClass = vehicleVarName player;
 private _roleDescription = roleDescription player;
-{
-	if (_x in _roleDescription) then {
-		player setVariable ["TAS_PlayerisLeadership",true];
-	};
-} forEach _leadershipRoleDescriptions;
+
+//leadership marking
+if (_roleDescription in _leadershipRoleDescriptions) then {
+	player setVariable ["TAS_PlayerisLeadership",true];
+};
 if (_playerClass in _leadershipVariableNames) then {
 	player setVariable ["TAS_PlayerisLeadership",true];
 };
+
+//radios marking
+if (TAS_NoSquadleadLr) then {
+	//remove SL things from the arrays in case zeus wants to use RTOs instead
+	_leadershipVariableNames = _leadershipVariableNames - ["ALPHA_Actual","BRAVO_Actual","CHARLIE_Actual","DELTA_Actual","ECHO_Actual","FOXTROT_Actual"];
+	_leadershipRoleDescriptions = _leadershipRoleDescriptions - ["Squad Leader"];
+
+	//mark unit as LR carrier for later assignment
+	if (playerClass in _leadershipVariableNames) then {
+		player setVariable ["TAS_PlayerHasLr",true];
+	};
+	{
+		if (_x in _roleDescription) then {
+			player setVariable ["TAS_PlayerHasLr",true];
+		};
+	} forEach _leadershipRoleDescriptions;
+
+} else {
+
+	if (player getVariable ["TAS_PlayerIsLeadership",false]) then {
+		player setVariable ["TAS_PlayerHasLr",true];
+	};
+
+};
+
 
 //dynamic groups code
 if (TAS_dynamicGroupsEnabled) then {
@@ -32,7 +57,7 @@ if (TAS_vanillaStaminaDisabled) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Disabled."]];
 } else {
 	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Enabled."]];
-}
+};
 
 //Add TAS Afk Script
 if (TAS_afkEnabled) then {
@@ -62,7 +87,11 @@ if (TAS_globalTfarEnabled) then {
 //radio setup
 if (TAS_radiosEnabled) then {
 	player linkItem TAS_radioPersonal;
-	if (player getVariable ["TAS_PlayerIsLeadership",false]) then {player addBackpack TAS_radioBackpack;};
+	if (player getVariable ["TAS_PlayerHasLr",false]) then {
+		player addBackpack TAS_radioBackpack;
+		//[(call TFAR_fnc_activeLrRadio), 1, "50"] call TFAR_fnc_SetChannelFrequency; //set 50 as active radio channel on channel 1
+		//[(call TFAR_fnc_activeLrRadio), 2, "55"] call TFAR_fnc_SetChannelFrequency; //set 55 (fire support) as radio channel two (not active and not additional)
+	};
 	player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Enabled. It may take a second for Teamspeak to initialize your radios. If your radio freq shows up as blank, do not panic as this happens when it is set via script. All SRs are set on squad freq and LRs on 50."]];
 	//systemChat "Radio loadout init finished. It may take a second for Teamspeak to initialize your radio fully.";
 } else {
