@@ -20,7 +20,18 @@ private _fobBuildersVarNames = ["Z1","Z2","Z3","CMD_Actual","CMD_Engineer","CMD_
 private _playerClass = vehicleVarName player;
 private _playerRoleDescription = roleDescription player;
 if (!isNil "logistics_vehicle") then { //check if the logistics_vehicle actually exists so we dont get errors
-	if (_playerRoleDescription in _fobBuildersRoleDescriptions || _playerClass in _fobBuildersVarNames) then {
+	{
+		if (_x in _playerRoleDescription) then {
+			player setVariable ["TAS_FobBuilder",true];
+		};
+	} forEach _fobBuildersRoleDescriptions;
+	{
+		if (_x in _playerClass) then {
+			player setVariable ["TAS_FobBuilder",true];
+		};
+	} forEach _fobBuildersVarNames;
+	
+	if (player getVariable ["TAS_FobBuilder",false]) then {
 		//FOB_Action = ["FOBAction","Place FOB (Can only be used once!!!)","",{[] execVM "buildfob\fobBuild.sqf";},{true}] call ace_interact_menu_fnc_createAction; //old action without progressbar */
 		FOB_Action = ["FOBAction","Place FOB (Can only be used once!!!)","",{[15,[],{[] execVM "buildfob\fobBuild.sqf";},{},"Establishing FOB..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction; //maybe make this a private var
 		[logistics_vehicle, 0, ["ACE_MainActions"], FOB_Action] call ace_interact_menu_fnc_addActionToObject; //note that action will only be accessible when outside the vehicle
@@ -30,7 +41,7 @@ if (!isNil "logistics_vehicle") then { //check if the logistics_vehicle actually
 
 //5 names to replace
 //all these "Rally_CMD_Action might be better as private variables
-if (vehicleVarName player == "CMD_Actual" || ("Commander" in _playerRoleDescription && "Command" in _playerRoleDescription)) then {
+if (vehicleVarName player == "CMD_Actual" || "Commander" in _playerRoleDescription || "Officer" in _playerRoleDescription || "GC" in _playerRoleDescription) then {
 	Rally_CMD_Action = ["rallyCMD","Place Squad Rallypoint","",{[3,[],{[] execVM "buildfob\cmdRallypoint.sqf";},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
 	[player, 1, ["ACE_SelfActions"], Rally_CMD_Action] call ace_interact_menu_fnc_addActionToObject;
 };
