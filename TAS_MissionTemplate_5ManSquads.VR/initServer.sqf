@@ -69,7 +69,7 @@ publicVariable "TAS_vanillaStaminaDisabled";
 //if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
 //Required Mods: TFAR
 TAS_radiosEnabled = true; //defaults to true
-TAS_NoSquadleadLr = false; //default false. Set to true if you want to use radiomen instead of SLs having the LR backpacks by default (radiomen must have "Radioman" or "RTO" as their role description to be given backpack)
+TAS_NoSquadleadLr = false; //default false. Set to true if you want to use radiomen instead of SLs having the LR backpacks by default (radiomen must have "Radioman" or "RTO" as their role description to be given the backpack)
 TAS_radioAdditionals = false; //default false. Sets channel 2 as an additional at game start. What frequency it is set is controlled by the tfar attributes of each character in eden.
 TAS_radioPersonal = "TFAR_anprc152"; //defaults to the "TFAR_anprc152", used by indep but is standard issue in TAS
 TAS_radioBackpack = "TFAR_anprc155_coyote"; //defaults to 155 coyote ("TFAR_anprc155_coyote"), change to what you want. Leaving empty ("") will not assign a backpack radio (useful if you preconfigured unique radio loadouts in eden)
