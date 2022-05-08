@@ -313,3 +313,11 @@ if (TAS_arsenalCurate) {
 		};
 	} forEach [arsenal_1,arsenal_2,arsenal_3,arsenal_4,arsenal_5,arsenal_6,arsenal_7,arsenal_8,arsenal_9,arsenal_10];
 };
+
+if (TAS_respawnInVehicle) then {
+	["TAS Mission Template", "Assign As Respawn Vehicle", {
+		private _respawnVehicle = _this select 1;
+		if (isNil _respawnVehicle) exitWith {systemChat "Place the module on a vehicle!"};
+		missionNamespace setVariable ["TAS_respawnVehicle",_respawnVehicle];
+	}] call zen_custom_modules_fnc_register;
+};
