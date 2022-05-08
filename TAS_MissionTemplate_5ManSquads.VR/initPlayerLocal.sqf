@@ -293,3 +293,23 @@ if (TAS_aceWindowBreak) then {
 } else {
 	player createDiaryRecord ["tasMissionTemplate", ["Ace Window Break by IndigoFox", "Disabled."]];
 };
+
+if (TAS_arsenalCurate) {
+	{
+		if (!isNil _x) then {
+			//RHS USAF Doomsday
+			if (isClass(configFile >> "CfgPatches" >> "rhsusf_weapons")) then { 
+				[_x, ["rhsusf_5Rnd_doomsday_Buck","rhsusf_8Rnd_doomsday_Buck"]] call ace_arsenal_fnc_removeVirtualItems;
+			};
+			//TAS Flashlights
+			if (isClass(configFile >> "CfgPatches" >> "TAS_BrightLite")) then { 
+				[_x, ["tas_acc_brightlite_sniper","tas_acc_brightlite_high","tas_acc_brightlite_low","tas_acc_brightlite_static","tas_acc_nightlite_sniper","tas_acc_nightlite_high","tas_acc_nightlite_low","tas_acc_nightlite_static"]] call ace_arsenal_fnc_removeVirtualItems;
+			};
+			//TAS Doomsday
+			if ((isClass(configFile >> "CfgPatches" >> "rhsusf_weapons")) && (isClass(configFile >> "CfgPatches" >> "TAS_Revolver"))) then { 
+				[_x, ["TAS_6Rnd_doomsday_Buck"]] call ace_arsenal_fnc_removeVirtualItems;
+			};
+			//[_x, []] call ace_arsenal_fnc_removeVirtualItems;
+		};
+	} forEach [arsenal_1,arsenal_2,arsenal_3,arsenal_4,arsenal_5,arsenal_6,arsenal_7,arsenal_8,arsenal_9,arsenal_10];
+};
