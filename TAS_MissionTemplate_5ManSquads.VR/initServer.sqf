@@ -162,9 +162,13 @@ publicVariable "TAS_rallyDistance";
 //////initServer.sqf Code, don't touch/////
 ///////////////////////////////////////////
 
-if ((isNil "logistics_vehicle") && TAS_respawnInVehicle) then {
-	systemchat "WARNING: TAS_respawnInVehicle requires that the logistics_vehicle to be present in your mission, but it does not exist! Expect errors!";
-	diag_log text "TAS-Mission-Template WARNING: TAS_respawnInVehicle requires that the logistics_vehicle to be present in your mission, but it does not exist! Expect errors!";
+if (TAS_respawnInVehicle) then {
+	if (isNil "logistics_vehicle") then {
+		systemchat "WARNING: TAS_respawnInVehicle requires that the logistics_vehicle to be present in your mission, but it does not exist! Expect errors!";
+		diag_log text "TAS-Mission-Template WARNING: TAS_respawnInVehicle requires that the logistics_vehicle to be present in your mission, but it does not exist! Expect errors!";
+	} else {
+		missionNamespace setVariable ["TAS_respawnVehicle",logistics_vehicle];
+	};
 };
 
 //dynamic groups code
