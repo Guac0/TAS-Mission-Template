@@ -167,6 +167,8 @@ publicVariable "TAS_rallyDistance";
 //////initServer.sqf Code, don't touch/////
 ///////////////////////////////////////////
 
+
+
 if (TAS_respawnInVehicle) then {
 	if (isNil "logistics_vehicle") then {
 		systemchat "WARNING: TAS_respawnInVehicle requires that the logistics_vehicle to be present in your mission, but it does not exist! Expect errors!";
@@ -318,3 +320,23 @@ if (TAS_fpsDisplayEnabled) then {
 	[] execVM "scripts\show_fps.sqf";
 	diag_log text "TAS-Mission-Template --------------------[Executed show_fps on Server]--------------------"; //will show in server logs
 };
+
+//handle radio settings broadcast
+/*TAS_radioSettings = [];
+{
+	private _addToArray = _x;
+	if (_x == true) then {_addToArray = 1};
+	if (_x == false) then {_addToArray = 0};
+	TAS_radioSettings pushBack _x;
+} forEach [TAS_radiosEnabled,TAS_NoSquadleadLr,TAS_radioAdditionals,TAS_radioPersonal,TAS_radioBackpack];
+publicVariable TAS_radioSettings;
+
+//handle fob settings broadcast
+TAS_fobSettings = [];
+{
+	private _addToArray = _x;
+	if (_x == true) then {_addToArray = 1};
+	if (_x == false) then {_addToArray = 0};
+	TAS_fobSettings pushBack _x;
+} forEach [TAS_fobEnabled,TAS_fobFullArsenals,TAS_fobDistance,TAS_useSmallRally,TAS_rallyDistance];
+publicVariable TAS_fobSettings;*/
