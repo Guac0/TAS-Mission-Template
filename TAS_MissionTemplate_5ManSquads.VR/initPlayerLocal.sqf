@@ -294,7 +294,7 @@ if (TAS_aceWindowBreak) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Ace Window Break by IndigoFox", "Disabled."]];
 };
 
-if (TAS_arsenalCurate) {
+if (TAS_arsenalCurate) then {
 	{
 		if (!isNil _x) then {
 			//RHS USAF Doomsday
