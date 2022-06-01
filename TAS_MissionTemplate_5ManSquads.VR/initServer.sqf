@@ -184,7 +184,9 @@ if (TAS_respawnInVehicle) then {
 };
 
 //dynamic groups code
-["Initialize", [true]] call BIS_fnc_dynamicGroups; // Initializes the Dynamic Groups framework and groups led by a player at mission start will be registered
+if (TAS_dynamicGroupsEnabled) then {
+	["Initialize", [true]] call BIS_fnc_dynamicGroups; // Initializes the Dynamic Groups framework and groups led by a player at mission start will be registered
+};
 
 //If AceHealObject does not exist but options that require it are turned on, then display a warning that those options will be disabled
 if ((isNil "AceHealObject") && (TAS_respawnArsenalGear || TAS_aceHealObjectEnabled || TAS_aceSpectateObjectEnabled)) then {
