@@ -138,6 +138,11 @@ publicVariable "TAS_respawnArsenalGear";
 TAS_resupplyObjectEnabled = true; //default true
 publicVariable "TAS_resupplyObjectEnabled";
 
+//Enables the KP crate filler script, see "KPCF_config" for options 
+//NOTE: With default settings, it will add custom behavior to ALL "Land Parachute Target" and "Seismic Map (Whiteboard)" objects in your mission. Disable this setting or change the target objects in KPCF_config if you are using those objects in your mission.
+TAS_kpCratefiller = true;	//default true
+publicVariable "TAS_kpCratefiller";
+
 //turn FOB on/off, if on needs some eden setup see documentation elsewhere. setup already done in the template if you dont break it
 //What this does is give every Squad Lead an ace self interact to establish a "Rallypoint" at their position (if no enemies are within the stated range)
 //Rallypoints are respawn positions for the players' side, and if using the large rally, also have a small ammobox
