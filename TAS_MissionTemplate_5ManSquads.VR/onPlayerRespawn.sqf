@@ -23,9 +23,9 @@ if (TAS_respawnArsenalGear) then {
 
 //respawn in vehicle
 if (TAS_respawnInVehicle) then {
-	private _respawnVehicle = missionNamespace getVariable ["TAS_respawnVehicle"];
+	private _respawnVehicle = missionNamespace getVariable ["TAS_respawnVehicle",objNull];
 
-	if (isNil _respawnVehicle) exitWith { //if logistics_vehicle is dead, then exit
+	if (isNull _respawnVehicle) exitWith { //if logistics_vehicle is dead, then exit
 		hint "Respawn vehicle is dead and/or does not exist! Contact GC, Zeus, or other designated logistics coordinator for reinsert information!";
 	};
 	if !(alive _respawnVehicle) exitWith {
