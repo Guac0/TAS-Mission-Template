@@ -95,7 +95,7 @@ publicVariable "TAS_ctabEnabled";
 TAS_populateInventory = true; //default true
 publicVariable "TAS_populateInventory";
 
-//Removes certain problematic items from arsenal boxes that are otherwise hidden and unremoveable (boxes names must be arsenal_# from 1 to 10, template already gives you 1-3 premade)
+//Removes certain problematic items from arsenal boxes that are otherwise hidden and unremoveable (boxes names must be arsenal_# from 1 to 10, template already gives you 1-3 premade and you can just copy paste those)
 //See initPlayer for full list, but this is things like doomsday, hidden brightlights, etc
 TAS_arsenalCurate = true; //defaults to true
 publicVariable "TAS_arsenalCurate";

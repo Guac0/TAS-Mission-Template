@@ -296,7 +296,10 @@ if (TAS_aceWindowBreak) then {
 
 if (TAS_arsenalCurate) then {
 	{
-		if (!isNil _x) then {
+		//do some fancy stuff before removing items to account for arsenals that don't actually exist.
+		private _arsenalName = _x;
+		_arsenalName = missionNamespace getVariable [_arsenalName, objNull]; //convert from string to object, otherwise we get errors
+		if (!isNull _arsenalName) then {
 			//RHS USAF Doomsday
 			if (isClass(configFile >> "CfgPatches" >> "rhsusf_weapons")) then { 
 				[_x, ["rhsusf_5Rnd_doomsday_Buck","rhsusf_8Rnd_doomsday_Buck"]] call ace_arsenal_fnc_removeVirtualItems;
@@ -311,7 +314,7 @@ if (TAS_arsenalCurate) then {
 			};
 			//[_x, []] call ace_arsenal_fnc_removeVirtualItems;
 		};
-	} forEach [arsenal_1,arsenal_2,arsenal_3,arsenal_4,arsenal_5,arsenal_6,arsenal_7,arsenal_8,arsenal_9,arsenal_10];
+	} forEach ["arsenal_1","arsenal_2","arsenal_3","arsenal_4","arsenal_5","arsenal_6","arsenal_7","arsenal_8","arsenal_9","arsenal_10"]; //template only provides 3 arsenals, but more are provided in case mission maker copy pastes them (they'll automatically be named arsenal_X)
 };
 
 if (TAS_respawnInVehicle) then {
