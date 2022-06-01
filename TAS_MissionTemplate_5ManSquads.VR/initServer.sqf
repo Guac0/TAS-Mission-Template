@@ -179,6 +179,19 @@ publicVariable "TAS_rallyDistance";
 
 
 
+//////////////////////////////////
+//////////Admin Options///////////
+//////////////////////////////////
+//these options are more geared towards logging or other admin actions and should be left at their defaults unless you know what you're doing 
+
+
+
+//logging information for certain mods, with optional chat messages
+TAS_ModLog 		= true;	//default true
+TAS_ModLogShame = true; //default true
+publicVariable "TAS_ModLog";
+publicVariable "TAS_ModLogShame";
+
 
 
 ///////////////////////////////////////////

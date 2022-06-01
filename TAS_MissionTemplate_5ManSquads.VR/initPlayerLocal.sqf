@@ -1,6 +1,38 @@
 
 sleep 1; //wait for mission start (server init will happen in map screen)
 
+if (TAS_ModLog) then {
+	private _logMessage = "";
+
+	if (isClass(configFile >> "CfgPatches" >> "Revo_NoWeaponSway")) then {
+		_shameMessage = format ["%1 is running No Weapon Sway",player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			//"I am running No Weapon Sway!" remoteExec ["globalChat"];
+		};
+	};
+	if (isClass(configFile >> "CfgPatches" >> "cTab")) then { 
+		_shameMessage = format ["%1 is running cTab",player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			"I am running cTab!" remoteExec ["globalChat"];
+		};
+	};
+	if (isClass(configFile >> "CfgPatches" >> "Ronon_gun_Pat")) then { 
+		_shameMessage = format ["%1 is running Stargate",player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			"I am running Stargate!" remoteExec ["globalChat"];
+		};
+	};
+
+	/*if (isClass(configFile >> "CfgPatches" >> "rhsusf_weapons")) then { 
+		//"I am running AAA! Shame on me!" remoteExec ["globalChat"];
+		_shameMessage = format ["%1 is running AAA",player];
+		_shameMessage remoteExec ["diag_log"];
+	};*/
+};
+
 //setup diary subject
 player createDiarySubject ["tasMissionTemplate","Mission Template","media\logo256x256.paa"];
 player createDiaryRecord ["tasMissionTemplate", ["Mission Template Version", TAS_templateVersion]];
