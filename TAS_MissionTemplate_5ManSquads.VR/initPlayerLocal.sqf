@@ -3,6 +3,7 @@ sleep 1; //wait for mission start (server init will happen in map screen)
 
 //setup diary subject
 player createDiarySubject ["tasMissionTemplate","Mission Template","media\logo256x256.paa"];
+player createDiaryRecord ["tasMissionTemplate", ["Mission Template Version", TAS_templateVersion]];
 
 //setup leadership trait for later usage
 private _leadershipVariableNames = ["Z1","Z2","Z3","CMD_Actual","CMD_JTAC","RECON_Actual","AIR_1_Actual","AIR_2_Actual","GROUND_1_Actual","GROUND_2_Actual","ALPHA_Actual","BRAVO_Actual","CHARLIE_Actual","DELTA_Actual","ECHO_Actual","FOXTROT_Actual"];
@@ -33,6 +34,15 @@ if (TAS_vanillaStaminaDisabled) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Disabled."]];
 } else {
 	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Enabled."]];
+};
+
+//Sets custom aim coefficient (precision and/or weapon sway) and recoil coefficient. Must be here and in onPlayerRespawn
+if (TAS_doCoefChanges) then {
+	player setCustomAimCoef TAS_aimCoef;
+	player setUnitRecoilCoefficient TAS_recoilCoef;
+	player createDiaryRecord ["tasMissionTemplate", ["Sway/Recoil Coefficient Changes", format ["Sway coefficient: %1. Recoil Coefficient: %2",TAS_aimCoef,TAS_recoilCoef]]];
+} else {
+	player createDiaryRecord ["tasMissionTemplate", ["Sway/Recoil Coefficient Changes", "Vanilla coefficients are enabled."]];
 };
 
 //Add TAS Afk Script

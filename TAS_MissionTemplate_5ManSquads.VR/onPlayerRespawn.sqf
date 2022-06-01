@@ -3,6 +3,11 @@ if (TAS_vanillaStaminaDisabled) then {
 	player enableFatigue false;
 };
 
+if (TAS_doCoefChanges) then {
+	player setCustomAimCoef TAS_aimCoef;
+	player setUnitRecoilCoefficient TAS_recoilCoef;
+};
+
 //respawn with death gear
 if (TAS_respawnDeathGear) then {
 	player setUnitLoadout (player getVariable ["deathLoadout",[]]); //Load dead player's loadout} else {

@@ -1,3 +1,8 @@
+//do not touch
+TAS_templateVersion = "v8.4.0";
+publicVariable "TAS_templateVersion";
+//you can now proceed to touch things (below this line, that is)
+
 ///////////////////////////////////////////
 ////////////Mission Maker Options//////////
 ///////////////////////////////////////////
@@ -64,6 +69,14 @@ publicVariable "TAS_aceWindowBreak";
 //Disables vanilla stamina at mission start and on player respawn.
 TAS_vanillaStaminaDisabled = true; //defaults to true
 publicVariable "TAS_vanillaStaminaDisabled";
+
+//Modifies weapon sway (well, aim precison) coefficient and recoil coefficient. 1 is normal, 0 is nothing (but don't use 0, use 0.1)
+TAS_doCoefChanges = true; 	//default true
+TAS_aimCoef 	  = 0.5;	//default 0.5; no effect if TAS_doCoefChanges is FALSE
+TAS_recoilCoef 	  = 0.75;	//default 0.75; no effect if TAS_doCoefChanges is FALSE
+publicVariable "TAS_doAimCoefChange";
+publicVariable "TAS_aimCoef";
+publicVariable "TAS_recoilCoef";
 
 //tfar radio assignment init, for SL LR backpack assignment needs SLs to have the preset variable names for SLs(see template)
 //if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
