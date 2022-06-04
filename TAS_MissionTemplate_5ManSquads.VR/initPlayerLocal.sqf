@@ -361,8 +361,11 @@ if (TAS_arsenalCurate) then {
 
 if (TAS_respawnInVehicle) then {
 	["TAS Mission Template", "Assign As Respawn Vehicle", {
-		private _respawnVehicle = _this select 1;
-		if (isNil _respawnVehicle) exitWith {systemChat "Place the module on a vehicle!"};
-		missionNamespace setVariable ["TAS_respawnVehicle",_respawnVehicle];
+		_this execVM "scripts\assignRespawnVic.sqf";
+		TAS_testOne = _this;
+		systemChat format ["1: %1",TAS_testOne];
 	}] call zen_custom_modules_fnc_register;
+
+	["ace_arsenal_displayOpened", {localNamespace setVariable ["TAS_aceArsenalOpen",true]}] call CBA_fnc_addEventHandler;
+	["ace_arsenal_displayClosed", {localNamespace setVariable ["TAS_aceArsenalOpen",false]}] call CBA_fnc_addEventHandler;
 };

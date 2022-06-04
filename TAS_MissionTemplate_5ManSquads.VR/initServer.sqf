@@ -125,8 +125,20 @@ publicVariable "TAS_arsenalCurate";
 //Requires a vehicle named "logistics_vehicle" in your mission (recommend that it is also invincible)
 //After respawning, this forces the player to wait the specified duration (while either spectating/editing loadout/chilling in base) before being TPed to the respawn vic
 //Required Mods: ACE
-TAS_respawnInVehicle = false; //default false
-TAS_respawnInVehicleTime = 50; //default 50, note that this is in addition to the respawn timer
+/*add a respawn vehicle with the following in the vehicle init field (give the vehicle a variable name, any name works). Change "Respawn Vehicle 1" to whatever, just keep the quotes. NOTE: If you name things 1, 2, 3, there's no guarentee what order they show up in.
+if (isServer) then {
+	this spawn {
+		waitUntil {!isNil "TAS_respawnInVehicle"};
+		if (TAS_respawnInVehicle) then {
+			waitUntil {!isNil "TAS_respawnVehicles"};
+			TAS_respawnVehicles pushBack [_this,"Respawn Vehicle 1"];
+			publicVariable "TAS_respawnVehicles";
+		};
+	};
+};
+*/
+TAS_respawnInVehicle = true; //default false
+TAS_respawnInVehicleTime = 20; //default 50, note that this is in addition to the respawn timer
 publicVariable "TAS_respawnInVehicle";
 publicVariable "TAS_respawnInVehicleTime";
 
@@ -201,12 +213,19 @@ publicVariable "TAS_ModLogShame";
 
 
 if (TAS_respawnInVehicle) then {
-	if (isNil "logistics_vehicle") then {
-		systemchat "WARNING: TAS_respawnInVehicle requires that the logistics_vehicle to be present in your mission, but it does not exist! Expect errors!";
-		diag_log text "TAS-Mission-Template WARNING: TAS_respawnInVehicle requires that the logistics_vehicle to be present in your mission, but it does not exist! Expect errors!";
-	} else {
-		missionNamespace setVariable ["TAS_respawnVehicle",logistics_vehicle];
+	TAS_respawnVehicles = [];
+	sleep 3; //should be enough time for waitUntil in object init fields to activate
+	if (count TAS_respawnVehicles == 0) then { //add fallback respawn vehicle if no other respawn vehicles are made
+		if (isNil "logistics_vehicle") then {
+			systemchat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
+			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
+		} else {
+			TAS_respawnVehicles pushBack [logistics_vehicle,"Default Respawn Vehicle"];
+			systemChat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
+			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
+		};
 	};
+	publicVariable "TAS_respawnVehicles";
 };
 
 //dynamic groups code
