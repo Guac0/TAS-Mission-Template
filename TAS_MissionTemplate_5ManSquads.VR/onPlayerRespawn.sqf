@@ -10,13 +10,22 @@ if (TAS_doCoefChanges) then {
 
 //respawn with death gear
 if (TAS_respawnDeathGear) then {
-	player setUnitLoadout (player getVariable ["deathLoadout",[]]); //Load dead player's loadout} else {
-	//systemChat "Respawn with Arsenal Loadout disabled.";
+	private _loadout = player getVariable ["TAS_deathLoadout",[]]; //Load dead player's loadout. Use CBA instead of vanilla. BOOL is for refilling mags.
+	if (count _loadout == 0) then {
+		systemChat "Your saved loadout is empty and thus will not be applied!";
+	} else {
+		[player, _loadout, false] call CBA_fnc_setLoadout;
+	};
 };
 
 //respawn with saved gear
 if (TAS_respawnArsenalGear) then {
-	player setUnitLoadout (player getVariable ["arsenalLoadout",[]]); //Load player's saved loadout
+	private _loadout = player getVariable ["TAS_arsenalLoadout",[]]; //Load dead player's loadout. Use CBA instead of vanilla. BOOL is for refilling mags.
+	if (count _loadout == 0) then {
+		systemChat "Your saved loadout is empty and thus will not be applied!";
+	} else {
+		[player, _loadout, false] call CBA_fnc_setLoadout;
+	};
 } else {
 	//systemChat "Respawn with Arsenal Loadout disabled.";
 };

@@ -151,7 +151,7 @@ TAS_zeusResupply = true; //default true
 publicVariable "TAS_zeusResupply";
 
 //Choose between respawning with config loadout (default in vanilla, not recommended. set both options to false to pick this option), respawning with gear you had when you died, and respawning with gear that you preset at the arsenal
-//players save their loadout at the heal object
+//for TAS_respawnArsenalGear, loadout is saved whenever the player exits the (ace) arsenal, and there's also an option to manually save your loadout at the AceHealObject
 TAS_respawnDeathGear = false; //default false --- DO NOT SET BOTH respawnDeathGear AND respawnArsenalGear to true!!!
 TAS_respawnArsenalGear = true; //default true
 publicVariable "TAS_respawnDeathGear";
@@ -290,14 +290,14 @@ if (!isNil "AceHealObject") then { //check if the ace heal object actually exist
 	if (TAS_respawnArsenalGear) then {
 		[
 			AceHealObject,											// Object the action is attached to
-			"Save Loadout",										// Title of the action
+			"Manually Save Loadout",										// Title of the action
 			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
 			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
 			"_this distance _target < 15",						// Condition for the action to be shown
 			"_caller distance _target < 15",						// Condition for the action to progress
 			{},													// Code executed when action starts
 			{},													// Code executed on every progress tick
-			{ player setVariable ["arsenalLoadout",getUnitLoadout player]; },												// Code executed on completion
+			{ private _loadout = [player] call CBA_fnc_getLoadout; player setVariable ["TAS_arsenalLoadout",_loadout]; },												// Code executed on completion
 			{},													// Code executed on interrupted
 			[],													// Arguments passed to the scripts as _this select 3
 			2,													// Action duration [s]

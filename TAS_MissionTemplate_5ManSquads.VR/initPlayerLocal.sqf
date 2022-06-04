@@ -284,7 +284,15 @@ if (TAS_respawnDeathGear) then {
 
 //respawn with saved gear
 if (TAS_respawnArsenalGear) then {
-	player setVariable ["arsenalLoadout",getUnitLoadout player]; //setup initial loadout so doesnt use config loadout if not done by player
+	private _loadout = [player] call CBA_fnc_getLoadout;
+	player setVariable ["TAS_arsenalLoadout",_loadout]; //setup initial loadout so doesnt use config loadout if not done by player. Use CBA method.
+
+	//setup automatic saving of loadout when exitting the arsenal. Player can also set loadout at the heal box manually.
+	["ace_arsenal_displayClosed", {
+		private _loadout = [player] call CBA_fnc_getLoadout;
+		player setVariable ["TAS_arsenalLoadout",_loadout];
+	}] call CBA_fnc_addEventHandler;
+
 	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Saved Loadout", "Enabled. Interact with the heal/spectate object in order to save your loadout."]];
 } else {
 	//systemChat "Respawn with Arsenal Loadout disabled.";
