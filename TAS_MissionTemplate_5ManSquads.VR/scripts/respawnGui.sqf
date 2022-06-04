@@ -1,7 +1,16 @@
 //TODO make function, fix teleporting into vehicle
 
 disableSerialization;
+//various vars
 private ["_respawnMode","_respawnLocations","_respawnGUI","_respawnLocationsNumber","_background","_button","_currentSpacing","_currentNestedIndex","_currentRespawnLocation","_currentRespawnLocationName"];
+//colors
+private ["_black","_red","_blue","_green","_cyan"];
+_black = [0,0,0,0.5];
+_red = [1,0,0,0.5];
+_blue = [0,1,0,0.5];
+_green = [0,0,1,0.5];
+_cyan = [0,1,1,0.5];
+
 
 hint "Please close any displays (such as Arsenal) before being shown the respawn GUI!";
 systemChat "Please close any displays (such as Arsenal) before being shown the respawn GUI!"; //this too because while in arsenal, hints are hidden
@@ -24,14 +33,13 @@ uiNamespace setVariable ["TAS_respawnGUI", _respawnGui];	//to get around restric
 //background
 _background = _respawnGui ctrlCreate ["IGUIBack", -1];
 _background ctrlSetPosition [0.25,0,0.5,0.11+(0.08*(_respawnLocationsNumber+1))]; //xywh
-_background ctrlSetBackgroundColor [0,0,0,0.5]; //black
-//_background ctrlSetBackgroundColor [1,0,0,0.5]; //red, duh
-//_background ctrlSetBackgroundColor [0,1,1,0.5]; //cyan
+_background ctrlSetBackgroundColor _black;
 _background ctrlCommit 0;
 
 _menuInfoButton = _respawnGui ctrlCreate ["RscButton", -1]; 
 _menuInfoButton ctrlSetPosition [0.275,0.03,0.45,0.05];
 _menuInfoButton ctrlSetText ("Choose Your Respawn Location");
+//_background ctrlSetTextColor _cyan;
 _menuInfoButton buttonSetAction 'systemChat "Hit one of the other buttons that actually does something, not the title card!"';
 _menuInfoButton ctrlCommit 0;
 
@@ -42,9 +50,6 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 	_currentNestedIndex = _respawnLocations select _i;
 	_currentRespawnLocation = _currentNestedIndex select 0;
 	_currentRespawnLocationName = _currentNestedIndex select 1;
-	if ("TAS_zeus" in str _currentRespawnLocation) then {
-		_currentRespawnLocation = format ["var_%1",_currentRespawnLocation];
-	};
 	if (typeName _currentRespawnLocation == "STRING") then { //translate from string to object if set by the zeus module or other method that sets vehicleVarName during runtime instead of via eden editor var name field
 		_currentRespawnLocation = missionNamespace getVariable [_currentRespawnLocation,objNull];
 	};
@@ -52,13 +57,14 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 		if (alive _currentRespawnLocation) then {
 			_button = _respawnGui ctrlCreate ["RscButton", -1]; 
 			_button ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
+			//_background ctrlSetTextColor _blue;
 			switch (_respawnMode) do {
 				case "vehicle": {
 					_button ctrlSetText format ["Respawn in %1",_currentRespawnLocationName];
 					_button buttonSetAction format [ //TODO add side compat //if ((side player != side group %1) && (side group %1 != sideUnknown )) exitWith {hint 'Targetted respawn vehicle is under the control of another side!'; systemChat 'Targetted respawn vehicle is under the control of another side!`};
 						"if (%1 emptyPositions 'cargo' == 0) exitWith {hint 'Passenger seats of targetted respawn vehicle are full!'; systemChat 'Passenger seats of targetted respawn vehicle are full!'}; player moveInCargo %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;",
 						_currentRespawnLocation
-					]; /*'(uiNamespace getVariable ["TAS_respawnGUI",displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;'*/ //player moveInCargo _currentRespawnLocation
+					];
 				};
 				case "rallypoint": {
 					_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName];
@@ -78,6 +84,7 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 _escapeButton = _respawnGui ctrlCreate ["RscButton", -1]; 
 _escapeButton ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
 _escapeButton ctrlSetText ("[DEBUG] Exit Respawn GUI (Cannot Reopen!!!)");
+//_background ctrlSetTextColor _red;
 _escapeButton buttonSetAction "(uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;";
 _escapeButton ctrlCommit 0;
 
@@ -94,14 +101,13 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 		//background
 		_background = _respawnGui ctrlCreate ["IGUIBack", -1];
 		_background ctrlSetPosition [0.25,0,0.5,0.11+(0.08*(_respawnLocationsNumber+1))]; //xywh
-		_background ctrlSetBackgroundColor [0,0,0,0.5]; //black
-		//_background ctrlSetBackgroundColor [1,0,0,0.5]; //red, duh
-		//_background ctrlSetBackgroundColor [0,1,1,0.5]; //cyan
+		_background ctrlSetBackgroundColor _black;
 		_background ctrlCommit 0;
 
 		_menuInfoButton = _respawnGui ctrlCreate ["RscButton", -1]; 
 		_menuInfoButton ctrlSetPosition [0.275,0.03,0.45,0.05];
 		_menuInfoButton ctrlSetText ("Choose Your Respawn Location");
+		//_background ctrlSetTextColor _cyan;
 		_menuInfoButton buttonSetAction 'systemChat "Hit one of the other buttons that actually does something, not the title card!"';
 		_menuInfoButton ctrlCommit 0;
 
@@ -112,17 +118,21 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 			_currentNestedIndex = _respawnLocations select _i;
 			_currentRespawnLocation = _currentNestedIndex select 0;
 			_currentRespawnLocationName = _currentNestedIndex select 1;
+			if (typeName _currentRespawnLocation == "STRING") then { //translate from string to object if set by the zeus module or other method that sets vehicleVarName during runtime instead of via eden editor var name field
+				_currentRespawnLocation = missionNamespace getVariable [_currentRespawnLocation,objNull];
+			};
 			if (!isNull _currentRespawnLocation) then {
 				if (alive _currentRespawnLocation) then {
 					_button = _respawnGui ctrlCreate ["RscButton", -1]; 
 					_button ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
+					//_background ctrlSetTextColor _blue;
 					switch (_respawnMode) do {
 						case "vehicle": {
 							_button ctrlSetText format ["Respawn in %1",_currentRespawnLocationName];
-							_button buttonSetAction format [
+							_button buttonSetAction format [ //TODO add side compat //if ((side player != side group %1) && (side group %1 != sideUnknown )) exitWith {hint 'Targetted respawn vehicle is under the control of another side!'; systemChat 'Targetted respawn vehicle is under the control of another side!`};
 								"if (%1 emptyPositions 'cargo' == 0) exitWith {hint 'Passenger seats of targetted respawn vehicle are full!'; systemChat 'Passenger seats of targetted respawn vehicle are full!'}; player moveInCargo %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;",
 								_currentRespawnLocation
-							]; /*'(uiNamespace getVariable ["TAS_respawnGUI",displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;'*/ //player moveInCargo _currentRespawnLocation
+							];
 						};
 						case "rallypoint": {
 							_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName];
@@ -142,6 +152,7 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 		_escapeButton = _respawnGui ctrlCreate ["RscButton", -1]; 
 		_escapeButton ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
 		_escapeButton ctrlSetText ("[DEBUG] Exit Respawn GUI (Cannot Reopen!!!)");
+		//_background ctrlSetTextColor _red;
 		_escapeButton buttonSetAction "(uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;";
 		_escapeButton ctrlCommit 0;
 	};

@@ -362,8 +362,8 @@ if (TAS_arsenalCurate) then {
 if (TAS_respawnInVehicle) then {
 	["TAS Mission Template", "Assign As Respawn Vehicle", {
 		_this execVM "scripts\assignRespawnVic.sqf";
-		TAS_testOne = _this;
-		systemChat format ["1: %1",TAS_testOne];
+		//TAS_testOne = _this;
+		//systemChat format ["1: %1",TAS_testOne];
 	}] call zen_custom_modules_fnc_register;
 
 	["ace_arsenal_displayOpened", {localNamespace setVariable ["TAS_aceArsenalOpen",true]}] call CBA_fnc_addEventHandler;

@@ -137,8 +137,8 @@ if (isServer) then {
 	};
 };
 */
-TAS_respawnInVehicle = true; //default false
-TAS_respawnInVehicleTime = 20; //default 50, note that this is in addition to the respawn timer
+TAS_respawnInVehicle = false; //default false
+TAS_respawnInVehicleTime = 50; //default 50, note that this is in addition to the respawn timer
 publicVariable "TAS_respawnInVehicle";
 publicVariable "TAS_respawnInVehicleTime";
 
