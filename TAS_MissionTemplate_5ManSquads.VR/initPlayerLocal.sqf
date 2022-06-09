@@ -351,20 +351,20 @@ if (TAS_aceWindowBreak) then {
 if (TAS_arsenalCurate) then {
 	{
 		//do some fancy stuff before removing items to account for arsenals that don't actually exist.
-		private _arsenalName = _x;
-		_arsenalName = missionNamespace getVariable [_arsenalName, objNull]; //convert from string to object, otherwise we get errors
-		if (!isNull _arsenalName) then {
+		private _arsenal = _x;
+		_arsenal = missionNamespace getVariable [_arsenal, objNull]; //convert from string to object, otherwise we get errors
+		if (!isNull _arsenal) then {
 			//RHS USAF Doomsday
 			if (isClass(configFile >> "CfgPatches" >> "rhsusf_weapons")) then { 
-				[_x, ["rhsusf_5Rnd_doomsday_Buck","rhsusf_8Rnd_doomsday_Buck"]] call ace_arsenal_fnc_removeVirtualItems;
+				[_arsenal, ["rhsusf_5Rnd_doomsday_Buck","rhsusf_8Rnd_doomsday_Buck"]] call ace_arsenal_fnc_removeVirtualItems;
 			};
 			//TAS Flashlights
 			if (isClass(configFile >> "CfgPatches" >> "TAS_BrightLite")) then { 
-				[_x, ["tas_acc_brightlite_sniper","tas_acc_brightlite_high","tas_acc_brightlite_low","tas_acc_brightlite_static","tas_acc_nightlite_sniper","tas_acc_nightlite_high","tas_acc_nightlite_low","tas_acc_nightlite_static"]] call ace_arsenal_fnc_removeVirtualItems;
+				[_arsenal, ["tas_acc_brightlite_sniper","tas_acc_brightlite_high","tas_acc_brightlite_low","tas_acc_brightlite_static","tas_acc_nightlite_sniper","tas_acc_nightlite_high","tas_acc_nightlite_low","tas_acc_nightlite_static"]] call ace_arsenal_fnc_removeVirtualItems;
 			};
 			//TAS Doomsday
 			if (isClass(configFile >> "CfgPatches" >> "TAS_Revolver")) then { 
-				[_x, ["TAS_6Rnd_doomsday_Buck"]] call ace_arsenal_fnc_removeVirtualItems;
+				[_arsenal, ["TAS_6Rnd_doomsday_Buck"]] call ace_arsenal_fnc_removeVirtualItems;
 			};
 			//[_x, []] call ace_arsenal_fnc_removeVirtualItems;
 		};
