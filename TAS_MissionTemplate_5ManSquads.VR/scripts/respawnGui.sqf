@@ -12,11 +12,18 @@ _green = [0,0,1,0.5];
 _cyan = [0,1,1,0.5];
 
 
-hint "Please close any displays (such as Arsenal) before being shown the respawn GUI!";
-systemChat "Please close any displays (such as Arsenal) before being shown the respawn GUI!"; //this too because while in arsenal, hints are hidden
-waitUntil {!(localNamespace getVariable ["TAS_aceArsenalOpen",false])}; //wait until ace arsenal is exited to avoid gui errors
+if (localNamespace getVariable ["TAS_aceArsenalOpen",false]) then {
+	hint "Please close any displays (such as Arsenal) before being shown the respawn GUI!";
+	systemChat "Please close any displays (such as Arsenal) before being shown the respawn GUI!"; //this too because while in arsenal, hints are hidden
+	waitUntil {sleep 0.25; !(localNamespace getVariable ["TAS_aceArsenalOpen",false])}; //wait until ace arsenal is exited to avoid gui errors
+};
+if (vehicle player != player) then {
+	hint "Exit the vehicle before being shown the respawn GUI!";
+	systemChat "Exit the vehicle before being shown the respawn GUI!"; //this too because while in arsenal, hints are hidden
+	waitUntil {sleep 0.25; vehicle player == player}; //wait until ace arsenal is exited to avoid gui errors
+};
 //sleep 0.1; //wait for ace arsenal to fully exit
-//waitUntil { isnull ( uinamespace getvariable "RSCDisplayArsenal" ) }; //wait until vanilla arsenal is exited, this (sometimes?) throws errors when in ace arsenal (returns nil), so do it after the ace arsenal check
+//waitUntil { sleep 0.25; isnull ( uinamespace getvariable "RSCDisplayArsenal" ) }; //wait until vanilla arsenal is exited, this (sometimes?) throws errors when in ace arsenal (returns nil), so do it after the ace arsenal check
 
 hint "You are now being shown the respawn GUI. If unexpected behavior occurs (such as selecting an option but nothing occuring), contact Zeus.";
 systemChat "You are now being shown the respawn GUI. If unexpected behavior occurs (such as selecting an option but nothing occuring), contact Zeus.";
