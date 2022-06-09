@@ -62,3 +62,15 @@ private _onConfirm =
 	{},
 	_this
 ] call zen_dialog_fnc_create;
+
+[_unit,_name] spawn { //create marker and update it on vehicle every minute while it's alive
+	private _marker = createMarkerLocal [format ["TAS_respawnVehicleMarker_%1",_name], position gangFourLeader]; //change for correct gang
+	_marker setMarkerType "mil_flag_noShadow";
+	_marker setMarkerColor "ColorUNKNOWN"; //TODO change based on player side?
+	_marker setMarkerText _name; //change for correct gang
+
+	while {alive _this} do { //returns false if null
+		_marker setMarkerPos getPos _this;
+		sleep 60;
+	};
+};
