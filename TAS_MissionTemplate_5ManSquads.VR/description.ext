@@ -55,7 +55,7 @@ class CfgMusic
     If you don't have an own description.ext file in your mission, you can just use this one.
     Otherwise copy the content below this comment block right at the end of your description.ext file, if you're unsure how to merge them.
 */
-
+/*
 #include "KPGUI\KPGUI_defines.hpp"
 #include "KPCF\ui\KPCF_dialog.hpp"
 
@@ -63,3 +63,4 @@ class CfgFunctions {
     // If you already have this class opened in your description.ext, copy and paste just this include inside of it.
     #include "KPCF\KPCF_functions.hpp"
 };
+*/
