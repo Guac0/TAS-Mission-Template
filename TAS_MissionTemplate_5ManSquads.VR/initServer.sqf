@@ -322,7 +322,7 @@ if (TAS_resupplyObjectEnabled) then { //check if the ace heal object actually ex
 			"_caller distance _target < 15",						// Condition for the action to progress
 			{},													// Code executed when action starts
 			{},													// Code executed on every progress tick
-			{[] execVM "scripts\AmmoCrateFromAction.sqf";},													// Code executed on completion
+			{[] call TAS_fnc_AmmoCrateFromAction;},													// Code executed on completion
 			{},													// Code executed on interrupted
 			[],													// Arguments passed to the scripts as _this select 3
 			1,													// Action duration [s]

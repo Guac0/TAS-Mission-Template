@@ -79,7 +79,7 @@ if (TAS_doCoefChanges) then {
 
 //Add TAS Afk Script
 if (TAS_afkEnabled) then {
-	[] execVM "scripts\TAS_afkScript.sqf";
+	[] call TAS_fnc_afkScript;
 } else {
 	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Disabled."]];
 	//systemChat "Afk System disabled.";
@@ -269,8 +269,8 @@ if (TAS_aceSpectateObjectEnabled) then {
 //to customize contents of resupply, edit the files in scripts\ammocrate.sqf and ammocratepara.sqf
 //REQUIRES ZEN TO BE LOADED (on all clients! although maybe just the zeus if you adjusted the code [i.e. not init.sqf] https://zen-mod.github.io/ZEN/#/frameworks/custom_modules)
 if (TAS_zeusResupply) then {
-	["Resupply", "Spawn Resupply Crate", {[_this select 0] execVM "scripts\AmmoCrate.sqf"}] call zen_custom_modules_fnc_register;
-	["Resupply", "Paradrop Resupply Crate", {[_this select 0] execVM "scripts\AmmoCratePara.sqf"}] call zen_custom_modules_fnc_register;
+	["Resupply", "Spawn Resupply Crate", {[_this select 0] call TAS_fnc_AmmoCrate}] call zen_custom_modules_fnc_register;
+	["Resupply", "Paradrop Resupply Crate", {[_this select 0] call TAS_fnc_AmmoCratePara}] call zen_custom_modules_fnc_register;
 	//systemChat "Custom Zeus resupply modules enabled.";
 	player createDiaryRecord ["tasMissionTemplate", ["Custom Zeus Resupply Modules", "Enabled. Adds two custom resupply modules to Zeus. One spawns the crate at the cursor location, while the other paradrops it. Each spawns a large crate with medical and 6 mags for each player's weapon."]];
 } else {
@@ -373,7 +373,7 @@ if (TAS_arsenalCurate) then {
 
 if (TAS_respawnInVehicle) then {
 	["TAS Mission Template", "Assign As Respawn Vehicle", {
-		_this execVM "scripts\assignRespawnVic.sqf";
+		_this call TAS_fnc_assignRespawnVic;
 		//TAS_testOne = _this;
 		//systemChat format ["1: %1",TAS_testOne];
 	}] call zen_custom_modules_fnc_register;

@@ -58,6 +58,7 @@ class CfgFunctions
 	{
 		class Main //<ROOT>\Functions\Category\fn_functionName.sqf
 		{
+			//commented-out items are script files run once or no times in normal gameplay and as such can just be execVMed
 			file = "scripts"; //overwrites file path
 			class AmmoCrate; //todo combine these three
 			class AmmoCrateFromAction;
@@ -86,8 +87,8 @@ class CfgFunctions
 			class deltaRallypoint;
 			class echoRallypoint;
 			class foxtrotRallypoint;
-			class FobBuild;
-			class initFOB;
+			//class FobBuild;
+			//class initFOB;
 		};
 	};
 };

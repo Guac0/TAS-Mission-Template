@@ -37,7 +37,7 @@ if (TAS_spawnUnitsOnHC) then {
 			
 			if (_playerRole == "HC1") then {
 				
-				[["first"]] execVM "scripts\spawnUnits.sqf";
+				[["first"]] execVM "scripts\spawnUnits.sqf"; //these should probably be functions but it's a rare usage case anyways
 				//[] execVM "scripts\spawnUnits.sqf";
 				diag_log format ["Spawned first set of units on %1",name player];
 				missionNamespace setVariable ["firstUnitsSpawned",true];

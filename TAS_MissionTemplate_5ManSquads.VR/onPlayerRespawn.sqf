@@ -51,7 +51,7 @@ if (TAS_respawnInVehicle) then {
 	};
 	hintSilent "";
 	[false,false,false] call ace_spectator_fnc_setSpectator; //end spectator if applicable
-	"vehicle" execVM "scripts\respawnGui.sqf";
+	"vehicle" call TAS_fnc_respawnGui;
 	//player moveInCargo _respawnVehicle; //get in respawn vic in passenger seat
 } else {
 	//systemChat "respawn in vehicle disabled";
