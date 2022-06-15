@@ -369,7 +369,7 @@ if (TAS_fobEnabled) then {
 //show fps script by Mildly Interested/Bassbeard
 //Code here is for main server, headless client is in init.sqf
 if (TAS_fpsDisplayEnabled) then {
-	[] execVM "scripts\show_fps.sqf";
+	[] execVM "functions\scripts\show_fps.sqf";
 	diag_log text "TAS-Mission-Template --------------------[Executed show_fps on Server]--------------------"; //will show in server logs
 };
 
