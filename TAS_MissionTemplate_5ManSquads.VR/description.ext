@@ -60,9 +60,7 @@ class CfgFunctions
 		{
 			//commented-out items are script files run once or no times in normal gameplay and as such can just be execVMed
 			//file = "scripts"; //overwrites file path
-			class AmmoCrate; //todo combine these three
-			class AmmoCrateFromAction;
-			class AmmoCratePara;
+			class ammoCrate; //todo combine these three
 			class assignRespawnVic;
 			//class autoFactionArsenal;
 			//class ifx_windowBreak;
@@ -73,8 +71,8 @@ class CfgFunctions
 			//class show_Fps;
 			class afkScript;
 			class globalTfar;
-			class ParadropAi;
-			class ParadropPlayers;
+			class paradropAi;
+			class paradropPlayers;
 			//class functionName {};
 		};
 		class buildFob
