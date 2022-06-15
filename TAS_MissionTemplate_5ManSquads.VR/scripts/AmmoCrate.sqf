@@ -12,7 +12,7 @@
 		2: BOOL - whether to add medical items to the supply box
 		3: BOOL - whether to add primary weapon ammo to the supply box (gives the current ammo loaded). Recommended that you do NOT set both this AND 4 to TRUE as they do the same thing different ways.
 		4: BOOL - whether to add primary ammo, handgun ammo, and launcher ammo to the supply box and use experimental methods to determine correct magazines to add
-		5: BOOL - whether to add medical items to the supply box
+		5: BOOL - whether to add grenades to the supply box
 		6: STRING - classname of box to spawn
 
 
@@ -20,7 +20,7 @@
 		OBJECT - created ammobox
 
 	Examples:
-		[resupplyLandingHelper,true,true,false,true,false,B_CargoNet_01_ammo_F"] call TAS_fnc_AmmoCrate; OR [resupplyLandingHelper,true,true,false,true,false,B_CargoNet_01_ammo_F"] execVM "scripts\AmmoCrate.sqf";
+		[[500,2200,0],true,true,false,true,true,"B_CargoNet_01_ammo_F"] call TAS_fnc_AmmoCrate; OR [ResupplySpawnHelper,true,true,false,,true,true,false,true,true,"B_CargoNet_01_ammo_F"] call TAS_fnc_AmmoCrate; OR [[500,2200,0],true,true,false,true,true,"B_CargoNet_01_ammo_F"] execVM "scripts\AmmoCrate.sqf"; OR [ResupplySpawnHelper,true,true,false,true,true,"B_CargoNet_01_ammo_F"] execVM "scripts\AmmoCrate.sqf";
 */
 
 /*params [
@@ -68,7 +68,7 @@ if (_isPara) then {
 	_box spawn {
 		while {!(isTouchingGround _this)} do {
 			sleep 30;													//TODO test duration of smoke
-			private _smoke = "SmokeShellRed" createVehicle [0,0,0];
+			private _smoke = "SmokeShellPurple" createVehicle [0,0,0];
 			_smoke attachTo [_this, [0, 0, 0]];
 		};
 	};
@@ -80,7 +80,7 @@ if (_addMedical) then {
 	_box addItemCargoGlobal ["ACE_morphine", 40];
 	_box addItemCargoGlobal ["ACE_epinephrine", 20];
 	_box addItemCargoGlobal ["ACE_bloodIV_500", 30];
-	_box addItemCargoGlobal ["ACE_bloodIV", 15]; //1000 ml
+	_box addItemCargoGlobal ["ACE_bloodIV", 15]; //1000 ml each
 	_box addItemCargoGlobal ["ACE_tourniquet", 15];
 	_box addItemCargoGlobal ["ACE_Earplugs", 10];
 };
@@ -105,7 +105,6 @@ if (_addBasicAmmo) then {
 
 if (_addAdvancedAmmo) then {
 	{
-		
 		if (primaryWeapon _x != "") then { 																		//don't add primary ammo if player has no primary weapon
 			if (count ([primaryWeapon _x] call CBA_fnc_compatibleMagazines) > 0) then {							//checks if weapon actually has compatible ammo
 				_box addMagazineCargoGlobal [[primaryWeapon _x] call CBA_fnc_compatibleMagazines select 0,4]; 	//adds CBA's best guess for ammo
@@ -140,4 +139,8 @@ if (_addGrenades) then { //add two m67s and two white smoke grenades for each pl
 	} forEach allPlayers;
 };
 
-_box
+//box is probably too heavy to carry/drag (600 for carry, 800 for drag) but just in case let's make it possible
+[_box, true, [0, 2, 0], 0] remoteExecCall ['ace_dragging_fnc_setCarryable'];
+[_box, true, [0, 2, 0], 0] remoteExecCall ['ace_dragging_fnc_setDraggable'];
+
+_box //return reference to created box
