@@ -79,7 +79,15 @@ if (TAS_doCoefChanges) then {
 
 //Add TAS Afk Script
 if (TAS_afkEnabled) then {
-	[] call TAS_fnc_afkScript;
+	// Register a simple keypress to an action
+	//#include "\a3\ui_f\hpp\defineDIKCodes.inc" //these two lines can be removed if wanted, rn script uses the number codes instead
+	//#define USER_19 0x10C
+	//25 for P, 0x10C for User Action 19
+	//[24, [false, true, true]] is "O + lctrl + lalt", can change in cba keybindings if wanted
+	["TAS Keybindings","afk_script_key_v2","Run TAS Afk Script", {[] call TAS_fnc_AfkScript}, "", [24, [false, true, true]]] call CBA_fnc_addKeybind;
+
+	//make a diary record tutorial
+	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Enabled. To start/stop the AFK script, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Run AFK Script. By default, it will be Left Control + Left Alt + O."]];
 } else {
 	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Disabled."]];
 	//systemChat "Afk System disabled.";
