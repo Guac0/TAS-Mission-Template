@@ -269,8 +269,7 @@ if (TAS_aceSpectateObjectEnabled) then {
 //to customize contents of resupply, edit the files in scripts\ammocrate.sqf and ammocratepara.sqf
 //REQUIRES ZEN TO BE LOADED (on all clients! although maybe just the zeus if you adjusted the code [i.e. not init.sqf] https://zen-mod.github.io/ZEN/#/frameworks/custom_modules)
 if (TAS_zeusResupply) then {
-	["Resupply", "Spawn Resupply Crate", {[_this select 0] call TAS_fnc_AmmoCrate}] call zen_custom_modules_fnc_register;
-	["Resupply", "Paradrop Resupply Crate", {[_this select 0] call TAS_fnc_AmmoCratePara}] call zen_custom_modules_fnc_register;
+	//now handled in zeus module register function
 	//systemChat "Custom Zeus resupply modules enabled.";
 	player createDiaryRecord ["tasMissionTemplate", ["Custom Zeus Resupply Modules", "Enabled. Adds two custom resupply modules to Zeus. One spawns the crate at the cursor location, while the other paradrops it. Each spawns a large crate with medical and 6 mags for each player's weapon."]];
 } else {
@@ -372,12 +371,7 @@ if (TAS_arsenalCurate) then {
 };
 
 if (TAS_respawnInVehicle) then {
-	["TAS Mission Template", "Assign As Respawn Vehicle", {
-		_this call TAS_fnc_assignRespawnVic;
-		//TAS_testOne = _this;
-		//systemChat format ["1: %1",TAS_testOne];
-	}] call zen_custom_modules_fnc_register;
-
+	//module now handled in zeus register function
 	["ace_arsenal_displayOpened", {localNamespace setVariable ["TAS_aceArsenalOpen",true]}] call CBA_fnc_addEventHandler;
 	["ace_arsenal_displayClosed", {localNamespace setVariable ["TAS_aceArsenalOpen",false]}] call CBA_fnc_addEventHandler;
 };

@@ -73,6 +73,7 @@ class CfgFunctions
 			class globalTfar;
 			class paradropAi;
 			class paradropPlayers;
+			class zenCustomModulesRegister;
 			//class functionName {};
 		};
 		class buildFob
