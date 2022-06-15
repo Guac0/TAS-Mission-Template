@@ -375,3 +375,6 @@ if (TAS_respawnInVehicle) then {
 	["ace_arsenal_displayOpened", {localNamespace setVariable ["TAS_aceArsenalOpen",true]}] call CBA_fnc_addEventHandler;
 	["ace_arsenal_displayClosed", {localNamespace setVariable ["TAS_aceArsenalOpen",false]}] call CBA_fnc_addEventHandler;
 };
+
+//TODO check if we need to delay until curator is registered? and/or just set it as postInit in description.ext and remove it from here
+[] call TAS_fnc_zenCustomModulesRegister;

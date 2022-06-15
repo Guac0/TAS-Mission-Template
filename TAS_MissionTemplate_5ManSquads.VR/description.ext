@@ -59,7 +59,7 @@ class CfgFunctions
 		class Main //<ROOT>\Functions\Category\fn_functionName.sqf
 		{
 			//commented-out items are script files run once or no times in normal gameplay and as such can just be execVMed
-			//file = "scripts"; //overwrites file path
+			file = "functions"; //overwrites file path
 			class ammoCrate; //todo combine these three
 			class assignRespawnVic;
 			//class autoFactionArsenal;
@@ -74,6 +74,7 @@ class CfgFunctions
 			class paradropAi;
 			class paradropPlayers;
 			class zenCustomModulesRegister;
+			class ammoCrateZeus;
 			//class functionName {};
 		};
 		class buildFob

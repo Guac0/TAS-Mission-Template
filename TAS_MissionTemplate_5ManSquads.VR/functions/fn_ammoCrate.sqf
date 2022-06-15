@@ -35,29 +35,37 @@ private _addBasicAmmo 		= _this select 3;
 private _addAdvancedAmmo 	= _this select 4;
 private _addGrenades 		= _this select 5;
 private _boxClass			= _this select 6;
+private _paradropHeight		= _this select 7;
 
 //validate inputs. TODO check for data types
-{
+/*{
 	if (isNil _x) exitWith {
 		["Missing arguments!"] call BIS_fnc_error;
 	};
-} forEach [_position,_isPara,_addMedical,_addBasicAmmo,_addAdvancedAmmo,_addGrenades,_boxClass]; //TODO check that this exits entire function and not just the forEach
+} forEach [_position,_isPara,_addMedical,_addBasicAmmo,_addAdvancedAmmo,_addGrenades]; //TODO check that this exits entire function and not just the forEach. NOTE: NOT boxClass
+*/
 
 //validate and/or convert _position
 switch (typeName _position) do
 {
 	case "ARRAY": { /*nothing, valid data type*/ };
 	case "OBJECT": { _position = getPosATL _position };
-	default { exitWith { ["Invalid position data type given! Given %1, expected ARRAY or OBJECT!",typeName _position] call BIS_fnc_error; }; }; //TODO check that this exits entire function and not just the switch
+	default { if (true) exitWith { ["Invalid position data type given! Given %1, expected ARRAY or OBJECT!",typeName _position] call BIS_fnc_error; }; }; //TODO check that this exits entire function and not just the switch. also, yes, requires a IF for some reason. TODO find better way
 };
 
+if (isNil _boxClass) then {
+	_boxClass = "B_CargoNet_01_ammo_F";
+};
 private _box = _boxClass createVehicle _position;
 clearItemCargoGlobal _box; clearWeaponCargoGlobal _box; clearMagazineCargoGlobal _box;
 
+if (isNil _paradropHeight) then {
+	_paradropHeight = 250;
+};
 //spawns box in air, gives parachute and auto-renewing smoke
 if (_isPara) then {
 	private _height = _position select 2;
-	_height = _height + 250;
+	_height = _height + _paradropHeight;
 	_box setPosATL [_position select 0, _position select 1, _height];
 
 	private _parachute = "B_parachute_02_F" createVehicle [0,0,0];
@@ -68,7 +76,7 @@ if (_isPara) then {
 	_box spawn {
 		while {!(isTouchingGround _this)} do {
 			sleep 30;													//TODO test duration of smoke
-			private _smoke = "SmokeShellPurple" createVehicle [0,0,0];
+			private _smoke = "SmokeShell" createVehicle [0,0,0];
 			_smoke attachTo [_this, [0, 0, 0]];
 		};
 	};
@@ -83,6 +91,7 @@ if (_addMedical) then {
 	_box addItemCargoGlobal ["ACE_bloodIV", 15]; //1000 ml each
 	_box addItemCargoGlobal ["ACE_tourniquet", 15];
 	_box addItemCargoGlobal ["ACE_Earplugs", 10];
+	_box addItemCargoGlobal ["ACE_personalAidKit",3];
 };
 
 //add 6 magazines for each player's primary weapon, based on currently equiped magazine OR (if player has no magazines loaded) CBA's best guess at a compatible magazine
