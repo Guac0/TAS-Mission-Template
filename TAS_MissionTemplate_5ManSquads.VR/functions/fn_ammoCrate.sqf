@@ -35,7 +35,7 @@ private _addBasicAmmo 		= _this select 3;
 private _addAdvancedAmmo 	= _this select 4;
 private _addGrenades 		= _this select 5;
 private _boxClass			= _this select 6;
-private _paradropHeight		= _this select 7;
+private _paradropHeight		= _this select 7;	//NOTE: doesn't always work well
 
 //validate inputs. TODO check for data types
 /*{
@@ -71,13 +71,17 @@ if (_isPara) then {
 	private _parachute = "B_parachute_02_F" createVehicle [0,0,0];
 	_parachute setPosASL (getPosASL _box);
 	_box attachTo [_parachute, [0, 0, 0]];
-		
+	
 	//infinite smoke while resupply is not on the ground
 	_box spawn {
-		while {!(isTouchingGround _this)} do {
-			sleep 30;													//TODO test duration of smoke
-			private _smoke = "SmokeShell" createVehicle [0,0,0];
+		sleep 5; //it pauses midair when initially being made, so wait for that to finish
+		while {(speed _this) > 0.1} do { //usually ~1 while falling in parachute
+			private _smoke = "SmokeShellPurple" createVehicle [0,0,0];
 			_smoke attachTo [_this, [0, 0, 0]];
+			sleep 30;													//smoke grenade lasts for 60 seconds when handheld, but seems to be like half that when attached like this (or might just be a scheduler issue?). NOTE: underground correction will not occur until this loop is exited (so might be a bit after it lands)
+		};
+		if (((getPosATL _this) select 2) < 0) then { 	//might have edge case if it lands on a building and clips into it, but that's hard to check for
+			[_this,0.5] call BIS_fnc_setHeight; 		//correct position to slightly above ground (it'll fall back down on its own). Arma is supposed to already do this, but doesn't always.
 		};
 	};
 };
