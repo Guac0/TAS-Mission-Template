@@ -336,12 +336,12 @@ if (TAS_resupplyObjectEnabled) then { //check if the ace heal object actually ex
 	};
 };
 //Register TAS_globalTFAR as a function
-if (TAS_globalTFAREnabled) then {
-	TAS_fnc_globalTFAR = compile preprocessFile "scripts\TAS_globalTFAR.sqf";
+/*if (TAS_globalTFAREnabled) then {
+	//TAS_fnc_globalTFAR = compile preprocessFile "scripts\TAS_globalTFAR.sqf";
 	//systemChat "TAS Global TFAR System enabled (server debug).";
 } else {
 	//systemChat "TAS Global TFAR System disabled (server debug).";
-};
+};*/
 
 //setup fob variables if fob system is enabled
 if (TAS_fobEnabled) then {

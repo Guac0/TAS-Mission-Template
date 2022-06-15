@@ -93,9 +93,9 @@ if (TAS_fobEnabled) then {
 	player createDiaryRecord ["tasMissionTemplate", ["FOB/Rallypoint System", "Disabled."]];
 };
 
-//Register TAS_globalTFAR as a function if enabled in initServer, also add tutorial diary entry
+//global tfar diary entry
 if (TAS_globalTfarEnabled) then { 
-	TAS_fnc_globalTfar = compile preprocessFile "scripts\TAS_globalTfar.sqf";
+	//function handled in description.ext
 	player createDiaryRecord ["tasMissionTemplate", ["Global TFAR Script", "Enabled. Sets all Short Range radios to a single channel for Zeus/Lore events. Restores radios to prior channel when run a second time. Can be executed from either debug console or via trigger by using remoteExecCall on TAS_fnc_globalTFAR."]];
 } else {
 	//systemChat "TAS Global TFAR System disabled."
