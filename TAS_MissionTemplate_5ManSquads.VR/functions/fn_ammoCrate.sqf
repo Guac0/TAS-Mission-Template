@@ -14,6 +14,7 @@
 		4: BOOL - whether to add primary ammo, handgun ammo, and launcher ammo to the supply box and use experimental methods to determine correct magazines to add
 		5: BOOL - whether to add grenades to the supply box
 		6: STRING - classname of box to spawn
+		7: STRING or NUMBER - height to paradrop supply crate at
 
 
 	Returns:
@@ -48,7 +49,7 @@ private _paradropHeight		= _this select 7;	//NOTE: doesn't always work well
 //validate and/or convert _position
 switch (typeName _position) do
 {
-	case "ARRAY": { /*nothing, valid data type*/ };
+	case "ARRAY": { _position = ASLToATL _position }; //ZEN gives us ASL, we need ATL
 	case "OBJECT": { _position = getPosATL _position };
 	default { if (true) exitWith { ["Invalid position data type given! Given %1, expected ARRAY or OBJECT!",typeName _position] call BIS_fnc_error; }; }; //TODO check that this exits entire function and not just the switch. also, yes, requires a IF for some reason. TODO find better way
 };
@@ -59,8 +60,12 @@ if (isNil _boxClass) then {
 private _box = _boxClass createVehicle _position;
 clearItemCargoGlobal _box; clearWeaponCargoGlobal _box; clearMagazineCargoGlobal _box;
 
-if (isNil _paradropHeight) then {
-	_paradropHeight = 250;
+if (_paradropHeight isEqualType "") then {
+	if (isNil _paradropHeight) then {
+		_paradropHeight = 250;
+	} else {
+		_paradropHeight = parseNumber _paradropHeight;
+	};
 };
 //spawns box in air, gives parachute and auto-renewing smoke
 if (_isPara) then {
