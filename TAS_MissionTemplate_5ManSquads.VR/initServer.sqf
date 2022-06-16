@@ -20,6 +20,12 @@ publicVariable "TAS_templateVersion";
 TAS_afkEnabled = true; //set to false to disable AFK script from being added
 publicVariable "TAS_afkEnabled"; //don't touch any of the publicVariable lines
 
+//turn earplugs script on/off
+TAS_earplugsEnabled = true; //default true
+TAS_earplugVolume = 0.4; //volume to reduce to when earplugs are in (0 is no volume, 1 is regular). Applies to fadeSound, fadeRadio, fadeSpeech, fadeMusic, and fadeEnvironment.
+publicVariable "TAS_earplugsEnabled";
+publicVariable "TAS_earplugVolume";
+
 //turn TAS_globalTFAR on/off, if on then make sure you have a way to activate it (i recommend a trigger, see template)
 //Required Mods: TFAR
 TAS_globalTfarEnabled = true; //default true, no effect if you dont call it using the trigger or a script

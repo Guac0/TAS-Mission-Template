@@ -76,6 +76,7 @@ class CfgFunctions
 			class zenCustomModulesRegister;
 			class ammoCrateZeus;
 			//class functionName {};
+			class earplugs;
 		};
 		class buildFob
 		{
