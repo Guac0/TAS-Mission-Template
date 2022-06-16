@@ -37,7 +37,7 @@ if (TAS_spawnUnitsOnHC) then {
 			
 			if (_playerRole == "HC1") then {
 				
-				[["first"]] execVM "scripts\spawnUnits.sqf"; //these should probably be functions but it's a rare usage case anyways
+				[["first"]] execVM "functions\scripts\spawnUnits.sqf"; //these should probably be functions but it's a rare usage case anyways
 				//[] execVM "scripts\spawnUnits.sqf";
 				diag_log format ["Spawned first set of units on %1",name player];
 				missionNamespace setVariable ["firstUnitsSpawned",true];
@@ -46,7 +46,7 @@ if (TAS_spawnUnitsOnHC) then {
 			
 		} else { //spawn on whatever HC is available if HC1 not connected
 		
-			[["first"]] execVM "scripts\spawnUnits.sqf";
+			[["first"]] execVM "functions\scripts\spawnUnits.sqf";
 			//[] execVM "scripts\spawnUnits.sqf";
 			diag_log format ["Spawned first set of units on %1",name player];
 			missionNamespace setVariable ["firstUnitsSpawned",true];
@@ -63,7 +63,7 @@ if (TAS_spawnUnitsOnHC) then {
 			
 			if (_playerRole == "HC2") then {
 				
-				[["second"]] execVM "scripts\spawnUnits.sqf"; //TODO only second
+				[["second"]] execVM "functions\scripts\spawnUnits.sqf"; //TODO only second
 				diag_log format ["Spawned second set of units on %1",name player];
 				missionNamespace setVariable ["secondUnitsSpawned",true];
 				
@@ -71,7 +71,7 @@ if (TAS_spawnUnitsOnHC) then {
 			
 		} else { //spawn on whatever HC is available if HC2 not connected
 		
-			[["second"]] execVM "scripts\spawnUnits.sqf";
+			[["second"]] execVM "functions\scripts\spawnUnits.sqf";
 			diag_log format ["Spawned second set of units on %1",name player];
 			missionNamespace setVariable ["secondUnitsSpawned",true];
 			
@@ -87,7 +87,7 @@ if (TAS_spawnUnitsOnHC) then {
 			
 			if (_playerRole == "HC3") then {
 				
-				[["third"]] execVM "scripts\spawnUnits.sqf";
+				[["third"]] execVM "functions\scripts\spawnUnits.sqf";
 				diag_log format ["Spawned third set of units on %1",name player];
 				missionNamespace setVariable ["thirdUnitsSpawned",true];
 				
@@ -95,7 +95,7 @@ if (TAS_spawnUnitsOnHC) then {
 			
 		} else { //spawn on whatever HC is available if HC3 not connected
 		
-			[["third","depot"]] execVM "scripts\spawnUnits.sqf";
+			[["third","depot"]] execVM "functions\scripts\spawnUnits.sqf";
 			diag_log format ["Spawned third set of units on %1",name player];
 			missionNamespace setVariable ["thirdUnitsSpawned",true];
 		
