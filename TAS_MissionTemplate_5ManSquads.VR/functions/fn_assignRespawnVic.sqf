@@ -50,6 +50,7 @@ private _onConfirm =
 	publicVariable _vehicleName;
 
 	//systemChat format ["5: %1",_unit];
+	[_unit,"hd_flag","ColorUNKNOWN",_name,true,60] call TAS_fnc_followMarker;
 	TAS_respawnVehicles pushBack [_unit,_name]; //["TAS_zeusRespawnVehicle1","test1"]
 	publicVariable "TAS_respawnVehicles";
 };
