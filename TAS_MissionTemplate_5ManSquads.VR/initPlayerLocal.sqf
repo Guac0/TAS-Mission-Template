@@ -79,7 +79,15 @@ if (TAS_doCoefChanges) then {
 
 //Add TAS Afk Script
 if (TAS_afkEnabled) then {
-	[] execVM "scripts\TAS_afkScript.sqf";
+	// Register a simple keypress to an action
+	//#include "\a3\ui_f\hpp\defineDIKCodes.inc" //these two lines can be removed if wanted, rn script uses the number codes instead
+	//#define USER_19 0x10C
+	//25 for P, 0x10C for User Action 19
+	//[24, [false, true, true]] is "O + lctrl + lalt", can change in cba keybindings if wanted
+	["TAS Keybindings","afk_script_key_v2","Run TAS Afk Script", {[] call TAS_fnc_AfkScript}, "", [24, [false, true, true]]] call CBA_fnc_addKeybind;
+
+	//make a diary record tutorial
+	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Enabled. To start/stop the AFK script, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Run AFK Script. By default, it will be Left Control + Left Alt + O."]];
 } else {
 	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Disabled."]];
 	//systemChat "Afk System disabled.";
@@ -93,9 +101,9 @@ if (TAS_fobEnabled) then {
 	player createDiaryRecord ["tasMissionTemplate", ["FOB/Rallypoint System", "Disabled."]];
 };
 
-//Register TAS_globalTFAR as a function if enabled in initServer, also add tutorial diary entry
+//global tfar diary entry
 if (TAS_globalTfarEnabled) then { 
-	TAS_fnc_globalTfar = compile preprocessFile "scripts\TAS_globalTfar.sqf";
+	//function handled in description.ext
 	player createDiaryRecord ["tasMissionTemplate", ["Global TFAR Script", "Enabled. Sets all Short Range radios to a single channel for Zeus/Lore events. Restores radios to prior channel when run a second time. Can be executed from either debug console or via trigger by using remoteExecCall on TAS_fnc_globalTFAR."]];
 } else {
 	//systemChat "TAS Global TFAR System disabled."
@@ -242,7 +250,7 @@ if (TAS_populateInventory) then {
 };
 
 if (TAS_bftEnabled) then {
-	[] execVM "scripts\QS_icons.sqf";
+	[] execVM "functions\scripts\QS_icons.sqf";
 	//systemChat "QS BFT initiated.";
 	player createDiaryRecord ["tasMissionTemplate", ["Quicksilver BFT", "Enabled. Open your map or GPS to activate it."]];
 } else {
@@ -269,8 +277,7 @@ if (TAS_aceSpectateObjectEnabled) then {
 //to customize contents of resupply, edit the files in scripts\ammocrate.sqf and ammocratepara.sqf
 //REQUIRES ZEN TO BE LOADED (on all clients! although maybe just the zeus if you adjusted the code [i.e. not init.sqf] https://zen-mod.github.io/ZEN/#/frameworks/custom_modules)
 if (TAS_zeusResupply) then {
-	["Resupply", "Spawn Resupply Crate", {[_this select 0] execVM "scripts\AmmoCrate.sqf"}] call zen_custom_modules_fnc_register;
-	["Resupply", "Paradrop Resupply Crate", {[_this select 0] execVM "scripts\AmmoCratePara.sqf"}] call zen_custom_modules_fnc_register;
+	//now handled in zeus module register function
 	//systemChat "Custom Zeus resupply modules enabled.";
 	player createDiaryRecord ["tasMissionTemplate", ["Custom Zeus Resupply Modules", "Enabled. Adds two custom resupply modules to Zeus. One spawns the crate at the cursor location, while the other paradrops it. Each spawns a large crate with medical and 6 mags for each player's weapon."]];
 } else {
@@ -342,7 +349,7 @@ if (_playerRadiosAreGlobal == true) then {
 
 //window break setup
 if (TAS_aceWindowBreak) then {
-	[] execVM "scripts\ifx_windowBreak.sqf";
+	[] execVM "functions\scripts\ifx_windowBreak.sqf";
 	player createDiaryRecord ["tasMissionTemplate", ["Ace Window Break by IndigoFox", "Enabled. Walk up to any window and you will see an ace interaction somewhere near it in order to break it."]];
 } else {
 	player createDiaryRecord ["tasMissionTemplate", ["Ace Window Break by IndigoFox", "Disabled."]];
@@ -372,12 +379,10 @@ if (TAS_arsenalCurate) then {
 };
 
 if (TAS_respawnInVehicle) then {
-	["TAS Mission Template", "Assign As Respawn Vehicle", {
-		_this execVM "scripts\assignRespawnVic.sqf";
-		//TAS_testOne = _this;
-		//systemChat format ["1: %1",TAS_testOne];
-	}] call zen_custom_modules_fnc_register;
-
+	//module now handled in zeus register function
 	["ace_arsenal_displayOpened", {localNamespace setVariable ["TAS_aceArsenalOpen",true]}] call CBA_fnc_addEventHandler;
 	["ace_arsenal_displayClosed", {localNamespace setVariable ["TAS_aceArsenalOpen",false]}] call CBA_fnc_addEventHandler;
 };
+
+//TODO check if we need to delay until curator is registered? and/or just set it as postInit in description.ext and remove it from here
+[] call TAS_fnc_zenCustomModulesRegister;

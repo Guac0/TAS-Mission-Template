@@ -322,7 +322,7 @@ if (TAS_resupplyObjectEnabled) then { //check if the ace heal object actually ex
 			"_caller distance _target < 15",						// Condition for the action to progress
 			{},													// Code executed when action starts
 			{},													// Code executed on every progress tick
-			{[] execVM "scripts\AmmoCrateFromAction.sqf";},													// Code executed on completion
+			{[ResupplySpawnHelper,false,true,false,true,true,"B_CargoNet_01_ammo_F",250] call TAS_fnc_AmmoCrate;},													// Code executed on completion
 			{},													// Code executed on interrupted
 			[],													// Arguments passed to the scripts as _this select 3
 			1,													// Action duration [s]
@@ -336,12 +336,12 @@ if (TAS_resupplyObjectEnabled) then { //check if the ace heal object actually ex
 	};
 };
 //Register TAS_globalTFAR as a function
-if (TAS_globalTFAREnabled) then {
-	TAS_fnc_globalTFAR = compile preprocessFile "scripts\TAS_globalTFAR.sqf";
+/*if (TAS_globalTFAREnabled) then {
+	//TAS_fnc_globalTFAR = compile preprocessFile "scripts\TAS_globalTFAR.sqf";
 	//systemChat "TAS Global TFAR System enabled (server debug).";
 } else {
 	//systemChat "TAS Global TFAR System disabled (server debug).";
-};
+};*/
 
 //setup fob variables if fob system is enabled
 if (TAS_fobEnabled) then {
@@ -369,7 +369,7 @@ if (TAS_fobEnabled) then {
 //show fps script by Mildly Interested/Bassbeard
 //Code here is for main server, headless client is in init.sqf
 if (TAS_fpsDisplayEnabled) then {
-	[] execVM "scripts\show_fps.sqf";
+	[] execVM "functions\scripts\show_fps.sqf";
 	diag_log text "TAS-Mission-Template --------------------[Executed show_fps on Server]--------------------"; //will show in server logs
 };
 

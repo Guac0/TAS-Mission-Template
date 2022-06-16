@@ -45,6 +45,54 @@ class CfgMusic
 	};
 };
 
+// Allows functions to log to the RPT file.
+allowFunctionsLog = 1;
+
+// As a security measure, functions are by default protected against rewriting during mission.
+// This restriction does not apply in missions previewed from the editor.
+allowFunctionsRecompile = "[0, 1] select (is3DENMultiplayer || is3DEN)";
+
+class CfgFunctions
+{
+	class TAS //tag, so TAG_fnc_functionName
+	{
+		class Main //<ROOT>\Functions\Category\fn_functionName.sqf
+		{
+			//commented-out items are script files run once or no times in normal gameplay and as such can just be execVMed
+			file = "functions"; //overwrites file path
+			class ammoCrate; //todo combine these three
+			class assignRespawnVic;
+			//class autoFactionArsenal;
+			//class ifx_windowBreak;
+			//class mrg_objectDumper;
+			//class QS_icons.sqf;
+			class respawnGui;
+			class ServiceHeli;
+			//class show_Fps;
+			class afkScript;
+			class globalTfar;
+			class paradropAi;
+			class paradropPlayers;
+			class zenCustomModulesRegister;
+			class ammoCrateZeus;
+			//class functionName {};
+		};
+		class buildFob
+		{
+			file = "buildfob";
+			class cmdRallypoint;
+			class alphaRallypoint; //TODO condense
+			class bravoRallypoint;
+			class charlieRallypoint;
+			class deltaRallypoint;
+			class echoRallypoint;
+			class foxtrotRallypoint;
+			//class FobBuild;
+			//class initFOB;
+		};
+	};
+};
+
 /*
     Killah Potatoes Cratefiller v1.1.0
 
