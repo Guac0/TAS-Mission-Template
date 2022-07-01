@@ -42,42 +42,42 @@ if (!isNil "logistics_vehicle") then { //check if the logistics_vehicle actually
 //5 names to replace
 //all these "Rally_CMD_Action might be better as private variables
 if (vehicleVarName player == "CMD_Actual" || "Commander" in _playerRoleDescription || "Officer" in _playerRoleDescription || "GC" in _playerRoleDescription) then {
-	Rally_CMD_Action = ["rallyCMD","Place Squad Rallypoint","",{[3,[],{[] execVM "buildfob\cmdRallypoint.sqf";},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
+	Rally_CMD_Action = ["rallyCMD","Place Squad Rallypoint","",{[3,[],{[] call TAS_fnc_cmdRallypoint;},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
 	[player, 1, ["ACE_SelfActions"], Rally_CMD_Action] call ace_interact_menu_fnc_addActionToObject;
 };
 
 //old action without progressbar
 /*if (vehicleVarName player == "ALPHA_Actual") then {
-	Rally_Alpha_Action = ["rallyAlpha","Place Squad Rallypoint","",{[] execVM "buildfob\alphaRallypoint.sqf";},{true}] call ace_interact_menu_fnc_createAction;
+	Rally_Alpha_Action = ["rallyAlpha","Place Squad Rallypoint","",{[] call TAS_fnc_alphaRallypoint;},{true}] call ace_interact_menu_fnc_createAction;
 	[player, 1, ["ACE_SelfActions"], Rally_Alpha_Action] call ace_interact_menu_fnc_addActionToObject;
 };*/
 if (vehicleVarName player == "ALPHA_Actual" || ("Squad Leader" in _playerRoleDescription && "Alpha" in _playerRoleDescription)) then { //doesn't handle nearly enough edge cases in role description names
-	Rally_Alpha_Action = ["rallyAlpha","Place Squad Rallypoint","",{[3,[],{[] execVM "buildfob\alphaRallypoint.sqf";},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
+	Rally_Alpha_Action = ["rallyAlpha","Place Squad Rallypoint","",{[3,[],{[] call TAS_fnc_alphaRallypoint;},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
 	[player, 1, ["ACE_SelfActions"], Rally_Alpha_Action] call ace_interact_menu_fnc_addActionToObject;
 };
 
 if (vehicleVarName player == "BRAVO_Actual" || ("Squad Leader" in _playerRoleDescription && "Bravo" in _playerRoleDescription)) then {
-	Rally_Bravo_Action = ["rallyBravo","Place Squad Rallypoint","",{[3,[],{[] execVM "buildfob\bravoRallypoint.sqf";},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
+	Rally_Bravo_Action = ["rallyBravo","Place Squad Rallypoint","",{[3,[],{[] call TAS_fnc_bravoRallypoint;},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
 	[player, 1, ["ACE_SelfActions"], Rally_Bravo_Action] call ace_interact_menu_fnc_addActionToObject;
 };
 
 if (vehicleVarName player == "CHARLIE_Actual" || ("Squad Leader" in _playerRoleDescription && "Charlie" in _playerRoleDescription)) then {
-	Rally_Charlie_Action = ["rallyCharlie","Place Squad Rallypoint","",{[3,[],{[] execVM "buildfob\charlieRallypoint.sqf";},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
+	Rally_Charlie_Action = ["rallyCharlie","Place Squad Rallypoint","",{[3,[],{[] call TAS_fnc_charlieRallypoint;},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
 	[player, 1, ["ACE_SelfActions"], Rally_Charlie_Action] call ace_interact_menu_fnc_addActionToObject;
 };
 
 if (vehicleVarName player == "DELTA_Actual" || ("Squad Leader" in _playerRoleDescription && "Delta" in _playerRoleDescription)) then {
-	Rally_Delta_Action = ["rallyDelta","Place Squad Rallypoint","",{[3,[],{[] execVM "buildfob\deltaRallypoint.sqf";},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
+	Rally_Delta_Action = ["rallyDelta","Place Squad Rallypoint","",{[3,[],{[] call TAS_fnc_deltaRallypoint;},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
 	[player, 1, ["ACE_SelfActions"], Rally_Delta_Action] call ace_interact_menu_fnc_addActionToObject;
 };
 
 if (vehicleVarName player == "ECHO_Actual" || ("Squad Leader" in _playerRoleDescription && "Echo" in _playerRoleDescription)) then {
-	Rally_Echo_Action = ["rallyEcho","Place Squad Rallypoint","",{[3,[],{[] execVM "buildfob\echoRallypoint.sqf";},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
+	Rally_Echo_Action = ["rallyEcho","Place Squad Rallypoint","",{[3,[],{[] call TAS_fnc_echoRallypoint;},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
 	[player, 1, ["ACE_SelfActions"], Rally_Echo_Action] call ace_interact_menu_fnc_addActionToObject;
 };
 
 if (vehicleVarName player == "FOXTROT_Actual" || ("Squad Leader" in _playerRoleDescription && "Foxtrot" in _playerRoleDescription)) then {
-	Rally_Foxtrot_Action = ["rallyFoxtrot","Place Squad Rallypoint","",{[3,[],{[] execVM "buildfob\foxtrotRallypoint.sqf";},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
+	Rally_Foxtrot_Action = ["rallyFoxtrot","Place Squad Rallypoint","",{[3,[],{[] call TAS_fnc_foxtrotRallypoint;},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
 	[player, 1, ["ACE_SelfActions"], Rally_Foxtrot_Action] call ace_interact_menu_fnc_addActionToObject;
 };
 
