@@ -126,6 +126,13 @@ if (TAS_globalTfarEnabled) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Global TFAR Script", "Disabled."]];
 };
 
+if (TAS_useConfigLoadout) then {
+	[player,TAS_configFaction] call TAS_fnc_assignLoadoutFromConfig;
+	player createDiaryRecord ["tasMissionTemplate", ["Loadout Assignment From Config", "Your loadout has been set accordingly to the given faction and your role description. See your chat messages for more information in the case of the script resorting to fallback loadouts or a notficiation that Zeus has chosen to skip your loadout assignment in particular."]];
+} else {
+	player createDiaryRecord ["tasMissionTemplate", ["Loadout Assignment From Config", "Disabled."]];
+};
+
 //radio setup
 if (TAS_radiosEnabled) then {
 	

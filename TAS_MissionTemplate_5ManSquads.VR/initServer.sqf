@@ -104,6 +104,15 @@ publicVariable "TAS_radioBackpack";
 TAS_ctabEnabled = false; //default false (since ctab isnt in scifi modpack)
 publicVariable "TAS_ctabEnabled";
 
+//Assigns player loadouts via 
+//It looks at the config files for the given faction and tries to match each player's Role Description with the name of a unit from that faction. If found, it gives them that unit's loadout, if not found, it gives them a Rifleman loadout from that faction
+//Note that the actualy inventory items (stuff in uniform and vest and etc) of the player will be overwritten by TAS_populateInventory if that is enabled, but this will still set the clothing, weapons, etc
+//To disable loadout assignment on a given unit while keeping the system enabled for other units, place the following in its init box: this setVariable ["TAS_disableConfigLoadoutAssignment",true];
+TAS_useConfigLoadout = true; //default true
+TAS_configFaction = "BLU_F"; //you can find the config name by placing a unit, right click, log, log faction classname to clipboard
+publicVariable "TAS_useConfigLoadout";
+publicVariable "TAS_configFaction";
+
 //Automatically gives appropriate inventory items to players, loosely based on class. Clears eden inventory (but doesnt change clothing or weapons)
 //Medical: 16x basic bandages, 8x morphine, 3x TQs, 2x epi, 2x 500ml blood
 	//If medic, extra 40 basic bandages, 20 morphine, 15 epi, 6 TQs, 10x 500 ml blood, 6x 1000ml blood, 1x PAK

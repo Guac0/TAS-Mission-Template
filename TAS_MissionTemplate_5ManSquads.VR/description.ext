@@ -78,6 +78,7 @@ class CfgFunctions
 			//class functionName {};
 			class earplugs;
 			class markerFollow;
+			class assignLoadoutFromConfig;
 		};
 		class buildFob
 		{
