@@ -1,5 +1,5 @@
 //do not touch
-TAS_templateVersion = "v8.4.0";
+TAS_templateVersion = "v9.0.0";
 publicVariable "TAS_templateVersion";
 //you can now proceed to touch things (below this line, that is)
 
@@ -13,7 +13,9 @@ publicVariable "TAS_templateVersion";
 /////Scripts/Functions Options////
 //////////////////////////////////
 
-
+//Cleans the mission template briefing by removing diary records for options set to FALSE
+TAS_cleanBriefing = true; //default true
+publicVariable "TAS_cleanBriefing";
 
 //turn afk script on/off
 //Required mods: CBA

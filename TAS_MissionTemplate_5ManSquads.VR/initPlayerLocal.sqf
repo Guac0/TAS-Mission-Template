@@ -57,7 +57,7 @@ if (TAS_dynamicGroupsEnabled) then {
 	["InitializePlayer", [player, true]] call BIS_fnc_dynamicGroups; // Initializes the player/client side Dynamic Groups framework and registers the player group
 	player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Enabled."]];
 } else {
-	player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Disabled."]]; };
 };
 
 //disableStamina, simple way since the more complicated way with addMPEventhandler bugged out recently. Must be here and in onPlayerRespawn
@@ -65,7 +65,7 @@ if (TAS_vanillaStaminaDisabled) then {
 	player enableFatigue false;
 	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Disabled."]];
 } else {
-	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Enabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Enabled."]]; };
 };
 
 //Sets custom aim coefficient (precision and/or weapon sway) and recoil coefficient. Must be here and in onPlayerRespawn
@@ -74,7 +74,7 @@ if (TAS_doCoefChanges) then {
 	player setUnitRecoilCoefficient TAS_recoilCoef;
 	player createDiaryRecord ["tasMissionTemplate", ["Sway/Recoil Coefficient Changes", format ["Sway coefficient: %1. Recoil Coefficient: %2",TAS_aimCoef,TAS_recoilCoef]]];
 } else {
-	player createDiaryRecord ["tasMissionTemplate", ["Sway/Recoil Coefficient Changes", "Vanilla coefficients are enabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Sway/Recoil Coefficient Changes", "Vanilla coefficients are enabled."]]; };
 };
 
 //Add TAS Afk Script
@@ -89,7 +89,7 @@ if (TAS_afkEnabled) then {
 	//make a diary record tutorial
 	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Enabled. To start/stop the AFK script, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Run AFK Script. By default, it will be Left Control + Left Alt + O."]];
 } else {
-	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Disabled."]]; };
 	//systemChat "Afk System disabled.";
 };
 
@@ -105,7 +105,7 @@ if (TAS_earplugsEnabled) then {
 	//make a diary record tutorial
 	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Enabled. To start/stop the AFK script, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Run AFK Script. By default, it will be Left Control + Left Alt + O."]];
 } else {
-	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Disabled."]]; };
 	//systemChat "Afk System disabled.";
 };
 
@@ -114,7 +114,7 @@ if (TAS_fobEnabled) then {
 	[] execVM "buildfob\initfob.sqf";
 } else {
 	//systemChat "FOB/Rallypoint building disabled.";
-	player createDiaryRecord ["tasMissionTemplate", ["FOB/Rallypoint System", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["FOB/Rallypoint System", "Disabled."]]; };
 };
 
 //global tfar diary entry
@@ -123,14 +123,14 @@ if (TAS_globalTfarEnabled) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Global TFAR Script", "Enabled. Sets all Short Range radios to a single channel for Zeus/Lore events. Restores radios to prior channel when run a second time. Can be executed from either debug console or via trigger by using remoteExecCall on TAS_fnc_globalTFAR."]];
 } else {
 	//systemChat "TAS Global TFAR System disabled."
-	player createDiaryRecord ["tasMissionTemplate", ["Global TFAR Script", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Global TFAR Script", "Disabled."]]; };
 };
 
 if (TAS_useConfigLoadout) then {
 	[player,TAS_configFaction] call TAS_fnc_assignLoadoutFromConfig;
 	player createDiaryRecord ["tasMissionTemplate", ["Loadout Assignment From Config", "Your loadout has been set accordingly to the given faction and your role description. See your chat messages for more information in the case of the script resorting to fallback loadouts or a notficiation that Zeus has chosen to skip your loadout assignment in particular."]];
 } else {
-	player createDiaryRecord ["tasMissionTemplate", ["Loadout Assignment From Config", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Loadout Assignment From Config", "Disabled."]]; };
 };
 
 //radio setup
@@ -171,7 +171,7 @@ if (TAS_radiosEnabled) then {
 
 } else {
 	
-	player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Disabled."]]; };
 	//systemChat "TFAR automatic radio assignment disabled."
 
 };
@@ -185,7 +185,7 @@ if (TAS_radioAdditionals) then {
 	};
 	player createDiaryRecord ["tasMissionTemplate", ["Radio Additional Channels Assignment", "Enabled. Your left ear is your main channel (capslock to transmit and by default is the squad-wide net), while your right ear is your additional channel (T to transmit, usually the fireteam net). Your Long Range radio remains unchanged."]];
 } else {
-	player createDiaryRecord ["tasMissionTemplate", ["Radio Additional Channels Assignment", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Radio Additional Channels Assignment", "Disabled."]]; };
 };
 
 //ctab setup
@@ -197,7 +197,7 @@ if (TAS_ctabEnabled) then {
 	player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Enabled. All units have recieved an Android and helmet cam, while leadership have also recieved a rugged tablet."]];
 } else {
 	//systemChat "cTab automatic item assignment disabled."
-	player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Disabled."]]; };
 };
 
 if (TAS_populateInventory) then {
@@ -269,7 +269,7 @@ if (TAS_populateInventory) then {
 
 	player createDiaryRecord ["tasMissionTemplate", ["Inventory Population", "Enabled. You have been given basic medical, grenade, ammo, and loadout-specific supplies."]];
 } else {
-	player createDiaryRecord ["tasMissionTemplate", ["Inventory Population", "Disabled"]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Inventory Population", "Disabled"]]; };
 };
 
 if (TAS_bftEnabled) then {
@@ -278,21 +278,21 @@ if (TAS_bftEnabled) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Quicksilver BFT", "Enabled. Open your map or GPS to activate it."]];
 } else {
 	//systemChat "QS BFT disabled.";
-	player createDiaryRecord ["tasMissionTemplate", ["Quicksilver BFT", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Quicksilver BFT", "Disabled."]]; };
 };
 
 if (TAS_aceHealObjectEnabled) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Ace Heal Object", "Enabled. Interact with the heal object in order to see and activate the heal action."]];
 } else {
 	//systemChat "Ace Heal Object disabled.";
-	player createDiaryRecord ["tasMissionTemplate", ["Ace Heal Object", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Ace Heal Object", "Disabled."]]; };
 };
 
 if (TAS_aceSpectateObjectEnabled) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Ace Spectate Object", "Enabled. Interact with the heal/spectate object in order to see and activate the spectate action. Press the 'Escape' key to exit spectator."]];
 } else {
 	//systemChat "Ace Spectate Object disabled.";
-	player createDiaryRecord ["tasMissionTemplate", ["Ace Spectate Object", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Ace Spectate Object", "Disabled."]]; };
 };
 
 //adds two resupply options to ZEN under the "Resupply" catagory
@@ -305,7 +305,7 @@ if (TAS_zeusResupply) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Custom Zeus Resupply Modules", "Enabled. Adds two custom resupply modules to Zeus. One spawns the crate at the cursor location, while the other paradrops it. Each spawns a large crate with medical and 6 mags for each player's weapon."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
-	player createDiaryRecord ["tasMissionTemplate", ["Custom Zeus Resupply Modules", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Custom Zeus Resupply Modules", "Disabled."]]; };
 };
 
 //respawn with death gear
@@ -313,7 +313,7 @@ if (TAS_respawnDeathGear) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Death Loadout", "Enabled. You will respawn with the gear you had equipped when you died."]];
 } else {
 	//systemChat "Respawn with Arsenal Loadout disabled.";
-	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Death Loadout", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Respawn With Death Loadout", "Disabled."]]; };
 };
 
 //respawn with saved gear
@@ -330,26 +330,26 @@ if (TAS_respawnArsenalGear) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Saved Loadout", "Enabled. Interact with the heal/spectate object in order to save your loadout."]];
 } else {
 	//systemChat "Respawn with Arsenal Loadout disabled.";
-	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Saved Loadout", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Respawn With Saved Loadout", "Disabled."]]; };
 };
 
 //respawn in vehicle
 if (TAS_respawnInVehicle) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Enabled. After a waiting period specified by the mission maker, respawning players will be teleported into the logistics vehicle. During this waiting time, respawning players can spectate, edit their loadout, or hang out at base."]];
 } else {
-	player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Disabled."]]; };
 };
 
 if (TAS_fpsDisplayEnabled) then {
 	player createDiaryRecord ["tasMissionTemplate", ["FPS Counter (by MildlyInterested)", "Enabled. In the bottom left of the map you will see markers for the server and any HCs with various debug information."]];
 } else {
-	player createDiaryRecord ["tasMissionTemplate", ["FPS Counter (by MildlyInterested)", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["FPS Counter (by MildlyInterested)", "Disabled."]]; };
 };
 
 if (TAS_resupplyObjectEnabled) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Resupply Object Spawner", "Enabled. At base, players will be able to spawn a supply crate with ammo and medical for all the players."]];
 } else {
-	player createDiaryRecord ["tasMissionTemplate", ["Resupply Object Spawner", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Resupply Object Spawner", "Disabled."]]; };
 };
 
 //JIP compat for globalTFAR
@@ -377,8 +377,17 @@ if (TAS_aceWindowBreak) then {
 	[] execVM "functions\scripts\ifx_windowBreak.sqf";
 	player createDiaryRecord ["tasMissionTemplate", ["Ace Window Break by IndigoFox", "Enabled. Walk up to any window and you will see an ace interaction somewhere near it in order to break it."]];
 } else {
-	player createDiaryRecord ["tasMissionTemplate", ["Ace Window Break by IndigoFox", "Disabled."]];
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Ace Window Break by IndigoFox", "Disabled."]]; };
 };
+
+if (TAS_respawnInVehicle) then {
+	//module now handled in zeus register function
+	["ace_arsenal_displayOpened", {localNamespace setVariable ["TAS_aceArsenalOpen",true]}] call CBA_fnc_addEventHandler;
+	["ace_arsenal_displayClosed", {localNamespace setVariable ["TAS_aceArsenalOpen",false]}] call CBA_fnc_addEventHandler;
+};
+
+//TODO check if we need to delay until curator is registered? and/or just set it as postInit in description.ext and remove it from here
+[] call TAS_fnc_zenCustomModulesRegister;
 
 if (TAS_arsenalCurate) then {
 	{
@@ -402,12 +411,3 @@ if (TAS_arsenalCurate) then {
 		};
 	} forEach ["arsenal_1","arsenal_2","arsenal_3","arsenal_4","arsenal_5","arsenal_6","arsenal_7","arsenal_8","arsenal_9","arsenal_10"]; //template only provides 3 arsenals, but more are provided in case mission maker copy pastes them (they'll automatically be named arsenal_X)
 };
-
-if (TAS_respawnInVehicle) then {
-	//module now handled in zeus register function
-	["ace_arsenal_displayOpened", {localNamespace setVariable ["TAS_aceArsenalOpen",true]}] call CBA_fnc_addEventHandler;
-	["ace_arsenal_displayClosed", {localNamespace setVariable ["TAS_aceArsenalOpen",false]}] call CBA_fnc_addEventHandler;
-};
-
-//TODO check if we need to delay until curator is registered? and/or just set it as postInit in description.ext and remove it from here
-[] call TAS_fnc_zenCustomModulesRegister;
