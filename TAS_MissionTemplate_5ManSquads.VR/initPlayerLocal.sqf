@@ -369,6 +369,8 @@ if (_playerRadiosAreGlobal == true) then {
 	diag_log format ["TAS_fnc_globalTFAR applied successfully during JIP."];
 };
 
+//diary record for repair zone. Figuring out the logic for detecting if repair zone exists hurts my mind, so don't bother with it.
+player createDiaryRecord ["tasMissionTemplate", ["Automatic RRR Zone", "If placed in the mission by the Zeus, the repair zone(s) usually are located at a square helipad. Move your vehicle onto this helipad, reduce its speed to 0, and turn your engine off to begin the automatic repair, refuel, and rearm."]];
 
 //window break setup
 if (TAS_aceWindowBreak) then {
