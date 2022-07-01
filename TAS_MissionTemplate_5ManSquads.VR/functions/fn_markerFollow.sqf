@@ -40,7 +40,7 @@ _marker setMarkerTextLocal _markerText;
 	private _deleteOnDeath 		= _this select 1;
 	private _interval 			= _this select 2;
 	private _marker 			= _this select 3;
-	while {isAlive _attachedObject} do {
+	while {alive _attachedObject} do {
 		_marker setMarkerPos getPos _attachedObject;
 		sleep _interval;
 	};
