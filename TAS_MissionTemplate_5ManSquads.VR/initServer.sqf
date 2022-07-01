@@ -66,6 +66,10 @@ publicVariable "TAS_spawnUnitsOnHC";
 TAS_aceWindowBreak = false; //default false
 publicVariable "TAS_aceWindowBreak";
 
+//Enables zeus module to play info text
+TAS_zeusInfoText = true; //default true
+publicVariable "TAS_zeusInfoText";
+
 
 
 //////////////////////////////////

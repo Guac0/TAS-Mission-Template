@@ -8,6 +8,9 @@ if (TAS_zeusResupply) then {
 if (TAS_respawnInVehicle) then {
 	_moduleList pushBack ["Assign As Respawn Vehicle", {_this call TAS_fnc_assignRespawnVic}];
 };
+if (TAS_zeusInfoText) then {
+	_moduleList pushBack ["Play Info Text", {_this call TAS_fnc_zeusInfoText}];
+};
 
 //registering ZEN custom modules, code modified from Crow
 {

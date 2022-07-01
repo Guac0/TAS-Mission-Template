@@ -79,6 +79,7 @@ class CfgFunctions
 			class earplugs;
 			class markerFollow;
 			class assignLoadoutFromConfig;
+			class zeusInfoText;
 		};
 		class buildFob
 		{
