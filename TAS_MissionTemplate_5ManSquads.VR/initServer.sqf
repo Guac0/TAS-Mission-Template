@@ -116,8 +116,10 @@ publicVariable "TAS_ctabEnabled";
 //To disable loadout assignment on a given unit while keeping the system enabled for other units, place the following in its init box: this setVariable ["TAS_disableConfigLoadoutAssignment",true];
 TAS_useConfigLoadout = true; //default true
 TAS_configFaction = "BLU_F"; //you can find the config name by placing a unit, right click, log, log faction classname to clipboard
+TAS_defaultConfigUnit = "Rifleman"; //if role description doesn't match any unit in the faction, it falls back to this unit name for the loadout assignment
 publicVariable "TAS_useConfigLoadout";
 publicVariable "TAS_configFaction";
+publicVariable "TAS_defaultConfigUnit";
 
 //Automatically gives appropriate inventory items to players, loosely based on class. Clears eden inventory (but doesnt change clothing or weapons)
 //Medical: 16x basic bandages, 8x morphine, 3x TQs, 2x epi, 2x 500ml blood

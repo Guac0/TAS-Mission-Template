@@ -4,13 +4,19 @@
 	Sets given unit's loadout by comparing its roleDescription to unit names in the given faction to search, with fallbacks if no matches are found.
 	Do not use in cases where roleDescription does not exist, such as in singleplayer or on units without a set roleDescription.
 
-	[player,TAS_configFaction] call TAS_fnc_assignLoadoutFromConfig;
+	[player,TAS_configFaction,"Rifleman"] call TAS_fnc_assignLoadoutFromConfig;
 */
 
 private ["_unit"]; //do it here to avoid reptition in the switch
 private _givenUnit = _this select 0;
 private _faction = _this select 1;
+private _defaultUnitName = _this select 2;
 private _roleDescription = roleDescription _givenUnit;
+
+if (isNil _roleDescription) then {
+	_roleDescription = _defaultUnitName;
+	systemChat "Warning: Given unit has no role description, using provided default unit name instead!";
+};
 
 if (_givenUnit getVariable ["TAS_disableConfigLoadoutAssignment",false]) exitWith { systemChat "Your loadout has not been assigned from config due to the Mission Maker disabling it for you in particular." }; //exit script if unit has been flagged to not have a changed loadout.
 if ((_roleDescription find "@") != -1) then { //-1 indicates no @ sign. If unit has @ sign, parse it and only count text before it (remove group info)
@@ -26,7 +32,7 @@ if ((_roleDescription find "[") != -1) then { //remove info about assigned color
 private _matchingUnitArray = ("(configname _x iskindOf 'CAManBase') && (getNumber (_x >> 'scope') >= 2) && (gettext (_x >> 'faction') == _faction) && (gettext (_x >> 'displayName') == _roleDescription)" configClasses (configfile >> "CfgVehicles")) apply {configName _x};
 switch (count _matchingUnitArray) do {
 	case 0: { //no results, so first try to basic rifleman, then take any unit
-		_matchingUnitArray = ("(configname _x iskindOf 'CAManBase') && (getNumber (_x >> 'scope') >= 2) && (gettext (_x >> 'faction') == _faction) && (gettext (_x >> 'displayName') == 'Rifleman')" configClasses (configfile >> "CfgVehicles")) apply {configName _x};
+		_matchingUnitArray = ("(configname _x iskindOf 'CAManBase') && (getNumber (_x >> 'scope') >= 2) && (gettext (_x >> 'faction') == _faction) && (gettext (_x >> 'displayName') == _defaultUnitName)" configClasses (configfile >> "CfgVehicles")) apply {configName _x};
 		if (count _matchingUnitArray == 0) then {
 			_matchingUnitArray = ("(configname _x iskindOf 'CAManBase') && (getNumber (_x >> 'scope') >= 2) && (gettext (_x >> 'faction') == _faction)" configClasses (configfile >> "CfgVehicles")) apply {configName _x};
 		};
