@@ -13,10 +13,14 @@ private _faction = _this select 1;
 private _roleDescription = roleDescription _givenUnit;
 
 if (_givenUnit getVariable ["TAS_disableConfigLoadoutAssignment",false]) exitWith { systemChat "Your loadout has not been assigned from config due to the Mission Maker disabling it for you in particular." }; //exit script if unit has been flagged to not have a changed loadout.
-
 if ((_roleDescription find "@") != -1) then { //-1 indicates no @ sign. If unit has @ sign, parse it and only count text before it (remove group info)
 	private _roleDescriptionArray = _roleDescription splitString "@"; //splits string into array with values separated by @ sign, so "AAA@BBB" becomes "[AAA,BBB]"
 	_roleDescription = _roleDescriptionArray select 0;
+};
+
+if ((_roleDescription find "[") != -1) then { //remove info about assigned color team if player has it
+	private _indexOfBracket = _roleDescription find "[";
+	_roleDescription = _roleDescription select [0,(_indexOfBracket - 1)]; //-1 to remove the space before it
 };
 
 private _matchingUnitArray = ("(configname _x iskindOf 'CAManBase') && (getNumber (_x >> 'scope') >= 2) && (gettext (_x >> 'faction') == _faction) && (gettext (_x >> 'displayName') == _roleDescription)" configClasses (configfile >> "CfgVehicles")) apply {configName _x};
