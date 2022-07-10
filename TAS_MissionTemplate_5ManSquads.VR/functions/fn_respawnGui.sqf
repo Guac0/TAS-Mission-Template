@@ -30,6 +30,7 @@ systemChat "You are now being shown the respawn GUI. If unexpected behavior occu
 
 _respawnMode = _this;
 if (_respawnMode == "vehicle") then { _respawnLocations = TAS_respawnVehicles};
+if (_respawnMode == "rallypoint") then { _respawnLocations = TAS_rallypointLocations};
 //_respawnLocations = _this select 1;
 _respawnLocationsNumber = count _respawnLocations;
 //create display for our controls

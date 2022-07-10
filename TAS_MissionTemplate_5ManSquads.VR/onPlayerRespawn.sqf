@@ -31,7 +31,7 @@ if (TAS_respawnArsenalGear) then {
 };
 
 //respawn in vehicle
-if (TAS_respawnInVehicle) then {
+if (TAS_respawnInVehicle || TAS_fobEnabled) then {
 	private _respawnVehicle = missionNamespace getVariable ["TAS_respawnVehicle",objNull];
 
 	/*if (isNull _respawnVehicle) exitWith { //if logistics_vehicle is dead, then exit
@@ -51,8 +51,8 @@ if (TAS_respawnInVehicle) then {
 	};
 	hintSilent "";
 	[false,false,false] call ace_spectator_fnc_setSpectator; //end spectator if applicable
-	"vehicle" call TAS_fnc_respawnGui;
-	//player moveInCargo _respawnVehicle; //get in respawn vic in passenger seat
+	if (TAS_respawnInVehicle) then { "vehicle" call TAS_fnc_respawnGui };
+	if (TAS_fobEnabled) then { "rallypoint" call TAS_fnc_respawnGui };
 } else {
 	//systemChat "respawn in vehicle disabled";
 };
