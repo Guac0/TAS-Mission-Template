@@ -4,3 +4,4 @@ powershell -Command "(gc fn_cmdRallypoint.sqf) -replace 'Cmd', 'Charlie' | Out-F
 powershell -Command "(gc fn_cmdRallypoint.sqf) -replace 'Cmd', 'Delta' | Out-File -encoding ASCII fn_deltaRallypoint.sqf"
 powershell -Command "(gc fn_cmdRallypoint.sqf) -replace 'Cmd', 'Echo' | Out-File -encoding ASCII fn_echoRallypoint.sqf"
 powershell -Command "(gc fn_cmdRallypoint.sqf) -replace 'Cmd', 'Foxtrot' | Out-File -encoding ASCII fn_foxtrotRallypoint.sqf"
+powershell -Command "(gc fn_cmdRallypoint.sqf) -replace 'Cmd', 'Recon' | Out-File -encoding ASCII fn_reconRallypoint.sqf"

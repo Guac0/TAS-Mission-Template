@@ -91,6 +91,7 @@ class CfgFunctions
 			class deltaRallypoint;
 			class echoRallypoint;
 			class foxtrotRallypoint;
+			class reconRallypoint;
 			//class FobBuild;
 			//class initFOB;
 		};
