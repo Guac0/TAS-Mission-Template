@@ -24,7 +24,7 @@ publicVariable "TAS_afkEnabled"; //don't touch any of the publicVariable lines
 
 //turn earplugs script on/off
 TAS_earplugsEnabled = true; //default true
-TAS_earplugVolume = 0.4; //volume to reduce to when earplugs are in (0 is no volume, 1 is regular). Applies to fadeSound, fadeRadio, fadeSpeech, fadeMusic, and fadeEnvironment.
+TAS_earplugVolume = 0.25; //volume to reduce to when earplugs are in (0 is no volume, 1 is regular). Applies to fadeSound, fadeRadio, fadeSpeech, fadeMusic, and fadeEnvironment.
 publicVariable "TAS_earplugsEnabled";
 publicVariable "TAS_earplugVolume";
 
@@ -82,8 +82,9 @@ publicVariable "TAS_zeusInfoText";
 TAS_vanillaStaminaDisabled = true; //defaults to true
 publicVariable "TAS_vanillaStaminaDisabled";
 
+//possibly broken, effects are small if any
 //Modifies weapon sway (well, aim precison) coefficient and recoil coefficient. 1 is normal, 0 is nothing (but don't use 0, use 0.1)
-TAS_doCoefChanges = true; 	//default true
+TAS_doCoefChanges = false; 	//default false
 TAS_aimCoef 	  = 0.5;	//default 0.5; no effect if TAS_doCoefChanges is FALSE
 TAS_recoilCoef 	  = 0.75;	//default 0.75; no effect if TAS_doCoefChanges is FALSE
 publicVariable "TAS_doAimCoefChange";
@@ -94,7 +95,7 @@ publicVariable "TAS_recoilCoef";
 //if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
 //Required Mods: TFAR
 TAS_radiosEnabled = true; //defaults to true
-TAS_NoSquadleadLr = false; //default false. Set to true if you want to use radiomen instead of SLs having the LR backpacks by default (radiomen must have "Radioman" or "RTO" as their role description to be given the backpack)
+TAS_NoSquadleadLr = true; //default true. Set to true if you want to use radiomen instead of SLs having the LR backpacks by default (radiomen must have "Radioman" or "RTO" as their role description to be given the backpack)
 TAS_radioAdditionals = false; //default false. Sets channel 2 as an additional at game start. What frequency it is set is controlled by the tfar attributes of each character in eden.
 TAS_radioPersonal = "TFAR_anprc152"; //defaults to the "TFAR_anprc152", used by indep but is standard issue in TAS
 TAS_radioBackpack = "TFAR_anprc155_coyote"; //defaults to 155 coyote ("TFAR_anprc155_coyote"), change to what you want. Leaving empty ("") will not assign a backpack radio (useful if you preconfigured unique radio loadouts in eden)
@@ -110,11 +111,11 @@ publicVariable "TAS_radioBackpack";
 TAS_ctabEnabled = false; //default false (since ctab isnt in scifi modpack)
 publicVariable "TAS_ctabEnabled";
 
-//Assigns player loadouts via 
+//Assigns player loadouts via config
 //It looks at the config files for the given faction and tries to match each player's Role Description with the name of a unit from that faction. If found, it gives them that unit's loadout, if not found, it gives them a Rifleman loadout from that faction
 //Note that the actualy inventory items (stuff in uniform and vest and etc) of the player will be overwritten by TAS_populateInventory if that is enabled, but this will still set the clothing, weapons, etc
 //To disable loadout assignment on a given unit while keeping the system enabled for other units, place the following in its init box: this setVariable ["TAS_disableConfigLoadoutAssignment",true];
-TAS_useConfigLoadout = true; //default true
+TAS_useConfigLoadout = false; //default false
 TAS_configFaction = "BLU_F"; //you can find the config name by placing a unit, right click, log, log faction classname to clipboard
 TAS_defaultConfigUnit = "Rifleman"; //if role description doesn't match any unit in the faction, it falls back to this unit name for the loadout assignment
 publicVariable "TAS_useConfigLoadout";
@@ -187,10 +188,11 @@ publicVariable "TAS_respawnArsenalGear";
 TAS_resupplyObjectEnabled = true; //default true
 publicVariable "TAS_resupplyObjectEnabled";
 
+//FEATURE TEMP REMOVED
 //Enables the KP crate filler script, see "KPCF_config" for options 
 //NOTE: With default settings, it will add custom behavior to ALL "Land Parachute Target" and "Seismic Map (Whiteboard)" objects in your mission. Disable this setting or change the target objects in KPCF_config if you are using those objects in your mission.
-TAS_kpCratefiller = true;	//default true
-publicVariable "TAS_kpCratefiller";
+//TAS_kpCratefiller = true;	//default true
+//publicVariable "TAS_kpCratefiller";
 
 //turn FOB on/off, if on needs some eden setup see documentation elsewhere. setup already done in the template if you dont break it
 //What this does is give every Squad Lead an ace self interact to establish a "Rallypoint" at their position (if no enemies are within the stated range)
