@@ -205,16 +205,20 @@ publicVariable "TAS_resupplyObjectEnabled";
 //FOB system adds an action to every SL (and command engineer) to the "logistics_truck" vehicle to establish a small base with arsenals and a respawn position
 //If you want to disable rallypoints while keeping FOB or vice versa, set the distances from enemies to like 99999 or something absurdly high
 //Required Mods: ACE
-TAS_fobEnabled = false; //default false, set to false to disable FOB building and rallypoints
+TAS_fobEnabled = true; //default false, set to false to disable FOB building and rallypoints
 TAS_fobFullArsenals = false; //default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
 TAS_fobDistance = 300; //default 300 meters, if enemies are within this range then FOB cannot be created
 TAS_useSmallRally = true; //default true, set to true if you want to use the small rallypoint without a supply crate
 TAS_rallyDistance = 150; //default 150 meters, if enemies are within this range then rallypoint cannot be created
+TAS_rallyRespawnTime = 50; //how long to make players wait before being able to TP to rallypoint
+TAS_rallyOutnumber = true; //default true. TRUE makes it so rallypoints are canceled if there are more enemies (units in BIS_enemySides) than friendlies (units of same same as player) in the radius. False cancels rallypoint creation if there are ANY enemies within the radius
 publicVariable "TAS_fobEnabled";
 publicVariable "TAS_fobFullArsenals";
 publicVariable "TAS_fobDistance";
 publicVariable "TAS_useSmallRally";
 publicVariable "TAS_rallyDistance";
+publicVariable "TAS_rallyRespawnTime";
+publicVariable "TAS_rallyOutnumber";
 
 
 
@@ -396,6 +400,8 @@ if (TAS_fobEnabled) then {
 	publicVariable "TAS_rallyEchoUsed";
 	TAS_rallyFoxtrotUsed = false;
 	publicVariable "TAS_rallyFoxtrotUsed";
+	TAS_rallypointLocations = [];
+	publicVariable "TAS_rallypointLocations";
 };
 
 //show fps script by Mildly Interested/Bassbeard
