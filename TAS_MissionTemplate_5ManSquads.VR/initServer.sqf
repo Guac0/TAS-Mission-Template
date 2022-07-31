@@ -115,12 +115,17 @@ publicVariable "TAS_ctabEnabled";
 //It looks at the config files for the given faction and tries to match each player's Role Description with the name of a unit from that faction. If found, it gives them that unit's loadout, if not found, it gives them a Rifleman loadout from that faction
 //Note that the actualy inventory items (stuff in uniform and vest and etc) of the player will be overwritten by TAS_populateInventory if that is enabled, but this will still set the clothing, weapons, etc
 //To disable loadout assignment on a given unit while keeping the system enabled for other units, place the following in its init box: this setVariable ["TAS_disableConfigLoadoutAssignment",true];
-TAS_useConfigLoadout = false; //default false
-TAS_configFaction = "BLU_F"; //you can find the config name by placing a unit, right click, log, log faction classname to clipboard
+//You can also manually set the loadout names if you don't want it to autodetermine based on the role description. To do this, put the following lines into the init box of the unit:
+	//this setVariable ["TAS_overrideConfigLoadout",true];
+	//this setVariable ["TAS_overrideConfigLoadoutName","Display name of unit in given faction whose loadout should be given to this player"];
+TAS_useConfigLoadout = false; 		//default false
+TAS_configFaction = "BLU_F"; 		//you can find the config name by placing a unit, right click, log, log faction classname to clipboard
 TAS_defaultConfigUnit = "Rifleman"; //if role description doesn't match any unit in the faction, it falls back to this unit name for the loadout assignment
+TAS_configLoadoutNumber = 0; 		//Advanced users only. When multiple loadouts are found, use the # loadout found (zero-based)
 publicVariable "TAS_useConfigLoadout";
 publicVariable "TAS_configFaction";
 publicVariable "TAS_defaultConfigUnit";
+publicVariable "TAS_configLoadoutNumber";
 
 //Automatically gives appropriate inventory items to players, loosely based on class. Clears eden inventory (but doesnt change clothing or weapons)
 //Medical: 16x basic bandages, 8x morphine, 3x TQs, 2x epi, 2x 500ml blood
