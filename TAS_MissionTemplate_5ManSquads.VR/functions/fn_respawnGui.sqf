@@ -12,10 +12,10 @@ _green = [0,0,1,0.5];
 _cyan = [0,1,1,0.5];
 
 
-if (localNamespace getVariable ["TAS_aceArsenalOpen",false]) then {
+if (player getVariable ["TAS_aceArsenalOpen",false]) then {
 	hint "Please close any displays (such as Arsenal) before being shown the respawn GUI!";
 	systemChat "Please close any displays (such as Arsenal) before being shown the respawn GUI!"; //this too because while in arsenal, hints are hidden
-	waitUntil {sleep 0.25; !(localNamespace getVariable ["TAS_aceArsenalOpen",false])}; //wait until ace arsenal is exited to avoid gui errors
+	waitUntil {sleep 0.25; !(player getVariable ["TAS_aceArsenalOpen",false])}; //wait until ace arsenal is exited to avoid gui errors
 };
 if (vehicle player != player) then {
 	hint "Exit the vehicle before being shown the respawn GUI!";

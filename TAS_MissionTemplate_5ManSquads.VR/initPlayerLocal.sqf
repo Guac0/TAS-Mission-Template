@@ -382,8 +382,8 @@ if (TAS_aceWindowBreak) then {
 
 if (TAS_respawnInVehicle) then {
 	//module now handled in zeus register function
-	["ace_arsenal_displayOpened", {localNamespace setVariable ["TAS_aceArsenalOpen",true]}] call CBA_fnc_addEventHandler;
-	["ace_arsenal_displayClosed", {localNamespace setVariable ["TAS_aceArsenalOpen",false]}] call CBA_fnc_addEventHandler;
+	["ace_arsenal_displayOpened", {player setVariable ["TAS_aceArsenalOpen",true]}] call CBA_fnc_addEventHandler;
+	["ace_arsenal_displayClosed", {player setVariable ["TAS_aceArsenalOpen",false]}] call CBA_fnc_addEventHandler;
 };
 
 //TODO check if we need to delay until curator is registered? and/or just set it as postInit in description.ext and remove it from here
