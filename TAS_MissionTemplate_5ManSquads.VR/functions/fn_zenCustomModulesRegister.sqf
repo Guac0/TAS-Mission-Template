@@ -11,6 +11,9 @@ if (TAS_respawnInVehicle) then {
 if (TAS_zeusInfoText) then {
 	_moduleList pushBack ["Play Info Text", {_this call TAS_fnc_zeusInfoText}];
 };
+if (TAS_zeusHcTransfer) then {
+	_moduleList pushBack ["Transfer Group Ownership", {_this call TAS_fnc_transferGroupOwnership}];
+};
 
 //registering ZEN custom modules, code modified from Crow
 {

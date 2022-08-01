@@ -66,10 +66,6 @@ publicVariable "TAS_spawnUnitsOnHC";
 TAS_aceWindowBreak = false; //default false
 publicVariable "TAS_aceWindowBreak";
 
-//Enables zeus module to play info text
-TAS_zeusInfoText = true; //default true
-publicVariable "TAS_zeusInfoText";
-
 
 
 //////////////////////////////////
@@ -172,14 +168,6 @@ TAS_respawnInVehicleTime = 50; //default 50, note that this is in addition to th
 publicVariable "TAS_respawnInVehicle";
 publicVariable "TAS_respawnInVehicleTime";
 
-//Adds two custom resupply modules to Zeus
-//Each has 6 magazines of each player's weapon and a bunch of medical
-//One spawns the crate at cursor location, other paradrops it (watch for wind!)
-//Find the modules under the "Resupply" section in Zeus
-//Required Mods: ZEN
-TAS_zeusResupply = true; //default true
-publicVariable "TAS_zeusResupply";
-
 //Choose between respawning with config loadout (default in vanilla, not recommended. set both options to false to pick this option), respawning with gear you had when you died, and respawning with gear that you preset at the arsenal
 //for TAS_respawnArsenalGear, loadout is saved whenever the player exits the (ace) arsenal, and there's also an option to manually save your loadout at the AceHealObject
 TAS_respawnDeathGear = false; //default false --- DO NOT SET BOTH respawnDeathGear AND respawnArsenalGear to true!!!
@@ -205,7 +193,7 @@ publicVariable "TAS_resupplyObjectEnabled";
 //FOB system adds an action to every SL (and command engineer) to the "logistics_truck" vehicle to establish a small base with arsenals and a respawn position
 //If you want to disable rallypoints while keeping FOB or vice versa, set the distances from enemies to like 99999 or something absurdly high
 //Required Mods: ACE
-TAS_fobEnabled = true; //default false, set to false to disable FOB building and rallypoints
+TAS_fobEnabled = false; //default false, set to false to disable FOB building and rallypoints
 TAS_fobFullArsenals = false; //default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
 TAS_fobDistance = 300; //default 300 meters, if enemies are within this range then FOB cannot be created
 TAS_useSmallRally = true; //default true, set to true if you want to use the small rallypoint without a supply crate
@@ -223,6 +211,28 @@ publicVariable "TAS_rallyOutnumber";
 
 
 //to add a custom fortify preset, go to description.ext and follow the instructions there
+
+
+
+//////////////////////////////////
+//////////Zeus Options///////////
+//////////////////////////////////
+
+//Adds two custom resupply modules to Zeus
+//Each has 6 magazines of each player's weapon and a bunch of medical
+//One spawns the crate at cursor location, other paradrops it (watch for wind!)
+//Find the modules under the "Resupply" section in Zeus
+//Required Mods: ZEN
+TAS_zeusResupply = true; //default true
+publicVariable "TAS_zeusResupply";
+
+//Adds zeus module to play info text
+TAS_zeusInfoText = true; //default true
+publicVariable "TAS_zeusInfoText";
+
+//Adds zeus modules for manually managing group ownership
+TAS_zeusHcTransfer = true;
+publicVariable "TAS_zeusHcTransfer";
 
 
 
