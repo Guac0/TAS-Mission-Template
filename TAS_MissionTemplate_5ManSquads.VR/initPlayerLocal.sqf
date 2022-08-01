@@ -55,7 +55,7 @@ if (_leadershipRoleDescriptionSimple in _roleDescription) then { //STRING in STR
 //dynamic groups code
 if (TAS_dynamicGroupsEnabled) then {
 	["InitializePlayer", [player, true]] call BIS_fnc_dynamicGroups; // Initializes the player/client side Dynamic Groups framework and registers the player group
-	player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Enabled."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Enabled. Press 'U' to open the Dynamic Groups menu."]];
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Disabled."]]; };
 };
@@ -65,7 +65,7 @@ if (TAS_vanillaStaminaDisabled) then {
 	player enableFatigue false;
 	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Disabled."]];
 } else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Enabled."]]; };
+	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Enabled."]];
 };
 
 //Sets custom aim coefficient (precision and/or weapon sway) and recoil coefficient. Must be here and in onPlayerRespawn
@@ -306,19 +306,6 @@ if (TAS_aceSpectateObjectEnabled) then {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Ace Spectate Object", "Disabled."]]; };
 };
 
-//adds two resupply options to ZEN under the "Resupply" catagory
-//each spawns a large crate with medical and 6 mags for each player's weapon
-//to customize contents of resupply, edit the files in scripts\ammocrate.sqf and ammocratepara.sqf
-//REQUIRES ZEN TO BE LOADED (on all clients! although maybe just the zeus if you adjusted the code [i.e. not init.sqf] https://zen-mod.github.io/ZEN/#/frameworks/custom_modules)
-if (TAS_zeusResupply) then {
-	//now handled in zeus module register function
-	//systemChat "Custom Zeus resupply modules enabled.";
-	player createDiaryRecord ["tasMissionTemplate", ["Custom Zeus Resupply Modules", "Enabled. Adds two custom resupply modules to Zeus. One spawns the crate at the cursor location, while the other paradrops it. Each spawns a large crate with medical and 6 mags for each player's weapon."]];
-} else {
-	//systemChat "Custom Zeus resupply modules disabled.";
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Custom Zeus Resupply Modules", "Disabled."]]; };
-};
-
 //respawn with death gear
 if (TAS_respawnDeathGear) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Death Loadout", "Enabled. You will respawn with the gear you had equipped when you died."]];
@@ -346,7 +333,7 @@ if (TAS_respawnArsenalGear) then {
 
 //respawn in vehicle
 if (TAS_respawnInVehicle) then {
-	player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Enabled. After a waiting period specified by the mission maker, respawning players will be teleported into the logistics vehicle. During this waiting time, respawning players can spectate, edit their loadout, or hang out at base."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Enabled. After a waiting period specified by the mission maker, respawning players will be teleported into the logistics vehicle. During this waiting time, respawning players can spectate, edit their loadout, or hang out at base. Zeus has access to a module to add additional respawn vehicles. You can find it under 'TAS Mission Template' in the module list."]];
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Disabled."]]; };
 };
