@@ -103,9 +103,9 @@ if (TAS_earplugsEnabled) then {
 	["TAS Keybindings","earplugs_key","Toggle Earplugs", {[] call TAS_fnc_earplugs}, "", [18, [false, true, true]]] call CBA_fnc_addKeybind;
 
 	//make a diary record tutorial
-	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Enabled. To start/stop the AFK script, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Run AFK Script. By default, it will be Left Control + Left Alt + O."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Earplugs Script", "Enabled. To enable/disable the earplugs, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Toggle Earplugs. By default, it will be Left Control + Left Alt + E."]];
 } else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Disabled."]]; };
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Earplugs Script", "Disabled."]]; };
 	//systemChat "Afk System disabled.";
 };
 
