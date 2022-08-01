@@ -109,6 +109,17 @@ if (TAS_earplugsEnabled) then {
 	//systemChat "Afk System disabled.";
 };
 
+//Add TAS Music Hotkey Script
+if (TAS_musicKeyEnabled) then {
+	["TAS Keybindings","music_key","Toggle Music", {[] call TAS_fnc_toggleMusic}, "", [50, [false, true, true]]] call CBA_fnc_addKeybind; //50 is M
+
+	//make a diary record tutorial
+	player createDiaryRecord ["tasMissionTemplate", ["Music Hotkey Script", "Enabled. To enable/disable music audio, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Toggle Music. By default, it will be Left Control + Left Alt + M."]];
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Music Hotkey Script", "Disabled."]]; };
+	//systemChat "Afk System disabled.";
+};
+
 //Add FOB Script
 if (TAS_fobEnabled) then {
 	[] execVM "buildfob\initfob.sqf";

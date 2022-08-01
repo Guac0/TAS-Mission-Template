@@ -3,9 +3,9 @@ TAS_templateVersion = "v9.0.0";
 publicVariable "TAS_templateVersion";
 //you can now proceed to touch things (below this line, that is)
 
-///////////////////////////////////////////
-////////////Mission Maker Options//////////
-///////////////////////////////////////////
+///////////////////////////////////////////////////
+///////////////Mission Maker Options///////////////
+///////////////////////////////////////////////////
 
 
 
@@ -13,20 +13,11 @@ publicVariable "TAS_templateVersion";
 /////Scripts/Functions Options////
 //////////////////////////////////
 
+
+
 //Cleans the mission template briefing by removing diary records for options set to FALSE
-TAS_cleanBriefing = true; //default true
-publicVariable "TAS_cleanBriefing";
-
-//turn afk script on/off
-//Required mods: CBA
-TAS_afkEnabled = true; //set to false to disable AFK script from being added
-publicVariable "TAS_afkEnabled"; //don't touch any of the publicVariable lines
-
-//turn earplugs script on/off
-TAS_earplugsEnabled = true; //default true
-TAS_earplugVolume = 0.25; //volume to reduce to when earplugs are in (0 is no volume, 1 is regular). Applies to fadeSound, fadeRadio, fadeSpeech, fadeMusic, and fadeEnvironment.
-publicVariable "TAS_earplugsEnabled";
-publicVariable "TAS_earplugVolume";
+TAS_cleanBriefing = true; //default true. true to enable, false to disable.
+publicVariable "TAS_cleanBriefing"; //don't touch the publicVariable lines
 
 //turn TAS_globalTFAR on/off, if on then make sure you have a way to activate it (i recommend a trigger, see template)
 //Required Mods: TFAR
@@ -60,11 +51,6 @@ publicVariable "TAS_fpsDisplayEnabled";
 //Special logic in init.sqf for spawning AI directly on HCs. Advanced usage only and requires extensive setup. Do not touch unless Guac tells you to.
 TAS_spawnUnitsOnHC = false; //default false
 publicVariable "TAS_spawnUnitsOnHC";
-
-//Script by IndigoFox that adds an ace interact to all windows which breaks them upon use.
-//Source: https://www.reddit.com/r/armadev/comments/sv72xa/let_your_players_break_windows_using_ace/?utm_source=share&utm_medium=ios_app&utm_name=iossmf
-TAS_aceWindowBreak = false; //default false
-publicVariable "TAS_aceWindowBreak";
 
 
 
@@ -215,8 +201,10 @@ publicVariable "TAS_rallyOutnumber";
 
 
 //////////////////////////////////
-//////////Zeus Options///////////
+//////////Zeus Options////////////
 //////////////////////////////////
+
+
 
 //Adds two custom resupply modules to Zeus
 //Each has 6 magazines of each player's weapon and a bunch of medical
@@ -233,6 +221,34 @@ publicVariable "TAS_zeusInfoText";
 //Adds zeus modules for manually managing group ownership
 TAS_zeusHcTransfer = true;
 publicVariable "TAS_zeusHcTransfer";
+
+
+
+//////////////////////////////////
+//Client Hotkeys/Actions Options//
+//////////////////////////////////
+
+
+
+//Script by IndigoFox that adds an ace interact to all windows which breaks them upon use.
+//Source: https://www.reddit.com/r/armadev/comments/sv72xa/let_your_players_break_windows_using_ace/?utm_source=share&utm_medium=ios_app&utm_name=iossmf
+TAS_aceWindowBreak = false; //default false
+publicVariable "TAS_aceWindowBreak";
+
+//hotkey to turn afk script on/off
+//Required mods: CBA
+TAS_afkEnabled = true; //default true
+publicVariable "TAS_afkEnabled";
+
+//hotkey to turn earplugs script on/off
+TAS_earplugsEnabled = true; //default true
+TAS_earplugVolume = 0.25; //volume to reduce to when earplugs are in (0 is no volume, 1 is regular). Applies to fadeSound, fadeRadio, fadeSpeech, fadeMusic, and fadeEnvironment.
+publicVariable "TAS_earplugsEnabled";
+publicVariable "TAS_earplugVolume";
+
+//adds a hotkey to mute/unmute music
+TAS_musicKeyEnabled = true; //default true
+publicVariable "TAS_musicKeyEnabled";
 
 
 

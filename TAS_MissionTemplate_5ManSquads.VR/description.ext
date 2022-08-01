@@ -82,6 +82,7 @@ class CfgFunctions
 			class zeusInfoText;
 			class spawnAiWithWarning;
 			class transferGroupOwnership;
+			class toggleMusic;
 		};
 		class buildFob
 		{
