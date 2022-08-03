@@ -12,24 +12,24 @@ private _reducedVolume = TAS_earplugVolume; //private var to reduce strain from 
 
 if (_earplugsEnabled == true) then { //undoes effect if player already has earplugs in (toggles to off)
 	/*{
-		3 _x 1;
+		1 _x 1;
 	} forEach [fadeSound,fadeRadio,fadeSpeech,fadeMusic,fadeEnvironment];*/ //errors if we do it this way for some reason
-	3 fadeSound 1;
-	3 fadeRadio 1;
-	3 fadeSpeech 1;
-	3 fadeMusic 1;
-	3 fadeEnvironment 1;
+	0 fadeSound 1;
+	0 fadeRadio 1;
+	0 fadeSpeech 1;
+	0 fadeMusic 1;
+	0 fadeEnvironment 1;
 	systemChat "Took earplugs out!";
 	_AfkPlayer setVariable ["TAS_earplugsIn",false];
 } else { //applies effect if player doesn't have earplugs in (toggles to on)
 	/*{
-		3 _x _reducedVolume; //change to _reducedVolume over 3 seconds
+		1 _x _reducedVolume; //change to _reducedVolume over 1 seconds
 	} forEach [fadeSound,fadeRadio,fadeSpeech,fadeMusic,fadeEnvironment];*/
-	3 fadeSound _reducedVolume;
-	3 fadeRadio _reducedVolume;
-	3 fadeSpeech _reducedVolume;
-	3 fadeMusic _reducedVolume;
-	3 fadeEnvironment _reducedVolume;
+	0 fadeSound _reducedVolume;
+	0 fadeRadio _reducedVolume;
+	0 fadeSpeech _reducedVolume;
+	0 fadeMusic _reducedVolume;
+	0 fadeEnvironment _reducedVolume;
 	systemChat "Put earplugs in!";
 	_AfkPlayer setVariable ["TAS_earplugsIn",true];
 };
