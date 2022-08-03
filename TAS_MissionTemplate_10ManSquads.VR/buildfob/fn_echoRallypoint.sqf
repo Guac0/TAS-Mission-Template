@@ -8,14 +8,31 @@
 private _enemySides = [side player] call BIS_fnc_enemySides;
 private _radius = TAS_rallyDistance; //parameter from initServer.sqf, default 150
 private _nearEnemies = allUnits select {_x distance player < _radius AND side _x in _enemySides};
+private _nearFriendlies = allUnits select {_x distance player < _radius AND side _x == playerSide}; //Note: playerSide will not update if player joins group on another side
 private _nearEnemiesNumber = count _nearEnemies;
+private _nearFriendliesNumber = count _nearFriendlies;
 private _playerSide = side group player;
 
-if ( _nearEnemiesNumber > 0 ) exitWith {systemChat format ["Rallypoint creation failure, enemies are within %1m!",TAS_rallyDistance]};
+private _exit = false;
+if (TAS_rallyOutnumber) then {
+	if ( _nearEnemiesNumber > _nearFriendliesNumber) exitWith {_exit = true; systemChat format ["Rallypoint creation failure, enemies outnumber friendleis within %1m!",TAS_rallyDistance]};
+} else {
+	if ( _nearEnemiesNumber > 0 ) exitWith {_exit = true; systemChat format ["Rallypoint creation failure, enemies are within %1m!",TAS_rallyDistance]};
+};
+if (_exit) exitWith {};
 
 if (TAS_rallyEchoUsed == false) then { "rallypointEchoMarker" setMarkerAlpha 1; };  //first time rally is created, set its marker to visible
-if (TAS_rallyEchoUsed == true) then { {deleteVehicle _x} forEach TAS_rallypointEcho; TAS_rallypointEchoRespawn call BIS_fnc_removeRespawnPosition;}; //if rallypoint already exists, delete it so the new one can be spawned
-TAS_rallypointEchoRespawn = [side player, getPos player, "Echo Rallypoint"] call BIS_fnc_addRespawnPosition; //not private so we can delete later
+if (TAS_rallyEchoUsed == true) then {
+	{deleteVehicle _x} forEach TAS_rallypointEcho;
+	//TAS_rallypointEchoRespawn call BIS_fnc_removeRespawnPosition;
+	private _path = [TAS_rallypointLocations, "Echo Rallypoint"] call BIS_fnc_findNestedElement;
+	private _indexOfOldRallyPair = _path select 0;
+	TAS_rallypointLocations deleteAt _indexOfOldRallyPair;
+}; //if rallypoint already exists, delete it so the new one can be spawned
+
+//TAS_rallypointEchoRespawn = [side player, getPos player, "Echo Rallypoint"] call BIS_fnc_addRespawnPosition; //not private so we can delete later
+TAS_rallypointLocations pushBack [getPosAtl player,"Echo Rallypoint"];
+publicVariable "TAS_rallypointLocations";
 "rallypointEchoMarker" setMarkerPos getPos player; //updates the rallypoint's position on map
 
 if (TAS_useSmallRally == false) then {

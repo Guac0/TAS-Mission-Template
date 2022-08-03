@@ -80,6 +80,9 @@ class CfgFunctions
 			class markerFollow;
 			class assignLoadoutFromConfig;
 			class zeusInfoText;
+			class spawnAiWithWarning;
+			class transferGroupOwnership;
+			class toggleMusic;
 		};
 		class buildFob
 		{
@@ -91,6 +94,7 @@ class CfgFunctions
 			class deltaRallypoint;
 			class echoRallypoint;
 			class foxtrotRallypoint;
+			class reconRallypoint;
 			//class FobBuild;
 			//class initFOB;
 		};

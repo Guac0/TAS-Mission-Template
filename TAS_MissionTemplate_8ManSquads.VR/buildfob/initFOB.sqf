@@ -81,6 +81,11 @@ if (vehicleVarName player == "FOXTROT_Actual" || ("Squad Leader" in _playerRoleD
 	[player, 1, ["ACE_SelfActions"], Rally_Foxtrot_Action] call ace_interact_menu_fnc_addActionToObject;
 };
 
+if (vehicleVarName player == "Recon_Actual" || ("Leader" in _playerRoleDescription && "Recon" in _playerRoleDescription)) then {
+	Rally_CMD_Action = ["rallyRecon","Place Squad Rallypoint","",{[3,[],{[] call TAS_fnc_reconRallypoint;},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
+	[player, 1, ["ACE_SelfActions"], Rally_Recon_Action] call ace_interact_menu_fnc_addActionToObject;
+};
+
 //debug init finished
 //systemChat "FOB/Rallypoint system init finished.";
 player createDiaryRecord ["tasMissionTemplate", ["FOB/Rallypoints", "Enabled. Squad Leads can self-ace-interact to place a rallypoint assuming no enemies are within a certain distance. To place the FOB, ace interact with the logistics vehicle."]];

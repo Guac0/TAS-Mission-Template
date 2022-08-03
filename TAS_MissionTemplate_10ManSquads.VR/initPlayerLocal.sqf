@@ -55,7 +55,7 @@ if (_leadershipRoleDescriptionSimple in _roleDescription) then { //STRING in STR
 //dynamic groups code
 if (TAS_dynamicGroupsEnabled) then {
 	["InitializePlayer", [player, true]] call BIS_fnc_dynamicGroups; // Initializes the player/client side Dynamic Groups framework and registers the player group
-	player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Enabled."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Enabled. Press 'U' to open the Dynamic Groups menu."]];
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Disabled."]]; };
 };
@@ -65,7 +65,7 @@ if (TAS_vanillaStaminaDisabled) then {
 	player enableFatigue false;
 	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Disabled."]];
 } else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Enabled."]]; };
+	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Enabled."]];
 };
 
 //Sets custom aim coefficient (precision and/or weapon sway) and recoil coefficient. Must be here and in onPlayerRespawn
@@ -103,9 +103,20 @@ if (TAS_earplugsEnabled) then {
 	["TAS Keybindings","earplugs_key","Toggle Earplugs", {[] call TAS_fnc_earplugs}, "", [18, [false, true, true]]] call CBA_fnc_addKeybind;
 
 	//make a diary record tutorial
-	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Enabled. To start/stop the AFK script, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Run AFK Script. By default, it will be Left Control + Left Alt + O."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Earplugs Script", "Enabled. To enable/disable the earplugs, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Toggle Earplugs. By default, it will be Left Control + Left Alt + E."]];
 } else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Disabled."]]; };
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Earplugs Script", "Disabled."]]; };
+	//systemChat "Afk System disabled.";
+};
+
+//Add TAS Music Hotkey Script
+if (TAS_musicKeyEnabled) then {
+	["TAS Keybindings","music_key","Toggle Music", {[] call TAS_fnc_toggleMusic}, "", [13, [false, true, true]]] call CBA_fnc_addKeybind; //13 is =
+
+	//make a diary record tutorial
+	player createDiaryRecord ["tasMissionTemplate", ["Music Hotkey Script", "Enabled. To enable/disable music audio, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Toggle Music. By default, it will be Left Control + Left Alt + =."]];
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Music Hotkey Script", "Disabled."]]; };
 	//systemChat "Afk System disabled.";
 };
 
@@ -127,7 +138,7 @@ if (TAS_globalTfarEnabled) then {
 };
 
 if (TAS_useConfigLoadout) then {
-	[player,TAS_configFaction] call TAS_fnc_assignLoadoutFromConfig;
+	[player,TAS_configFaction,TAS_defaultConfigUnit] call TAS_fnc_assignLoadoutFromConfig;
 	player createDiaryRecord ["tasMissionTemplate", ["Loadout Assignment From Config", "Your loadout has been set accordingly to the given faction and your role description. See your chat messages for more information in the case of the script resorting to fallback loadouts or a notficiation that Zeus has chosen to skip your loadout assignment in particular."]];
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Loadout Assignment From Config", "Disabled."]]; };
@@ -295,19 +306,6 @@ if (TAS_aceSpectateObjectEnabled) then {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Ace Spectate Object", "Disabled."]]; };
 };
 
-//adds two resupply options to ZEN under the "Resupply" catagory
-//each spawns a large crate with medical and 6 mags for each player's weapon
-//to customize contents of resupply, edit the files in scripts\ammocrate.sqf and ammocratepara.sqf
-//REQUIRES ZEN TO BE LOADED (on all clients! although maybe just the zeus if you adjusted the code [i.e. not init.sqf] https://zen-mod.github.io/ZEN/#/frameworks/custom_modules)
-if (TAS_zeusResupply) then {
-	//now handled in zeus module register function
-	//systemChat "Custom Zeus resupply modules enabled.";
-	player createDiaryRecord ["tasMissionTemplate", ["Custom Zeus Resupply Modules", "Enabled. Adds two custom resupply modules to Zeus. One spawns the crate at the cursor location, while the other paradrops it. Each spawns a large crate with medical and 6 mags for each player's weapon."]];
-} else {
-	//systemChat "Custom Zeus resupply modules disabled.";
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Custom Zeus Resupply Modules", "Disabled."]]; };
-};
-
 //respawn with death gear
 if (TAS_respawnDeathGear) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Death Loadout", "Enabled. You will respawn with the gear you had equipped when you died."]];
@@ -335,7 +333,7 @@ if (TAS_respawnArsenalGear) then {
 
 //respawn in vehicle
 if (TAS_respawnInVehicle) then {
-	player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Enabled. After a waiting period specified by the mission maker, respawning players will be teleported into the logistics vehicle. During this waiting time, respawning players can spectate, edit their loadout, or hang out at base."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Enabled. After a waiting period specified by the mission maker, respawning players will be teleported into the logistics vehicle. During this waiting time, respawning players can spectate, edit their loadout, or hang out at base. Zeus has access to a module to add additional respawn vehicles. You can find it under 'TAS Mission Template' in the module list."]];
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Disabled."]]; };
 };
@@ -382,8 +380,8 @@ if (TAS_aceWindowBreak) then {
 
 if (TAS_respawnInVehicle) then {
 	//module now handled in zeus register function
-	["ace_arsenal_displayOpened", {localNamespace setVariable ["TAS_aceArsenalOpen",true]}] call CBA_fnc_addEventHandler;
-	["ace_arsenal_displayClosed", {localNamespace setVariable ["TAS_aceArsenalOpen",false]}] call CBA_fnc_addEventHandler;
+	["ace_arsenal_displayOpened", {player setVariable ["TAS_aceArsenalOpen",true]}] call CBA_fnc_addEventHandler;
+	["ace_arsenal_displayClosed", {player setVariable ["TAS_aceArsenalOpen",false]}] call CBA_fnc_addEventHandler;
 };
 
 //TODO check if we need to delay until curator is registered? and/or just set it as postInit in description.ext and remove it from here
@@ -410,4 +408,23 @@ if (TAS_arsenalCurate) then {
 			//[_x, []] call ace_arsenal_fnc_removeVirtualItems;
 		};
 	} forEach ["arsenal_1","arsenal_2","arsenal_3","arsenal_4","arsenal_5","arsenal_6","arsenal_7","arsenal_8","arsenal_9","arsenal_10"]; //template only provides 3 arsenals, but more are provided in case mission maker copy pastes them (they'll automatically be named arsenal_X)
+};
+
+if (TAS_doTemplateBriefing) then {
+	TAS_templateBriefing = [
+		"1. Made earplugs (default keybind: left control + left alt + E) take effect immediantly instead of gradually fading audio in and out.",
+		"2. Added a GUI to the Rallypoints respawn system similar to how it is implemented in the Respawn Vehicle system. Also fixed incompatiblities between the GUI and the Ace Arsenal for all Respawn GUI systems.",
+		"3. Added an optional feature (enabled by default) to allow Rallypoints to be placed as long as friendlies outnumber enemies within the set radius, instead of the previous system where Rallypoint creation was canceled if there were ANY enemies within the radius.",
+		"4. Added a new keybind for toggling your music volume between no music and max music volume (by default, the keybind is: left control + left alt + =).",
+		"5. Changed the default enable/disable and other settings for various scripts. Now, earplugs reduce volume to 25% of normal instead of 40%, the incompatible sway and recoil edits have been disabled, and the RTO radio setup is now enabled by default.",
+		"We encourage you to visit the 'Mission Template' section in the mission notes (in the top left of map screen) to be aware of the enabled toggleable features present in this mission.",
+		"You will only receive this message once every time you join a mission with a new mission template version."
+	];
+
+	private _lastBriefed = profileNamespace getVariable ["TAS_lastTemplateBrief","never briefed"];
+	if (_lastBriefed != TAS_templateVersion) then {
+		(format ["TAS Mission Template %1 — What's New",TAS_templateVersion]) hintC TAS_templateBriefing;
+		profileNamespace setVariable ["TAS_lastTemplateBrief",TAS_templateVersion];
+		//note: if client does a non-graceful game exit, this variable will not be saved. Not going to bother forcing a save here as it's not worth the time it takes.
+	};
 };

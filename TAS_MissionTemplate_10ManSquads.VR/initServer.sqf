@@ -1,11 +1,16 @@
 //do not touch
-TAS_templateVersion = "v9.0.0";
+
+TAS_templateVersion = "v9.1.0";
 publicVariable "TAS_templateVersion";
+TAS_doTemplateBriefing = true;
+publicVariable "TAS_clientTemplateBriefing";
+//template briefing text is handled in initPlayerLocal.sqf
+
 //you can now proceed to touch things (below this line, that is)
 
-///////////////////////////////////////////
-////////////Mission Maker Options//////////
-///////////////////////////////////////////
+///////////////////////////////////////////////////
+///////////////Mission Maker Options///////////////
+///////////////////////////////////////////////////
 
 
 
@@ -13,20 +18,11 @@ publicVariable "TAS_templateVersion";
 /////Scripts/Functions Options////
 //////////////////////////////////
 
+
+
 //Cleans the mission template briefing by removing diary records for options set to FALSE
-TAS_cleanBriefing = true; //default true
-publicVariable "TAS_cleanBriefing";
-
-//turn afk script on/off
-//Required mods: CBA
-TAS_afkEnabled = true; //set to false to disable AFK script from being added
-publicVariable "TAS_afkEnabled"; //don't touch any of the publicVariable lines
-
-//turn earplugs script on/off
-TAS_earplugsEnabled = true; //default true
-TAS_earplugVolume = 0.4; //volume to reduce to when earplugs are in (0 is no volume, 1 is regular). Applies to fadeSound, fadeRadio, fadeSpeech, fadeMusic, and fadeEnvironment.
-publicVariable "TAS_earplugsEnabled";
-publicVariable "TAS_earplugVolume";
+TAS_cleanBriefing = true; //default true. true to enable, false to disable.
+publicVariable "TAS_cleanBriefing"; //don't touch the publicVariable lines
 
 //turn TAS_globalTFAR on/off, if on then make sure you have a way to activate it (i recommend a trigger, see template)
 //Required Mods: TFAR
@@ -61,15 +57,6 @@ publicVariable "TAS_fpsDisplayEnabled";
 TAS_spawnUnitsOnHC = false; //default false
 publicVariable "TAS_spawnUnitsOnHC";
 
-//Script by IndigoFox that adds an ace interact to all windows which breaks them upon use.
-//Source: https://www.reddit.com/r/armadev/comments/sv72xa/let_your_players_break_windows_using_ace/?utm_source=share&utm_medium=ios_app&utm_name=iossmf
-TAS_aceWindowBreak = false; //default false
-publicVariable "TAS_aceWindowBreak";
-
-//Enables zeus module to play info text
-TAS_zeusInfoText = true; //default true
-publicVariable "TAS_zeusInfoText";
-
 
 
 //////////////////////////////////
@@ -82,8 +69,9 @@ publicVariable "TAS_zeusInfoText";
 TAS_vanillaStaminaDisabled = true; //defaults to true
 publicVariable "TAS_vanillaStaminaDisabled";
 
+//possibly broken, effects are small if any
 //Modifies weapon sway (well, aim precison) coefficient and recoil coefficient. 1 is normal, 0 is nothing (but don't use 0, use 0.1)
-TAS_doCoefChanges = true; 	//default true
+TAS_doCoefChanges = false; 	//default false
 TAS_aimCoef 	  = 0.5;	//default 0.5; no effect if TAS_doCoefChanges is FALSE
 TAS_recoilCoef 	  = 0.75;	//default 0.75; no effect if TAS_doCoefChanges is FALSE
 publicVariable "TAS_doAimCoefChange";
@@ -94,7 +82,7 @@ publicVariable "TAS_recoilCoef";
 //if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
 //Required Mods: TFAR
 TAS_radiosEnabled = true; //defaults to true
-TAS_NoSquadleadLr = false; //default false. Set to true if you want to use radiomen instead of SLs having the LR backpacks by default (radiomen must have "Radioman" or "RTO" as their role description to be given the backpack)
+TAS_NoSquadleadLr = true; //default true. Set to true if you want to use radiomen instead of SLs having the LR backpacks by default (radiomen must have "Radioman" or "RTO" as their role description to be given the backpack)
 TAS_radioAdditionals = false; //default false. Sets channel 2 as an additional at game start. What frequency it is set is controlled by the tfar attributes of each character in eden.
 TAS_radioPersonal = "TFAR_anprc152"; //defaults to the "TFAR_anprc152", used by indep but is standard issue in TAS
 TAS_radioBackpack = "TFAR_anprc155_coyote"; //defaults to 155 coyote ("TFAR_anprc155_coyote"), change to what you want. Leaving empty ("") will not assign a backpack radio (useful if you preconfigured unique radio loadouts in eden)
@@ -110,14 +98,21 @@ publicVariable "TAS_radioBackpack";
 TAS_ctabEnabled = false; //default false (since ctab isnt in scifi modpack)
 publicVariable "TAS_ctabEnabled";
 
-//Assigns player loadouts via 
+//Assigns player loadouts via config
 //It looks at the config files for the given faction and tries to match each player's Role Description with the name of a unit from that faction. If found, it gives them that unit's loadout, if not found, it gives them a Rifleman loadout from that faction
 //Note that the actualy inventory items (stuff in uniform and vest and etc) of the player will be overwritten by TAS_populateInventory if that is enabled, but this will still set the clothing, weapons, etc
 //To disable loadout assignment on a given unit while keeping the system enabled for other units, place the following in its init box: this setVariable ["TAS_disableConfigLoadoutAssignment",true];
-TAS_useConfigLoadout = true; //default true
-TAS_configFaction = "BLU_F"; //you can find the config name by placing a unit, right click, log, log faction classname to clipboard
+//You can also manually set the loadout names if you don't want it to autodetermine based on the role description. To do this, put the following lines into the init box of the unit:
+	//this setVariable ["TAS_overrideConfigLoadout",true];
+	//this setVariable ["TAS_overrideConfigLoadoutName","Display name of unit in given faction whose loadout should be given to this player"];
+TAS_useConfigLoadout = false; 		//default false
+TAS_configFaction = "BLU_F"; 		//you can find the config name by placing a unit, right click, log, log faction classname to clipboard
+TAS_defaultConfigUnit = "Rifleman"; //if role description doesn't match any unit in the faction, it falls back to this unit name for the loadout assignment
+TAS_configLoadoutNumber = 0; 		//Advanced users only. When multiple loadouts are found, use the # loadout found (zero-based)
 publicVariable "TAS_useConfigLoadout";
 publicVariable "TAS_configFaction";
+publicVariable "TAS_defaultConfigUnit";
+publicVariable "TAS_configLoadoutNumber";
 
 //Automatically gives appropriate inventory items to players, loosely based on class. Clears eden inventory (but doesnt change clothing or weapons)
 //Medical: 16x basic bandages, 8x morphine, 3x TQs, 2x epi, 2x 500ml blood
@@ -164,14 +159,6 @@ TAS_respawnInVehicleTime = 50; //default 50, note that this is in addition to th
 publicVariable "TAS_respawnInVehicle";
 publicVariable "TAS_respawnInVehicleTime";
 
-//Adds two custom resupply modules to Zeus
-//Each has 6 magazines of each player's weapon and a bunch of medical
-//One spawns the crate at cursor location, other paradrops it (watch for wind!)
-//Find the modules under the "Resupply" section in Zeus
-//Required Mods: ZEN
-TAS_zeusResupply = true; //default true
-publicVariable "TAS_zeusResupply";
-
 //Choose between respawning with config loadout (default in vanilla, not recommended. set both options to false to pick this option), respawning with gear you had when you died, and respawning with gear that you preset at the arsenal
 //for TAS_respawnArsenalGear, loadout is saved whenever the player exits the (ace) arsenal, and there's also an option to manually save your loadout at the AceHealObject
 TAS_respawnDeathGear = false; //default false --- DO NOT SET BOTH respawnDeathGear AND respawnArsenalGear to true!!!
@@ -185,10 +172,11 @@ publicVariable "TAS_respawnArsenalGear";
 TAS_resupplyObjectEnabled = true; //default true
 publicVariable "TAS_resupplyObjectEnabled";
 
+//FEATURE TEMP REMOVED
 //Enables the KP crate filler script, see "KPCF_config" for options 
 //NOTE: With default settings, it will add custom behavior to ALL "Land Parachute Target" and "Seismic Map (Whiteboard)" objects in your mission. Disable this setting or change the target objects in KPCF_config if you are using those objects in your mission.
-TAS_kpCratefiller = true;	//default true
-publicVariable "TAS_kpCratefiller";
+//TAS_kpCratefiller = true;	//default true
+//publicVariable "TAS_kpCratefiller";
 
 //turn FOB on/off, if on needs some eden setup see documentation elsewhere. setup already done in the template if you dont break it
 //What this does is give every Squad Lead an ace self interact to establish a "Rallypoint" at their position (if no enemies are within the stated range)
@@ -201,15 +189,71 @@ TAS_fobFullArsenals = false; //default false. Determines whether the resupply cr
 TAS_fobDistance = 300; //default 300 meters, if enemies are within this range then FOB cannot be created
 TAS_useSmallRally = true; //default true, set to true if you want to use the small rallypoint without a supply crate
 TAS_rallyDistance = 150; //default 150 meters, if enemies are within this range then rallypoint cannot be created
+TAS_rallyRespawnTime = 50; //how long to make players wait before being able to TP to rallypoint
+TAS_rallyOutnumber = true; //default true. TRUE makes it so rallypoints are canceled if there are more enemies (units in BIS_enemySides) than friendlies (units of same same as player) in the radius. False cancels rallypoint creation if there are ANY enemies within the radius
 publicVariable "TAS_fobEnabled";
 publicVariable "TAS_fobFullArsenals";
 publicVariable "TAS_fobDistance";
 publicVariable "TAS_useSmallRally";
 publicVariable "TAS_rallyDistance";
+publicVariable "TAS_rallyRespawnTime";
+publicVariable "TAS_rallyOutnumber";
 
 
 
 //to add a custom fortify preset, go to description.ext and follow the instructions there
+
+
+
+//////////////////////////////////
+//////////Zeus Options////////////
+//////////////////////////////////
+
+
+
+//Adds two custom resupply modules to Zeus
+//Each has 6 magazines of each player's weapon and a bunch of medical
+//One spawns the crate at cursor location, other paradrops it (watch for wind!)
+//Find the modules under the "Resupply" section in Zeus
+//Required Mods: ZEN
+TAS_zeusResupply = true; //default true
+publicVariable "TAS_zeusResupply";
+
+//Adds zeus module to play info text
+TAS_zeusInfoText = true; //default true
+publicVariable "TAS_zeusInfoText";
+
+//Adds zeus modules for manually managing group ownership
+TAS_zeusHcTransfer = true;
+publicVariable "TAS_zeusHcTransfer";
+
+
+
+//////////////////////////////////
+//Client Hotkeys/Actions Options//
+//////////////////////////////////
+
+
+
+//Script by IndigoFox that adds an ace interact to all windows which breaks them upon use.
+//Source: https://www.reddit.com/r/armadev/comments/sv72xa/let_your_players_break_windows_using_ace/?utm_source=share&utm_medium=ios_app&utm_name=iossmf
+TAS_aceWindowBreak = false; //default false
+publicVariable "TAS_aceWindowBreak";
+
+//hotkey to turn afk script on/off
+//Required mods: CBA
+TAS_afkEnabled = true; //default true
+publicVariable "TAS_afkEnabled";
+
+//hotkey to turn earplugs script on/off
+TAS_earplugsEnabled = true; //default true
+TAS_earplugVolume = 0.25; //volume to reduce to when earplugs are in (0 is no volume, 1 is regular). Applies to fadeSound, fadeRadio, fadeSpeech, fadeMusic, and fadeEnvironment.
+publicVariable "TAS_earplugsEnabled";
+publicVariable "TAS_earplugVolume";
+
+//adds a hotkey to mute/unmute music
+TAS_musicKeyEnabled = true; //default true
+publicVariable "TAS_musicKeyEnabled";
 
 
 
@@ -387,6 +431,8 @@ if (TAS_fobEnabled) then {
 	publicVariable "TAS_rallyEchoUsed";
 	TAS_rallyFoxtrotUsed = false;
 	publicVariable "TAS_rallyFoxtrotUsed";
+	TAS_rallypointLocations = [];
+	publicVariable "TAS_rallypointLocations";
 };
 
 //show fps script by Mildly Interested/Bassbeard
