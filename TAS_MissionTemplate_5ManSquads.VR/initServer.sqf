@@ -1,6 +1,11 @@
 //do not touch
-TAS_templateVersion = "v9.0.0";
+
+TAS_templateVersion = "v9.1.0";
 publicVariable "TAS_templateVersion";
+TAS_doTemplateBriefing = true;
+publicVariable "TAS_clientTemplateBriefing";
+//template briefing text is handled in initPlayerLocal.sqf
+
 //you can now proceed to touch things (below this line, that is)
 
 ///////////////////////////////////////////////////

@@ -409,3 +409,26 @@ if (TAS_arsenalCurate) then {
 		};
 	} forEach ["arsenal_1","arsenal_2","arsenal_3","arsenal_4","arsenal_5","arsenal_6","arsenal_7","arsenal_8","arsenal_9","arsenal_10"]; //template only provides 3 arsenals, but more are provided in case mission maker copy pastes them (they'll automatically be named arsenal_X)
 };
+
+if (TAS_doTemplateBriefing) then {
+	TAS_templateBriefing = [
+		"1. Made earplugs take effect immediantly instead of gradually fading audio in and out.",
+		"2. Added a GUI to the Rallypoints respawn system similar to how it is implemented in the Respawn Vehicle system. Also fixed incompatiblities between the GUI and the Ace Arsenal for all Respawn GUI systems.",
+		"3. Added an optional feature (enabled by default) to allow Rallypoints to be placed as long as friendlies outnumber enemies within the set radius, instead of the previous system where Rallypoint creation was canceled if there were ANY enemies within the radius.",
+		"4. Added a new keybind for toggling your music volume between no music and max music volume (by default, the keybind is: left control + left alt + M).",
+		"5. Changed the default enable/disable and other settings for various scripts. Now, earplugs reduce volume to 25% of normal instead of 40%, the incompatible sway and recoil edits have been disabled, and the RTO radio setup is now enabled by default.",
+		"6. Added fn_spawnAiWithWarning. This optional feature allows Zeuses to cache mission objects and units before allowing them to re-add them into the mission when needed, greatly increasing FPS for idle objectives.",
+		"7. Enhanced the Zeus control over the config loadout assignment system (minimal direct impact to players compared to the previous system).",
+		"8. Added modules to Zeus to allow for manual transfer of AI groups between machines for FPS reasons.",
+		"9. Added several previously-undocumented Zeus modules to the 'Mission Template' section in the mission notes.",
+		"We encourage you to visit the 'Mission Template' section in the mission notes (in the top left of map screen) to be aware of the enabled toggleable features present in this mission.",
+		"You will only receive this message once every time you join a mission with a new mission template version."
+	];
+
+	private _lastBriefed = profileNamespace getVariable ["TAS_lastTemplateBrief","never briefed"];
+	if (_lastBriefed != TAS_templateVersion) then {
+		(format ["TAS Mission Template %1 — What's New",TAS_templateVersion]) hintC TAS_templateBriefing;
+		profileNamespace setVariable ["TAS_lastTemplateBrief",TAS_templateVersion];
+		//note: if client does a non-graceful game exit, this variable will not be saved. Not going to bother forcing a save here as it's not worth the time it takes.
+	};
+};
