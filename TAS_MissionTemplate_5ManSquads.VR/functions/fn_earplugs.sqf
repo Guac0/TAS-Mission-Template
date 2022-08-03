@@ -5,8 +5,8 @@
 //function to use in making/unmaking afk
 
 //setup TAS_earplugsEnabled, if player does not have TAS_earplugsEnabled already defined then default to false
-private _AfkPlayer = player;
-private _earplugsEnabled = _AfkPlayer getVariable ["TAS_earplugsIn", false];
+private _unit = player;
+private _earplugsEnabled = _unit getVariable ["TAS_earplugsIn", false];
 private _reducedVolume = TAS_earplugVolume; //private var to reduce strain from querying global
 
 
@@ -17,10 +17,12 @@ if (_earplugsEnabled == true) then { //undoes effect if player already has earpl
 	0 fadeSound 1;
 	0 fadeRadio 1;
 	0 fadeSpeech 1;
-	0 fadeMusic 1;
+	if (_unit getVariable ["TAS_musicDisabled",false]) then { //don't change music volume if music is toggled off
+		0 fadeMusic 1;
+	};
 	0 fadeEnvironment 1;
 	systemChat "Took earplugs out!";
-	_AfkPlayer setVariable ["TAS_earplugsIn",false];
+	_unit setVariable ["TAS_earplugsIn",false];
 } else { //applies effect if player doesn't have earplugs in (toggles to on)
 	/*{
 		1 _x _reducedVolume; //change to _reducedVolume over 1 seconds
@@ -28,8 +30,10 @@ if (_earplugsEnabled == true) then { //undoes effect if player already has earpl
 	0 fadeSound _reducedVolume;
 	0 fadeRadio _reducedVolume;
 	0 fadeSpeech _reducedVolume;
-	0 fadeMusic _reducedVolume;
+	if (_unit getVariable ["TAS_musicDisabled",false]) then { //don't change music volume if music is toggled off
+		0 fadeMusic _reducedVolume;
+	};
 	0 fadeEnvironment _reducedVolume;
 	systemChat "Put earplugs in!";
-	_AfkPlayer setVariable ["TAS_earplugsIn",true];
+	_unit setVariable ["TAS_earplugsIn",true];
 };
