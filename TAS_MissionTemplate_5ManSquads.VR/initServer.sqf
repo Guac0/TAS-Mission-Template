@@ -148,7 +148,7 @@ if (isServer) then {
 		if (TAS_respawnInVehicle) then {
 			waitUntil {!isNil "TAS_respawnVehicles"};
 			TAS_respawnVehicles pushBack [_this,"Respawn Vehicle 1"];
-			[_this,"hd_flag","ColorUNKNOWN","Respawn Vehicle 1",true,60] call TAS_fnc_followMarker;
+			[_this,"hd_flag","ColorUNKNOWN","Respawn Vehicle 1",true,60] call TAS_fnc_markerFollow;
 			publicVariable "TAS_respawnVehicles";
 		};
 	};
