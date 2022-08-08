@@ -14,6 +14,10 @@ publicVariable "TAS_clientTemplateBriefing";
 
 
 
+//to view the autoFactionArsenal script instructions, see the file at \functions\scripts\autoFactionArsenal.sqf
+
+
+
 //////////////////////////////////
 /////Scripts/Functions Options////
 //////////////////////////////////
