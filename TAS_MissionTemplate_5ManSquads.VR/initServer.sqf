@@ -274,6 +274,10 @@ TAS_ModLogShame = true; //default true
 publicVariable "TAS_ModLog";
 publicVariable "TAS_ModLogShame";
 
+//tracks various performance statistics for each client and sends the results to the server
+TAS_trackPerformance = true; //default true, customize specific settings in initPlayerLocal.sqf
+publicVariable "TAS_trackPerformance";
+
 
 
 ///////////////////////////////////////////

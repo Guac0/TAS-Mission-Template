@@ -428,3 +428,7 @@ if (TAS_doTemplateBriefing) then {
 		//note: if client does a non-graceful game exit, this variable will not be saved. Not going to bother forcing a save here as it's not worth the time it takes.
 	};
 };
+
+if (TAS_trackPerformance) then {
+	[true,300,2,true] call TAS_fnc_debugPerfRpt;
+};
