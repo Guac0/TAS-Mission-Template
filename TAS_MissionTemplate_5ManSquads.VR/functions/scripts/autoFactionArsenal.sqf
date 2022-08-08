@@ -1,9 +1,23 @@
-//execute this with the following. Replace CIV_F with the faction(s) you want to grab gear from (get classname of faction from config viewer)
-//["CIV_F"] execVM "scripts\autoFactionArsenal.sqf"; //only grab the gear from one faction
-//["BLU_F","IND_F","IND_G_F","OPF_F","CIV_F"] execVM "scripts\autoFactionArsenal.sqf"; //grabs gear from the 5 main vanilla factions
+/*
+	Author: Guac
+
+	Requirements: CBA
+	
+	Automatically generates Ace Arsenals from all items found in unit inventories of the given factions, plus some extra gear (radios, medical, facewear, etc)
+	Get classname of the faction you want by placing a unit from that faction (or one unit from each faction if doing multiple factions), right clicking it, go to LOG tab in the right click menu that opens, select "log faction names to clipboard", and then insert the given classname(s) into the array in the code example snippet
+	You will receive various debug messages in chat while the script is running. At script completion, it will copy the arsenal data in an import-ready format to your clipboard, and will open an example arsenal with the given items.
+
+	Examples (run in your standard method of code execution while ingame [not in editor], such as the debug console or "code execution" Zeus module):
+	//Grabs gear from the vanilla civilian faction
+		["CIV_F"] execVM "functions\scripts\autoFactionArsenal.sqf";
+	//Grabs gear from the 5 main vanilla factions — NATO, AAF, FIA (indfor variant), CSAT, and Civilians
+		["BLU_F","IND_F","IND_G_F","OPF_F","CIV_F"] execVM "functions\scripts\autoFactionArsenal.sqf";
+
+*/
 
 //get the array of factions
 private _factionList = _this;
+systemChat format ["Factions to grab data from: %1",_factionList];
 
 //setup our array of stuff to export
 private _allExportItems = [];
@@ -13,8 +27,7 @@ private _allExportItems = [];
 	//get faction classname from passed argument
 	private _faction = _x;
 
-		systemChat str _faction;
-	systemChat str _factionList;
+	systemChat format ["Now processing loadout data from %1", _faction];
 
 	//get the list of classnames of all the units of given faction
 	//single quotes are becuase of outside large quotes
@@ -30,6 +43,8 @@ private _allExportItems = [];
 	{
 		private _createdUnit = _group createUnit [_x,[0,0,0],[],0,"CAN_COLLIDE"];
 		_createdUnit disableAI "ALL";
+		_createdUnit enableSimulationGlobal false;
+		_createdUnit allowDamage false;
 		_allCreatedUnits pushBackUnique _createdUnit;
 	} forEach _myUnitArray;
 
@@ -76,7 +91,7 @@ private _box = "B_supplyCrate_F" createVehicle (getPos player);
 [_box, _allItems] call ace_arsenal_fnc_initBox;
 [_box, player] call ace_arsenal_fnc_openBox;
 copyToClipboard str _allItems;
-systemChat format ["All inventory items of given faction(s) copied to clipboard and example Ace arsenal opened!"];
+systemChat "All inventory items of given faction(s) copied to clipboard and example Ace arsenal opened!";
 
 //CFP USA DES 2003
 //["CUP_H_USArmy_HelmetMICH_DCU","","ItemMap","ItemCompass","ItemWatch","ItemRadio","CUP_NVG_PVS14_Hide","FirstAidKit","CUP_30Rnd_556x45_Stanag","CUP_U_B_BDUv2_gloves_DCU_US","CUP_V_B_Interceptor_Rifleman_M81","CUP_arifle_M4A1_CCO_Laser","CUP_acc_ANPEQ_2_Black_Top","CUP_optic_CompM2_low","CUP_100Rnd_TE4_LRT4_Red_Tracer_762x51_Belt_M","CUP_B_USPack_Coyote_AmmoMG","CUP_H_USArmy_HelmetMICH_ESS_DCU","CUP_B_USPack_Coyote","CUP_Javelin_M","CUP_B_USPack_Coyote_AT","CFP_BoonieHat_DCU","CFP_BDU_USDCU3","CUP_1Rnd_HEDP_M203","CFP_BDU_USDCU4","CUP_V_B_Interceptor_Grenadier_M81","CUP_arifle_M4A1_M203_Holo_Laser","CUP_acc_ANPEQ_2","CUP_optic_HoloBlack","CUP_NVG_PVS7_Hide","CUP_Vector21Nite","CUP_7Rnd_45ACP_1911","CUP_V_B_Interceptor_Base_M81","CUP_arifle_M4A1","CUP_hgun_Colt1911","CUP_15Rnd_9x19_M9","CUP_arifle_M4A1_ACOG_Laser","CUP_hgun_M9","CUP_optic_ACOG2","CUP_1Rnd_StarFlare_White_M203","CUP_1Rnd_StarFlare_Red_M203","CUP_1Rnd_StarFlare_Green_M203","CUP_1Rnd_Smoke_M203","CUP_1Rnd_SmokeRed_M203","CUP_1Rnd_SmokeGreen_M203","CUP_B_USPack_Coyote_TL","CUP_arifle_M4A1_M203_ACOG_Laser","CFP_BDU_USDCU2","CUP_arifle_M4A1_CCO_flashlight","CUP_launch_M136_Loaded","CUP_acc_Flashlight","CUP_M136_M","CUP_launch_MAAWS_Scope","CUP_optic_MAAWS_Scope","CUP_MAAWS_HEAT_M","CUP_launch_Javelin","CUP_launch_FIM92Stinger_Loaded","CUP_Stinger_M","CUP_B_AssaultPack_Coyote","CUP_200Rnd_TE4_Red_Tracer_556x45_M249","CUP_lmg_M249","CUP_lmg_M240_ElcanM143","CUP_optic_ElcanM145","ItemGPS","CUP_U_B_USArmy_Ghillie","V_HarnessO_gry","CUP_arifle_M4A1_M203_ANPAS13c1_Laser","CUP_optic_AN_PAS_13c1","CUP_20Rnd_762x51_B_M110","CUP_srifle_M110_ANPVS10","CUP_optic_AN_PVS_10","CUP_bipod_VLTOR_Modpod","CUP_srifle_M110_ANPAS13c2","CUP_optic_AN_PAS_13c2","CUP_10Rnd_127x99_M107","CUP_srifle_M107_Desert","20Rnd_762x51_Mag","CUP_srifle_M14","CUP_Mine_M","CUP_PipeBomb_M","CUP_B_USArmy_MinePack","CUP_arifle_M4A1_LeupoldMk4CQT_Laser","CUP_optic_LeupoldMk4_CQ_T","ToolKit","MineDetector","CUP_B_USArmy_EOD","CUP_B_USArmy_Engineer","CUP_H_USMC_Crew_Helmet","CUP_H_USMC_Helmet_Pilot","CUP_U_B_USArmy_PilotOverall","CUP_V_B_PilotVest","Binocular","CUP_12Rnd_45ACP_mk23","CFP_RAID_DCU1","CFP_V_Delta_3","CUP_arifle_M4A3_black","CUP_hgun_Mk23","CFP_B_USPack_OD","CUP_1Rnd_HE_M203","CUP_arifle_M4A1_BUIS_GL","CUP_srifle_M14_DMR","CUP_lmg_m249_pip3","ACE_RangeTable_82mm","ACE_adenosine","ACE_artilleryTable","ACE_ATragMX","ACE_Banana","ACE_fieldDressing","ACE_packingBandage","ACE_quikclot","ACE_bloodIV","ACE_bloodIV_250","ACE_bloodIV_500","ACE_bodyBag","ACE_CableTie","ACE_Can_Franta","ACE_Can_RedGull","ACE_Can_Spirit","ACE_Canteen","ACE_Canteen_Empty","ACE_Canteen_Half","ACE_Chemlight_Shield","ACE_DAGR","ACE_DeadManSwitch","ACE_DefusalKit","ACE_EntrenchingTool","ACE_epinephrine","ACE_Fortify","ACE_Humanitarian_Ration","ACE_HuntIR_monitor","ACE_IR_Strobe_Item","ACE_Kestrel4500","ACE_Flashlight_KSF1","ACE_M26_Clacker","ACE_Clacker","ACE_Flashlight_XL50","ACE_MapTools","Medikit","ACE_microDAGR","ACE_morphine","ACE_MRE_ChickenTikkaMasala","ACE_MRE_ChickenHerbDumplings","ACE_MRE_CreamChickenSoup","ACE_MRE_CreamTomatoSoup","ACE_MRE_LambCurry","ACE_MRE_MeatballsPasta","ACE_MRE_SteakVegetables","ACE_personalAidKit","ACE_plasmaIV","ACE_plasmaIV_500","ACE_RangeCard","ACE_rope12","ACE_rope15","ACE_rope27","ACE_rope3","ACE_rope36","ACE_rope6","ACE_salineIV","ACE_salineIV_250","ACE_salineIV_500","ACE_Sandbag_empty","ACE_SpareBarrel_Item","ACE_splint","ACE_SpottingScope","ACE_SpraypaintBlack","ACE_SpraypaintBlue","ACE_SpraypaintRed","ACE_Tripod","ACE_surgicalKit","ACE_UAVBattery","ACE_WaterBottle","ACE_WaterBottle_Empty","ACE_WaterBottle_Half","ACE_wirecutter","ACE_tourniquet","ACE_SpraypaintGreen","ACE_rope18","ACE_plasmaIV_250","ACE_MRE_BeefStew","ACE_Flashlight_MX991","ACE_EarPlugs","ACE_Cellphone","ACE_elasticBandage"]
