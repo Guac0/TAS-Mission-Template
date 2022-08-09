@@ -84,6 +84,7 @@ class CfgFunctions
 			class transferGroupOwnership;
 			class toggleMusic;
 			class debugPerfRpt;
+			class updateDiscordRichPresence;
 		};
 		class buildFob
 		{
@@ -100,6 +101,18 @@ class CfgFunctions
 			//class initFOB;
 		};
 	};
+};
+
+class CfgDiscordRichPresence {
+    applicationID="1004558588645212291";             // Provided by discord
+    defaultDetails="In a mission";            // Upper text
+    defaultState="Loading...";              // Lower text  
+    defaultLargeImageKey="logoclean";      // Large image
+    defaultLargeImageText="Waiting for map info...";     // Large image hover text
+	defaultSmallImageKey="select";      // Small image
+    defaultSmallImageText="Waiting for role info...";     // Small image hover text
+	defaultButtons[]={"Autismo Seals Discord","https://discord.gg/yg564qhuEc"};          // Button texts and urls
+	useTimeElapsed=1;             // Show time elapsed since the player connected (1 - true, 0 - false)
 };
 
 /*

@@ -275,8 +275,10 @@ publicVariable "TAS_ModLog";
 publicVariable "TAS_ModLogShame";
 
 //tracks various performance statistics for each client and sends the results to the server
-TAS_trackPerformance = true; //default true, customize specific settings in initPlayerLocal.sqf
+TAS_trackPerformance 	= true; //default true, customize specific settings in initPlayerLocal.sqf
+TAS_discordUpdateDelay 	= 30; 	//default 30
 publicVariable "TAS_trackPerformance";
+publicVariable "TAS_discordUpdateDelay";
 
 
 
