@@ -288,23 +288,6 @@ publicVariable "TAS_discordUpdateDelay";
 
 
 
-if (TAS_respawnInVehicle) then {
-	TAS_respawnVehicles = [];
-	sleep 3; //should be enough time for waitUntil in object init fields to activate
-	if (count TAS_respawnVehicles == 0) then { //add fallback respawn vehicle if no other respawn vehicles are made
-		if (isNil "logistics_vehicle") then {
-			systemchat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
-			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
-		} else {
-			[logistics_vehicle,"hd_flag","ColorUNKNOWN","Default Respawn Vehicle",true,60] call TAS_fnc_markerFollow;
-			TAS_respawnVehicles pushBack [logistics_vehicle,"Default Respawn Vehicle"];
-			systemChat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
-			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
-		};
-	};
-	publicVariable "TAS_respawnVehicles";
-};
-
 //dynamic groups code
 if (TAS_dynamicGroupsEnabled) then {
 	["Initialize", [true]] call BIS_fnc_dynamicGroups; // Initializes the Dynamic Groups framework and groups led by a player at mission start will be registered
@@ -471,3 +454,21 @@ TAS_fobSettings = [];
 	TAS_fobSettings pushBack _x;
 } forEach [TAS_fobEnabled,TAS_fobFullArsenals,TAS_fobDistance,TAS_useSmallRally,TAS_rallyDistance];
 publicVariable TAS_fobSettings;*/
+
+//at bottom because has sleep
+if (TAS_respawnInVehicle) then {
+	TAS_respawnVehicles = [];
+	sleep 3; //should be enough time for waitUntil in object init fields to activate
+	if (count TAS_respawnVehicles == 0) then { //add fallback respawn vehicle if no other respawn vehicles are made
+		if (isNil "logistics_vehicle") then {
+			systemchat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
+			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
+		} else {
+			[logistics_vehicle,"hd_flag","ColorUNKNOWN","Default Respawn Vehicle",true,60] call TAS_fnc_markerFollow;
+			TAS_respawnVehicles pushBack [logistics_vehicle,"Default Respawn Vehicle"];
+			systemChat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
+			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
+		};
+	};
+	publicVariable "TAS_respawnVehicles";
+};
