@@ -36,7 +36,7 @@ _myfpsmarker setMarkerSize [0.7, 0.7];
 
 while {true} do {
 
-    private _myfps = diag_fps;
+    private _myfps = (round (diag_fps * 100.0)) / 100.0;
     private _localgroups = {local _x} count allGroups;
     private _localunits = {local _x} count allUnits;
 
@@ -45,8 +45,19 @@ while {true} do {
     if (_myfps < 20) then {_myfpsmarker setMarkerColor "ColorORANGE";};
     if (_myfps < 10) then {_myfpsmarker setMarkerColor "ColorRED";};
 
-    _myfpsmarker setMarkerText format ["%1: %2 fps, %3 local groups, %4 local units", _sourcestr, (round (_myfps * 100.0)) / 100.0, _localgroups, _localunits];
-    diag_log format ["%1: %2 fps, %3 local groups, %4 local units", _sourcestr, (round (_myfps * 100.0)) / 100.0, _localgroups, _localunits];
+    private _output = format ["%1 - FPS: %2 - Local groups: %3 - Local units: %4 - Active Scripts: [spawn: %5, execVM: %6, exec: %7, execFSM: %8]",
+		_sourcestr,
+		_myfps,
+		_localgroups,
+		_localunits,
+		diag_activeScripts select 0,
+		diag_activeScripts select 1,
+		diag_activeScripts select 2,
+		diag_activeScripts select 3
+    ];
+
+    _myfpsmarker setMarkerText _output;
+    diag_log _output;
     
     sleep 15; //updates FPS and markers every 15 secounds
 };
