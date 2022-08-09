@@ -3,7 +3,7 @@ if (TAS_vanillaStaminaDisabled) then {
 	player enableFatigue false;
 };
 
-if (TAS_doCoefChanges) then {
+if (TAS_doAimCoefChange) then {
 	player setCustomAimCoef TAS_aimCoef;
 	player setUnitRecoilCoefficient TAS_recoilCoef;
 };

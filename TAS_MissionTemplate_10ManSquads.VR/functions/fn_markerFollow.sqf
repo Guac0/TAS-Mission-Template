@@ -16,7 +16,7 @@
 		STRING - created marker
 
 	Examples:
-		[myObjectToFollow,"hd_flag","ColorUNKNOWN","My Awesome Marker Text That People Can See",true,30] call TAS_fnc_followMarker;
+		[myObjectToFollow,"hd_flag","ColorUNKNOWN","My Awesome Marker Text That People Can See",true,30] call TAS_fnc_markerFollow;
 */
 //TODO add compatibility for declaring side and creator of markers, plus other options like alpha
 

@@ -1,9 +1,9 @@
 //do not touch
 
-TAS_templateVersion = "v9.1.0";
+TAS_templateVersion = "v9.2.0";
 publicVariable "TAS_templateVersion";
 TAS_doTemplateBriefing = true;
-publicVariable "TAS_clientTemplateBriefing";
+publicVariable "TAS_doTemplateBriefing";
 //template briefing text is handled in initPlayerLocal.sqf
 
 //you can now proceed to touch things (below this line, that is)
@@ -11,6 +11,10 @@ publicVariable "TAS_clientTemplateBriefing";
 ///////////////////////////////////////////////////
 ///////////////Mission Maker Options///////////////
 ///////////////////////////////////////////////////
+
+
+
+//to view the autoFactionArsenal script instructions, see the file at \functions\scripts\autoFactionArsenal.sqf
 
 
 
@@ -71,7 +75,7 @@ publicVariable "TAS_vanillaStaminaDisabled";
 
 //possibly broken, effects are small if any
 //Modifies weapon sway (well, aim precison) coefficient and recoil coefficient. 1 is normal, 0 is nothing (but don't use 0, use 0.1)
-TAS_doCoefChanges = false; 	//default false
+TAS_doAimCoefChange = false; 	//default false
 TAS_aimCoef 	  = 0.5;	//default 0.5; no effect if TAS_doCoefChanges is FALSE
 TAS_recoilCoef 	  = 0.75;	//default 0.75; no effect if TAS_doCoefChanges is FALSE
 publicVariable "TAS_doAimCoefChange";
@@ -148,7 +152,7 @@ if (isServer) then {
 		if (TAS_respawnInVehicle) then {
 			waitUntil {!isNil "TAS_respawnVehicles"};
 			TAS_respawnVehicles pushBack [_this,"Respawn Vehicle 1"];
-			[_this,"hd_flag","ColorUNKNOWN","Respawn Vehicle 1",true,60] call TAS_fnc_followMarker;
+			[_this,"hd_flag","ColorUNKNOWN","Respawn Vehicle 1",true,60] call TAS_fnc_markerFollow;
 			publicVariable "TAS_respawnVehicles";
 		};
 	};
@@ -270,6 +274,16 @@ TAS_ModLogShame = true; //default true
 publicVariable "TAS_ModLog";
 publicVariable "TAS_ModLogShame";
 
+//tracks various performance statistics for each client and sends the results to the server
+TAS_trackPerformance 	= true; //default true, customize specific settings in initPlayerLocal.sqf
+publicVariable "TAS_trackPerformance";
+
+//adds a custom rich presence for people running the discord rich presence mod
+TAS_doDiscordUpdate		= true; //default true
+TAS_discordUpdateDelay 	= 30; 	//default 30
+publicVariable "TAS_doDiscordUpdate";
+publicVariable "TAS_discordUpdateDelay";
+
 
 
 ///////////////////////////////////////////
@@ -277,23 +291,6 @@ publicVariable "TAS_ModLogShame";
 ///////////////////////////////////////////
 
 
-
-if (TAS_respawnInVehicle) then {
-	TAS_respawnVehicles = [];
-	sleep 3; //should be enough time for waitUntil in object init fields to activate
-	if (count TAS_respawnVehicles == 0) then { //add fallback respawn vehicle if no other respawn vehicles are made
-		if (isNil "logistics_vehicle") then {
-			systemchat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
-			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
-		} else {
-			[logistics_vehicle,"hd_flag","ColorUNKNOWN","Default Respawn Vehicle",true,60] call TAS_fnc_followMarker;
-			TAS_respawnVehicles pushBack [logistics_vehicle,"Default Respawn Vehicle"];
-			systemChat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
-			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
-		};
-	};
-	publicVariable "TAS_respawnVehicles";
-};
 
 //dynamic groups code
 if (TAS_dynamicGroupsEnabled) then {
@@ -461,3 +458,21 @@ TAS_fobSettings = [];
 	TAS_fobSettings pushBack _x;
 } forEach [TAS_fobEnabled,TAS_fobFullArsenals,TAS_fobDistance,TAS_useSmallRally,TAS_rallyDistance];
 publicVariable TAS_fobSettings;*/
+
+//at bottom because has sleep
+if (TAS_respawnInVehicle) then {
+	TAS_respawnVehicles = [];
+	sleep 3; //should be enough time for waitUntil in object init fields to activate
+	if (count TAS_respawnVehicles == 0) then { //add fallback respawn vehicle if no other respawn vehicles are made
+		if (isNil "logistics_vehicle") then {
+			systemchat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
+			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
+		} else {
+			[logistics_vehicle,"hd_flag","ColorUNKNOWN","Default Respawn Vehicle",true,60] call TAS_fnc_markerFollow;
+			TAS_respawnVehicles pushBack [logistics_vehicle,"Default Respawn Vehicle"];
+			systemChat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
+			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
+		};
+	};
+	publicVariable "TAS_respawnVehicles";
+};
