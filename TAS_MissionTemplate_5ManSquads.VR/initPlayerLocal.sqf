@@ -430,7 +430,7 @@ if (TAS_doTemplateBriefing) then {
 };
 
 if (TAS_trackPerformance) then {
-	[true,300,2,true] spawn TAS_fnc_debugPerfRpt;
+	[true,300,2,true] spawn TAS_fnc_debugPerfRpt;	//duration, delay between debugs, target for output, copy to local machine
 };
 
 if (TAS_doDiscordUpdate) then {
