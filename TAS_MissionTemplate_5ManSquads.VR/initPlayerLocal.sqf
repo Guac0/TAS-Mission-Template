@@ -433,9 +433,6 @@ if (TAS_trackPerformance) then {
 	[true,300,2,true] spawn TAS_fnc_debugPerfRpt;
 };
 
-// Get mission version and readable world name for Discord rich presence
-[ 
-	["UpdateLargeImageText", format ["Playing %1 on %2",missionName,getText (configfile >> "CfgWorlds" >> worldName >> "description")]]
-] call (missionNamespace getVariable ["DiscordRichPresence_fnc_update", {}]);
-
-TAS_discordUpdateDelay spawn TAS_fnc_updateDiscordRichPresence;
+if (TAS_doDiscordUpdate) then {
+	TAS_discordUpdateDelay spawn TAS_fnc_updateDiscordRichPresence;
+};

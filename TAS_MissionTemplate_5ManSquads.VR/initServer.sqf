@@ -276,8 +276,12 @@ publicVariable "TAS_ModLogShame";
 
 //tracks various performance statistics for each client and sends the results to the server
 TAS_trackPerformance 	= true; //default true, customize specific settings in initPlayerLocal.sqf
-TAS_discordUpdateDelay 	= 30; 	//default 30
 publicVariable "TAS_trackPerformance";
+
+//adds a custom rich presence for people running the discord rich presence mod
+TAS_doDiscordUpdate		= true; //default true
+TAS_discordUpdateDelay 	= 30; 	//default 30
+publicVariable "TAS_doDiscordUpdate";
 publicVariable "TAS_discordUpdateDelay";
 
 

@@ -1,5 +1,10 @@
 private _delay = _this;
 
+// Get mission version and readable world name for Discord rich presence. Only need to do once.
+[ 
+	["UpdateLargeImageText", format ["Playing %1 on %2",missionName,getText (configfile >> "CfgWorlds" >> worldName >> "description")]]
+] call (missionNamespace getVariable ["DiscordRichPresence_fnc_update", {}]);
+
 while {true} do {
 	
 	//location setup
