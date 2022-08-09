@@ -1,9 +1,9 @@
 //do not touch
 
-TAS_templateVersion = "v9.1.0";
+TAS_templateVersion = "v9.2.0";
 publicVariable "TAS_templateVersion";
 TAS_doTemplateBriefing = true;
-publicVariable "TAS_clientTemplateBriefing";
+publicVariable "TAS_doTemplateBriefing";
 //template briefing text is handled in initPlayerLocal.sqf
 
 //you can now proceed to touch things (below this line, that is)
@@ -75,7 +75,7 @@ publicVariable "TAS_vanillaStaminaDisabled";
 
 //possibly broken, effects are small if any
 //Modifies weapon sway (well, aim precison) coefficient and recoil coefficient. 1 is normal, 0 is nothing (but don't use 0, use 0.1)
-TAS_doCoefChanges = false; 	//default false
+TAS_doAimCoefChange = false; 	//default false
 TAS_aimCoef 	  = 0.5;	//default 0.5; no effect if TAS_doCoefChanges is FALSE
 TAS_recoilCoef 	  = 0.75;	//default 0.75; no effect if TAS_doCoefChanges is FALSE
 publicVariable "TAS_doAimCoefChange";

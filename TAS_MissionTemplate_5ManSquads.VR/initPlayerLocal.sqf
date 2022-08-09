@@ -69,7 +69,7 @@ if (TAS_vanillaStaminaDisabled) then {
 };
 
 //Sets custom aim coefficient (precision and/or weapon sway) and recoil coefficient. Must be here and in onPlayerRespawn
-if (TAS_doCoefChanges) then {
+if (TAS_doAimCoefChange) then {
 	player setCustomAimCoef TAS_aimCoef;
 	player setUnitRecoilCoefficient TAS_recoilCoef;
 	player createDiaryRecord ["tasMissionTemplate", ["Sway/Recoil Coefficient Changes", format ["Sway coefficient: %1. Recoil Coefficient: %2",TAS_aimCoef,TAS_recoilCoef]]];
@@ -411,12 +411,14 @@ if (TAS_arsenalCurate) then {
 };
 
 if (TAS_doTemplateBriefing) then {
-	TAS_templateBriefing = [
+	TAS_templateBriefing = [ //note: v9.2.0 is mostly the same as v9.1.0 as v9.1.0 was never used in a real op
 		"1. Made earplugs (default keybind: left control + left alt + E) take effect immediantly instead of gradually fading audio in and out.",
 		"2. Added a GUI to the Rallypoints respawn system similar to how it is implemented in the Respawn Vehicle system. Also fixed incompatiblities between the GUI and the Ace Arsenal for all Respawn GUI systems.",
 		"3. Added an optional feature (enabled by default) to allow Rallypoints to be placed as long as friendlies outnumber enemies within the set radius, instead of the previous system where Rallypoint creation was canceled if there were ANY enemies within the radius.",
 		"4. Added a new keybind for toggling your music volume between no music and max music volume (by default, the keybind is: left control + left alt + =).",
 		"5. Changed the default enable/disable and other settings for various scripts. Now, earplugs reduce volume to 25% of normal instead of 40%, the incompatible sway and recoil edits have been disabled, and the RTO radio setup is now enabled by default.",
+		"6. Added Discord rich presence compatibility.",
+		"7. Fixed the automatic team color assignment and made team colors alternate across squads for easier inter-squad cooperation.",
 		"We encourage you to visit the 'Mission Template' section in the mission notes (in the top left of map screen) to be aware of the enabled toggleable features present in this mission.",
 		"You will only receive this message once every time you join a mission with a new mission template version."
 	];
