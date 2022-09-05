@@ -438,3 +438,7 @@ if (TAS_trackPerformance) then {
 if (TAS_doDiscordUpdate) then {
 	TAS_discordUpdateDelay spawn TAS_fnc_updateDiscordRichPresence;
 };
+
+if (TAS_do3dGroupIcons) then { //intentionally the "do" variant for performance reasons
+	[] spawn TAS_fnc_3dGroupIcons;
+};

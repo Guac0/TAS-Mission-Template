@@ -1,5 +1,5 @@
 respawnOnStart = -1; // 1 - Dont respawn on start. Don't run respawn script on start. 0 - Dont respawn on start. Run respawn script on start. 1 - Respawn on start. Run respawn script on start.
-disabledAI = 1; // 0: disabled - 1: enabled. Default: 0. Might want to disable this (0) for testing in MP so that the AI shows up.
+disabledAI = 0; // 0: disabled - 1: enabled. Default: 0. Might want to disable this (0) for testing in MP so that the AI shows up.
 
 //Enables the AceX kill tracker in your mission, shows at end screen
 class CfgDebriefingSections {
@@ -85,6 +85,8 @@ class CfgFunctions
 			class toggleMusic;
 			class debugPerfRpt;
 			class updateDiscordRichPresence;
+			class 3dGroupIcons;
+			class zeus3dGroupIcons;
 		};
 		class buildFob
 		{
