@@ -65,7 +65,7 @@ private _eventhandler = addMissionEventHandler ["Draw3D",
 				"RobotoCondensed",					//font
 				"center"							//text alignment
 			];
-		} forEach allUnits;
+		} forEach allPlayers;
 	}
 ];
 waitUntil {sleep 1; !(TAS_do3dGroupIcons)};
