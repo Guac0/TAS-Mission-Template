@@ -228,8 +228,13 @@ TAS_zeusInfoText = true; //default true
 publicVariable "TAS_zeusInfoText";
 
 //Adds zeus modules for manually managing group ownership
-TAS_zeusHcTransfer = true;
+TAS_zeusHcTransfer = true; //default true
 publicVariable "TAS_zeusHcTransfer";
+
+//Adds 3d icons over group leaders' heads for identification purposes, intended to be used during prep time.
+	//Automatically activates on mission start, zeus can enable/disable it with a zeus module
+TAS_3dGroupIcons = true; //default true
+publicVariable "TAS_3dGroupIcons";
 
 
 
@@ -437,6 +442,11 @@ if (TAS_fobEnabled) then {
 if (TAS_fpsDisplayEnabled) then {
 	[] execVM "functions\scripts\show_fps.sqf";
 	diag_log text "TAS-Mission-Template --------------------[Executed show_fps on Server]--------------------"; //will show in server logs
+};
+
+if (TAS_3dGroupIcons) then {
+	TAS_do3dGroupIcons = true;
+	publicVariable "TAS_do3dGroupIcons";
 };
 
 //handle radio settings broadcast

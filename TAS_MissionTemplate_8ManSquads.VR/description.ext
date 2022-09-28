@@ -85,6 +85,8 @@ class CfgFunctions
 			class toggleMusic;
 			class debugPerfRpt;
 			class updateDiscordRichPresence;
+			class 3dGroupIcons;
+			class zeus3dGroupIcons;
 		};
 		class buildFob
 		{
