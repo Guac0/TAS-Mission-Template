@@ -90,6 +90,7 @@ class CfgFunctions
 			class applyHoldActions;
 			class zeusSpectatorOptions;
 			class zeusApplySpectator;
+			class waveRespawn;
 		};
 		class buildFob
 		{

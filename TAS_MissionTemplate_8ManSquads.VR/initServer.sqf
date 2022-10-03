@@ -217,6 +217,14 @@ publicVariable "TAS_respawnSpectatorForceInterface";
 publicVariable "TAS_respawnSpectatorHideBody";
 publicVariable "TAS_respawnSpectatorTime";
 
+//does wave respawns, aka reinserts all dead players at once every set interval of time instead of them individually reinserting.
+TAS_waveRespawns		= false;	//default false
+TAS_waveTime			= 300;		//default 300 (5 minutes)
+TAS_waveReinsertType	= "base";	//default "base". Possible choices: "base" (respawns at regular respawn position), "rallypoint" (uses the rallypoint/fob respawn system), "vehicle" (uses the respawn vehicle system), and "custom" (you add it in functions\fn_waveRespawn.sqf)
+publicVariable "TAS_waveRespawns";
+publicVariable "TAS_waveTime";
+publicVariable "TAS_waveReinsertType";
+
 
 
 //to add a custom fortify preset, go to description.ext and follow the instructions there

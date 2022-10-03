@@ -30,6 +30,10 @@ if (TAS_respawnArsenalGear) then {
 	//systemChat "Respawn with Arsenal Loadout disabled.";
 };
 
+if (TAS_waveRespawns) then {
+	player setVariable ["TAS_waitingForReinsert",true];
+};
+
 //respawn in vehicle
 if (TAS_respawnInVehicle || TAS_fobEnabled) then {
 	private _respawnVehicle = missionNamespace getVariable ["TAS_respawnVehicle",objNull];
