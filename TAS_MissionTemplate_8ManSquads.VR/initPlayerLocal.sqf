@@ -436,7 +436,10 @@ if (TAS_trackPerformance) then {
 };
 
 if (TAS_doDiscordUpdate) then {
-	TAS_discordUpdateDelay spawn TAS_fnc_updateDiscordRichPresence;
+	if (isClass(configFile >> "CfgPatches" >> "CAU_DiscordRichPresence")) then { 
+		(format ["%1 is running Discord Rich Presence",player]) remoteExec ["diag_log",2];
+		TAS_discordUpdateDelay spawn TAS_fnc_updateDiscordRichPresence;
+	};
 };
 
 if (TAS_do3dGroupIcons) then { //intentionally the "do" variant for performance reasons
