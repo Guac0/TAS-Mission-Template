@@ -62,3 +62,30 @@ if (TAS_respawnInVehicle || TAS_fobEnabled) then {
 } else {
 	//systemChat "respawn in vehicle disabled";
 };
+
+if (TAS_respawnAsSpectator) then {
+	private _time = TAS_respawnSpectatorTime;
+	[true,TAS_respawnSpectatorForceInterface,TAS_respawnSpectatorHideBody] call ace_spectator_fnc_setSpectator;
+	if (_time = 0) then {
+		hint "You have died and (unless otherwise stated by Zeus) there is currently no plans for respawns to occur.\n\nThank you for playing!";
+	} else {
+		if (TAS_respawnSpectatorForceInterface) then {
+			hint format ["You must wait for %1 seconds before exiting spectator.", [((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring]; //have sound for the first hint
+			while { _time > 0 } do {
+				_time = _time - 1;  
+				hintSilent format ["You must wait for %1 seconds before exiting spectator.", [((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
+				sleep 1;
+			};
+			hintSilent "";
+		} else {
+			hint format ["You must wait for %1 seconds before reinserting.\n\nPress the ESCAPE key to exit spectator and go to the arsenal box if desired."", [((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring]; //have sound for the first hint
+			while { _time > 0 } do {
+				_time = _time - 1;  
+				hintSilent format ["You must wait for %1 seconds before exiting spectator.\n\nPress the ESCAPE key to exit spectator and go to the arsenal box if desired."", [((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
+				sleep 1;
+			};
+			hintSilent "";
+		};
+		[false,false,false] call ace_spectator_fnc_setSpectator;
+	};
+};

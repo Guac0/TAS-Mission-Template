@@ -88,6 +88,8 @@ class CfgFunctions
 			class 3dGroupIcons;
 			class zeus3dGroupIcons;
 			class applyHoldActions;
+			class zeusSpectatorOptions;
+			class zeusApplySpectator;
 		};
 		class buildFob
 		{

@@ -205,6 +205,18 @@ publicVariable "TAS_rallyDistance";
 publicVariable "TAS_rallyRespawnTime";
 publicVariable "TAS_rallyOutnumber";
 
+//makes players respawn in ACE spectator. Intended only to be used for one lifes or if you're manually doing wave respawns.
+	//NOTE: the other respawn systems like respawn in vehicle already have a timer and spectator built into them. Do not enable both those systems and this system.
+//Can be edited midgame via the Zeus "Manage ACE Spectator Options" module. 
+TAS_respawnSpectator 				= false; 	//default false
+TAS_respawnSpectatorForceInterface 	= true; 	//default true
+TAS_respawnSpectatorHideBody 		= true; 	//default true
+TAS_respawnSpectatorTime 			= 0; 		//default 0 (0 for no automatic ending of spectator after X amount of seconds havepassed)
+publicVariable "TAS_respawnSpectator";
+publicVariable "TAS_respawnSpectatorForceInterface";
+publicVariable "TAS_respawnSpectatorHideBody";
+publicVariable "TAS_respawnSpectatorTime";
+
 
 
 //to add a custom fortify preset, go to description.ext and follow the instructions there
@@ -240,8 +252,14 @@ publicVariable "TAS_3dGroupIcons";
 
 //allows zeus to trigger an automatic debug and cleanup of hold actions available in the mission
 	//for example, try placing it when people complain that the heal box doesn't work anymore
-TAS_zeusActionDebug		= true;
+TAS_zeusActionDebug		= true; //default true
 publicVariable "TAS_zeusActionDebug";
+
+//adds two modules for zeus to manage spectator settings and to apply spectator to units
+TAS_zeusSpectateManager	= true; //default true
+publicVariable "TAS_zeusSpectateManager";
+
+
 
 //////////////////////////////////
 //Client Hotkeys/Actions Options//

@@ -40,11 +40,20 @@ if (TAS_3dGroupIcons) then {
 };
 
 if (TAS_zeusActionDebug) then {
-	_moduleList pushBack ["Reapply Hold Actions", {[] remoteExec ["TAS_fnc_applyHoldActions",0]}];
+	_moduleList pushBack ["Reapply Hold Actions", {_this remoteExec ["TAS_fnc_applyHoldActions",0]}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Hold Action Debug", "Enabled. Adds a module to Zeus to allow them to trigger automatic debugging of the various hold actions present in a mission (i.e. medical box heal and stuff)."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Hold Action Debug", "Disabled."]]; };
+};
+
+if (TAS_zeusSpectateManager) then {
+	_moduleList pushBack ["Manage ACE Spectator Settings", {_this call TAS_fnc_zeusSpectatorOptions}];
+	_moduleList pushBack ["Apply ACE Spectator", {_this call TAS_fnc_zeusApplySpectator}];
+	player createDiaryRecord ["tasMissionTemplate", ["Zeus Manage ACE Spectator Settings", "Enabled. Adds a module to Zeus to allow them to edit available sides and camera modes for spectator, as well as adding a module to let them manage the spectator status of individual units."]];
+} else {
+	//systemChat "Custom Zeus resupply modules disabled.";
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Manage ACE Spectator Settings", "Disabled."]]; };
 };
 
 //registering ZEN custom modules, code modified from Crow
