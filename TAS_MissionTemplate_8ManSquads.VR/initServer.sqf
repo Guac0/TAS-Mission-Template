@@ -238,7 +238,10 @@ publicVariable "TAS_zeusHcTransfer";
 TAS_3dGroupIcons 		= true; //default true
 publicVariable "TAS_3dGroupIcons";
 
-
+//allows zeus to trigger an automatic debug and cleanup of hold actions available in the mission
+	//for example, try placing it when people complain that the heal box doesn't work anymore
+TAS_zeusActionDebug		= true;
+publicVariable "TAS_zeusActionDebug";
 
 //////////////////////////////////
 //Client Hotkeys/Actions Options//

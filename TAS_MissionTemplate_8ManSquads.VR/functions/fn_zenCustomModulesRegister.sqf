@@ -39,6 +39,14 @@ if (TAS_3dGroupIcons) then {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["3d Group Icons", "Disabled."]]; };
 };
 
+if (TAS_zeusActionDebug) then {
+	_moduleList pushBack ["Reapply Hold Actions", {[] remoteExec ["TAS_fnc_applyHoldActions",0]}];
+	player createDiaryRecord ["tasMissionTemplate", ["Zeus Hold Action Debug", "Enabled. Adds a module to Zeus to allow them to trigger automatic debugging of the various hold actions present in a mission (i.e. medical box heal and stuff)."]];
+} else {
+	//systemChat "Custom Zeus resupply modules disabled.";
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Hold Action Debug", "Disabled."]]; };
+};
+
 //registering ZEN custom modules, code modified from Crow
 {
 	private _successfullyRegistered = 
