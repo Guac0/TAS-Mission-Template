@@ -16,6 +16,8 @@ publicVariable "TAS_doTemplateBriefing";
 
 //to view the autoFactionArsenal script instructions, see the file at \functions\scripts\autoFactionArsenal.sqf
 
+//if you're adding custom hold actions to your mission, you might want to put them in functions\fn_applyHoldActions.sqf, which has support for re-applying the actions if arma eats them.
+
 
 
 //////////////////////////////////
@@ -308,109 +310,15 @@ if ((isNil "AceHealObject") && (TAS_respawnArsenalGear || TAS_aceHealObjectEnabl
 	diag_log text "TAS-Mission-Template WARNING: You have turned on mission template options that require the AceHealObject to be present in your mission, but it does not exist! Disabling functions that require the heal object to be present...";
 };
 
-//automated (non-zeus) ace heal by Guac
-//Instantly ace full heals all players within 100m
-//requires object named AceHealObject in mission file
-//for some reason doesn't work on flagpoles, perhaps the point where the action is attached to is at the top of the pole, too far away to count as close enough to show up for player?
-if (!isNil "AceHealObject") then { //check if the ace heal object actually exists so we dont get errors
-	if (TAS_aceHealObjectEnabled) then {
-		[
-			AceHealObject,											// Object the action is attached to
-			"Heal All Entities in 100m",										// Title of the action
-			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
-			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
-			"_this distance _target < 15",						// Condition for the action to be shown
-			"_caller distance _target < 15",						// Condition for the action to progress
-			{},													// Code executed when action starts
-			{},													// Code executed on every progress tick
-			{_nearPlayers = AceHealObject nearEntities ["Man", 100]; {[objNull, _x] call ace_medical_treatment_fnc_fullHeal} forEach _nearPlayers},													// Code executed on completion
-			{},													// Code executed on interrupted
-			[],													// Arguments passed to the scripts as _this select 3
-			1,													// Action duration [s]
-			5,													// Priority
-			false,												// Remove on completion
-			false												// Show in unconscious state 
-		] remoteExec ["BIS_fnc_holdActionAdd", 0, AceHealObject];	// MP compatible implementation, is JIP compatible
-	} else {
-		//systemChat "Ace Heal Object disabled.";
-	};
-	if (TAS_aceSpectateObjectEnabled) then {
-		//enter spectator action
-		[
-			AceHealObject,											// Object the action is attached to
-			"Enter Spectator",										// Title of the action
-			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
-			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
-			"_this distance _target < 15",						// Condition for the action to be shown
-			"_caller distance _target < 15",						// Condition for the action to progress
-			{},													// Code executed when action starts
-			{},													// Code executed on every progress tick
-			{ [true, false, false] call ace_spectator_fnc_setSpectator },													// Code executed on completion,* 0: Spectator state of local client <BOOL> (default: true) * 1: Force interface <BOOL> (default: false)* 2: Hide player (if alive) <BOOL> (default: false)
-			{},													// Code executed on interrupted
-			[],													// Arguments passed to the scripts as _this select 3
-			2,													// Action duration [s]
-			4,													// Priority, 0-6
-			false,												// Remove on completion
-			false												// Show in unconscious state 
-		] remoteExec ["BIS_fnc_holdActionAdd", 0, AceHealObject];	// MP compatible implementation, is JIP compatible
-	} else {
-		//systemChat "Ace Spectate Object disabled.";
-	};
-	if (TAS_respawnArsenalGear) then {
-		[
-			AceHealObject,											// Object the action is attached to
-			"Manually Save Loadout",										// Title of the action
-			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
-			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
-			"_this distance _target < 15",						// Condition for the action to be shown
-			"_caller distance _target < 15",						// Condition for the action to progress
-			{},													// Code executed when action starts
-			{},													// Code executed on every progress tick
-			{ private _loadout = [player] call CBA_fnc_getLoadout; player setVariable ["TAS_arsenalLoadout",_loadout]; },												// Code executed on completion
-			{},													// Code executed on interrupted
-			[],													// Arguments passed to the scripts as _this select 3
-			2,													// Action duration [s]
-			3,													// Priority
-			false,												// Remove on completion
-			false												// Show in unconscious state 
-		] remoteExec ["BIS_fnc_holdActionAdd", 0, AceHealObject];	// MP compatible implementation, is JIP compatible
-	} else {
-		//systemChat "Respawn with Arsenal Loadout disabled.";
-		//diag_log text "Respawn with Arsenal Loadout disabled.";
-	};
-};
-
-if (TAS_resupplyObjectEnabled) then { //check if the ace heal object actually exists so we dont get errors
-	if ((!isNil "CreateResupplyObject") && (!isNil "ResupplySpawnHelper")) then {
-		[
-			CreateResupplyObject,											// Object the action is attached to
-			"Spawn Resupply Box",										// Title of the action
-			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
-			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
-			"_this distance _target < 15",						// Condition for the action to be shown
-			"_caller distance _target < 15",						// Condition for the action to progress
-			{},													// Code executed when action starts
-			{},													// Code executed on every progress tick
-			{[ResupplySpawnHelper,false,true,false,true,true,"B_CargoNet_01_ammo_F",250] call TAS_fnc_AmmoCrate;},													// Code executed on completion
-			{},													// Code executed on interrupted
-			[],													// Arguments passed to the scripts as _this select 3
-			1,													// Action duration [s]
-			5,													// Priority
-			false,												// Remove on completion
-			false												// Show in unconscious state 
-		] remoteExec ["BIS_fnc_holdActionAdd", 0, CreateResupplyObject];	// MP compatible implementation, is JIP compatible
-	} else { //if resupply object stuff is turned on but missing the objects needed for it to work, then display a warning that the resupply system will be disabled.
+//debug info for presence of the resupply object if it is enabled
+if (TAS_resupplyObjectEnabled) then {
+	if ((isNil "CreateResupplyObject") || (isNil "ResupplySpawnHelper")) then {
 		systemChat "WARNING: Resupply Creator enabled, but missing the relevant spawner object(s) in mission! Disabling resupply creator...";
 		diag_log text "TAS-Mission-Template WARNING: Resupply Creator enabled, but missing the relevant spawner object(s) in mission! Disabling resupply creator...";
 	};
 };
-//Register TAS_globalTFAR as a function
-/*if (TAS_globalTFAREnabled) then {
-	//TAS_fnc_globalTFAR = compile preprocessFile "scripts\TAS_globalTFAR.sqf";
-	//systemChat "TAS Global TFAR System enabled (server debug).";
-} else {
-	//systemChat "TAS Global TFAR System disabled (server debug).";
-};*/
+
+//hold actions are applied in fn_applyHoldActions (executed from initPlayerLocal.sqf)
 
 //setup fob variables if fob system is enabled
 if (TAS_fobEnabled) then {

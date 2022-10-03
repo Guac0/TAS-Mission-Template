@@ -387,6 +387,9 @@ if (TAS_respawnInVehicle) then {
 //TODO check if we need to delay until curator is registered? and/or just set it as postInit in description.ext and remove it from here
 [] call TAS_fnc_zenCustomModulesRegister;
 
+//apply hold actions
+[] call TAS_fnc_applyHoldActions;
+
 if (TAS_arsenalCurate) then {
 	{
 		//do some fancy stuff before removing items to account for arsenals that don't actually exist.

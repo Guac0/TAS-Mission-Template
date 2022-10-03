@@ -87,6 +87,7 @@ class CfgFunctions
 			class updateDiscordRichPresence;
 			class 3dGroupIcons;
 			class zeus3dGroupIcons;
+			class applyHoldActions;
 		};
 		class buildFob
 		{
