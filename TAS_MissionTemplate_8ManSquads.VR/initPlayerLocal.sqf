@@ -35,7 +35,7 @@ if (TAS_ModLog) then {
 
 //setup diary subject
 player createDiarySubject ["tasMissionTemplate","Mission Template","media\logo256x256.paa"];
-player createDiaryRecord ["tasMissionTemplate", ["Mission Template Version", TAS_templateVersion]];
+player createDiaryRecord ["tasMissionTemplate", ["Mission Template Version", format ["v%1",TAS_templateVersion]];
 
 //setup leadership trait for later usage
 private _leadershipVariableNames = ["Z1","Z2","Z3","CMD_Actual","CMD_JTAC","RECON_Actual","AIR_1_Actual","AIR_2_Actual","GROUND_1_Actual","GROUND_2_Actual","ALPHA_Actual","BRAVO_Actual","CHARLIE_Actual","DELTA_Actual","ECHO_Actual","FOXTROT_Actual"];
@@ -414,21 +414,20 @@ if (TAS_arsenalCurate) then {
 };
 
 if (TAS_doTemplateBriefing) then {
-	TAS_templateBriefing = [ //note: v9.2.0 is mostly the same as v9.1.0 as v9.1.0 was never used in a real op
-		"1. Made earplugs (default keybind: left control + left alt + E) take effect immediantly instead of gradually fading audio in and out.",
-		"2. Added a GUI to the Rallypoints respawn system similar to how it is implemented in the Respawn Vehicle system. Also fixed incompatiblities between the GUI and the Ace Arsenal for all Respawn GUI systems.",
-		"3. Added an optional feature (enabled by default) to allow Rallypoints to be placed as long as friendlies outnumber enemies within the set radius, instead of the previous system where Rallypoint creation was canceled if there were ANY enemies within the radius.",
-		"4. Added a new keybind for toggling your music volume between no music and max music volume (by default, the keybind is: left control + left alt + =).",
-		"5. Changed the default enable/disable and other settings for various scripts. Now, earplugs reduce volume to 25% of normal instead of 40%, the incompatible sway and recoil edits have been disabled, and the RTO radio setup is now enabled by default.",
-		"6. Added Discord rich presence compatibility.",
-		"7. Fixed the automatic team color assignment and made team colors alternate across squads for easier inter-squad cooperation.",
+	TAS_templateBriefing = [
+		"1. Added 3D group leader icons for easy identification of leadership during prep time.",
+		"2. Optimized some scripts for players with the Discord Rich Presence mod.",
+		"3. Hopefully solved the disappearing hold action bugs.",
+		"4. Added additional spectator and respawn options for more mission variety possibilities.",
+		"5. Swapped all red/blue team assignments so that they would finally line up with the SL in DUI.",
+		"6. Made this screen appear less often (you're welcome).",
 		"We encourage you to visit the 'Mission Template' section in the mission notes (in the top left of map screen) to be aware of the enabled toggleable features present in this mission.",
 		"You will only receive this message once every time you join a mission with a new mission template version."
 	];
 
-	private _lastBriefed = profileNamespace getVariable ["TAS_lastTemplateBrief","never briefed"];
-	if (_lastBriefed != TAS_templateVersion) then {
-		(format ["TAS Mission Template %1 — What's New",TAS_templateVersion]) hintC TAS_templateBriefing;
+	private _lastBriefed = profileNamespace getVariable ["TAS_lastTemplateBrief","0"];
+	if (_lastBriefed < TAS_templateVersion) then {
+		(format ["TAS Mission Template v%1 — What's New",TAS_templateVersion]) hintC TAS_templateBriefing;
 		profileNamespace setVariable ["TAS_lastTemplateBrief",TAS_templateVersion];
 		//note: if client does a non-graceful game exit, this variable will not be saved. Not going to bother forcing a save here as it's not worth the time it takes.
 	};

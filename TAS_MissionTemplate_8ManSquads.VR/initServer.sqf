@@ -1,6 +1,6 @@
 //do not touch
 
-TAS_templateVersion 	= "v9.2.0";
+TAS_templateVersion 	= "10.0";
 publicVariable "TAS_templateVersion";
 TAS_doTemplateBriefing 	= true;
 publicVariable "TAS_doTemplateBriefing";
@@ -271,6 +271,10 @@ publicVariable "TAS_zeusActionDebug";
 //adds two modules for zeus to manage spectator settings and to apply spectator to units
 TAS_zeusSpectateManager	= true; //default true
 publicVariable "TAS_zeusSpectateManager";
+
+//adds a module for zeus to delete all empty groups and mark occupied groups as eligible for deletion once they are empty
+TAS_zeusGroupDeletion 	= true; //default true
+publicVariable "TAS_zeusGroupDeletion";
 
 
 

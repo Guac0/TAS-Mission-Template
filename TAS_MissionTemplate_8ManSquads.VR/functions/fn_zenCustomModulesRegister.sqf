@@ -56,6 +56,33 @@ if (TAS_zeusSpectateManager) then {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Manage ACE Spectator Settings", "Disabled."]]; };
 };
 
+if (TAS_zeusGroupDeletion) then {
+	_moduleList pushBack ["Enable Empty Group Deletion", {
+		[{
+			if (local _x) then
+			{
+				if (count units _x != 0) then {
+					_x deleteGroupWhenEmpty true;
+				} else {
+					deleteGroup _x;
+				};
+			}
+			else
+			{
+				if (count units _x != 0) then {
+					[_x, true] remoteExec ["deleteGroupWhenEmpty", groupOwner _x];
+				} else {
+					_x remoteExec ["deleteGroup", groupOwner _x];
+				};
+			};
+		}, allGroups] remoteExec ["forEach",2];
+	}];
+	player createDiaryRecord ["tasMissionTemplate", ["Zeus Empty Group Deletion", "Enabled. Adds a module to Zeus that deletes currently empty groups and tags occupied groups for deletion once they are empty."]];
+} else {
+	//systemChat "Custom Zeus resupply modules disabled.";
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Empty Group Deletion", "Disabled."]]; };
+};
+
 //registering ZEN custom modules, code modified from Crow
 {
 	private _successfullyRegistered = 
