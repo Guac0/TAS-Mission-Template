@@ -41,13 +41,17 @@ _marker setMarkerTextLocal _markerText;
 	private _interval 			= _this select 2;
 	private _marker 			= _this select 3;
 	while {alive _attachedObject} do {
-		_marker setMarkerPos getPos _attachedObject;
+		if (getMarkerPos _marker != getPos _attachedObject) then {	//some optimization to save network traffic if marker has not moved
+			_marker setMarkerPos getPos _attachedObject;
+		};
 		sleep _interval;
 	};
+	diag_log format ["TAS MISSION TEMPLATE: fn_markerfollow ceasing operation on marker %1 with name %2 attached to object %3 with deletion status %4!",_marker,_markerText,_attachedObject,_deleteOnDeath];
 	//runs when _attachedObject is dead or null
 	if (_deleteOnDeath) then {
 		deleteMarker _marker;
 	};
 };
 
+diag_log format ["TAS MISSION TEMPLATE: fn_markerfollow attaching marker %1 with name %2 to object %3!",_marker,_markerText,_attachedObject];
 _marker
