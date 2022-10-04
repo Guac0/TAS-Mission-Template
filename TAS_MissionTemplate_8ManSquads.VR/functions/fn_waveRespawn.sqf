@@ -1,8 +1,9 @@
 if !(isServer) exitWith {};
 
 //setup
-TAS_waveRemainingTime	= 0;		//default 0, do not edit
+TAS_waveRemainingTime	= TAS_waveTime;
 publicVariable "TAS_waveRemainingTime";
+TAS_waveRespawnActive
 private _playersWaiting = [];
 
 while {TAS_waveRespawns} do {
@@ -12,7 +13,7 @@ while {TAS_waveRespawns} do {
 	diag_log format ["TAS MISSION TEMPLATE: WAVE RESPAWN beginning new cycle, %1 remaining",[((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
 	while { _time > 0 } do {
 		_time = _time - 1;  
-		if (_time % 60 == 0) then { //debug message every minute
+		if (_time % 20 == 0) then { //debug message and timer broadcast every 20 seconds
 			{
 				if (_x getVariable ["TAS_waitingForReinsert",false]) then {
 					_playersWaiting pushBack _x;
@@ -32,7 +33,7 @@ while {TAS_waveRespawns} do {
 		};
 	} forEach allPlayers;
 	diag_log format ["TAS MISSION TEMPLATE: WAVE RESPAWN occuring, %1 players %2 being reinserted.", count _playersWaiting, _playersWaiting];
-	{
+	/*{
 		[false,false,false] call ace_spectator_fnc_setSpectator; 
 		switch (TAS_waveReinsertType) do {
 			case "base": 		{
@@ -56,8 +57,10 @@ while {TAS_waveRespawns} do {
 			};
 		};
 		_x setVariable ["TAS_waitingForReinsert",false];
-	} forEach _playersWaiting;
-	_playersWaiting = _playersWaiting - _playersWaiting; //lazy resetting array
+	} forEach _playersWaiting;*/
+	_playersWaiting 		= _playersWaiting - _playersWaiting; //lazy resetting array
+	TAS_waveRemainingTime	= 0;
+	publicVariable "TAS_waveRemainingTime";
 
 	//back to top
 };

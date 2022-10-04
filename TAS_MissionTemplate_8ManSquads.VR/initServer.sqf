@@ -138,32 +138,10 @@ publicVariable "TAS_arsenalCurate";
 
 
 //////////////////////////////////
-//Respawns and Logistics Options//
+////////Logistics Options/////////
 //////////////////////////////////
 
 
-
-//This script adds a custom system for respawning in a forward logistics vehicle
-//Requires a vehicle named "logistics_vehicle" in your mission (recommend that it is also invincible)
-//After respawning, this forces the player to wait the specified duration (while either spectating/editing loadout/chilling in base) before being TPed to the respawn vic
-//Required Mods: ACE
-/*add a respawn vehicle with the following in the vehicle init field (give the vehicle a variable name, any name works). Change "Respawn Vehicle 1" to whatever, just keep the quotes. NOTE: If you name things 1, 2, 3, there's no guarentee what order they show up in.
-if (isServer) then {
-	this spawn {
-		waitUntil {!isNil "TAS_respawnInVehicle"};
-		if (TAS_respawnInVehicle) then {
-			waitUntil {!isNil "TAS_respawnVehicles"};
-			TAS_respawnVehicles pushBack [_this,"Respawn Vehicle 1"];
-			[_this,"hd_flag","ColorUNKNOWN","Respawn Vehicle 1",true,60] call TAS_fnc_markerFollow;
-			publicVariable "TAS_respawnVehicles";
-		};
-	};
-};
-*/
-TAS_respawnInVehicle 		= false; //default false
-TAS_respawnInVehicleTime 	= 50; //default 50, note that this is in addition to the respawn timer
-publicVariable "TAS_respawnInVehicle";
-publicVariable "TAS_respawnInVehicleTime";
 
 //Choose between respawning with config loadout (default in vanilla, not recommended. set both options to false to pick this option), respawning with gear you had when you died, and respawning with gear that you preset at the arsenal
 //for TAS_respawnArsenalGear, loadout is saved whenever the player exits the (ace) arsenal, and there's also an option to manually save your loadout at the AceHealObject
@@ -184,34 +162,27 @@ publicVariable "TAS_resupplyObjectEnabled";
 //TAS_kpCratefiller = true;	//default true
 //publicVariable "TAS_kpCratefiller";
 
-//turn FOB on/off, if on needs some eden setup see documentation elsewhere. setup already done in the template if you dont break it
-//What this does is give every Squad Lead an ace self interact to establish a "Rallypoint" at their position (if no enemies are within the stated range)
-//Rallypoints are respawn positions for the players' side, and if using the large rally, also have a small ammobox
-//FOB system adds an action to every SL (and command engineer) to the "logistics_truck" vehicle to establish a small base with arsenals and a respawn position
-//If you want to disable rallypoints while keeping FOB or vice versa, set the distances from enemies to like 99999 or something absurdly high
-//Required Mods: ACE
-TAS_fobEnabled 			= false; //default false, set to false to disable FOB building and rallypoints
-TAS_fobFullArsenals 	= false; //default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
-TAS_fobDistance 		= 300; //default 300 meters, if enemies are within this range then FOB cannot be created
-TAS_useSmallRally 		= true; //default true, set to true if you want to use the small rallypoint without a supply crate
-TAS_rallyDistance 		= 150; //default 150 meters, if enemies are within this range then rallypoint cannot be created
-TAS_rallyRespawnTime 	= 50; //how long to make players wait before being able to TP to rallypoint
-TAS_rallyOutnumber 		= true; //default true. TRUE makes it so rallypoints are canceled if there are more enemies (units in BIS_enemySides) than friendlies (units of same same as player) in the radius. False cancels rallypoint creation if there are ANY enemies within the radius
-publicVariable "TAS_fobEnabled";
-publicVariable "TAS_fobFullArsenals";
-publicVariable "TAS_fobDistance";
-publicVariable "TAS_useSmallRally";
-publicVariable "TAS_rallyDistance";
-publicVariable "TAS_rallyRespawnTime";
-publicVariable "TAS_rallyOutnumber";
+//the FOB system and other reinsert options can be found in the "respawns options" section
 
-//makes players respawn in ACE spectator. Intended only to be used for one lifes or if you're manually doing wave respawns.
-	//NOTE: the other respawn systems like respawn in vehicle already have a timer and spectator built into them. Do not enable both those systems and this system.
+
+//to add a custom fortify preset, go to description.ext and follow the instructions there
+
+
+
+//////////////////////////////////
+/////////Respawns Options/////////
+//////////////////////////////////
+
+
+
+//makes players respawn in ACE spectator.
+	//Recommended to be enabled whenever you're using anything with a timer for reinserts (respawn vehicle, wave respawns, FOB system). The various respawn systems will not work correctly if TAS_respawnSpectator is disabled.
+		//"anything with a timer" does not include the vanilla respawn timer.
 //Can be edited midgame via the Zeus "Manage ACE Spectator Options" module. 
-TAS_respawnSpectator 				= false; 	//default false
-TAS_respawnSpectatorForceInterface 	= true; 	//default true
-TAS_respawnSpectatorHideBody 		= true; 	//default true
-TAS_respawnSpectatorTime 			= 0; 		//default 0 (0 for no automatic ending of spectator after X amount of seconds havepassed)
+TAS_respawnSpectator 				= false; 	//default false. Enables/disables respawning in spectator.
+TAS_respawnSpectatorForceInterface 	= true; 	//default true. If enabled, makes it so that player cannot leave spectator early (disable it to allow them to close spectator and access the arsenal box or whatever while they wait)
+TAS_respawnSpectatorHideBody 		= true; 	//default true. Hides the player's body while they are in spectator.
+TAS_respawnSpectatorTime 			= 0; 		//default 0 (0 for no automatic ending of spectator after X amount of seconds have passed, such as for one life ops). Ignored if TAS_waveRespawns is enabled.
 publicVariable "TAS_respawnSpectator";
 publicVariable "TAS_respawnSpectatorForceInterface";
 publicVariable "TAS_respawnSpectatorHideBody";
@@ -219,15 +190,49 @@ publicVariable "TAS_respawnSpectatorTime";
 
 //does wave respawns, aka reinserts all dead players at once every set interval of time instead of them individually reinserting.
 TAS_waveRespawns		= false;	//default false
-TAS_waveTime			= 300;		//default 300 (5 minutes)
-TAS_waveReinsertType	= "base";	//default "base". Possible choices: "base" (respawns at regular respawn position), "rallypoint" (uses the rallypoint/fob respawn system), "vehicle" (uses the respawn vehicle system), and "custom" (you add it in functions\fn_waveRespawn.sqf)
+TAS_waveTime			= 300;		//default 300 (5 minutes). It can take up to 5-10 seconds for all players to respawn, and respawning is available for a 20 second window as a grace period after each respawn wave.
+										//Overwrites TAS_respawnSpectatorTime if TAS_waveRespawns is enabled.
 publicVariable "TAS_waveRespawns";
 publicVariable "TAS_waveTime";
-publicVariable "TAS_waveReinsertType";
 
+//This script adds a custom system for respawning in a forward logistics vehicle
+	//Requires a vehicle named "logistics_vehicle" in your mission (recommend that it is also invincible)
+	//After respawning, this forces the player to wait the specified duration (while either spectating/editing loadout/chilling in base) before being TPed to the respawn vic
+//Required Mods: ACE
+/*add a respawn vehicle with the following in the vehicle init field (give the vehicle a variable name, any name works). Change "Respawn Vehicle 1" to whatever, just keep the quotes. NOTE: If you name things 1, 2, 3, there's no guarentee what order they show up in.
+if (isServer) then {
+	this spawn {
+		waitUntil {!isNil "TAS_respawnInVehicle"};
+		if (TAS_respawnInVehicle) then {
+			waitUntil {!isNil "TAS_respawnVehicles"};
+			TAS_respawnVehicles pushBack [_this,"Respawn Vehicle 1"];
+			[_this,"hd_flag","ColorUNKNOWN","Respawn Vehicle 1",true,60] call TAS_fnc_markerFollow;
+			publicVariable "TAS_respawnVehicles";
+		};
+	};
+};
+*/
+TAS_respawnInVehicle 		= false; //default false
+publicVariable "TAS_respawnInVehicle";
 
-
-//to add a custom fortify preset, go to description.ext and follow the instructions there
+//turn FOB on/off. if on, it needs some eden setup see documentation elsewhere. setup already done in the template if you dont break it
+	//What this does is give every Squad Lead an ace self interact to establish a "Rallypoint" at their position (if no enemies are within the stated range)
+	//Rallypoints are respawn positions for the players' side, and if using the large rally, also have a small ammobox
+	//FOB system adds an action to every SL (and command engineer) to the "logistics_truck" vehicle to establish a small base with arsenals and a respawn position
+	//If you want to disable rallypoints while keeping FOB or vice versa, set the distances from enemies to like 99999 or something absurdly high
+//Required Mods: ACE
+TAS_fobEnabled 			= false; //default false, set to false to disable FOB building and rallypoints
+TAS_fobFullArsenals 	= false; //default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
+TAS_fobDistance 		= 300; //default 300 meters, if enemies are within this range then FOB cannot be created
+TAS_useSmallRally 		= true; //default true, set to true if you want to use the small rallypoint without a supply crate
+TAS_rallyDistance 		= 150; //default 150 meters, if enemies are within this range then rallypoint cannot be created
+TAS_rallyOutnumber 		= true; //default true. TRUE makes it so rallypoints are canceled if there are more enemies (units in BIS_enemySides) than friendlies (units of same same as player) in the radius. False cancels rallypoint creation if there are ANY enemies within the radius
+publicVariable "TAS_fobEnabled";
+publicVariable "TAS_fobFullArsenals";
+publicVariable "TAS_fobDistance";
+publicVariable "TAS_useSmallRally";
+publicVariable "TAS_rallyDistance";
+publicVariable "TAS_rallyOutnumber";
 
 
 
