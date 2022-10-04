@@ -1,6 +1,6 @@
 //FOB Script
 
-if ( {getMarkerColor _x == ""} forEach ["rallypointAlphaMarker","rallypointBravoMarker","rallypointCharlieMarker","rallypointDeltaMarker","rallypointEchoMarker","rallypointFoxtrotMarker","rallypointCmdMarker","fobMarker"] ) exitWith {
+if ( {getMarkerColor _x == ""} forEach ["rallypointAlphaMarker","rallypointBravoMarker","rallypointCharlieMarker","rallypointDeltaMarker","rallypointEchoMarker","rallypointFoxtrotMarker","rallypointReconMarker,""rallypointCmdMarker","fobMarker"] ) exitWith {
 	systemchat "WARNING: You have enabled the Rallypoint/FOB system in the mission template options, but the mission.sqm does not contain the needed rallypoint markers! Disabling Rallypoint/FOB system...";
 	diag_log text "TAS-Mission-Template WARNING: You have enabled the FOB system in the mission template options, but the mission.sqm does not contain the needed rallypoint markers! Disabling Rallypoint/FOB system...";
 };
@@ -33,9 +33,43 @@ if (!isNil "logistics_vehicle") then { //check if the logistics_vehicle actually
 	
 	if (player getVariable ["TAS_FobBuilder",false]) then {
 		//FOB_Action = ["FOBAction","Place FOB (Can only be used once!!!)","",{[] execVM "buildfob\fobBuild.sqf";},{true}] call ace_interact_menu_fnc_createAction; //old action without progressbar */
-		FOB_Action = ["FOBAction","Place FOB (Can only be used once!!!)","",{[15,[],{[] execVM "buildfob\fobBuild.sqf";},{},"Establishing FOB..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction; //maybe make this a private var
-		[logistics_vehicle, 0, ["ACE_MainActions"], FOB_Action] call ace_interact_menu_fnc_addActionToObject; //note that action will only be accessible when outside the vehicle
+		private _fobPlaceAction = [
+			"FOBAction",
+			"Place FOB",
+			"",
+			{
+				[
+					15,
+					[],
+					{
+						[] execVM "buildfob\fobBuild.sqf";
+					},
+					{},
+					"Establishing FOB..."
+				] call ace_common_fnc_progressBar
+			},
+			{!TAS_fobBuilt} //not available if fob has been placed
+		] call ace_interact_menu_fnc_createAction; //maybe make this a private var
+		[logistics_vehicle, 0, ["ACE_MainActions"], _fobPlaceAction] call ace_interact_menu_fnc_addActionToObject; //note that action will only be accessible when outside the vehicle
 		//[logistics_vehicle, 1, ["ACE_SelfActions"], FOB_Action] call ace_interact_menu_fnc_addActionToObject; //note that action will only be accessible when inside the vehicle, doesnt work with progressbar
+		private _fobPackupAction = [
+			"FOB_PackupAction",
+			"Disassemble FOB",
+			"",
+			{
+				[
+					15,
+					[],
+					{
+						[] call TAS_fnc_packupFob;
+					},
+					{},
+					"Disassembling FOB..."
+				] call ace_common_fnc_progressBar
+			},
+			{TAS_fobBuilt && TAS_fobPackup} //not available if fob hasn't been placed
+		] call ace_interact_menu_fnc_createAction; //maybe make this a private var
+		[logistics_vehicle, 0, ["ACE_MainActions"], _fobPackupAction] call ace_interact_menu_fnc_addActionToObject; //note that action will only be accessible when outside the vehicle
 	};
 };
 

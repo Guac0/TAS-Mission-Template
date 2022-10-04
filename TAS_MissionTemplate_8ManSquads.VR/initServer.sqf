@@ -222,7 +222,7 @@ publicVariable "TAS_respawnInVehicle";
 	//If you want to disable rallypoints while keeping FOB or vice versa, set the distances from enemies to like 99999 or something absurdly high
 //Required Mods: ACE
 TAS_fobEnabled 			= false; 	//default false, set to false to disable FOB building and rallypoints
-TAS_pickupFOB			= false;	//default false, if true it allows the FOB to be packed up again into the original logistics_vehicle
+TAS_fobPackup			= false;	//default false, if true it allows the FOB to be packed up again into the original logistics_vehicle
 TAS_fobFullArsenals 	= false; 	//default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
 TAS_fobDistance 		= 300; 		//default 300 meters, if enemies are within this range then FOB cannot be created
 TAS_fobRespawn			= true;		//default true, might want to disable this if you want players to spawn at main and then use the respawn GUI to respawn at the FOB
