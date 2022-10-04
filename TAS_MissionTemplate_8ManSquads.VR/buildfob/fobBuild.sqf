@@ -45,12 +45,15 @@ if (TAS_fobFullArsenals) then { //full arsenals
 	} forEach _fobArsenals;
 };
 
-
-fobRespawn = [side player, getPos player, "FOB Respawn"] call BIS_fnc_addRespawnPosition;
+if (TAS_fobRespawn) then {
+	fobRespawn = [side player, getPos player, "FOB Respawn"] call BIS_fnc_addRespawnPosition;
+};
 "fobMarker" setMarkerPos getPos logistics_vehicle; //updates the rallypoint's position on map
 
 private _playerSide = side group player;
 [[_playerSide, "HQ"], format ["FOB established by %1 at gridref %2.", name player, mapGridPosition logistics_vehicle]] remoteExec ["sideChat", side player];
+TAS_rallypointLocations pushBack [getPosAtl player,"Forward Operating Base"];
+publicVariable "TAS_rallypointLocations";
 TAS_fobBuilt = true;
 publicVariable "TAS_fobBuilt"; //might also need public variables for fobObjects and fobRespawn if we want to delete them but currently we don't so...
 									//for now, keep those 2 local to current builder's machine since it's an edge case and would use up much bandwidth to publicVariable
