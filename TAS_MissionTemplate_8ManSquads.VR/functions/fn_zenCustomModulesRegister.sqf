@@ -83,6 +83,16 @@ if (TAS_zeusGroupDeletion) then {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Empty Group Deletion", "Disabled."]]; };
 };
 
+if (TAS_zeusFollowMarker) then {
+	_moduleList pushBack ["Attach Marker to Object", {_this call TAS_fnc_zeusMarkerFollow}];
+	player createDiaryRecord ["tasMissionTemplate", ["Zeus Attach Marker to Object", "Enabled. Adds a module to Zeus to allow them to attach markers on objects that follow them at the set interval."]];
+} else {
+	//systemChat "Custom Zeus resupply modules disabled.";
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Attach Marker to Object", "Disabled."]]; };
+};
+
+
+
 //registering ZEN custom modules, code modified from Crow
 {
 	private _successfullyRegistered = 
