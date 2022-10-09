@@ -3,10 +3,9 @@ if !(isServer) exitWith {};
 //setup
 TAS_waveRemainingTime	= TAS_waveTime;
 publicVariable "TAS_waveRemainingTime";
-TAS_waveRespawnActive
 private _playersWaiting = [];
 
-while {TAS_waveRespawns} do {
+while {TAS_waveRespawn} do {
 
 	//countdown, server side with broadcasting to clients every so
 	private _time = TAS_waveTime;

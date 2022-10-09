@@ -35,7 +35,7 @@ if (TAS_ModLog) then {
 
 //setup diary subject
 player createDiarySubject ["tasMissionTemplate","Mission Template","media\logo256x256.paa"];
-player createDiaryRecord ["tasMissionTemplate", ["Mission Template Version", format ["v%1",TAS_templateVersion]];
+player createDiaryRecord ["tasMissionTemplate", ["Mission Template Version", format ["v%1",TAS_templateVersion]]];
 
 //setup leadership trait for later usage
 private _leadershipVariableNames = ["Z1","Z2","Z3","CMD_Actual","CMD_JTAC","RECON_Actual","AIR_1_Actual","AIR_2_Actual","GROUND_1_Actual","GROUND_2_Actual","ALPHA_Actual","BRAVO_Actual","CHARLIE_Actual","DELTA_Actual","ECHO_Actual","FOXTROT_Actual"];
@@ -416,16 +416,17 @@ if (TAS_arsenalCurate) then {
 if (TAS_doTemplateBriefing) then {
 	TAS_templateBriefing = [
 		"1. Added 3D group leader icons for easy identification of leadership during prep time.",
-		"2. Optimized some scripts for players with the Discord Rich Presence mod.",
+		"2. Optimized some scripts for players who don't run the Discord Rich Presence mod.",
 		"3. Hopefully solved the disappearing hold action bugs.",
 		"4. Added additional spectator and respawn options for more mission variety possibilities.",
 		"5. Swapped all red/blue team assignments so that they would finally line up with the SL in DUI.",
 		"6. Made this screen appear less often (you're welcome).",
-		"We encourage you to visit the 'Mission Template' section in the mission notes (in the top left of map screen) to be aware of the enabled toggleable features present in this mission.",
+		"7. Added a bunch of modules to Zeus.",
+		"Please visit the 'Mission Template' section in the mission notes (in the top left of the map screen) to be aware of the enabled toggleable features present in this mission.",
 		"You will only receive this message once every time you join a mission with a new mission template version."
 	];
 
-	private _lastBriefed = profileNamespace getVariable ["TAS_lastTemplateBrief","0"];
+	private _lastBriefed = profileNamespace getVariable ["TAS_lastTemplateBriefNumber",0];	//new name as old one used string
 	if (_lastBriefed < TAS_templateVersion) then {
 		(format ["TAS Mission Template v%1 — What's New",TAS_templateVersion]) hintC TAS_templateBriefing;
 		profileNamespace setVariable ["TAS_lastTemplateBrief",TAS_templateVersion];

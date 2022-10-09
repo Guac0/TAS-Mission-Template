@@ -1,6 +1,6 @@
 //do not touch
 
-TAS_templateVersion 	= "10.0";
+TAS_templateVersion 	= 10.0;
 publicVariable "TAS_templateVersion";
 TAS_doTemplateBriefing 	= true;
 publicVariable "TAS_doTemplateBriefing";
@@ -189,8 +189,8 @@ publicVariable "TAS_respawnSpectatorHideBody";
 publicVariable "TAS_respawnSpectatorTime";
 
 //does wave respawns, aka reinserts all dead players at once every set interval of time instead of them individually reinserting.
-TAS_waveRespawns		= false;	//default false
-TAS_waveTime			= 300;		//default 300 (5 minutes). It can take up to 5-10 seconds for all players to respawn, and respawning is available for a 20 second window as a grace period after each respawn wave.
+TAS_waveRespawn						= false;	//default false
+TAS_waveTime						= 300;		//default 300 (5 minutes). It can take up to 5-10 seconds for all players to respawn, and respawning is available for a 20 second window as a grace period after each respawn wave.
 										//Overwrites TAS_respawnSpectatorTime if TAS_waveRespawns is enabled.
 publicVariable "TAS_waveRespawns";
 publicVariable "TAS_waveTime";
@@ -221,11 +221,11 @@ publicVariable "TAS_respawnInVehicle";
 	//FOB system adds an action to every SL (and command engineer) to the "logistics_truck" vehicle to establish a small base with arsenals and a respawn position
 	//If you want to disable rallypoints while keeping FOB or vice versa, set the distances from enemies to like 99999 or something absurdly high
 //Required Mods: ACE
-TAS_fobEnabled 			= false; 	//default false, set to false to disable FOB building and rallypoints
-TAS_fobPackup			= false;	//default false, if true it allows the FOB to be packed up again into the original logistics_vehicle
-TAS_fobFullArsenals 	= false; 	//default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
+TAS_fobEnabled 			= true; 	//default false, set to false to disable FOB building and rallypoints
+TAS_fobPackup			= true;	//default false, if true it allows the FOB to be packed up again into the original logistics_vehicle
+TAS_fobFullArsenals 	= true; 	//default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
 TAS_fobDistance 		= 300; 		//default 300 meters, if enemies are within this range then FOB cannot be created
-TAS_fobRespawn			= true;		//default true, might want to disable this if you want players to spawn at main and then use the respawn GUI to respawn at the FOB
+TAS_fobRespawn			= true;		//default true, adds a (vanilla) respawn position at the FOB. FOB will have respawn GUI position regardless of this setting. You might want to disable this if you want players to spawn at main and then use the respawn GUI to respawn at the FOB
 TAS_useSmallRally 		= true; 	//default true, set to true if you want to use the small rallypoint without a supply crate
 TAS_rallyDistance 		= 150; 		//default 150 meters, if enemies are within this range then rallypoint cannot be created
 TAS_rallyOutnumber 		= true; 	//default true. TRUE makes it so rallypoints are canceled if there are more enemies (units in BIS_enemySides) than friendlies (units of same same as player) in the radius. False cancels rallypoint creation if there are ANY enemies within the radius
@@ -390,6 +390,8 @@ if (TAS_fobEnabled) then {
 	publicVariable "TAS_rallyReconUsed";
 	TAS_rallypointLocations = [];
 	publicVariable "TAS_rallypointLocations";
+
+	[logistics_vehicle,"hd_flag","ColorUNKNOWN","FOB Vehicle",true,5] call TAS_fnc_markerFollow;
 };
 
 //show fps script by Mildly Interested/Bassbeard
@@ -423,6 +425,10 @@ TAS_fobSettings = [];
 	TAS_fobSettings pushBack _x;
 } forEach [TAS_fobEnabled,TAS_fobFullArsenals,TAS_fobDistance,TAS_useSmallRally,TAS_rallyDistance];
 publicVariable TAS_fobSettings;*/
+
+if (TAS_waveRespawn) then {
+	[] spawn TAS_fnc_waveRespawn;
+};
 
 //at bottom because has sleep
 if (TAS_respawnInVehicle) then {

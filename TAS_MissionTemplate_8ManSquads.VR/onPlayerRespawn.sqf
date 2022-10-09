@@ -34,11 +34,11 @@ player setVariable ["TAS_waitingForReinsert",true];
 private _automaticExitSpectator = true;
 private _allowReinsert = true;
 
-if (TAS_respawnAsSpectator) then {
+if (TAS_respawnSpectator) then {
 
 	//setup and initial spectator
 	private _time = TAS_respawnSpectatorTime;
-	[TAS_respawnAsSpectator,TAS_respawnSpectatorForceInterface,TAS_respawnSpectatorHideBody] call ace_spectator_fnc_setSpectator;
+	[TAS_respawnSpectator,TAS_respawnSpectatorForceInterface,TAS_respawnSpectatorHideBody] call ace_spectator_fnc_setSpectator;
 
 	if (TAS_waveRespawn) then {
 		//wave respawns (timer is server side and is broadcast every 30 seconds)
@@ -56,7 +56,7 @@ if (TAS_respawnAsSpectator) then {
 			hintSilent "";
 		};
 	} else {
-		if (_time = 0) then {
+		if (_time == 0) then {
 			if (TAS_respawnSpectatorForceInterface) then {
 				//stuck in spectator
 				hint "You have died and there is currently no plans for respawns to occur.\n\nThank you for playing!";

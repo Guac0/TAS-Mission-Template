@@ -16,7 +16,8 @@ private _onConfirm =
 		"_spectateOnRespawn",
 		"_respawnForceSpectate",
 		"_respawnHidePlayer",
-		"_respawnSpectateTime"
+		"_respawnSpectateTime",
+		"_waveRespawn"
 	];
 	//Get in params again
 	_in params [["_pos",[0,0,0],[[]],3], ["_unit",objNull,[objNull]]];
@@ -92,26 +93,36 @@ private _onConfirm =
 	} else {
 		TAS_respawnSpectatorTime = 0;
 	};
+	if (_waveRespawn) then {
+		if !(TAS_waveRespawn) then {
+			[] remoteExec ["TAS_fnc_waveRespawn",2];
+		};
+		TAS_waveRespawn = true;
+	} else {
+		TAS_waveRespawn = false;
+	};
 	publicVariable "TAS_respawnSpectator";
 	publicVariable "TAS_respawnSpectatorForceInterface";
 	publicVariable "TAS_respawnSpectatorHideBody";
 	publicVariable "TAS_respawnSpectatorTime";
+	publicVariable "TAS_waveRespawn";
 };
 
 [
 	"Update Sides available in Spectator (for all players)", 
 	[
-		["TOOLBOX:YESNO", ["BLUFOR visible?", ""], false],
-		["TOOLBOX:YESNO", ["INDEPENDENT visible?", ""], false],
-		["TOOLBOX:YESNO", ["OPFOR visible?", ""], false],
-		["TOOLBOX:YESNO", ["CIV visible?", ""], false],
+		["TOOLBOX:YESNO", ["BLUFOR visible?", "Note: if addon settings are set so that AI is never visible, AI will not be available even when this option is enabled."], false],
+		["TOOLBOX:YESNO", ["INDEPENDENT visible?", "Note: if addon settings are set so that AI is never visible, AI will not be available even when this option is enabled."], false],
+		["TOOLBOX:YESNO", ["OPFOR visible?", "Note: if addon settings are set so that AI is never visible, AI will not be available even when this option is enabled."], false],
+		["TOOLBOX:YESNO", ["CIV visible?", "Note: if addon settings are set so that AI is never visible, AI will not be available even when this option is enabled."], false],
 		["TOOLBOX:YESNO", ["1st person camera available?", ""], false],
 		["TOOLBOX:YESNO", ["3rd person camera available?", ""], false],
 		["TOOLBOX:YESNO", ["Free camera available?", ""], false],
 		["TOOLBOX:YESNO", ["Apply spectator on respawn?", ""], false],
 		["TOOLBOX:YESNO", ["Respawn — allow spectator exit?", "If enabled, allows player to exit spectator by pressing the ESC key."], false],
 		["TOOLBOX:YESNO", ["Respawn — hide player's body?", ""], false],
-		["TOOLBOX:YESNO", ["Respawn — end spectator after time?", "Leave at 0 for spectator to not be removed."], false]
+		["SLIDER", ["Respawn — end spectator at time?", "Closes spectator for player after X seconds have passed since they respawned. Leave at 0 for spectator to not be removed."], [0,600,60,0]],	//min 0 second, max 600 seconds, default 60 seconds, 0 decimal places
+		["TOOLBOX:YESNO", ["Respawn — Do wave respawns?", ""], false]
 	],
 	_onConfirm,
 	{},

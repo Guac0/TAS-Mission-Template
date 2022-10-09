@@ -81,7 +81,7 @@ class CfgFunctions
 			class assignLoadoutFromConfig;
 			class zeusInfoText;
 			class spawnAiWithWarning;
-			class transferGroupOwnership;
+			class zeusTransferGroupOwnership;
 			class toggleMusic;
 			class debugPerfRpt;
 			class updateDiscordRichPresence;

@@ -3,6 +3,11 @@
 //Future plans: add module for seeing current owner of group
 params [["_pos",[0,0,0],[[]],3], ["_unit",objNull,[objNull]]];
 
+if (isNull _unit) exitWith {
+	systemChat "Error: place the group transfer module on the object that you wish to transfer the ownership of!";
+	diag_log "TAS MISSION TEMPLATE: fn_zeusTransferGroupOwnership was executed without being placed on an object!";
+};
+
 //ZEN dialog
 private _onConfirm =
 {
@@ -14,7 +19,7 @@ private _onConfirm =
 	];
 	//Get in params again
 	_in params [["_pos",[0,0,0],[[]],3], ["_unit",objNull,[objNull]]];
-	
+
 	TAS_GroupToChange = (group _unit);
 	publicVariableServer "TAS_GroupToChange";
 	
@@ -32,10 +37,11 @@ private _onConfirm =
 			default { [TAS_GroupToChange,2] remoteExec ["setGroupOwner",2]; }; //default to server
 		};
 	};
+	diag_log format ["TAS-MISSION-TEMPLATE transferGroupOwnership: transfering %1 to %3!",TAS_GroupToChange,_newOwner]; //can't get current owner without remoteExecing to server
 };
 
 [
-	"Spawn Info Text", 
+	"Set Group Owner", 
 	[
 		["COMBO",["New Group Owner", "These are presets. To transfer ownership to a specific machine, use the next option."],
 			[["Server", "HC1", "HC2", "HC3", "Player"], 

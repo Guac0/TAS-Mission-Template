@@ -24,7 +24,7 @@ if (TAS_zeusInfoText) then {
 };
 
 if (TAS_zeusHcTransfer) then {
-	_moduleList pushBack ["Transfer Group Ownership", {_this call TAS_fnc_transferGroupOwnership}];
+	_moduleList pushBack ["Transfer Group Ownership", {_this call TAS_fnc_zeusTransferGroupOwnership}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Headless Client Group Trasnfer", "Enabled. Adds a zeus module to manually transfer ownership of AI groups. You can find it under 'TAS Mission Template' in the module list."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
@@ -58,6 +58,8 @@ if (TAS_zeusSpectateManager) then {
 
 if (TAS_zeusGroupDeletion) then {
 	_moduleList pushBack ["Enable Empty Group Deletion", {
+		private _groupNumber = count allGroups;
+		diag_log format ["TAS-MISSION-TEMPLATE Empty group deletion starting, old groups: %1", _groupNumber];
 		[{
 			if (local _x) then
 			{
@@ -76,6 +78,9 @@ if (TAS_zeusGroupDeletion) then {
 				};
 			};
 		}, allGroups] remoteExec ["forEach",2];
+		private _newGroupNumber = count allGroups;
+		diag_log format ["TAS-MISSION-TEMPLATE Empty group deletion ending, deleted groups: %1", _groupNumber - _newGroupNumber];
+		systemChat format ["Deleted %1 empty groups and queued all others for deletion after being empty! Remaining groups: %2", _groupNumber - _newGroupNumber, _newGroupNumber];
 	}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Empty Group Deletion", "Enabled. Adds a module to Zeus that deletes currently empty groups and tags occupied groups for deletion once they are empty."]];
 } else {

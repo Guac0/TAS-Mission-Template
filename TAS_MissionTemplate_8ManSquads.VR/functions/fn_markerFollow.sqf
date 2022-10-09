@@ -41,7 +41,9 @@ _marker setMarkerTextLocal _markerText;
 	private _interval 			= _this select 2;
 	private _marker 			= _this select 3;
 	while {alive _attachedObject} do {
-		if (getMarkerPos _marker != getPos _attachedObject) then {	//some optimization to save network traffic if marker has not moved
+		private _markerPos = getMarkerPos _marker;
+		private _objectPos = getPos _attachedObject;
+		if (((_markerPos select 0) != (_objectPos select 0)) || ((_markerPos select 1) != (_objectPos select 1))) then {	//some optimization to save network traffic if marker has not moved
 			_marker setMarkerPos getPos _attachedObject;
 		};
 		sleep _interval;
