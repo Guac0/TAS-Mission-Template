@@ -419,7 +419,7 @@ if (TAS_doTemplateBriefing) then {
 		"2. Optimized some scripts for players who don't run the Discord Rich Presence mod.",
 		"3. Hopefully solved the disappearing hold action bugs.",
 		"4. Added additional spectator and respawn options for more mission variety possibilities.",
-		"5. Swapped all red/blue team assignments so that they would finally line up with the SL in DUI.",
+		"5. Swapped all red/blue team assignments so that they would finally line up with the SL in DUI, and alternated blue/red with yellow/green teams.",
 		"6. Made this screen appear less often (you're welcome).",
 		"7. Added a bunch of modules to Zeus.",
 		"Please visit the 'Mission Template' section in the mission notes (in the top left of the map screen) to be aware of the enabled toggleable features present in this mission.",

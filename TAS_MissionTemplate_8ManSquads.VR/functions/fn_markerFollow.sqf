@@ -35,11 +35,12 @@ _marker setMarkerColorLocal _markerColor;
 _marker setMarkerTextLocal _markerText;
 //it's made public by the first set pos in the spawn below
 
-[_attachedObject,_deleteOnDeath,_interval,_marker] spawn {
+[_attachedObject,_deleteOnDeath,_interval,_marker,_markerText] spawn {
 	private _attachedObject 	= _this select 0;
 	private _deleteOnDeath 		= _this select 1;
 	private _interval 			= _this select 2;
 	private _marker 			= _this select 3;
+	private _markerText			= _this select 4;
 	while {alive _attachedObject} do {
 		private _markerPos = getMarkerPos _marker;
 		private _objectPos = getPos _attachedObject;

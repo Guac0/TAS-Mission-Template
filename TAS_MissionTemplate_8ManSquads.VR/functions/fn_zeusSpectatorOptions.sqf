@@ -17,7 +17,8 @@ private _onConfirm =
 		"_respawnForceSpectate",
 		"_respawnHidePlayer",
 		"_respawnSpectateTime",
-		"_waveRespawn"
+		"_waveRespawn",
+		"_waveRespawnTimer"
 	];
 	//Get in params again
 	_in params [["_pos",[0,0,0],[[]],3], ["_unit",objNull,[objNull]]];
@@ -101,15 +102,17 @@ private _onConfirm =
 	} else {
 		TAS_waveRespawn = false;
 	};
+	TAS_waveTime = _waveRespawnTimer;
 	publicVariable "TAS_respawnSpectator";
 	publicVariable "TAS_respawnSpectatorForceInterface";
 	publicVariable "TAS_respawnSpectatorHideBody";
 	publicVariable "TAS_respawnSpectatorTime";
 	publicVariable "TAS_waveRespawn";
+	publicVariable "TAS_waveTime";
 };
 
 [
-	"Update Sides available in Spectator (for all players)", 
+	"Edit Spectator/Respawn Options (for all players)", 
 	[
 		["TOOLBOX:YESNO", ["BLUFOR visible?", "Note: if addon settings are set so that AI is never visible, AI will not be available even when this option is enabled."], false],
 		["TOOLBOX:YESNO", ["INDEPENDENT visible?", "Note: if addon settings are set so that AI is never visible, AI will not be available even when this option is enabled."], false],
@@ -122,7 +125,8 @@ private _onConfirm =
 		["TOOLBOX:YESNO", ["Respawn — allow spectator exit?", "If enabled, allows player to exit spectator by pressing the ESC key."], false],
 		["TOOLBOX:YESNO", ["Respawn — hide player's body?", ""], false],
 		["SLIDER", ["Respawn — end spectator at time?", "Closes spectator for player after X seconds have passed since they respawned. Leave at 0 for spectator to not be removed."], [0,600,60,0]],	//min 0 second, max 600 seconds, default 60 seconds, 0 decimal places
-		["TOOLBOX:YESNO", ["Respawn — Do wave respawns?", ""], false]
+		["TOOLBOX:YESNO", ["Respawn — Do wave respawns?", "Overrides 'end spectator at time' option. "], false],
+		["SLIDER", ["Respawn — Wave respawn timer?", ""], [0,1800,300,0]]	//min 0 second, max 1800 seconds, default 300 seconds, 0 decimal places
 	],
 	_onConfirm,
 	{},

@@ -114,7 +114,7 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 
 _escapeButton = _respawnGui ctrlCreate ["RscButton", -1]; 
 _escapeButton ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
-_escapeButton ctrlSetText ("[DEBUG] Exit Respawn GUI (Cannot Reopen!!!)");
+_escapeButton ctrlSetText ("Exit Respawn GUI (Cannot Reopen!)");
 //_background ctrlSetTextColor _red;
 _escapeButton buttonSetAction "(uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;";
 _escapeButton ctrlCommit 0;
@@ -189,6 +189,7 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 							"if (%1 emptyPositions 'cargo' == 0) exitWith {hint 'Passenger seats of targetted respawn vehicle are full!'; systemChat 'Passenger seats of targetted respawn vehicle are full!'}; player moveInCargo %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;",
 							_currentRespawnLocation
 						];
+						diag_log format ["TAS MISSION TEMPLATE: respawn GUI: added button with name %1 with location %2!",_currentRespawnLocationName,_currentRespawnLocation];
 					};
 				};
 			};
@@ -198,6 +199,7 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 				//_background ctrlSetTextColor _blue;
 				_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName];
 				_button buttonSetAction format ["player setPosAsl %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;",_currentRespawnLocation];
+				diag_log format ["TAS MISSION TEMPLATE: respawn GUI: added button with name %1 with location %2!",_currentRespawnLocationName,_currentRespawnLocation];
 			};
 			_button ctrlCommit 0;
 			_currentSpacing = _currentSpacing + 1;
@@ -205,7 +207,7 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 
 		_escapeButton = _respawnGui ctrlCreate ["RscButton", -1]; 
 		_escapeButton ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
-		_escapeButton ctrlSetText ("[DEBUG] Exit Respawn GUI (Cannot Reopen!!!)");
+		_escapeButton ctrlSetText ("Exit Respawn GUI (Cannot Reopen!)");
 		//_background ctrlSetTextColor _red;
 		_escapeButton buttonSetAction "(uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;";
 		_escapeButton ctrlCommit 0;

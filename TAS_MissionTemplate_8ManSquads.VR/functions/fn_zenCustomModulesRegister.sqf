@@ -40,7 +40,7 @@ if (TAS_3dGroupIcons) then {
 };
 
 if (TAS_zeusActionDebug) then {
-	_moduleList pushBack ["Reapply Hold Actions", {_this remoteExec ["TAS_fnc_applyHoldActions",0]}];
+	_moduleList pushBack ["Reapply Hold Actions", {_this remoteExec ["TAS_fnc_applyHoldActions",0]; systemChat "Reapplied hold actions for all players."}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Hold Action Debug", "Enabled. Adds a module to Zeus to allow them to trigger automatic debugging of the various hold actions present in a mission (i.e. medical box heal and stuff)."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";

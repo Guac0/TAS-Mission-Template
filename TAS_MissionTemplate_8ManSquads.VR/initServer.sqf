@@ -212,7 +212,7 @@ if (isServer) then {
 	};
 };
 */
-TAS_respawnInVehicle 		= false; //default false
+TAS_respawnInVehicle 		= true; //default false
 publicVariable "TAS_respawnInVehicle";
 
 //turn FOB on/off. if on, it needs some eden setup see documentation elsewhere. setup already done in the template if you dont break it
@@ -221,8 +221,8 @@ publicVariable "TAS_respawnInVehicle";
 	//FOB system adds an action to every SL (and command engineer) to the "logistics_truck" vehicle to establish a small base with arsenals and a respawn position
 	//If you want to disable rallypoints while keeping FOB or vice versa, set the distances from enemies to like 99999 or something absurdly high
 //Required Mods: ACE
-TAS_fobEnabled 			= true; 	//default false, set to false to disable FOB building and rallypoints
-TAS_fobPackup			= true;	//default false, if true it allows the FOB to be packed up again into the original logistics_vehicle
+TAS_fobEnabled 			= false; 	//default false, set to false to disable FOB building and rallypoints
+TAS_fobPackup			= false;	//default false, if true it allows the FOB to be packed up again into the original logistics_vehicle
 TAS_fobFullArsenals 	= true; 	//default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
 TAS_fobDistance 		= 300; 		//default 300 meters, if enemies are within this range then FOB cannot be created
 TAS_fobRespawn			= true;		//default true, adds a (vanilla) respawn position at the FOB. FOB will have respawn GUI position regardless of this setting. You might want to disable this if you want players to spawn at main and then use the respawn GUI to respawn at the FOB

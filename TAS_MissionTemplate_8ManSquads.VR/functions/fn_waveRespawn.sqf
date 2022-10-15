@@ -7,12 +7,13 @@ private _playersWaiting = [];
 
 while {TAS_waveRespawn} do {
 
-	//countdown, server side with broadcasting to clients every so
+	//countdown, server side with broadcasting to clients every so often
 	private _time = TAS_waveTime;
 	diag_log format ["TAS MISSION TEMPLATE: WAVE RESPAWN beginning new cycle, %1 remaining",[((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
 	while { _time > 0 } do {
 		_time = _time - 1;  
 		if (_time % 20 == 0) then { //debug message and timer broadcast every 20 seconds
+			_playersWaiting = [];	//reset array
 			{
 				if (_x getVariable ["TAS_waitingForReinsert",false]) then {
 					_playersWaiting pushBack _x;
@@ -26,6 +27,7 @@ while {TAS_waveRespawn} do {
 	};
 
 	//do the reinsert
+	_playersWaiting = [];	//reset array
 	{
 		if (_x getVariable ["TAS_waitingForReinsert",false]) then {
 			_playersWaiting pushBack _x;
@@ -57,9 +59,11 @@ while {TAS_waveRespawn} do {
 		};
 		_x setVariable ["TAS_waitingForReinsert",false];
 	} forEach _playersWaiting;*/
-	_playersWaiting 		= _playersWaiting - _playersWaiting; //lazy resetting array
+	_playersWaiting 		= [];	//reset array
 	TAS_waveRemainingTime	= 0;
 	publicVariable "TAS_waveRemainingTime";
+
+	sleep 30;	//grace period for respawns
 
 	//back to top
 };

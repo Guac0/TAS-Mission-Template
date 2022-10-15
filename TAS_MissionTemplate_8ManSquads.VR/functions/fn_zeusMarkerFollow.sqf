@@ -27,10 +27,10 @@ private _onConfirm =
 [
 	"Spawn Info Text", 
 	[
-		["Marker Type","hd_flag"],
-		["Marker Color","ColorUNKNOWN"],
-		["Marker Display Name","Follow Marker"], //all defaults, no sanitizing function as we shouldn't need it
-		["TOOLBOX:YESNO", ["Delete marker when object dies?", ""], false],
+		["EDIT","Marker Type",["hd_flag"]],
+		["EDIT","Marker Color",["ColorUNKNOWN"]],
+		["EDIT","Marker Display Name",["Follow Marker"]], //all defaults, no sanitizing function as we shouldn't need it
+		["TOOLBOX:YESNO", ["Delete marker when object dies?", "Even if marker is not deleted, its position will not update after the attached object dies."], false],
 		["SLIDER", ["Interval between position updates", ""], [1,600,60,0]]	//min 1 second, max 600 seconds, default 60 seconds, 0 decimal places
 	],
 	_onConfirm,

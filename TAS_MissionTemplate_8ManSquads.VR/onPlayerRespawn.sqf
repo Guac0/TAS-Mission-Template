@@ -44,13 +44,13 @@ if (TAS_respawnSpectator) then {
 		//wave respawns (timer is server side and is broadcast every 30 seconds)
 		if (TAS_respawnSpectatorForceInterface) then {
 			while { TAS_waveRemainingTime != 0 } do { //forced interface
-				hintSilent format ["You must wait for a wave respawn to occur before exiting spectator and reinserting.\n\nApproximate Time Remaining: %1", [((_time)/60)+.01,"HH:MM"] call BIS_fnc_timeostring];
+				hintSilent format ["You must wait for a wave respawn to occur before exiting spectator and reinserting.\n\nApproximate Time Remaining: %1", [((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
 				sleep 5;
 			};
 			hintSilent "";
 		} else {
 			while { TAS_waveRemainingTime != 0 } do { //can exit spectator
-				hintSilent format ["You must wait for a wave respawn to occur before exiting spectator and reinserting, either spectate or customize your loadout while you wait!\n\nPress the ESCAPE key to exit spectator and go to the arsenal box if desired.\n\nTApproximate Time Remaining: %1", [((_time)/60)+.01,"HH:MM"] call BIS_fnc_timeostring];
+				hintSilent format ["You must wait for a wave respawn to occur before exiting spectator and reinserting, either spectate or customize your loadout while you wait!\n\nPress the ESCAPE key to exit spectator and go to the arsenal box if desired.\n\nApproximate Time Remaining: %1", [((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
 				sleep 5;
 			};
 			hintSilent "";

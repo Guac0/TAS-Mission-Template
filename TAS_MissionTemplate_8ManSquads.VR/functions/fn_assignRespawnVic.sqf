@@ -53,6 +53,14 @@ private _onConfirm =
 	[_unit,"hd_flag","ColorUNKNOWN",_name,true,5] call TAS_fnc_markerFollow;
 	TAS_respawnVehicles pushBack [_unit,_name]; //["TAS_zeusRespawnVehicle1","test1"]
 	publicVariable "TAS_respawnVehicles";
+
+	_unit addEventHandler ["Killed", {	//removes respawn vehicle from list. might not work if locality is changed.
+		params ["_unit", "_killer", "_instigator", "_useEffects"];
+		private _path = [TAS_respawnVehicles, _unit] call BIS_fnc_findNestedElement;
+		private _indexOfOldRallyPair = _path select 0;
+		TAS_rallypointLocations deleteAt _indexOfOldRallyPair;
+		publicVariable "TAS_respawnVehicles";
+	}];
 };
 [
 	"Set Respawn Vehicle Name", 
