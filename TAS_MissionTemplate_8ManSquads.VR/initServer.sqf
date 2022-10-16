@@ -1,6 +1,6 @@
 //do not touch
 
-TAS_templateVersion 	= 10.1;
+TAS_templateVersion 	= 10; //if it's a major release (like 10.0), omit the decimal and just put the whole number because arma automatically rounds it and messes everything up
 publicVariable "TAS_templateVersion";
 TAS_doTemplateBriefing 	= true;
 publicVariable "TAS_doTemplateBriefing";
@@ -66,6 +66,8 @@ publicVariable "TAS_spawnUnitsOnHC";
 //attempts to solve people losing their team color after death by reapplying it on respawn
 TAS_fixDeathColor		= true; //default true
 publicVariable "TAS_fixDeathColor";
+
+
 
 //////////////////////////////////
 /////////Inventory Options////////
@@ -167,6 +169,7 @@ publicVariable "TAS_resupplyObjectEnabled";
 //the FOB system and other reinsert options can be found in the "respawns options" section
 
 
+
 //to add a custom fortify preset, go to description.ext and follow the instructions there
 
 
@@ -182,7 +185,7 @@ publicVariable "TAS_resupplyObjectEnabled";
 		//"anything with a timer" does not include the vanilla respawn timer.
 //Can be edited midgame via the Zeus "Manage ACE Spectator Options" module. 
 TAS_respawnSpectator 				= false; 	//default false. Enables/disables respawning in spectator.
-TAS_respawnSpectatorForceInterface 	= true; 	//default true. If enabled, makes it so that player cannot leave spectator early (disable it to allow them to close spectator and access the arsenal box or whatever while they wait)
+TAS_respawnSpectatorForceInterface 	= false; 	//default false. If enabled, makes it so that player cannot leave spectator early (disable it to allow them to close spectator and access the arsenal box or whatever while they wait)
 TAS_respawnSpectatorHideBody 		= true; 	//default true. Hides the player's body while they are in spectator.
 TAS_respawnSpectatorTime 			= 0; 		//default 0 (0 for no automatic ending of spectator after X amount of seconds have passed, such as for one life ops). Ignored if TAS_waveRespawns is enabled.
 publicVariable "TAS_respawnSpectator";
@@ -214,7 +217,7 @@ if (isServer) then {
 	};
 };
 */
-TAS_respawnInVehicle 		= true; //default false
+TAS_respawnInVehicle 		= false; //default false
 publicVariable "TAS_respawnInVehicle";
 
 //turn FOB on/off. if on, it needs some eden setup see documentation elsewhere. setup already done in the template if you dont break it
@@ -225,7 +228,7 @@ publicVariable "TAS_respawnInVehicle";
 //Required Mods: ACE
 TAS_fobEnabled 			= false; 	//default false, set to false to disable FOB building and rallypoints
 TAS_fobPackup			= false;	//default false, if true it allows the FOB to be packed up again into the original logistics_vehicle
-TAS_fobFullArsenals 	= true; 	//default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
+TAS_fobFullArsenals 	= false; 	//default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
 TAS_fobDistance 		= 300; 		//default 300 meters, if enemies are within this range then FOB cannot be created
 TAS_fobRespawn			= true;		//default true, adds a (vanilla) respawn position at the FOB. FOB will have respawn GUI position regardless of this setting. You might want to disable this if you want players to spawn at main and then use the respawn GUI to respawn at the FOB
 TAS_useSmallRally 		= true; 	//default true, set to true if you want to use the small rallypoint without a supply crate
