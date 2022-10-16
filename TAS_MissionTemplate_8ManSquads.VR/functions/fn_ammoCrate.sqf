@@ -15,6 +15,7 @@
 		5: BOOL - whether to add grenades to the supply box
 		6: STRING - classname of box to spawn
 		7: STRING or NUMBER - height to paradrop supply crate at
+		8: BOOL - whether to empty the box before adding the resupply items to it. Optional, default TRUE.
 
 
 	Returns:
@@ -37,7 +38,7 @@ private _addAdvancedAmmo 	= _this select 4;
 private _addGrenades 		= _this select 5;
 private _boxClass			= _this select 6;
 private _paradropHeight		= _this select 7;	//NOTE: doesn't always work well
-
+private _emptyBox			= _this select 8;	
 //validate inputs. TODO check for data types
 /*{
 	if (isNil _x) exitWith {
@@ -54,11 +55,23 @@ switch (typeName _position) do
 	default { if (true) exitWith { ["Invalid position data type given! Given %1, expected ARRAY or OBJECT!",typeName _position] call BIS_fnc_error; }; }; //TODO check that this exits entire function and not just the switch. also, yes, requires a IF for some reason. TODO find better way
 };
 
+//box setup
 if (isNil _boxClass) then {
 	_boxClass = "B_CargoNet_01_ammo_F";
 };
-private _box = _boxClass createVehicle _position;
-clearItemCargoGlobal _box; clearWeaponCargoGlobal _box; clearMagazineCargoGlobal _box;
+if (isNil _emptyBox) then {
+	_emptyBox = true;
+};
+if (typeName _boxClass == "OBJECT") then {
+	private _box = _boxClass;
+} else {
+	private _box = _boxClass createVehicle _position;
+};
+if (_emptyBox) then {
+	clearItemCargoGlobal _box;
+	clearWeaponCargoGlobal _box;
+	clearMagazineCargoGlobal _box;
+};
 
 if (_paradropHeight isEqualType "") then {
 	if (isNil _paradropHeight) then {
@@ -100,7 +113,7 @@ if (_addMedical) then {
 	_box addItemCargoGlobal ["ACE_bloodIV", 15]; //1000 ml each
 	_box addItemCargoGlobal ["ACE_tourniquet", 15];
 	_box addItemCargoGlobal ["ACE_Earplugs", 10];
-	_box addItemCargoGlobal ["ACE_personalAidKit",3];
+	_box addItemCargoGlobal ["ACE_personalAidKit",5];
 };
 
 //add 6 magazines for each player's primary weapon, based on currently equiped magazine OR (if player has no magazines loaded) CBA's best guess at a compatible magazine
