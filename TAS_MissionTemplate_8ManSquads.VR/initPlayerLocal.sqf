@@ -422,6 +422,7 @@ if (TAS_doTemplateBriefing) then {
 		"5. Swapped all red/blue team assignments so that they would finally line up with the SL in DUI, and alternated blue/red with yellow/green teams.",
 		"6. Made this screen appear less often (you're welcome).",
 		"7. Added a bunch of modules to Zeus.",
+		"8. Added automatic team reassignment after death",
 		"Please visit the 'Mission Template' section in the mission notes (in the top left of the map screen) to be aware of the enabled toggleable features present in this mission.",
 		"You will only receive this message once every time you join a mission with a new mission template version."
 	];
@@ -429,7 +430,7 @@ if (TAS_doTemplateBriefing) then {
 	private _lastBriefed = profileNamespace getVariable ["TAS_lastTemplateBriefNumber",0];	//new name as old one used string
 	if (_lastBriefed < TAS_templateVersion) then {
 		(format ["TAS Mission Template v%1 — What's New",TAS_templateVersion]) hintC TAS_templateBriefing;
-		profileNamespace setVariable ["TAS_lastTemplateBrief",TAS_templateVersion];
+		profileNamespace setVariable ["TAS_lastTemplateBriefNumber",TAS_templateVersion];
 		//note: if client does a non-graceful game exit, this variable will not be saved. Not going to bother forcing a save here as it's not worth the time it takes.
 	};
 };
