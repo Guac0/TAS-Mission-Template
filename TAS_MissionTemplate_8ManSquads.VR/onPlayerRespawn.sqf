@@ -18,6 +18,14 @@ if (TAS_respawnDeathGear) then {
 	};
 };
 
+//fix death color
+if (TAS_fixDeathColor) then {
+	private _color = player getVariable ["TAS_deathFireteamColor",""];
+	if ((_color != "") && (_color != "MAIN")) then {	//dont bother doing it if its invalid or default
+		player assignTeam _color;
+	};
+};
+
 //respawn with saved gear
 if (TAS_respawnArsenalGear) then {
 	private _loadout = player getVariable ["TAS_arsenalLoadout",[]]; //Load dead player's loadout. Use CBA instead of vanilla. BOOL is for refilling mags.

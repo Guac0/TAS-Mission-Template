@@ -1,6 +1,6 @@
 //do not touch
 
-TAS_templateVersion 	= 10.0;
+TAS_templateVersion 	= 10.1;
 publicVariable "TAS_templateVersion";
 TAS_doTemplateBriefing 	= true;
 publicVariable "TAS_doTemplateBriefing";
@@ -63,7 +63,9 @@ publicVariable "TAS_fpsDisplayEnabled";
 TAS_spawnUnitsOnHC 		= false; //default false
 publicVariable "TAS_spawnUnitsOnHC";
 
-
+//attempts to solve people losing their team color after death by reapplying it on respawn
+TAS_fixDeathColor		= true; //default true
+publicVariable "TAS_fixDeathColor";
 
 //////////////////////////////////
 /////////Inventory Options////////
