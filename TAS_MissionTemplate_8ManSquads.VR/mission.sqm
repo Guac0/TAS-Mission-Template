@@ -5,14 +5,14 @@ class EditorData
 	angleGridStep=0.2617994;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=513;
+	toggles=641;
 	mods[]=
 	{
 		"3denEnhanced"
 	};
 	class ItemIDProvider
 	{
-		nextID=1829;
+		nextID=1834;
 	};
 	class MarkerIDProvider
 	{
@@ -20,7 +20,7 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=716;
+		nextID=724;
 	};
 	class Camera
 	{
@@ -5983,38 +5983,35 @@ class Mission
 			name="Rallypoint Stuff";
 			class Entities
 			{
-				items=7;
+				items=12;
 				class Item0
 				{
 					dataType="Marker";
-					position[]={0,5,100.16678};
+					position[]={0,5,104.17286};
 					name="rallypointEchoMarker";
 					text="Echo Squad Rallypoint";
 					type="mil_flag";
 					colorName="ColorCIV";
-					alpha=0;
 					id=167;
 				};
 				class Item1
 				{
 					dataType="Marker";
-					position[]={0,5,101.16678};
+					position[]={0,5,105.17286};
 					name="rallypointFoxtrotMarker";
 					text="Foxtrot Squad Rallypoint";
 					type="mil_flag";
 					colorName="ColorCIV";
-					alpha=0;
 					id=168;
 				};
 				class Item2
 				{
 					dataType="Marker";
-					position[]={0,5,102.16678};
+					position[]={0,5,106.17264};
 					name="rallypointGolfMarker";
 					text="Golf Squad Rallypoint";
 					type="mil_flag";
 					colorName="ColorCIV";
-					alpha=0;
 					id=169;
 				};
 				class Item3
@@ -6025,18 +6022,16 @@ class Mission
 					text="Command Element Rallypoint";
 					type="mil_flag";
 					colorName="ColorCIV";
-					alpha=0;
 					id=171;
 				};
 				class Item4
 				{
 					dataType="Marker";
-					position[]={0,5,103.16678};
+					position[]={0,5,107.17286};
 					name="rallypointHotelMarker";
 					text="Hotel Squad Rallypoint";
 					type="mil_flag";
 					colorName="ColorCIV";
-					alpha=0;
 					id=170;
 				};
 				class Item5
@@ -6047,7 +6042,6 @@ class Mission
 					text="Foward Operating Base";
 					type="mil_flag";
 					colorName="ColorCIV";
-					alpha=0;
 					id=358;
 				};
 				class Item6
@@ -6059,6 +6053,56 @@ class Mission
 					};
 					title="Rallypoint Markers (invisible unless rallypoints are active), Don't Delete";
 					id=144;
+				};
+				class Item7
+				{
+					dataType="Marker";
+					position[]={0,5,100.167};
+					name="rallypointAlphaMarker";
+					text="Alpha Squad Rallypoint";
+					type="mil_flag";
+					colorName="ColorCIV";
+					id=1829;
+				};
+				class Item8
+				{
+					dataType="Marker";
+					position[]={0,5,101.167};
+					name="rallypointBravoMarker";
+					text="Bravo Squad Rallypoint";
+					type="mil_flag";
+					colorName="ColorCIV";
+					id=1830;
+				};
+				class Item9
+				{
+					dataType="Marker";
+					position[]={0,5,102.167};
+					name="rallypointCharlieMarker";
+					text="Charlie Squad Rallypoint";
+					type="mil_flag";
+					colorName="ColorCIV";
+					id=1831;
+				};
+				class Item10
+				{
+					dataType="Marker";
+					position[]={0,5,103.167};
+					name="rallypointDeltaMarker";
+					text="Delta Squad Rallypoint";
+					type="mil_flag";
+					colorName="ColorCIV";
+					id=1832;
+				};
+				class Item11
+				{
+					dataType="Marker";
+					position[]={0,5,97.168999};
+					name="rallypointReconMarker";
+					text="Recon Team Rallypoint";
+					type="mil_flag";
+					colorName="ColorCIV";
+					id=1833;
 				};
 			};
 			id=439;

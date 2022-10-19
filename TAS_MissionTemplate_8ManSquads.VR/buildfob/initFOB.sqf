@@ -115,6 +115,16 @@ if (vehicleVarName player == "FOXTROT_Actual" || ("Squad Leader" in _playerRoleD
 	[player, 1, ["ACE_SelfActions"], Rally_Foxtrot_Action] call ace_interact_menu_fnc_addActionToObject;
 };
 
+if (vehicleVarName player == "GOLF_Actual" || ("Squad Leader" in _playerRoleDescription && "Golf" in _playerRoleDescription)) then {
+	Rally_Golf_Action = ["rallyGolf","Place Squad Rallypoint","",{[3,[],{[] call TAS_fnc_golfRallypoint;},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
+	[player, 1, ["ACE_SelfActions"], Rally_Golf_Action] call ace_interact_menu_fnc_addActionToObject;
+};
+
+if (vehicleVarName player == "HOTEL_Actual" || ("Squad Leader" in _playerRoleDescription && "Hotel" in _playerRoleDescription)) then {
+	Rally_Hotel_Action = ["rallyHotel","Place Squad Rallypoint","",{[3,[],{[] call TAS_fnc_hotelRallypoint;},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
+	[player, 1, ["ACE_SelfActions"], Rally_Hotel_Action] call ace_interact_menu_fnc_addActionToObject;
+};
+
 if (vehicleVarName player == "Recon_Actual" || ("Leader" in _playerRoleDescription && "Recon" in _playerRoleDescription)) then {
 	Rally_CMD_Action = ["rallyRecon","Place Squad Rallypoint","",{[3,[],{[] call TAS_fnc_reconRallypoint;},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
 	[player, 1, ["ACE_SelfActions"], Rally_Recon_Action] call ace_interact_menu_fnc_addActionToObject;
