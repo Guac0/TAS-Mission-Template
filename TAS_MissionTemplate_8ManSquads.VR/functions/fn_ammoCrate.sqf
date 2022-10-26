@@ -36,9 +36,9 @@ private _addMedical 		= _this select 2;
 private _addBasicAmmo 		= _this select 3;
 private _addAdvancedAmmo 	= _this select 4;
 private _addGrenades 		= _this select 5;
-private _boxClass			= _this select 6;
+private _emptyBox			= _this select 6;
 private _paradropHeight		= _this select 7;	//NOTE: doesn't always work well
-private _emptyBox			= _this select 8;	
+private _boxClass			= _this select 8;
 //validate inputs. TODO check for data types
 /*{
 	if (isNil _x) exitWith {
@@ -59,18 +59,17 @@ switch (typeName _position) do
 if (isNil _boxClass) then {
 	_boxClass = "B_CargoNet_01_ammo_F";
 };
-if (isNil _emptyBox) then {
-	_emptyBox = true;
-};
+//systemChat str (typeName _boxClass);
 if (typeName _boxClass == "OBJECT") then {
-	private _box = _boxClass;
+	TAS_ammoCrateVariable = _boxClass;
 } else {
-	private _box = _boxClass createVehicle _position;
+	TAS_ammoCrateVariable = _boxClass createVehicle _position;
 };
+
 if (_emptyBox) then {
-	clearItemCargoGlobal _box;
-	clearWeaponCargoGlobal _box;
-	clearMagazineCargoGlobal _box;
+	clearItemCargoGlobal TAS_ammoCrateVariable;
+	clearWeaponCargoGlobal TAS_ammoCrateVariable;
+	clearMagazineCargoGlobal TAS_ammoCrateVariable;
 };
 
 if (_paradropHeight isEqualType "") then {
@@ -84,14 +83,14 @@ if (_paradropHeight isEqualType "") then {
 if (_isPara) then {
 	private _height = _position select 2;
 	_height = _height + _paradropHeight;
-	_box setPosATL [_position select 0, _position select 1, _height];
+	TAS_ammoCrateVariable setPosATL [_position select 0, _position select 1, _height];
 
 	private _parachute = "B_parachute_02_F" createVehicle [0,0,0];
-	_parachute setPosASL (getPosASL _box);
-	_box attachTo [_parachute, [0, 0, 0]];
+	_parachute setPosASL (getPosASL TAS_ammoCrateVariable);
+	TAS_ammoCrateVariable attachTo [_parachute, [0, 0, 0]];
 	
 	//infinite smoke while resupply is not on the ground
-	_box spawn {
+	TAS_ammoCrateVariable spawn {
 		sleep 5; //it pauses midair when initially being made, so wait for that to finish
 		while {(speed _this) > 0.1} do { //usually ~1 while falling in parachute
 			private _smoke = "SmokeShellPurple" createVehicle [0,0,0];
@@ -106,14 +105,14 @@ if (_isPara) then {
 
 //add medical in priority order
 if (_addMedical) then {
-	_box addItemCargoGlobal ["ACE_fieldDressing", 100];
-	_box addItemCargoGlobal ["ACE_morphine", 40];
-	_box addItemCargoGlobal ["ACE_epinephrine", 20];
-	_box addItemCargoGlobal ["ACE_bloodIV_500", 30];
-	_box addItemCargoGlobal ["ACE_bloodIV", 15]; //1000 ml each
-	_box addItemCargoGlobal ["ACE_tourniquet", 15];
-	_box addItemCargoGlobal ["ACE_Earplugs", 10];
-	_box addItemCargoGlobal ["ACE_personalAidKit",5];
+	TAS_ammoCrateVariable addItemCargoGlobal ["ACE_fieldDressing", 100];
+	TAS_ammoCrateVariable addItemCargoGlobal ["ACE_morphine", 40];
+	TAS_ammoCrateVariable addItemCargoGlobal ["ACE_epinephrine", 20];
+	TAS_ammoCrateVariable addItemCargoGlobal ["ACE_bloodIV_500", 30];
+	TAS_ammoCrateVariable addItemCargoGlobal ["ACE_bloodIV", 15]; //1000 ml each
+	TAS_ammoCrateVariable addItemCargoGlobal ["ACE_tourniquet", 15];
+	TAS_ammoCrateVariable addItemCargoGlobal ["ACE_Earplugs", 10];
+	TAS_ammoCrateVariable addItemCargoGlobal ["ACE_personalAidKit",5];
 };
 
 //add 6 magazines for each player's primary weapon, based on currently equiped magazine OR (if player has no magazines loaded) CBA's best guess at a compatible magazine
@@ -123,11 +122,11 @@ if (_addBasicAmmo) then {
 		if (primaryWeapon _x != "") then { 													//don't add primary ammo if player has no primary weapon
 			if (count (primaryWeaponMagazine _x) > 0) then { 								//only add magazines if player has magazine(s) loaded
 				for "_i" from 0 to ((count primaryWeaponMagazine _x) - 1) do {				//grab GL/other underbarrel rounds too if applicable
-					_box addMagazineCargoGlobal [primaryWeaponMagazine _x select _i, 6];
+					TAS_ammoCrateVariable addMagazineCargoGlobal [primaryWeaponMagazine _x select _i, 6];
 				};
 			} else {																		//if player has no magazines loaded (i.e. fully out of ammo), then take our best guess from CBA compat magazines IF weapon has any compatible magazines
 				if (count ([primaryWeapon _x] call CBA_fnc_compatibleMagazines) > 0) then { //only do this if there's actually valid magazines for the gun
-					_box addMagazineCargoGlobal [[primaryWeapon _x] call CBA_fnc_compatibleMagazines select 0,6];
+					TAS_ammoCrateVariable addMagazineCargoGlobal [[primaryWeapon _x] call CBA_fnc_compatibleMagazines select 0,6];
 				};
 			};
 		};
@@ -138,24 +137,24 @@ if (_addAdvancedAmmo) then {
 	{
 		if (primaryWeapon _x != "") then { 																		//don't add primary ammo if player has no primary weapon
 			if (count ([primaryWeapon _x] call CBA_fnc_compatibleMagazines) > 0) then {							//checks if weapon actually has compatible ammo
-				_box addMagazineCargoGlobal [[primaryWeapon _x] call CBA_fnc_compatibleMagazines select 0,4]; 	//adds CBA's best guess for ammo
+				TAS_ammoCrateVariable addMagazineCargoGlobal [[primaryWeapon _x] call CBA_fnc_compatibleMagazines select 0,4]; 	//adds CBA's best guess for ammo
 				if (count ([primaryWeapon _x] call CBA_fnc_compatibleMagazines) > 1) then {  					//adds CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
-					_box addMagazineCargoGlobal [[primaryWeapon _x] call CBA_fnc_compatibleMagazines select 1,4];
+					TAS_ammoCrateVariable addMagazineCargoGlobal [[primaryWeapon _x] call CBA_fnc_compatibleMagazines select 1,4];
 				};
 			};
 		};
 
 		if (handgunWeapon _x != "") then { 																		//don't add primary ammo if player has no primary weapon
 			if (count ([handgunWeapon _x] call CBA_fnc_compatibleMagazines) > 0) then {							//checks if weapon actually has compatible ammo
-				_box addMagazineCargoGlobal [[handgunWeapon _x] call CBA_fnc_compatibleMagazines select 0,2]; 	//adds CBA's best guess for ammo
+				TAS_ammoCrateVariable addMagazineCargoGlobal [[handgunWeapon _x] call CBA_fnc_compatibleMagazines select 0,2]; 	//adds CBA's best guess for ammo
 			};
 		};
 		
 		if (secondaryWeapon _x != "") then { 																	//don't add ammo if player has no weapon
 			if (count ([secondaryWeapon _x] call CBA_fnc_compatibleMagazines) > 0) then {						//checks if weapon actually has compatible ammo
-				_box addMagazineCargoGlobal [[secondaryWeapon _x] call CBA_fnc_compatibleMagazines select 0,2]; //adds two rounds of CBA's best guess for ammo
+				TAS_ammoCrateVariable addMagazineCargoGlobal [[secondaryWeapon _x] call CBA_fnc_compatibleMagazines select 0,2]; //adds two rounds of CBA's best guess for ammo
 				if (count ([secondaryWeapon _x] call CBA_fnc_compatibleMagazines) > 1) then {  					//adds two rounds of CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
-					_box addMagazineCargoGlobal [[secondaryWeapon _x] call CBA_fnc_compatibleMagazines select 1,2];
+					TAS_ammoCrateVariable addMagazineCargoGlobal [[secondaryWeapon _x] call CBA_fnc_compatibleMagazines select 1,2];
 				};
 			};
 		};
@@ -165,13 +164,14 @@ if (_addAdvancedAmmo) then {
 
 if (_addGrenades) then { //add two m67s and two white smoke grenades for each player
 	{
-		_box addItemCargoGlobal ["HandGrenade",2];
-		_box addItemCargoGlobal ["SmokeShell",2];
+		TAS_ammoCrateVariable addItemCargoGlobal ["HandGrenade",2];
+		TAS_ammoCrateVariable addItemCargoGlobal ["SmokeShell",2];
 	} forEach allPlayers;
 };
 
 //box is probably too heavy to carry/drag (600 for carry, 800 for drag) but just in case let's make it possible
-[_box, true, [0, 2, 0], 0] remoteExecCall ['ace_dragging_fnc_setCarryable'];
-[_box, true, [0, 2, 0], 0] remoteExecCall ['ace_dragging_fnc_setDraggable'];
+publicVariable "TAS_ammoCrateVariable"; //needed because arma code sucks
+[TAS_ammoCrateVariable, true, [0, 2, 0], 0] remoteExecCall ['ace_dragging_fnc_setCarryable'];
+[TAS_ammoCrateVariable, true, [0, 2, 0], 0] remoteExecCall ['ace_dragging_fnc_setDraggable'];
 
-_box //return reference to created box
+TAS_ammoCrateVariable //return reference to created box
