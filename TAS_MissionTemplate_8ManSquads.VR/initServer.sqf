@@ -1,6 +1,6 @@
 //do not touch
 
-TAS_templateVersion 	= 10; //if it's a major release (like 10.0), omit the decimal and just put the whole number because arma automatically rounds it and messes everything up
+TAS_templateVersion 	= 10.0; //if it's a major release (like 10.0), note that arma will truncate the empty decimal to just '10'
 publicVariable "TAS_templateVersion";
 TAS_doTemplateBriefing 	= true;
 publicVariable "TAS_doTemplateBriefing";
@@ -73,17 +73,19 @@ publicVariable "TAS_fixDeathColor";
 /////////Inventory Options////////
 //////////////////////////////////
 
+//just a general note, the template only contains ace arsenals for a reason. Usage of any other arsenal type may result in broken scripts/mods.
+
 
 
 //Disables vanilla stamina at mission start and on player respawn.
 TAS_vanillaStaminaDisabled = true; //defaults to true
 publicVariable "TAS_vanillaStaminaDisabled";
 
-//possibly broken, effects are small if any
+//probably works now but no promises
 //Modifies weapon sway (well, aim precison) coefficient and recoil coefficient. 1 is normal, 0 is nothing (but don't use 0, use 0.1)
 TAS_doAimCoefChange 	= false; 	//default false
-TAS_aimCoef 	  		= 0.5;	//default 0.5; no effect if TAS_doCoefChanges is FALSE
-TAS_recoilCoef 	  		= 0.75;	//default 0.75; no effect if TAS_doCoefChanges is FALSE
+TAS_aimCoef 	  		= 0.5;		//default 0.5; no effect if TAS_doCoefChanges is FALSE
+TAS_recoilCoef 	  		= 0.75;		//default 0.75; no effect if TAS_doCoefChanges is FALSE
 publicVariable "TAS_doAimCoefChange";
 publicVariable "TAS_aimCoef";
 publicVariable "TAS_recoilCoef";
@@ -91,10 +93,10 @@ publicVariable "TAS_recoilCoef";
 //tfar radio assignment init, for SL LR backpack assignment needs SLs to have the preset variable names for SLs(see template)
 //if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
 //Required Mods: TFAR
-TAS_radiosEnabled 		= true; //defaults to true
-TAS_NoSquadleadLr 		= true; //default true. Set to true if you want to use radiomen instead of SLs having the LR backpacks by default (radiomen must have "Radioman" or "RTO" as their role description to be given the backpack)
-TAS_radioAdditionals 	= false; //default false. Sets channel 2 as an additional at game start. What frequency it is set is controlled by the tfar attributes of each character in eden.
-TAS_radioPersonal 		= "TFAR_anprc152"; //defaults to the "TFAR_anprc152", used by indep but is standard issue in TAS
+TAS_radiosEnabled 		= true; 			//defaults to true
+TAS_NoSquadleadLr 		= true; 			//default true. Set to true if you want to use radiomen instead of SLs having the LR backpacks by default (radiomen must have "Radioman" or "RTO" as their role description to be given the backpack)
+TAS_radioAdditionals 	= false; 			//default false. Sets channel 2 as an additional at game start. What frequency it is set is controlled by the tfar attributes of each character in eden.
+TAS_radioPersonal 		= "TFAR_anprc152"; 	//defaults to the "TFAR_anprc152", used by indep but is standard issue in TAS
 TAS_radioBackpack 		= "TFAR_anprc155_coyote"; //defaults to 155 coyote ("TFAR_anprc155_coyote"), change to what you want. Leaving empty ("") will not assign a backpack radio (useful if you preconfigured unique radio loadouts in eden)
 publicVariable "TAS_radiosEnabled";
 publicVariable "TAS_NoSquadleadLr";
@@ -117,14 +119,15 @@ publicVariable "TAS_ctabEnabled";
 	//this setVariable ["TAS_overrideConfigLoadoutName","Display name of unit in given faction whose loadout should be given to this player"];
 TAS_useConfigLoadout 	= false; 		//default false
 TAS_configFaction 		= "BLU_F"; 		//you can find the config name by placing a unit, right click, log, log faction classname to clipboard
-TAS_defaultConfigUnit 	= "Rifleman"; //if role description doesn't match any unit in the faction, it falls back to this unit name for the loadout assignment
-TAS_configLoadoutNumber = 0; 		//Advanced users only. When multiple loadouts are found, use the # loadout found (zero-based)
+TAS_defaultConfigUnit 	= "Rifleman"; 	//if role description doesn't match any unit in the faction, it falls back to this unit name for the loadout assignment
+TAS_configLoadoutNumber = 0; 			//Advanced users only. When multiple loadouts are found, use the # loadout found (zero-based)
 publicVariable "TAS_useConfigLoadout";
 publicVariable "TAS_configFaction";
 publicVariable "TAS_defaultConfigUnit";
 publicVariable "TAS_configLoadoutNumber";
 
 //Automatically gives appropriate inventory items to players, loosely based on class. Clears eden inventory (but doesnt change clothing or weapons)
+	//does NOT give GPS
 //Medical: 16x basic bandages, 8x morphine, 3x TQs, 2x epi, 2x 500ml blood
 	//If medic, extra 40 basic bandages, 20 morphine, 15 epi, 6 TQs, 10x 500 ml blood, 6x 1000ml blood, 1x PAK
 //Ammo: 4x standard primary mags, 4x special mags, 2x pistol mags (if have pistol), 2x launcher mags (if have launcher)
@@ -136,6 +139,7 @@ publicVariable "TAS_populateInventory";
 
 //Removes certain problematic items from arsenal boxes that are otherwise hidden and unremoveable (boxes names must be arsenal_# from 1 to 10, template already gives you 1-3 premade and you can just copy paste those)
 //See initPlayer for full list, but this is things like doomsday, hidden brightlights, etc
+//possibly broken
 TAS_arsenalCurate 		= true; //defaults to true
 publicVariable "TAS_arsenalCurate";
 
@@ -211,7 +215,7 @@ if (isServer) then {
 		if (TAS_respawnInVehicle) then {
 			waitUntil {!isNil "TAS_respawnVehicles"};
 			TAS_respawnVehicles pushBack [_this,"Respawn Vehicle 1"];
-			[_this,"hd_flag","ColorUNKNOWN","Respawn Vehicle 1",true,60] call TAS_fnc_markerFollow;
+			[_this,"hd_flag","ColorUNKNOWN","Respawn Vehicle 1",true,5] call TAS_fnc_markerFollow;
 			publicVariable "TAS_respawnVehicles";
 		};
 	};

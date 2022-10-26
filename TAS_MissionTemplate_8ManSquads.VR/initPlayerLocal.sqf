@@ -416,13 +416,13 @@ if (TAS_arsenalCurate) then {
 if (TAS_doTemplateBriefing) then {
 	TAS_templateBriefing = [
 		"1. Added 3D group leader icons for easy identification of leadership during prep time.",
-		"2. Optimized some scripts for players who don't run the Discord Rich Presence mod.",
-		"3. Hopefully solved the disappearing hold action bugs.",
-		"4. Added additional spectator and respawn options for more mission variety possibilities.",
-		"5. Swapped all red/blue team assignments so that they would finally line up with the SL in DUI, and alternated blue/red with yellow/green teams.",
-		"6. Made this screen appear less often (you're welcome).",
-		"7. Added a bunch of modules to Zeus.",
-		"8. Added automatic team reassignment after death",
+		"2. Hopefully solved the disappearing hold action bugs.",
+		"3. Added additional spectator and respawn options for more mission variety possibilities.",
+		"4. Swapped all red/blue team assignments so that they would finally line up with the SL in DUI, and alternated blue/red with yellow/green teams.",
+		"5. Added a bunch of modules to Zeus.",
+		"6. Added automatic team reassignment after death.",
+		"7. Updated squad names for Foxtrot-Hotel squads.",
+		"8. Made this screen appear less often (you're welcome).",
 		"Please visit the 'Mission Template' section in the mission notes (in the top left of the map screen) to be aware of the enabled toggleable features present in this mission.",
 		"You will only receive this message once every time you join a mission with a new mission template version."
 	];
