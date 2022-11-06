@@ -56,7 +56,7 @@ if (TAS_zeusSpectateManager) then {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Manage ACE Spectator Settings", "Disabled."]]; };
 };
 
-if (TAS_zeusActionDebug) then {
+if (TAS_zeusSpectateManager) then {
 	_moduleList pushBack ["Open Respawn GUI on Unit", {
 		private _unit = _this select 1;
 		if (isNull _unit) exitWith { systemChat "Place the module on a unit!"};
