@@ -410,11 +410,6 @@ if (TAS_fpsDisplayEnabled) then {
 	diag_log text "TAS-Mission-Template --------------------[Executed show_fps on Server]--------------------"; //will show in server logs
 };
 
-if (TAS_3dGroupIcons) then {
-	TAS_do3dGroupIcons = true;
-	publicVariable "TAS_do3dGroupIcons";
-};
-
 //handle radio settings broadcast
 /*TAS_radioSettings = [];
 {

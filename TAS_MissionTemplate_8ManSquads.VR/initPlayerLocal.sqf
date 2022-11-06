@@ -446,6 +446,6 @@ if (TAS_doDiscordUpdate) then {
 	};
 };
 
-if (TAS_do3dGroupIcons) then { //intentionally the "do" variant for performance reasons
+if (TAS_3dGroupIcons) then { //intentionally the "do" variant for performance reasons
 	[] spawn TAS_fnc_3dGroupIcons;
 };

@@ -68,5 +68,5 @@ private _eventhandler = addMissionEventHandler ["Draw3D",
 		} forEach allPlayers;
 	}
 ];
-waitUntil {sleep 1; !(TAS_do3dGroupIcons)};
+waitUntil {sleep 1; !(TAS_3dGroupIcons)};
 removeMissionEventHandler ["draw3D",_eventhandler];
