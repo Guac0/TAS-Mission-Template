@@ -400,7 +400,7 @@ if (TAS_fobEnabled) then {
 	TAS_rallypointLocations = [];
 	publicVariable "TAS_rallypointLocations";
 
-	[logistics_vehicle,"hd_flag","ColorUNKNOWN","FOB Vehicle",true,5] call TAS_fnc_markerFollow;
+	[logistics_vehicle,"hd_flag","ColorUNKNOWN","FOB Vehicle",true,5] spawn TAS_fnc_markerFollow;
 };
 
 //show fps script by Mildly Interested/Bassbeard
