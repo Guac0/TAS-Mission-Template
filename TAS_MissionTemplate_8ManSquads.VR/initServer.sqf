@@ -1,6 +1,6 @@
 //do not touch
 
-TAS_templateVersion 	= 10.0; //if it's a major release (like 10.0), note that arma will truncate the empty decimal to just '10'
+TAS_templateVersion 	= 10.1; //if it's a major release (like 10.0), note that arma will truncate the empty decimal to just '10'
 publicVariable "TAS_templateVersion";
 TAS_doTemplateBriefing 	= true;
 publicVariable "TAS_doTemplateBriefing";

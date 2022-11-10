@@ -522,14 +522,9 @@ if (TAS_arsenalCurate) then {
 
 if (TAS_doTemplateBriefing) then {
 	TAS_templateBriefing = [
-		"1. Added 3D group leader icons for easy identification of leadership during prep time.",
-		"2. Hopefully solved the disappearing hold action bugs.",
-		"3. Added additional spectator and respawn options for more mission variety possibilities.",
-		"4. Swapped all red/blue team assignments so that they would finally line up with the SL in DUI, and alternated blue/red with yellow/green teams.",
-		"5. Added a bunch of modules to Zeus.",
-		"6. Added automatic team reassignment after death.",
-		"7. Updated squad names for Foxtrot-Hotel squads.",
-		"8. Made this screen appear less often (you're welcome).",
+		"1. Fixed various critical typos in FOB system, respawn system, and 3d Group Icons.",
+		"2. Miscellaneous background fixed and minor updates.",
+		"Known issues: Respawn In Vehicle has approximately a 5% change to not work when you try to click the button. Fix is WIP.",
 		"Please visit the 'Mission Template' section in the mission notes (in the top left of the map screen) to be aware of the enabled toggleable features present in this mission.",
 		"You will only receive this message once every time you join a mission with a new mission template version."
 	];
