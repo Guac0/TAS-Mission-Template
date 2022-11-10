@@ -191,7 +191,7 @@ publicVariable "TAS_resupplyObjectEnabled";
 TAS_respawnSpectator 				= false; 	//default false. Enables/disables respawning in spectator.
 TAS_respawnSpectatorForceInterface 	= false; 	//default false. If enabled, makes it so that player cannot leave spectator early (disable it to allow them to close spectator and access the arsenal box or whatever while they wait)
 TAS_respawnSpectatorHideBody 		= true; 	//default true. Hides the player's body while they are in spectator.
-TAS_respawnSpectatorTime 			= 0; 		//default 0 (0 for no automatic ending of spectator after X amount of seconds have passed, such as for one life ops). Ignored if TAS_waveRespawns is enabled.
+TAS_respawnSpectatorTime 			= 0; 		//default 0 (0 for no automatic ending of spectator after X amount of seconds have passed, such as for one life ops). Ignored if TAS_waveRespawn is enabled.
 publicVariable "TAS_respawnSpectator";
 publicVariable "TAS_respawnSpectatorForceInterface";
 publicVariable "TAS_respawnSpectatorHideBody";
@@ -200,8 +200,8 @@ publicVariable "TAS_respawnSpectatorTime";
 //does wave respawns, aka reinserts all dead players at once every set interval of time instead of them individually reinserting.
 TAS_waveRespawn						= false;	//default false
 TAS_waveTime						= 300;		//default 300 (5 minutes). It can take up to 5-10 seconds for all players to respawn, and respawning is available for a 20 second window as a grace period after each respawn wave.
-										//Overwrites TAS_respawnSpectatorTime if TAS_waveRespawns is enabled.
-publicVariable "TAS_waveRespawns";
+										//Overwrites TAS_respawnSpectatorTime if TAS_waveRespawn is enabled.
+publicVariable "TAS_waveRespawn";
 publicVariable "TAS_waveTime";
 
 //This script adds a custom system for respawning in a forward logistics vehicle
