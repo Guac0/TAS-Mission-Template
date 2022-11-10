@@ -50,6 +50,17 @@ private _leadershipRoleDescriptions = ["Zeus","Ground Command","Officer","JTAC",
 private _leadershipRoleDescriptionSimple = "@";	//group leaders have an @ sign in their role description to name their squads in role select
 private _playerClass = vehicleVarName player;
 private _roleDescription = roleDescription player;
+private _roleDescriptionSimple = roleDescription player; //we'll use this in a sec
+
+if ((_roleDescription find "@") != -1) then { //-1 indicates no @ sign. If unit has @ sign, parse it and only count text before it (remove group info)
+	private _roleDescriptionArray = _roleDescription splitString "@"; //splits string into array with values separated by @ sign, so "AAA@BBB" becomes "[AAA,BBB]"
+	_roleDescriptionSimple = _roleDescriptionArray select 0;
+};
+if ((_roleDescription find "[") != -1) then { //remove info about assigned color team if player has it
+	private _indexOfBracket = _roleDescription find "[";
+	_roleDescriptionSimple = _roleDescription select [0,(_indexOfBracket - 1)]; //-1 to remove the space before it
+};
+//at this point, _roleDescriptionSimple should be just "Squad Leader", while _roleDescription is "Squad Leader [Blue Team]@Alpha"
 
 //leadership marking
 if (_leadershipRoleDescriptionSimple in _roleDescription) then { //STRING in STRING
@@ -284,6 +295,95 @@ if (TAS_populateInventory) then {
 		player addItem "MineDetector";
 		player addItem "ACE_DefusalKit";
 	};
+
+	////////////////////////////////////////
+	///////////Custom Equipment/////////////
+	////////////////////////////////////////
+	//add any custom equipment here
+	//setups for default units are provided
+	//to enable, set _doCustoMEquipment to TRUE. disabled by default to save performance.
+	private _doCustomEquipment = false;
+
+	if (_doCustomEquipment) then {
+		//add any misc equipment for all roles here
+
+		
+
+		//add equipment specific to a role to the appropriate switch statement
+		switch (true) do
+		{
+			//cmd
+			case ("Officer" in _roleDescriptionSimple): {
+
+			};
+			case ("JTAC" in _roleDescriptionSimple): {
+				
+			};
+			case ("Combat Life Saver" in _roleDescriptionSimple): {
+				
+			};
+			case ("Engineer" in _roleDescriptionSimple): {
+				
+			};
+
+			//recon
+			case ("Recon Team Leader" in _roleDescriptionSimple): {
+
+			};
+			case ("Recon Paramedic" in _roleDescriptionSimple): {
+				
+			};
+			case ("Recon Demo Specialist" in _roleDescriptionSimple): {
+				
+			};
+			case ("Recon Sharpshooter" in _roleDescriptionSimple): {
+				
+			};
+
+			//air
+			case ("Pilot" in _roleDescriptionSimple): {
+
+			};
+			case ("Copilot" in _roleDescriptionSimple): {
+				
+			};
+
+			//armor
+			case ("Commander" in _roleDescriptionSimple): {
+
+			};
+			case ("Gunner" in _roleDescriptionSimple): {
+				
+			};
+			case ("Driver" in _roleDescriptionSimple): {
+				
+			};
+
+			//squad (medic is in cmd section)
+			case ("Squad Leader" in _roleDescriptionSimple): {
+
+			};
+			case ("RTO" in _roleDescriptionSimple): {
+				
+			};
+			case ("Machinegunner" in _roleDescriptionSimple): {
+				
+			};
+			case ("Team Leader" in _roleDescriptionSimple): {
+				
+			};
+			case ("Autorifleman" in _roleDescriptionSimple): {
+				
+			};
+			case ("Rifleman (AT)" in _roleDescriptionSimple): {
+				
+			};
+		};
+	};
+
+	////////////////////////////////////////
+	/////////End Custom Equipment///////////
+	////////////////////////////////////////
 
 	player createDiaryRecord ["tasMissionTemplate", ["Inventory Population", "Enabled. You have been given basic medical, grenade, ammo, and loadout-specific supplies."]];
 } else {
