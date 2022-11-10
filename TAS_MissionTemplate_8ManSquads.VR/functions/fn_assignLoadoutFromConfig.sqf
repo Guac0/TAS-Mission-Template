@@ -18,10 +18,12 @@ if (_givenUnit getVariable ["TAS_disableConfigLoadoutAssignment",false]) exitWit
 if (_givenUnit getVariable ["TAS_overrideConfigLoadout",false]) then {
 	_roleDescription = _givenUnit getVariable ["TAS_overrideConfigLoadoutName",_defaultUnitName];
 } else {
-	if (isNil _roleDescription) then {
+	/*if (isNil _roleDescription) then { //TODO arma always registers this as being nil for some reason???
+		systemChat roleDescription player;
+		systemChat roleDescription _givenUnit;
+		systemChat format ["fn_assignLoadoutFromConfig: Given unit has no role description%1, using provided default unit name instead!",_roleDescription];
 		_roleDescription = _defaultUnitName;
-		systemChat "fn_assignLoadoutFromConfig: Given unit has no role description, using provided default unit name instead!";
-	};
+	};*/
 
 	if ((_roleDescription find "@") != -1) then { //-1 indicates no @ sign. If unit has @ sign, parse it and only count text before it (remove group info)
 		private _roleDescriptionArray = _roleDescription splitString "@"; //splits string into array with values separated by @ sign, so "AAA@BBB" becomes "[AAA,BBB]"
