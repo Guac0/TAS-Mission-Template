@@ -11,7 +11,8 @@ _blue = [0,1,0,0.5];
 _green = [0,0,1,0.5];
 _cyan = [0,1,1,0.5];
 
-
+//gui doesnt work in disableSerialization file
+/*
 if (player getVariable ["TAS_aceArsenalOpen",false]) then {
 	hint "Please close any displays (such as Arsenal) before being shown the respawn GUI!";
 	systemChat "Please close any displays (such as Arsenal) before being shown the respawn GUI!"; //this too because while in arsenal, hints are hidden
@@ -22,6 +23,7 @@ if (vehicle player != player) then {
 	systemChat "Exit the vehicle before being shown the respawn GUI!"; //this too because while in arsenal, hints are hidden
 	waitUntil {sleep 0.25; vehicle player == player}; //wait until ace arsenal is exited to avoid gui errors
 };
+*/
 //sleep 0.1; //wait for ace arsenal to fully exit
 //waitUntil { sleep 0.25; isnull ( uinamespace getvariable "RSCDisplayArsenal" ) }; //wait until vanilla arsenal is exited, this (sometimes?) throws errors when in ace arsenal (returns nil), so do it after the ace arsenal check
 
