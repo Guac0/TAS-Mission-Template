@@ -48,7 +48,7 @@ if (!isNil "logistics_vehicle") then { //check if the logistics_vehicle actually
 					"Establishing FOB..."
 				] call ace_common_fnc_progressBar
 			},
-			{!TAS_fobBuilt} //not available if fob has been placed
+			{!TAS_fobBuilt && !TAS_fobDestroyed} //not available if fob has been placed or previously overrun
 		] call ace_interact_menu_fnc_createAction; //maybe make this a private var
 		[logistics_vehicle, 0, ["ACE_MainActions"], _fobPlaceAction] call ace_interact_menu_fnc_addActionToObject; //note that action will only be accessible when outside the vehicle
 		//[logistics_vehicle, 1, ["ACE_SelfActions"], FOB_Action] call ace_interact_menu_fnc_addActionToObject; //note that action will only be accessible when inside the vehicle, doesnt work with progressbar
@@ -61,13 +61,13 @@ if (!isNil "logistics_vehicle") then { //check if the logistics_vehicle actually
 					15,
 					[],
 					{
-						[] call TAS_fnc_packupFob;
+						[] call TAS_fnc_fobPackup;
 					},
 					{},
 					"Disassembling FOB..."
 				] call ace_common_fnc_progressBar
 			},
-			{TAS_fobBuilt && TAS_fobPackup} //not available if fob hasn't been placed
+			{TAS_fobBuilt && TAS_fobPackup && !TAS_fobDestroyed} //not available if fob hasn't been placed
 		] call ace_interact_menu_fnc_createAction; //maybe make this a private var
 		[logistics_vehicle, 0, ["ACE_MainActions"], _fobPackupAction] call ace_interact_menu_fnc_addActionToObject; //note that action will only be accessible when outside the vehicle
 	};

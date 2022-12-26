@@ -238,6 +238,11 @@ TAS_fobRespawn			= true;		//default true, adds a (vanilla) respawn position at t
 TAS_useSmallRally 		= true; 	//default true, set to true if you want to use the small rallypoint without a supply crate
 TAS_rallyDistance 		= 150; 		//default 150 meters, if enemies are within this range then rallypoint cannot be created
 TAS_rallyOutnumber 		= true; 	//default true. TRUE makes it so rallypoints are canceled if there are more enemies (units in BIS_enemySides) than friendlies (units of same same as player) in the radius. False cancels rallypoint creation if there are ANY enemies within the radius
+TAS_fobOverrun			= false;	//default false. Enables the ability for the FOB to be overrun.
+TAS_fobOverrunRange		= 300;		//default 300. Note: calculated 3d!
+TAS_fobOverrunFactor	= 1;		//default 1. Determines how many more enemies than friendlies have to be in TAS_fobOverrunRange of the FOB to begin the overrun sequence. i.e. a value of 2 makes it so enemies must outnumber friendlies 2 to 1
+TAS_fobOverrunTimer		= 300;		//default 300 (5 min). Time it takes for overrun to complete (friendlies can kill enemies to cancel it midway)
+TAS_fobOverrunInterval	= 60;		//default 60 (1 min). determines how often the overrun status is checked and/or broadcast to players. Must be a divisor of TAS_fobOverrunTimer
 publicVariable "TAS_fobEnabled";
 publicVariable "TAS_fobFullArsenals";
 publicVariable "TAS_fobDistance";
@@ -245,6 +250,11 @@ publicVariable "TAS_fobRespawn";
 publicVariable "TAS_useSmallRally";
 publicVariable "TAS_rallyDistance";
 publicVariable "TAS_rallyOutnumber";
+publicVariable "TAS_fobOverrun";
+publicVariable "TAS_fobOverrunFactor";
+publicVariable "TAS_fobOverrunRange";
+publicVariable "TAS_fobOverrunTimer";
+publicVariable "TAS_fobOverrunInterval";
 
 
 
@@ -381,6 +391,8 @@ if (TAS_fobEnabled) then {
 	//} forEach ["fobMarker","rallypointCmdMarker","rallypointAlphaMarker"]; //create the markers via script (unused, placed in editor instead)
 	TAS_fobBuilt = false;
 	publicVariable "TAS_fobBuilt";
+	TAS_fobDestroyed = false;
+	publicVariable "TAS_fobDestroyed";
 	TAS_rallyCmdUsed = false;
 	publicVariable "TAS_rallyCmdUsed";
 	TAS_rallyAlphaUsed = false;

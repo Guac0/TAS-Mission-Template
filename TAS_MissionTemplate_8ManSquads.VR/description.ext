@@ -107,6 +107,7 @@ class CfgFunctions
 			class hotelRallypoint;
 			class reconRallypoint;
 			class fobPackup;
+			class fobOverrun;
 			//class FobBuild;
 			//class initFOB;
 		};
