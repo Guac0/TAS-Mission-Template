@@ -217,11 +217,23 @@ if (isServer) then {
 			TAS_respawnVehicles pushBack [_this,"Respawn Vehicle 1"];
 			[_this,"hd_flag","ColorUNKNOWN","Respawn Vehicle 1",true,5] call TAS_fnc_markerFollow;
 			publicVariable "TAS_respawnVehicles";
+			_this addMPEventHandler ["MPKilled", {
+				params ["_unit", "_killer", "_instigator", "_useEffects"];
+				private _path = [TAS_respawnVehicles, _unit] call BIS_fnc_findNestedElement;
+				if (_path isNotEqualTo []) then {
+					diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic removing repsawn vic from list!";
+					private _indexOfOldVehiclePair = _path select 0;
+					TAS_respawnVehicles deleteAt _indexOfOldVehiclePair;
+					publicVariable "TAS_respawnVehicles";
+				} else {
+					diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic cannot find vehicle to remove!";
+				};
+			}];
 		};
 	};
 };
 */
-TAS_respawnInVehicle 		= false; //default false
+TAS_respawnInVehicle 		= true; //default false
 publicVariable "TAS_respawnInVehicle";
 
 //turn FOB on/off. if on, it needs some eden setup see documentation elsewhere. setup already done in the template if you dont break it
@@ -468,8 +480,26 @@ if (TAS_respawnInVehicle) then {
 			systemchat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
 			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
 		} else {
+			
 			[logistics_vehicle,"hd_flag","ColorUNKNOWN","Default Respawn Vehicle",true,60] call TAS_fnc_markerFollow;
 			TAS_respawnVehicles pushBack [logistics_vehicle,"Default Respawn Vehicle"];
+			
+			logistics_vehicle addMPEventHandler ["MPKilled", {	//removes respawn vehicle from list. global effect, but unknown effect on JIP.
+				params ["_unit", "_killer", "_instigator", "_useEffects"];
+				//systemChat format ["assignRespawnVic b %1",TAS_respawnVehicles];
+				private _path = [TAS_respawnVehicles, _unit] call BIS_fnc_findNestedElement;
+				if (_path isNotEqualTo []) then {	//only execute if it exists
+					diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic removing repsawn vic from list!";
+					private _indexOfOldVehiclePair = _path select 0;
+					TAS_respawnVehicles deleteAt _indexOfOldVehiclePair;
+					publicVariable "TAS_respawnVehicles";	// not needed due to global effect but better safe than sorry
+				} else {
+					diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic cannot find vehicle to remove!";
+				};
+				//systemChat format ["assignRespawnVic c %1 %2 %3 %4",_unit,_path,_indexOfOldRallyPair];
+				//systemChat format ["assignRespawnVic d %1",TAS_respawnVehicles];
+			}];
+			
 			systemChat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
 			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
 		};

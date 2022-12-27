@@ -91,7 +91,7 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 	};*/
 	if (_respawnMode == "vehicle") then {
 		if (!isNull _currentRespawnLocation) then {
-			if (alive _currentRespawnLocation) then {
+			if (alive _currentRespawnLocation) then {	//this will not create a button if its dead but will still leave a blank space. its a limitation, dead vics are supposed to be removed via an MPKilled event handler before respawnGUI fires, and this is a backup.
 				_button = _respawnGui ctrlCreate ["RscButton", -1]; 
 				_button ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
 				//_background ctrlSetTextColor _blue;
@@ -100,6 +100,7 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 					"if (%1 emptyPositions 'cargo' == 0) exitWith {hint 'Passenger seats of targetted respawn vehicle are full!'; systemChat 'Passenger seats of targetted respawn vehicle are full!'}; player moveInCargo %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;",
 					_currentRespawnLocation
 				];
+				_button ctrlCommit 0;
 				diag_log format ["TAS MISSION TEMPLATE: respawn GUI: added button with name %1 with location %2!",_currentRespawnLocationName,_currentRespawnLocation];
 			};
 		};
@@ -110,9 +111,9 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 		//_background ctrlSetTextColor _blue;
 		_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName];
 		_button buttonSetAction format ["player setPosAsl %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;",_currentRespawnLocation];
+		_button ctrlCommit 0;
 		diag_log format ["TAS MISSION TEMPLATE: respawn GUI: added button with name %1 with location %2!",_currentRespawnLocationName,_currentRespawnLocation];
 	};
-	_button ctrlCommit 0;
 	_currentSpacing = _currentSpacing + 1;
 };
 
