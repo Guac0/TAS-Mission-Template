@@ -106,6 +106,16 @@ class CfgFunctions
 			class golfRallypoint;
 			class hotelRallypoint;
 			class reconRallypoint;
+			class cmdRallyOverrun;
+			class alphaRallyOverrun;
+			class bravoRallyOverrun;
+			class charlieRallyOverrun;
+			class deltaRallyOverrun;
+			class echoRallyOverrun;
+			class foxtrotRallyOverrun;
+			class golfRallyOverrun;
+			class hotelRallyOverrun;
+			class reconRallyOverrun;
 			class fobPackup;
 			class fobOverrun;
 			//class FobBuild;

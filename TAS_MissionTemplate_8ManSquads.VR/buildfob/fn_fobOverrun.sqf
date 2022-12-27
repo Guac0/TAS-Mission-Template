@@ -11,6 +11,7 @@ while {!(TAS_fobDestroyed)} do {
 	private _enemySides = [_friendlySide] call BIS_fnc_enemySides;
 	private _fobLocation = TAS_fobPositionATL;
 	private _radius = TAS_fobDistance; //parameter from initServer.sqf, default 300
+	private _minimumEnemies = TAS_fobOverrunMinEnemy;
 	private _nearUnits = allUnits select { _x distance _fobLocation < _radius };
 	private _nearEnemies = _nearUnits select {alive _x && { side _x in _enemySides && { !(_x getVariable ["ACE_isUnconscious",false]) } } };
 	private _nearEnemiesNumber = count _nearEnemies;
@@ -21,7 +22,7 @@ while {!(TAS_fobDestroyed)} do {
 	private _nearFriendliesNumberWeighted = _nearFriendliesNumber * TAS_fobOverrunFactor;
 
 	//check if overrun
-	if (_nearEnemiesNumber > _nearFriendliesNumberWeighted) then {
+	if ( ( _nearEnemiesNumber > _minimumEnemies) && { _nearEnemiesNumber > _nearFriendliesNumberWeighted } ) then {
 		//overrun
 		private _overrunActive = true;
 		private _timeRemaining = TAS_fobOverrunTimer;
@@ -38,7 +39,7 @@ while {!(TAS_fobDestroyed)} do {
 			_nearFriendlies = _nearUnits select {alive _x && { side _x == _friendlySide && { !(_x getVariable ["ACE_isUnconscious",false]) } } }; //limitation: does not account for multiple friendly sides
 			_nearFriendliesNumber = count _nearFriendlies;
 			_nearFriendliesNumberWeighted = _nearFriendliesNumber * TAS_fobOverrunFactor;
-			if !(_nearEnemiesNumber > _nearFriendliesNumberWeighted) then {
+			if !( ( _nearEnemiesNumber > _minimumEnemies) && { _nearEnemiesNumber > _nearFriendliesNumberWeighted } ) then {
 				_overrunActive = false;
 			};
 		};
