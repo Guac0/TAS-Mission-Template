@@ -230,25 +230,25 @@ publicVariable "TAS_respawnInVehicle";
 	//FOB system adds an action to every SL (and command engineer) to the "logistics_truck" vehicle to establish a small base with arsenals and a respawn position
 	//If you want to disable rallypoints while keeping FOB or vice versa, set the distances from enemies to like 99999 or something absurdly high
 //Required Mods: ACE
-TAS_fobEnabled 			= true; 	//default false, set to false to disable FOB building and rallypoints
-TAS_fobPackup			= true;		//default false, if true it allows the FOB to be packed up again into the original logistics_vehicle
-TAS_fobFullArsenals 	= true; 	//default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
+TAS_fobEnabled 			= false; 	//default false, set to false to disable FOB building and rallypoints
+TAS_fobPackup			= false;		//default false, if true it allows the FOB to be packed up again into the original logistics_vehicle
+TAS_fobFullArsenals 	= false; 	//default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
 TAS_fobDistance 		= 300; 		//default 300 meters, if enemies are within this range then FOB cannot be created
-TAS_fobRespawn			= false;	//default true, adds a (vanilla) respawn position at the FOB. FOB will have respawn GUI position regardless of this setting. You might want to disable this if you want players to spawn at main and then use the respawn GUI to respawn at the FOB
-TAS_fobOverrun			= true;		//default false. Enables the ability for the FOB to be overrun.
+TAS_fobRespawn			= false;	//default false, adds a (vanilla) respawn position at the FOB. FOB will have respawn GUI position regardless of this setting. You might want to disable this if you want players to spawn at main and then use the respawn GUI to respawn at the FOB
+TAS_fobOverrun			= false;		//default false. Enables the ability for the FOB to be overrun.
 TAS_fobOverrunDestroy	= true;		//default true. Destroys all FOB objects when FOB is overrun (may cause mild damage to units nearby)
 TAS_fobOverrunFactor	= 2;		//default 2. Determines how many more enemies than friendlies have to be in TAS_fobDistance of the FOB to begin the overrun sequence. i.e. a value of 2 makes it so enemies must outnumber friendlies 2 to 1
 TAS_fobOverrunMinEnemy	= 8;		//default 8. sets the minimum number of enemies nearby to start/continue the overrun
-TAS_fobOverrunTimer		= 90;		//default 300 (5 min). Time it takes for overrun to complete (friendlies can kill enemies to cancel it midway)
-TAS_fobOverrunInterval	= 30;		//default 60 (1 min). determines how often the overrun status is checked and/or broadcast to players. Must be a divisor of TAS_fobOverrunTimer
+TAS_fobOverrunTimer		= 300;		//default 300 (5 min). Time it takes for overrun to complete (friendlies can kill enemies to cancel it midway)
+TAS_fobOverrunInterval	= 30;		//default 30 (1 min). determines how often the overrun status is checked and/or broadcast to players. Must be a divisor of TAS_fobOverrunTimer. Values larger than 30 will result in the message fading out between updates
 TAS_useSmallRally 		= true; 	//default true, set to true if you want to use the small rallypoint without a supply crate
-TAS_rallyDistance 		= 150; 		//default 150 meters, if enemies are within this range then rallypoint cannot be created
+TAS_rallyDistance 		= 100; 		//default 150 meters, if enemies are within this range then rallypoint cannot be created
 TAS_rallyOutnumber 		= true; 	//default true. TRUE makes it so rallypoints are canceled if there are more enemies (units in BIS_enemySides) than friendlies (units of same same as player) in the radius. False cancels rallypoint creation if there are ANY enemies within the radius
-TAS_rallypointOverrun 	= true;		//default false. TRUE makes it so rallypoints can be overrun if more enemies than friendlies exist within TAS_rallyDistance
+TAS_rallypointOverrun 	= false;		//default false. TRUE makes it so rallypoints can be overrun if more enemies than friendlies exist within TAS_rallyDistance
 TAS_rallyOutnumberFactor 	= 2;		//default 2. Determines how many more enemies than friendlies have to be in TAS_rallyDistance of the rally to begin the overrun sequence. i.e. a value of 2 makes it so enemies must outnumber friendlies 2 to 1
 TAS_rallyOverrunMinEnemy	= 4;		//default 4. sets the minimum number of enemies nearby to start/continue the overrun
-TAS_rallyOverrunTimer	= 60;		//default 90 (1.5 min). Time it takes for overrun to complete (friendlies can kill enemies to cancel it midway)
-TAS_rallyOverrunInterval 	= 15;		//default 30 (0.5 min). determines how often the overrun status is checked and/or broadcast to players. Must be a divisor of TAS_rallyOverrunTimer
+TAS_rallyOverrunTimer	= 90;		//default 90 (1.5 min). Time it takes for overrun to complete (friendlies can kill enemies to cancel it midway)
+TAS_rallyOverrunInterval 	= 15;		//default 15. determines how often the overrun status is checked and/or broadcast to players. Must be a divisor of TAS_rallyOverrunTimer. Values larger than 30 will result in the message fading out between updates
 publicVariable "TAS_fobEnabled";
 publicVariable "TAS_fobPackup";
 publicVariable "TAS_fobFullArsenals";
