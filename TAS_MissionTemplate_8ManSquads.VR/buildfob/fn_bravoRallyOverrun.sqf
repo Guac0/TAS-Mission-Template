@@ -41,6 +41,7 @@ while {_rallyStillExists} do {
 
 	//variable setup
 		//dont care about performance or I will go insane
+	private _minimumEnemies = TAS_rallyOverrunMinEnemy;
 	_nearUnits = allUnits select { _x distance _rallypointPosATL < _radius };
 	_nearEnemies = _nearUnits select {alive _x && { side _x in _enemySides && { !(_x getVariable ["ACE_isUnconscious",false]) } } };
 	_nearEnemiesNumber = count _nearEnemies;
@@ -49,7 +50,7 @@ while {_rallyStillExists} do {
 	private _nearFriendliesNumberWeighted = _nearFriendliesNumber * TAS_rallyOutnumberFactor;
 
 	//check if overrun
-	if (_nearEnemiesNumber > _nearFriendliesNumberWeighted) then {
+	if ( ( _nearEnemiesNumber >= _minimumEnemies) && { _nearEnemiesNumber > _nearFriendliesNumberWeighted } ) then {
 
 		if (_debug) then {
 			systemChat "rallypoint c";
@@ -84,7 +85,7 @@ while {_rallyStillExists} do {
 			_nearFriendlies = allUnits select {alive _x && { _x distance _rallypointPosATL < _radius && { side _x == _friendlySide } } }; //limitation: does not account for multiple friendlysides
 			_nearFriendliesNumber = count _nearFriendlies;
 			_nearFriendliesNumberWeighted = _nearFriendliesNumber * TAS_rallyOutnumberFactor;
-			if !(_nearEnemiesNumber > _nearFriendliesNumberWeighted) then {
+			if !( ( _nearEnemiesNumber >= _minimumEnemies) && { _nearEnemiesNumber > _nearFriendliesNumberWeighted } ) then {
 				_overrunActive = false;
 			};
 		};

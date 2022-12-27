@@ -22,7 +22,7 @@ while {!(TAS_fobDestroyed)} do {
 	private _nearFriendliesNumberWeighted = _nearFriendliesNumber * TAS_fobOverrunFactor;
 
 	//check if overrun
-	if ( ( _nearEnemiesNumber > _minimumEnemies) && { _nearEnemiesNumber > _nearFriendliesNumberWeighted } ) then {
+	if ( ( _nearEnemiesNumber >= _minimumEnemies) && { _nearEnemiesNumber > _nearFriendliesNumberWeighted } ) then {
 		//overrun
 		private _overrunActive = true;
 		private _timeRemaining = TAS_fobOverrunTimer;
@@ -39,7 +39,7 @@ while {!(TAS_fobDestroyed)} do {
 			_nearFriendlies = _nearUnits select {alive _x && { side _x == _friendlySide && { !(_x getVariable ["ACE_isUnconscious",false]) } } }; //limitation: does not account for multiple friendly sides
 			_nearFriendliesNumber = count _nearFriendlies;
 			_nearFriendliesNumberWeighted = _nearFriendliesNumber * TAS_fobOverrunFactor;
-			if !( ( _nearEnemiesNumber > _minimumEnemies) && { _nearEnemiesNumber > _nearFriendliesNumberWeighted } ) then {
+			if !( ( _nearEnemiesNumber >= _minimumEnemies) && { _nearEnemiesNumber > _nearFriendliesNumberWeighted } ) then {
 				_overrunActive = false;
 			};
 		};
@@ -68,8 +68,10 @@ while {!(TAS_fobDestroyed)} do {
 
 			//clean up objects
 			//{deleteVehicle _x} forEach TAS_fobObjects;
-			{_x setDamage 1 } forEach (TAS_fobObjects - _fobArsenals); //dont destroy ammo boxes
-
+			if (TAS_fobOverrunDestroy) then {
+				{_x setDamage 1 } forEach (TAS_fobObjects - _fobArsenals); //dont destroy ammo boxes
+			};
+			
 			//remove respawn GUI stuff
 			//TAS_rallypointEchoRespawn call BIS_fnc_removeRespawnPosition;
 			if (TAS_fobRespawn) then {
