@@ -10,10 +10,11 @@ while {!(TAS_fobDestroyed)} do {
 	private _friendlySide = TAS_fobSide;
 	private _enemySides = [_friendlySide] call BIS_fnc_enemySides;
 	private _fobLocation = TAS_fobPositionATL;
-	private _radius = TAS_fobOverrunDistance; //parameter from initServer.sqf, default 300
-	private _nearEnemies = allUnits select {alive _x && { _x distance _fobLocation < _radius && { side _x in _enemySides } } };
+	private _radius = TAS_fobDistance; //parameter from initServer.sqf, default 300
+	private _nearUnits = allUnits select { _x distance _fobLocation < _radius };
+	private _nearEnemies = _nearUnits select {alive _x && { side _x in _enemySides && { !(_x getVariable ["ACE_isUnconscious",false]) } } };
 	private _nearEnemiesNumber = count _nearEnemies;
-	private _nearFriendlies = allUnits select {alive _x && { _x distance _fobLocation < _radius && { side _x == _friendlySide } } }; //limitation: does not account for multiple friendlysides
+	private _nearFriendlies = _nearUnits select {alive _x && { side _x == _friendlySide && { !(_x getVariable ["ACE_isUnconscious",false]) } } }; //limitation: does not account for multiple friendly sides
 	private _nearFriendliesNumber = count _nearFriendlies;
 
 	//account for mission setting overrun factor
@@ -24,18 +25,19 @@ while {!(TAS_fobDestroyed)} do {
 		//overrun
 		private _overrunActive = true;
 		private _timeRemaining = TAS_fobOverrunTimer;
-		while (_overrunActive && (_timeRemaining > 0)) do {
-			private _msg = format ["The Forward Operating Base at grid reference %1 is in danger of being overrun!\n\nNearby Friendlies: %2\nNearby Enemies: %3\n\nTime left until FOB is abandoned: %4", mapGridPosition TAS_fobPositionATL,_nearFriendliesNumber,_nearEnemiesNumber,_timeRemaining];
+		while { _overrunActive && { (_timeRemaining > 0) } } do {
+			private _msg = format ["The Forward Operating Base at grid reference %1 is in danger of being overrun!\n\nNearby Friendlies: %2\nNearby Enemies: %3\n\nTime left until FOB is abandoned: %4", mapGridPosition TAS_fobPositionATL,_nearFriendliesNumber,_nearEnemiesNumber,[((_timeRemaining)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
 			_msg remoteExec ["hint"];
 			sleep TAS_fobOverrunInterval;
 			_timeRemaining = _timeRemaining - TAS_fobOverrunInterval;
 
 			//check if overrun is canceled
-			private _nearEnemies = allUnits select {alive _x && { _x distance _fobLocation < _radius && { side _x in _enemySides } } };
-			private _nearEnemiesNumber = count _nearEnemies;
-			private _nearFriendlies = allUnits select {alive _x && { _x distance _fobLocation < _radius && { side _x == _friendlySide } } }; //limitation: does not account for multiple friendlysides
-			private _nearFriendliesNumber = count _nearFriendlies;
-			private _nearFriendliesNumberWeighted = _nearFriendliesNumber * TAS_fobOverrunFactor;
+			_nearUnits = allUnits select { _x distance _fobLocation < _radius };
+			_nearEnemies = _nearUnits select {alive _x && { side _x in _enemySides && { !(_x getVariable ["ACE_isUnconscious",false]) } } };
+			_nearEnemiesNumber = count _nearEnemies;
+			_nearFriendlies = _nearUnits select {alive _x && { side _x == _friendlySide && { !(_x getVariable ["ACE_isUnconscious",false]) } } }; //limitation: does not account for multiple friendly sides
+			_nearFriendliesNumber = count _nearFriendlies;
+			_nearFriendliesNumberWeighted = _nearFriendliesNumber * TAS_fobOverrunFactor;
 			if !(_nearEnemiesNumber > _nearFriendliesNumberWeighted) then {
 				_overrunActive = false;
 			};
@@ -54,9 +56,6 @@ while {!(TAS_fobDestroyed)} do {
 			"fobMarker" setMarkerColor "ColorGrey";
 			//"fobMarker" setMarkerPos [0,0,0];
 
-			//clean up objects
-			//{deleteVehicle _x} forEach TAS_fobObjects;
-
 			//disable arsenals but keep normal inventories
 			private _fobArsenals = nearestObjects [_fobLocation, ["B_CargoNet_01_ammo_F"], 25]; 
 			if (TAS_fobFullArsenals) then { //full arsenals
@@ -65,6 +64,10 @@ while {!(TAS_fobDestroyed)} do {
 					//["AmmoboxInit",[_x,true]] call BIS_fnc_arsenal;
 				} forEach _fobArsenals;
 			};
+
+			//clean up objects
+			//{deleteVehicle _x} forEach TAS_fobObjects;
+			{_x setDamage 1 } forEach (TAS_fobObjects - _fobArsenals); //dont destroy ammo boxes
 
 			//remove respawn GUI stuff
 			//TAS_rallypointEchoRespawn call BIS_fnc_removeRespawnPosition;

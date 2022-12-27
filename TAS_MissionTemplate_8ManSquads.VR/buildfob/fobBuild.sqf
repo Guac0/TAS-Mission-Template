@@ -55,7 +55,7 @@ if (TAS_fobFullArsenals) then { //full arsenals
 	} forEach _fobArsenals;
 };
 
-[[_playerSide, "HQ"], format ["FOB established by %1 at gridref %2.", name player, mapGridPosition logistics_vehicle]] remoteExec ["sideChat", side player];
+[[_playerSide, "HQ"], format ["Forward Operating Base established by %1 at gridref %2.", name player, mapGridPosition logistics_vehicle]] remoteExec ["sideChat", side player];
 
 TAS_rallypointLocations pushBack [TAS_fobPositionATL,"Forward Operating Base"];
 TAS_fobBuilt = true;
