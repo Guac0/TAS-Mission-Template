@@ -7,16 +7,21 @@
 //_nearEntities = player nearEntities [["Man","Car","Tank"],150];
 //_nearEnemies = player countEnemy _nearEntities;
 private _playerSide = side group player;
+TAS_fobSide = _playerSide;
+publicVariable "TAS_fobSide";
 private _enemySides = [_playerSide] call BIS_fnc_enemySides;
 private _radius = TAS_fobDistance; //parameter from initServer.sqf, default 300
 private _nearEnemies = allUnits select {_x distance player < _radius AND side _x in _enemySides};
 private _nearEnemiesNumber = count _nearEnemies;
 
+TAS_fobPositionATL = getPosAtl player;
+publicVariable "TAS_fobPositionATL";
+
 if ( _nearEnemiesNumber > 0 ) exitWith {systemChat format ["FOB creation failure, enemies are within %1m!",TAS_fobDistance]};
 
 //map marker and respawns
 if (TAS_fobRespawn) then {
-	TAS_fobRespawn = [_playerSide, getPos player, "FOB Respawn"] call BIS_fnc_addRespawnPosition;
+	TAS_fobRespawn = [_playerSide, TAS_fobPositionATL, "FOB Respawn"] call BIS_fnc_addRespawnPosition;
 };
 "fobMarker" setMarkerPos getPos logistics_vehicle; //updates the rallypoint's position on map
 "fobMarker" setMarkerAlpha 1;
@@ -50,10 +55,15 @@ if (TAS_fobFullArsenals) then { //full arsenals
 	} forEach _fobArsenals;
 };
 
-[[_playerSide, "HQ"], format ["FOB established by %1 at gridref %2.", name player, mapGridPosition logistics_vehicle]] remoteExec ["sideChat", side player];
+[[_playerSide, "HQ"], format ["Forward Operating Base established by %1 at gridref %2.", name player, mapGridPosition logistics_vehicle]] remoteExec ["sideChat", side player];
 
-TAS_rallypointLocations pushBack [getPosAtl player,"Forward Operating Base"];
+TAS_rallypointLocations pushBack [TAS_fobPositionATL,"Forward Operating Base"];
 TAS_fobBuilt = true;
+
+if (TAS_fobOverrun) then {
+	[] spawn TAS_fnc_fobOverrun;
+};
+
 publicVariable "TAS_rallypointLocations";
 publicVariable "TAS_fobBuilt";
 publicVariable "TAS_fobRespawn";
