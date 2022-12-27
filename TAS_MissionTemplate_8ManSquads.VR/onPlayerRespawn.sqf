@@ -129,7 +129,7 @@ if (_allowReinsert) then {
 		systemChat "onPlayerRespawn e";
 	};
 	
-	waitUntil {player getVariable ["TAS_aceArsenalOpen",false]};
+	waitUntil { !( player getVariable ["TAS_aceArsenalOpen",false] ) };
 	player setVariable ["TAS_waitingForReinsert",false];
 	if (TAS_respawnInVehicle) then { "vehicle" call TAS_fnc_respawnGui };
 	if (TAS_fobEnabled) then { "rallypoint" call TAS_fnc_respawnGui };
