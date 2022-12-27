@@ -188,10 +188,10 @@ publicVariable "TAS_resupplyObjectEnabled";
 	//Recommended to be enabled whenever you're using anything with a timer for reinserts (respawn vehicle, wave respawns, FOB system). The various respawn systems will not work correctly if TAS_respawnSpectator is disabled.
 		//"anything with a timer" does not include the vanilla respawn timer.
 //Can be edited midgame via the Zeus "Manage ACE Spectator Options" module. 
-TAS_respawnSpectator 				= true; 	//default false. Enables/disables respawning in spectator.
+TAS_respawnSpectator 				= false; 	//default false. Enables/disables respawning in spectator.
 TAS_respawnSpectatorForceInterface 	= false; 	//default false. If enabled, makes it so that player cannot leave spectator early (disable it to allow them to close spectator and access the arsenal box or whatever while they wait)
 TAS_respawnSpectatorHideBody 		= true; 	//default true. Hides the player's body while they are in spectator.
-TAS_respawnSpectatorTime 			= 5; 		//default 0 (0 for no automatic ending of spectator after X amount of seconds have passed, such as for one life ops). Ignored if TAS_waveRespawn is enabled.
+TAS_respawnSpectatorTime 			= 0; 		//default 0 (0 for no automatic ending of spectator after X amount of seconds have passed, such as for one life ops). Ignored if TAS_waveRespawn is enabled.
 publicVariable "TAS_respawnSpectator";
 publicVariable "TAS_respawnSpectatorForceInterface";
 publicVariable "TAS_respawnSpectatorHideBody";
@@ -217,23 +217,11 @@ if (isServer) then {
 			TAS_respawnVehicles pushBack [_this,"Respawn Vehicle 1"];
 			[_this,"hd_flag","ColorUNKNOWN","Respawn Vehicle 1",true,5] call TAS_fnc_markerFollow;
 			publicVariable "TAS_respawnVehicles";
-			_this addMPEventHandler ["MPKilled", {
-				params ["_unit", "_killer", "_instigator", "_useEffects"];
-				private _path = [TAS_respawnVehicles, _unit] call BIS_fnc_findNestedElement;
-				if (_path isNotEqualTo []) then {
-					diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic removing repsawn vic from list!";
-					private _indexOfOldVehiclePair = _path select 0;
-					TAS_respawnVehicles deleteAt _indexOfOldVehiclePair;
-					publicVariable "TAS_respawnVehicles";
-				} else {
-					diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic cannot find vehicle to remove!";
-				};
-			}];
 		};
 	};
 };
 */
-TAS_respawnInVehicle 		= true; //default false
+TAS_respawnInVehicle 		= false; //default false
 publicVariable "TAS_respawnInVehicle";
 
 //turn FOB on/off. if on, it needs some eden setup see documentation elsewhere. setup already done in the template if you dont break it
@@ -243,43 +231,20 @@ publicVariable "TAS_respawnInVehicle";
 	//If you want to disable rallypoints while keeping FOB or vice versa, set the distances from enemies to like 99999 or something absurdly high
 //Required Mods: ACE
 TAS_fobEnabled 			= false; 	//default false, set to false to disable FOB building and rallypoints
-TAS_fobPackup			= false;		//default false, if true it allows the FOB to be packed up again into the original logistics_vehicle
+TAS_fobPackup			= false;	//default false, if true it allows the FOB to be packed up again into the original logistics_vehicle
 TAS_fobFullArsenals 	= false; 	//default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
 TAS_fobDistance 		= 300; 		//default 300 meters, if enemies are within this range then FOB cannot be created
-TAS_fobRespawn			= false;	//default false, adds a (vanilla) respawn position at the FOB. FOB will have respawn GUI position regardless of this setting. You might want to disable this if you want players to spawn at main and then use the respawn GUI to respawn at the FOB
-TAS_fobOverrun			= false;		//default false. Enables the ability for the FOB to be overrun.
-TAS_fobOverrunDestroy	= true;		//default true. Destroys all FOB objects when FOB is overrun (may cause mild damage to units nearby)
-TAS_fobOverrunFactor	= 2;		//default 2. Determines how many more enemies than friendlies have to be in TAS_fobDistance of the FOB to begin the overrun sequence. i.e. a value of 2 makes it so enemies must outnumber friendlies 2 to 1
-TAS_fobOverrunMinEnemy	= 8;		//default 8. sets the minimum number of enemies nearby to start/continue the overrun
-TAS_fobOverrunTimer		= 300;		//default 300 (5 min). Time it takes for overrun to complete (friendlies can kill enemies to cancel it midway)
-TAS_fobOverrunInterval	= 30;		//default 30 (1 min). determines how often the overrun status is checked and/or broadcast to players. Must be a divisor of TAS_fobOverrunTimer. Values larger than 30 will result in the message fading out between updates
+TAS_fobRespawn			= true;		//default true, adds a (vanilla) respawn position at the FOB. FOB will have respawn GUI position regardless of this setting. You might want to disable this if you want players to spawn at main and then use the respawn GUI to respawn at the FOB
 TAS_useSmallRally 		= true; 	//default true, set to true if you want to use the small rallypoint without a supply crate
-TAS_rallyDistance 		= 100; 		//default 150 meters, if enemies are within this range then rallypoint cannot be created
+TAS_rallyDistance 		= 150; 		//default 150 meters, if enemies are within this range then rallypoint cannot be created
 TAS_rallyOutnumber 		= true; 	//default true. TRUE makes it so rallypoints are canceled if there are more enemies (units in BIS_enemySides) than friendlies (units of same same as player) in the radius. False cancels rallypoint creation if there are ANY enemies within the radius
-TAS_rallypointOverrun 	= false;		//default false. TRUE makes it so rallypoints can be overrun if more enemies than friendlies exist within TAS_rallyDistance
-TAS_rallyOutnumberFactor 	= 2;		//default 2. Determines how many more enemies than friendlies have to be in TAS_rallyDistance of the rally to begin the overrun sequence. i.e. a value of 2 makes it so enemies must outnumber friendlies 2 to 1
-TAS_rallyOverrunMinEnemy	= 4;		//default 4. sets the minimum number of enemies nearby to start/continue the overrun
-TAS_rallyOverrunTimer	= 90;		//default 90 (1.5 min). Time it takes for overrun to complete (friendlies can kill enemies to cancel it midway)
-TAS_rallyOverrunInterval 	= 15;		//default 15. determines how often the overrun status is checked and/or broadcast to players. Must be a divisor of TAS_rallyOverrunTimer. Values larger than 30 will result in the message fading out between updates
 publicVariable "TAS_fobEnabled";
-publicVariable "TAS_fobPackup";
 publicVariable "TAS_fobFullArsenals";
 publicVariable "TAS_fobDistance";
 publicVariable "TAS_fobRespawn";
-publicVariable "TAS_fobOverrun";
-publicVariable "TAS_fobOverrunDestroy";
-publicVariable "TAS_fobOverrunFactor";
-publicVariable "TAS_fobOverrunMinEnemy";
-publicVariable "TAS_fobOverrunTimer";
-publicVariable "TAS_fobOverrunInterval";
 publicVariable "TAS_useSmallRally";
 publicVariable "TAS_rallyDistance";
 publicVariable "TAS_rallyOutnumber";
-publicVariable "TAS_rallypointOverrun";
-publicVariable "TAS_rallyOutnumberFactor";
-publicVariable "TAS_rallyOverrunMinEnemy";
-publicVariable "TAS_rallyOverrunTimer";
-publicVariable "TAS_rallyOverrunInterval";
 
 
 
@@ -416,8 +381,6 @@ if (TAS_fobEnabled) then {
 	//} forEach ["fobMarker","rallypointCmdMarker","rallypointAlphaMarker"]; //create the markers via script (unused, placed in editor instead)
 	TAS_fobBuilt = false;
 	publicVariable "TAS_fobBuilt";
-	TAS_fobDestroyed = false;
-	publicVariable "TAS_fobDestroyed";
 	TAS_rallyCmdUsed = false;
 	publicVariable "TAS_rallyCmdUsed";
 	TAS_rallyAlphaUsed = false;
@@ -437,7 +400,7 @@ if (TAS_fobEnabled) then {
 	TAS_rallypointLocations = [];
 	publicVariable "TAS_rallypointLocations";
 
-	[logistics_vehicle,"hd_flag","ColorUNKNOWN","FOB Vehicle",true,5] spawn TAS_fnc_markerFollow; //TODO make this turn greyed out after FOB has been placed
+	[logistics_vehicle,"hd_flag","ColorUNKNOWN","FOB Vehicle",true,5] spawn TAS_fnc_markerFollow;
 };
 
 //show fps script by Mildly Interested/Bassbeard
@@ -480,26 +443,8 @@ if (TAS_respawnInVehicle) then {
 			systemchat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
 			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
 		} else {
-			
 			[logistics_vehicle,"hd_flag","ColorUNKNOWN","Default Respawn Vehicle",true,60] call TAS_fnc_markerFollow;
 			TAS_respawnVehicles pushBack [logistics_vehicle,"Default Respawn Vehicle"];
-			
-			logistics_vehicle addMPEventHandler ["MPKilled", {	//removes respawn vehicle from list. global effect, but unknown effect on JIP.
-				params ["_unit", "_killer", "_instigator", "_useEffects"];
-				//systemChat format ["assignRespawnVic b %1",TAS_respawnVehicles];
-				private _path = [TAS_respawnVehicles, _unit] call BIS_fnc_findNestedElement;
-				if (_path isNotEqualTo []) then {	//only execute if it exists
-					diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic removing repsawn vic from list!";
-					private _indexOfOldVehiclePair = _path select 0;
-					TAS_respawnVehicles deleteAt _indexOfOldVehiclePair;
-					publicVariable "TAS_respawnVehicles";	// not needed due to global effect but better safe than sorry
-				} else {
-					diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic cannot find vehicle to remove!";
-				};
-				//systemChat format ["assignRespawnVic c %1 %2 %3 %4",_unit,_path,_indexOfOldRallyPair];
-				//systemChat format ["assignRespawnVic d %1",TAS_respawnVehicles];
-			}];
-			
 			systemChat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
 			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
 		};

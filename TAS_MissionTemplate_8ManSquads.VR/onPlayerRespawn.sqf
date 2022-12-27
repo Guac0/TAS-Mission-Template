@@ -1,9 +1,3 @@
-private _debug = true;
-
-if (_debug) then {
-	systemChat "onPlayerRespawn a";
-};
-
 //disable vanilla stamina on respawn
 if (TAS_vanillaStaminaDisabled) then {
 	player enableFatigue false;
@@ -48,16 +42,7 @@ player setVariable ["TAS_waitingForReinsert",true];
 private _automaticExitSpectator = true;
 private _allowReinsert = true;
 
-if (_debug) then {
-	systemChat "onPlayerRespawn b";
-};
-
 if (TAS_respawnSpectator) then {
-
-
-	if (_debug) then {
-		systemChat "onPlayerRespawn c";
-	};
 
 	//setup and initial spectator
 	private _time = TAS_respawnSpectatorTime;
@@ -112,11 +97,7 @@ if (TAS_respawnSpectator) then {
 			};
 		};
 	};
-	
-	if (_debug) then {
-		systemChat "onPlayerRespawn d";
-	};
-
+		
 	//reinsert time
 	if (_automaticExitSpectator) then {
 		[false,false,false] call ace_spectator_fnc_setSpectator;
@@ -142,8 +123,4 @@ if (_allowReinsert) then {
 
 
 
-};
-
-if (_debug) then {
-	systemChat "onPlayerRespawn f";
 };
