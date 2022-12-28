@@ -437,7 +437,9 @@ if (TAS_fobEnabled) then {
 	TAS_respawnLocations = [];
 	publicVariable "TAS_respawnLocations";
 
-	[logistics_vehicle,"hd_flag","ColorUNKNOWN","FOB Vehicle",true,5] spawn TAS_fnc_markerFollow; //TODO make this turn greyed out after FOB has been placed
+	if !(isNil "logistics_vehicle") then {	//do not do marker follow if fob vehicle is missing
+		[logistics_vehicle,"hd_flag","ColorUNKNOWN","FOB Vehicle",true,5] spawn TAS_fnc_markerFollow; //TODO make this turn greyed out after FOB has been placed
+	};
 };
 
 //show fps script by Mildly Interested/Bassbeard
