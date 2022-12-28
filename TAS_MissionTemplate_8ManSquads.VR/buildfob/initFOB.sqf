@@ -1,12 +1,16 @@
 //FOB Script
 
 if ( {getMarkerColor _x == ""} forEach ["rallypointAlphaMarker","rallypointBravoMarker","rallypointCharlieMarker","rallypointDeltaMarker","rallypointEchoMarker","rallypointFoxtrotMarker","rallypointReconMarker,""rallypointCmdMarker","fobMarker"] ) exitWith {
-	systemchat "WARNING: You have enabled the Rallypoint/FOB system in the mission template options, but the mission.sqm does not contain the needed rallypoint markers! Disabling Rallypoint/FOB system...";
+	if (isServer) then {
+		systemchat "WARNING: You have enabled the Rallypoint/FOB system in the mission template options, but the mission.sqm does not contain the needed rallypoint markers! Disabling Rallypoint/FOB system...";
+	};
 	diag_log text "TAS-Mission-Template WARNING: You have enabled the FOB system in the mission template options, but the mission.sqm does not contain the needed rallypoint markers! Disabling Rallypoint/FOB system...";
 };
 
 if (isNil "logistics_vehicle") then {
-	systemchat "WARNING: You have enabled the Rallypoint/FOB system in the mission template options, but the mission.sqm does not contain the needed vehicle to build the FOB! Disabling FOB system, but Rallypoints will still function...";
+	if (isServer) then {
+		systemchat "WARNING: You have enabled the Rallypoint/FOB system in the mission template options, but the mission.sqm does not contain the needed vehicle to build the FOB! Disabling FOB system, but Rallypoints will still function...";
+	};
 	diag_log text "TAS-Mission-Template WARNING: You have enabled the Rallypoint/FOB system in the mission template options, but the mission.sqm does not contain the needed vehicle to build the FOB! Disabling FOB system, but Rallypoints will still function...";
 };
 
