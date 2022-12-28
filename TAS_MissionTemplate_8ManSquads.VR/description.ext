@@ -92,6 +92,7 @@ class CfgFunctions
 			class zeusApplySpectator;
 			class waveRespawn;
 			class zeusMarkerFollow;
+			class openRespawnGui;
 		};
 		class buildFob
 		{
