@@ -60,8 +60,7 @@ if (TAS_zeusSpectateManager) then {
 	_moduleList pushBack ["Open Respawn GUI on Unit", {
 		private _unit = _this select 1;
 		if (isNull _unit) exitWith { systemChat "Place the module on a unit!"};
-		if (TAS_respawnInVehicle) then { "vehicle" remoteExec ["TAS_fnc_respawnGui",_unit]; };
-		if (TAS_fobEnabled) then { "rallypoint" remoteExec ["TAS_fnc_respawnGui",_unit]; }
+		if (TAS_respawnInVehicle || TAS_fobEnabled) then { [] remoteExec ["TAS_fnc_respawnGui",_unit]; };
 	}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Open Respawn GUI on Unit", "Enabled. Adds a module to Zeus to allow them to activate the"]];
 } else {

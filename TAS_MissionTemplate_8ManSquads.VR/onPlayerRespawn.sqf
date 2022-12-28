@@ -1,4 +1,4 @@
-private _debug = true;
+private _debug = false;
 
 if (_debug) then {
 	systemChat "onPlayerRespawn a";
@@ -140,8 +140,7 @@ if (_allowReinsert) then {
 		waitUntil {sleep 0.25; vehicle player == player}; //wait until ace arsenal is exited to avoid gui errors
 	};
 	player setVariable ["TAS_waitingForReinsert",false];
-	if (TAS_respawnInVehicle) then { "vehicle" spawn TAS_fnc_respawnGui };
-	if (TAS_fobEnabled) then { "rallypoint" spawn TAS_fnc_respawnGui };
+	if (TAS_respawnInVehicle || TAS_fobEnabled) then { [] spawn TAS_fnc_respawnGui };
 	//if respawn vehicle and fob aren't enabled, then nothing will happen (player will be left at the base they selected to respawn at)
 	//if you have a custom respawn method, add it below (make sure respawn vehicle and fob are disabled)
 

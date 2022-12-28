@@ -27,14 +27,14 @@ if (TAS_rallyGolfUsed == false) then { "rallypointGolfMarker" setMarkerAlpha 1; 
 if (TAS_rallyGolfUsed == true) then {
 	{deleteVehicle _x} forEach TAS_rallypointGolf;
 	//TAS_rallypointGolfRespawn call BIS_fnc_removeRespawnPosition;
-	private _path = [TAS_rallypointLocations, "Golf Rallypoint"] call BIS_fnc_findNestedElement;
+	private _path = [TAS_respawnLocations, "Golf Rallypoint"] call BIS_fnc_findNestedElement;
 	private _indexOfOldRallyPair = _path select 0;
-	TAS_rallypointLocations deleteAt _indexOfOldRallyPair;
+	TAS_respawnLocations deleteAt _indexOfOldRallyPair;
 }; //if rallypoint already exists, delete it so the new one can be spawned
 
 //TAS_rallypointGolfRespawn = [side player, getPos player, "Golf Rallypoint"] call BIS_fnc_addRespawnPosition; //not private so we can delete later
-TAS_rallypointLocations pushBack [_rallypointPosATL,"Golf Rallypoint"];
-publicVariable "TAS_rallypointLocations";
+TAS_respawnLocations pushBack [_rallypointPosATL,"Golf Rallypoint"];
+publicVariable "TAS_respawnLocations";
 "rallypointGolfMarker" setMarkerPos getPos player; //updates the rallypoint's position on map
 
 if (TAS_useSmallRally == false) then {

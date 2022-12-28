@@ -27,14 +27,14 @@ if (TAS_rallyCmdUsed == false) then { "rallypointCmdMarker" setMarkerAlpha 1; };
 if (TAS_rallyCmdUsed == true) then {
 	{deleteVehicle _x} forEach TAS_rallypointCmd;
 	//TAS_rallypointCmdRespawn call BIS_fnc_removeRespawnPosition;
-	private _path = [TAS_rallypointLocations, "Cmd Rallypoint"] call BIS_fnc_findNestedElement;
+	private _path = [TAS_respawnLocations, "Cmd Rallypoint"] call BIS_fnc_findNestedElement;
 	private _indexOfOldRallyPair = _path select 0;
-	TAS_rallypointLocations deleteAt _indexOfOldRallyPair;
+	TAS_respawnLocations deleteAt _indexOfOldRallyPair;
 }; //if rallypoint already exists, delete it so the new one can be spawned
 
 //TAS_rallypointCmdRespawn = [side player, getPos player, "Cmd Rallypoint"] call BIS_fnc_addRespawnPosition; //not private so we can delete later
-TAS_rallypointLocations pushBack [_rallypointPosATL,"Cmd Rallypoint"];
-publicVariable "TAS_rallypointLocations";
+TAS_respawnLocations pushBack [_rallypointPosATL,"Cmd Rallypoint"];
+publicVariable "TAS_respawnLocations";
 "rallypointCmdMarker" setMarkerPos getPos player; //updates the rallypoint's position on map
 
 if (TAS_useSmallRally == false) then {

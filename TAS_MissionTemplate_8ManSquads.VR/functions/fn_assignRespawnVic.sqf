@@ -26,14 +26,14 @@ private _onConfirm =
 	};
 	
 	//validate if object is already respawn vic, or is name is already used
-	/*systemChat str TAS_respawnVehicles;
-	private _foundOccurance = [TAS_respawnVehicles, _name] call BIS_fnc_findNestedElement; //returns "[]" if not found 
+	/*systemChat str TAS_respawnLocations;
+	private _foundOccurance = [TAS_respawnLocations, _name] call BIS_fnc_findNestedElement; //returns "[]" if not found 
 	systemChat str _foundOccurence;
 	if (_foundOccurence != []) exitWith {
 		hint "The same name is already set for another respawn vehicle!";
 		systemChat "The same name is already set for another respawn vehicle!";
 	};
-	_foundOccurance = [TAS_respawnVehicles, _unit] call BIS_fnc_findNestedElement; //returns "[]" if not found
+	_foundOccurance = [TAS_respawnLocations, _unit] call BIS_fnc_findNestedElement; //returns "[]" if not found
 	systemChat str _foundOccurence;
 	if (_foundOccurence != []) exitWith {
 		hint "The given vehicle is already a respawn vehicle!";
@@ -41,7 +41,7 @@ private _onConfirm =
 	};*/
 
 	if (vehicleVarName _unit == "") then { //if vic doesn't have a var name, then give it one
-		_unit setVehicleVarName format ["TAS_zeusRespawnVehicle%1",count TAS_respawnVehicles]; //TODO make better
+		_unit setVehicleVarName format ["TAS_zeusRespawnVehicle%1",count TAS_respawnLocations]; //TODO make better
 		//systemChat format ["3: %1",_unit];
 	};
 	private _vehicleName = vehicleVarName _unit;
@@ -51,24 +51,24 @@ private _onConfirm =
 
 	//systemChat format ["5: %1",_unit];
 	[_unit,"hd_flag","ColorUNKNOWN",_name,true,5] call TAS_fnc_markerFollow;
-	TAS_respawnVehicles pushBack [_unit,_name]; //["TAS_zeusRespawnVehicle1","test1"]
-	publicVariable "TAS_respawnVehicles";
+	TAS_respawnLocations pushBack [_unit,_name]; //["TAS_zeusRespawnVehicle1","test1"]
+	publicVariable "TAS_respawnLocations";
 
 	//systemChat format ["assignRespawnVic a"];
 	_unit addMPEventHandler ["MPKilled", {	//removes respawn vehicle from list. global effect, but unknown effect on JIP.
 		params ["_unit", "_killer", "_instigator", "_useEffects"];
-		//systemChat format ["assignRespawnVic b %1",TAS_respawnVehicles];
-		private _path = [TAS_respawnVehicles, _unit] call BIS_fnc_findNestedElement;
+		//systemChat format ["assignRespawnVic b %1",TAS_respawnLocations];
+		private _path = [TAS_respawnLocations, _unit] call BIS_fnc_findNestedElement;
 		if (_path isNotEqualTo []) then {	//only execute if it exists
 			diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic removing repsawn vic from list!";
 			private _indexOfOldVehiclePair = _path select 0;
-			TAS_respawnVehicles deleteAt _indexOfOldVehiclePair;
-			publicVariable "TAS_respawnVehicles";	// not needed due to global effect but better safe than sorry
+			TAS_respawnLocations deleteAt _indexOfOldVehiclePair;
+			publicVariable "TAS_respawnLocations";	// not needed due to global effect but better safe than sorry
 		} else {
 			diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic cannot find vehicle to remove!";
 		};
 		//systemChat format ["assignRespawnVic c %1 %2 %3 %4",_unit,_path,_indexOfOldRallyPair];
-		//systemChat format ["assignRespawnVic d %1",TAS_respawnVehicles];
+		//systemChat format ["assignRespawnVic d %1",TAS_respawnLocations];
 	}];
 	//systemChat format ["assignRespawnVic e"];
 };

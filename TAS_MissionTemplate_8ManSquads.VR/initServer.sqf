@@ -213,18 +213,18 @@ if (isServer) then {
 	this spawn {
 		waitUntil {!isNil "TAS_respawnInVehicle"};
 		if (TAS_respawnInVehicle) then {
-			waitUntil {!isNil "TAS_respawnVehicles"};
-			TAS_respawnVehicles pushBack [_this,"Respawn Vehicle 1"];
+			waitUntil {!isNil "TAS_respawnLocations"};
+			TAS_respawnLocations pushBack [_this,"Respawn Vehicle 1"];
 			[_this,"hd_flag","ColorUNKNOWN","Respawn Vehicle 1",true,5] call TAS_fnc_markerFollow;
-			publicVariable "TAS_respawnVehicles";
+			publicVariable "TAS_respawnLocations";
 			_this addMPEventHandler ["MPKilled", {
 				params ["_unit", "_killer", "_instigator", "_useEffects"];
-				private _path = [TAS_respawnVehicles, _unit] call BIS_fnc_findNestedElement;
+				private _path = [TAS_respawnLocations, _unit] call BIS_fnc_findNestedElement;
 				if (_path isNotEqualTo []) then {
 					diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic removing repsawn vic from list!";
 					private _indexOfOldVehiclePair = _path select 0;
-					TAS_respawnVehicles deleteAt _indexOfOldVehiclePair;
-					publicVariable "TAS_respawnVehicles";
+					TAS_respawnLocations deleteAt _indexOfOldVehiclePair;
+					publicVariable "TAS_respawnLocations";
 				} else {
 					diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic cannot find vehicle to remove!";
 				};
@@ -242,7 +242,7 @@ publicVariable "TAS_respawnInVehicle";
 	//FOB system adds an action to every SL (and command engineer) to the "logistics_truck" vehicle to establish a small base with arsenals and a respawn position
 	//If you want to disable rallypoints while keeping FOB or vice versa, set the distances from enemies to like 99999 or something absurdly high
 //Required Mods: ACE
-TAS_fobEnabled 			= false; 	//default false, set to false to disable FOB building and rallypoints
+TAS_fobEnabled 			= true; 	//default false, set to false to disable FOB building and rallypoints
 TAS_fobPackup			= false;		//default false, if true it allows the FOB to be packed up again into the original logistics_vehicle
 TAS_fobFullArsenals 	= false; 	//default false. Determines whether the resupply crates at the FOB are full arsenals or are identical to the Zeus resupply crates (medical and primary weapon ammo)
 TAS_fobDistance 		= 300; 		//default 300 meters, if enemies are within this range then FOB cannot be created
@@ -434,8 +434,8 @@ if (TAS_fobEnabled) then {
 	publicVariable "TAS_rallyFoxtrotUsed";
 	TAS_rallyReconUsed = false;
 	publicVariable "TAS_rallyReconUsed";
-	TAS_rallypointLocations = [];
-	publicVariable "TAS_rallypointLocations";
+	TAS_respawnLocations = [];
+	publicVariable "TAS_respawnLocations";
 
 	[logistics_vehicle,"hd_flag","ColorUNKNOWN","FOB Vehicle",true,5] spawn TAS_fnc_markerFollow; //TODO make this turn greyed out after FOB has been placed
 };
@@ -473,36 +473,36 @@ if (TAS_waveRespawn) then {
 
 //at bottom because has sleep
 if (TAS_respawnInVehicle) then {
-	TAS_respawnVehicles = [];
+	TAS_respawnLocations = [];
 	sleep 3; //should be enough time for waitUntil in object init fields to activate
-	if (count TAS_respawnVehicles == 0) then { //add fallback respawn vehicle if no other respawn vehicles are made
+	if (count TAS_respawnLocations == 0) then { //add fallback respawn vehicle if no other respawn vehicles are made
 		if (isNil "logistics_vehicle") then {
 			systemchat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
 			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
 		} else {
 			
 			[logistics_vehicle,"hd_flag","ColorUNKNOWN","Default Respawn Vehicle",true,60] call TAS_fnc_markerFollow;
-			TAS_respawnVehicles pushBack [logistics_vehicle,"Default Respawn Vehicle"];
+			TAS_respawnLocations pushBack [logistics_vehicle,"Default Respawn Vehicle"];
 			
 			logistics_vehicle addMPEventHandler ["MPKilled", {	//removes respawn vehicle from list. global effect, but unknown effect on JIP.
 				params ["_unit", "_killer", "_instigator", "_useEffects"];
-				//systemChat format ["assignRespawnVic b %1",TAS_respawnVehicles];
-				private _path = [TAS_respawnVehicles, _unit] call BIS_fnc_findNestedElement;
+				//systemChat format ["assignRespawnVic b %1",TAS_respawnLocations];
+				private _path = [TAS_respawnLocations, _unit] call BIS_fnc_findNestedElement;
 				if (_path isNotEqualTo []) then {	//only execute if it exists
 					diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic removing repsawn vic from list!";
 					private _indexOfOldVehiclePair = _path select 0;
-					TAS_respawnVehicles deleteAt _indexOfOldVehiclePair;
-					publicVariable "TAS_respawnVehicles";	// not needed due to global effect but better safe than sorry
+					TAS_respawnLocations deleteAt _indexOfOldVehiclePair;
+					publicVariable "TAS_respawnLocations";	// not needed due to global effect but better safe than sorry
 				} else {
 					diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic cannot find vehicle to remove!";
 				};
 				//systemChat format ["assignRespawnVic c %1 %2 %3 %4",_unit,_path,_indexOfOldRallyPair];
-				//systemChat format ["assignRespawnVic d %1",TAS_respawnVehicles];
+				//systemChat format ["assignRespawnVic d %1",TAS_respawnLocations];
 			}];
 			
 			systemChat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
 			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
 		};
 	};
-	publicVariable "TAS_respawnVehicles";
+	publicVariable "TAS_respawnLocations";
 };
