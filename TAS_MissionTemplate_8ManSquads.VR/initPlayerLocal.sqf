@@ -1,6 +1,3 @@
-
-sleep 1; //wait for mission start (server init will happen in map screen)
-
 if (TAS_ModLog) then {
 	private _logMessage = "";
 
@@ -521,14 +518,6 @@ if (TAS_arsenalCurate) then {
 };
 
 if (TAS_doTemplateBriefing) then {
-	TAS_templateBriefing = [
-		"1. Fixed various critical typos in FOB system, respawn system, and 3d Group Icons.",
-		"2. Miscellaneous background fixed and minor updates.",
-		"Known issues: Respawn In Vehicle has approximately a 5% change to not work when you try to click the button. Fix is WIP.",
-		"Please visit the 'Mission Template' section in the mission notes (in the top left of the map screen) to be aware of the enabled toggleable features present in this mission.",
-		"You will only receive this message once every time you join a mission with a new mission template version."
-	];
-
 	private _lastBriefed = profileNamespace getVariable ["TAS_lastTemplateBriefNumber",0];	//new name as old one used string
 	if (_lastBriefed < TAS_templateVersion) then {
 		(format ["TAS Mission Template v%1 — What's New",TAS_templateVersion]) hintC TAS_templateBriefing;
