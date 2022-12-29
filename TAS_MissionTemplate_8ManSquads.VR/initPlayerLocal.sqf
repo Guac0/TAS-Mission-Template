@@ -1,41 +1,4 @@
-if (TAS_ModLog) then {
-	private _logMessage = "";
 
-	if (isClass(configFile >> "CfgPatches" >> "Revo_NoWeaponSway")) then {
-		_shameMessage = format ["%1 is running No Weapon Sway",player];
-		_shameMessage remoteExec ["diag_log",2];
-		if (TAS_ModLogShame) then {
-			//"I am running No Weapon Sway!" remoteExec ["globalChat"];
-		};
-	};
-	if (isClass(configFile >> "CfgPatches" >> "cTab")) then { 
-		_shameMessage = format ["%1 is running cTab",player];
-		_shameMessage remoteExec ["diag_log",2];
-		if (TAS_ModLogShame) then {
-			"I am running cTab!" remoteExec ["globalChat"];
-		};
-	};
-	if (isClass(configFile >> "CfgPatches" >> "Ronon_gun_Pat")) then { 
-		_shameMessage = format ["%1 is running Stargate",player];
-		_shameMessage remoteExec ["diag_log",2];
-		if (TAS_ModLogShame) then {
-			"I am running Stargate!" remoteExec ["globalChat"];
-		};
-	};
-	if ((isClass(configFile >> "CfgPatches" >> "BRIDGE_PunchMod")) || (isClass(configFile >> "CfgPatches" >> "BRIDGE_punch"))) then { 
-		_shameMessage = format ["%1 is running Knock People Unconscious",player];
-		_shameMessage remoteExec ["diag_log",2];
-		if (TAS_ModLogShame) then {
-			"I am running Knock People Unconscious!" remoteExec ["globalChat"];
-		};
-	};
-
-	/*if (isClass(configFile >> "CfgPatches" >> "rhsusf_weapons")) then { 
-		//"I am running AAA! Shame on me!" remoteExec ["globalChat"];
-		_shameMessage = format ["%1 is running AAA",player];
-		_shameMessage remoteExec ["diag_log"];
-	};*/
-};
 
 //setup diary subject
 player createDiarySubject ["tasMissionTemplate","Mission Template","media\logo256x256.paa"];
@@ -67,90 +30,14 @@ if (_leadershipRoleDescriptionSimple in _roleDescription) then { //STRING in STR
 //	player setVariable ["TAS_PlayerisLeadership",true];
 //};
 
-//dynamic groups code
-if (TAS_dynamicGroupsEnabled) then {
-	["InitializePlayer", [player, true]] call BIS_fnc_dynamicGroups; // Initializes the player/client side Dynamic Groups framework and registers the player group
-	player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Enabled. Press 'U' to open the Dynamic Groups menu."]];
-} else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Disabled."]]; };
-};
 
-//disableStamina, simple way since the more complicated way with addMPEventhandler bugged out recently. Must be here and in onPlayerRespawn
-if (TAS_vanillaStaminaDisabled) then {
-	player enableFatigue false;
-	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Disabled."]];
-} else {
-	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Enabled."]];
-};
 
-//Sets custom aim coefficient (precision and/or weapon sway) and recoil coefficient. Must be here and in onPlayerRespawn
-if (TAS_doAimCoefChange) then {
-	player setCustomAimCoef TAS_aimCoef;
-	player setUnitRecoilCoefficient TAS_recoilCoef;
-	player createDiaryRecord ["tasMissionTemplate", ["Sway/Recoil Coefficient Changes", format ["Sway coefficient: %1. Recoil Coefficient: %2",TAS_aimCoef,TAS_recoilCoef]]];
-} else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Sway/Recoil Coefficient Changes", "Vanilla coefficients are enabled."]]; };
-};
+////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////Editable Scripts///////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//scripts below this point are intended to be editable by zeuses who want to customize the equipment given to their players (assuming the appropriate settings are enabled in the options)
 
-//Add TAS Afk Script
-if (TAS_afkEnabled) then {
-	// Register a simple keypress to an action
-	//#include "\a3\ui_f\hpp\defineDIKCodes.inc" //these two lines can be removed if wanted, rn script uses the number codes instead
-	//#define USER_19 0x10C
-	//25 for P, 0x10C for User Action 19
-	//[24, [false, true, true]] is "O + lctrl + lalt", can change in cba keybindings if wanted
-	["TAS Keybindings","afk_script_key_v2","Run TAS Afk Script", {[] call TAS_fnc_AfkScript}, "", [24, [false, true, true]]] call CBA_fnc_addKeybind;
 
-	//make a diary record tutorial
-	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Enabled. To start/stop the AFK script, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Run AFK Script. By default, it will be Left Control + Left Alt + O."]];
-} else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Disabled."]]; };
-	//systemChat "Afk System disabled.";
-};
-
-//Add TAS Earplugs Script
-if (TAS_earplugsEnabled) then {
-	// Register a simple keypress to an action
-	//#include "\a3\ui_f\hpp\defineDIKCodes.inc" //these two lines can be removed if wanted, rn script uses the number codes instead
-	//#define USER_19 0x10C
-	//25 for P, 0x10C for User Action 19
-	//[18, [false, true, true]] is "E + lctrl + lalt", can change in cba keybindings if wanted
-	["TAS Keybindings","earplugs_key","Toggle Earplugs", {[] call TAS_fnc_earplugs}, "", [18, [false, true, true]]] call CBA_fnc_addKeybind;
-
-	//make a diary record tutorial
-	player createDiaryRecord ["tasMissionTemplate", ["Earplugs Script", "Enabled. To enable/disable the earplugs, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Toggle Earplugs. By default, it will be Left Control + Left Alt + E."]];
-} else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Earplugs Script", "Disabled."]]; };
-	//systemChat "Afk System disabled.";
-};
-
-//Add TAS Music Hotkey Script
-if (TAS_musicKeyEnabled) then {
-	["TAS Keybindings","music_key","Toggle Music", {[] call TAS_fnc_toggleMusic}, "", [13, [false, true, true]]] call CBA_fnc_addKeybind; //13 is =
-
-	//make a diary record tutorial
-	player createDiaryRecord ["tasMissionTemplate", ["Music Hotkey Script", "Enabled. To enable/disable music audio, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Toggle Music. By default, it will be Left Control + Left Alt + =."]];
-} else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Music Hotkey Script", "Disabled."]]; };
-	//systemChat "Afk System disabled.";
-};
-
-//Add FOB Script
-if (TAS_fobEnabled) then {
-	[] execVM "buildfob\initfob.sqf";
-} else {
-	//systemChat "FOB/Rallypoint building disabled.";
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["FOB/Rallypoint System", "Disabled."]]; };
-};
-
-//global tfar diary entry
-if (TAS_globalTfarEnabled) then { 
-	//function handled in description.ext
-	player createDiaryRecord ["tasMissionTemplate", ["Global TFAR Script", "Enabled. Sets all Short Range radios to a single channel for Zeus/Lore events. Restores radios to prior channel when run a second time. Can be executed from either debug console or via trigger by using remoteExecCall on TAS_fnc_globalTFAR."]];
-} else {
-	//systemChat "TAS Global TFAR System disabled."
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Global TFAR Script", "Disabled."]]; };
-};
 
 if (TAS_useConfigLoadout) then {
 
@@ -238,80 +125,13 @@ if (TAS_useConfigLoadout) then {
 
 		};
 		
-	} else {
-		[player,TAS_configFaction,TAS_defaultConfigUnit,TAS_configUnitPrefix] call TAS_fnc_assignLoadoutFromConfig;
 	};
+
+	[player,TAS_configFaction,TAS_defaultConfigUnit,TAS_configUnitPrefix] call TAS_fnc_assignLoadoutFromConfig;
 
 	player createDiaryRecord ["tasMissionTemplate", ["Loadout Assignment From Config", "Your loadout has been set accordingly to the given faction and your role description. See your chat messages for more information in the case of the script resorting to fallback loadouts or a notficiation that Zeus has chosen to skip your loadout assignment in particular."]];
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Loadout Assignment From Config", "Disabled."]]; };
-};
-
-//radio setup
-if (TAS_radiosEnabled) then {
-	
-	player linkItem TAS_radioPersonal;
-	
-	//LR radio possession marking
-	if (TAS_NoSquadleadLr) then {
-
-		//give radio if player is RTO
-		if (("Radioman" in _roleDescription) || ("RTO" in _roleDescription)) then {
-			player setVariable ["TAS_PlayerHasLr",true];
-		};
-		//give radio if player is a normal leadership guy (if they aren't an SL)
-		if ((player getVariable ["TAS_PlayerisLeadership",false]) && !("Squad Leader" in _roleDescription)) then {
-			player setVariable ["TAS_PlayerHasLr",true];
-		};
-
-	} else {
-
-		//if player is leadership, then give radio
-		if (player getVariable ["TAS_PlayerIsLeadership",false]) then {
-			player setVariable ["TAS_PlayerHasLr",true];
-		};
-
-	};
-
-	//give player LR radio if approved to do so
-	if (player getVariable ["TAS_PlayerHasLr",false]) then {
-		player addBackpack TAS_radioBackpack;
-		[(call TFAR_fnc_activeLrRadio), 1, "50"] call TFAR_fnc_SetChannelFrequency; //set 50 as active radio channel on channel 1
-		[(call TFAR_fnc_activeLrRadio), 2, "55"] call TFAR_fnc_SetChannelFrequency; //set 55 (fire support) as radio channel two (not active and not additional)
-	};
-
-	player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Enabled. It may take a second for Teamspeak to initialize your radios. If your radio freq shows up as blank, do not panic as this happens when it is set via script. All SRs are set on squad freq and LRs on 50 (channel 1) and 55 (channel 2)."]];
-	//systemChat "Radio loadout init finished. It may take a second for Teamspeak to initialize your radio fully.";
-
-} else {
-	
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Disabled."]]; };
-	//systemChat "TFAR automatic radio assignment disabled."
-
-};
-
-if (TAS_radioAdditionals) then {
-	private _standardRadioAssignment = [] spawn {
-		waitUntil {(call TFAR_fnc_haveSWRadio)}; //wait until have radio
-		[(call TFAR_fnc_activeSwRadio), 1] call TFAR_fnc_setAdditionalSwChannel; //set Channel 2 to additional (0-based index)
-		[(call TFAR_fnc_ActiveSWRadio), 2] call TFAR_fnc_setAdditionalSwStereo; //set additional channel to right ear only
-		[(call TFAR_fnc_ActiveSWRadio), 1] call TFAR_fnc_setSwStereo; //set main channel to left ear
-	};
-	player createDiaryRecord ["tasMissionTemplate", ["Radio Additional Channels Assignment", "Enabled. Your left ear is your main channel (capslock to transmit and by default is the squad-wide net), while your right ear is your additional channel (T to transmit, usually the fireteam net). Your Long Range radio remains unchanged."]];
-} else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Radio Additional Channels Assignment", "Disabled."]]; };
-};
-
-//ctab setup
-if (TAS_ctabEnabled) then {
-	player addItem "ItemcTabHCam"; //give all players a helmetcam, will auto delete hcam if inventory is full
-	player linkItem "itemAndroid"; //give everyone an android in their gps slot, will be overwriten if they are leadership
-	if (player getVariable ["TAS_PlayerIsLeadership",false]) then {player linkItem "itemcTab"; player addItem "itemAndroid";}; //give leadership an android in their inventories and a tablet in their gps slot (will delete existing item), will auto delete android if inventory is full
-	//systemChat "cTab loadout init finished.";
-	player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Enabled. All units have recieved an Android and helmet cam, while leadership have also recieved a rugged tablet."]];
-} else {
-	//systemChat "cTab automatic item assignment disabled."
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Disabled."]]; };
 };
 
 if (TAS_populateInventory) then {
@@ -475,6 +295,167 @@ if (TAS_populateInventory) then {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Inventory Population", "Disabled"]]; };
 };
 
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////Non-Editable Scripts////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//scripts below this point are not intended to be editable by most zeuses
+
+
+
+//radio setup
+if (TAS_radiosEnabled) then {
+	
+	player linkItem TAS_radioPersonal;
+	
+	//LR radio possession marking
+	if (TAS_NoSquadleadLr) then {
+
+		//give radio if player is RTO
+		if (("Radioman" in _roleDescription) || ("RTO" in _roleDescription)) then {
+			player setVariable ["TAS_PlayerHasLr",true];
+		};
+		//give radio if player is a normal leadership guy (if they aren't an SL)
+		if ((player getVariable ["TAS_PlayerisLeadership",false]) && !("Squad Leader" in _roleDescription)) then {
+			player setVariable ["TAS_PlayerHasLr",true];
+		};
+
+	} else {
+
+		//if player is leadership, then give radio
+		if (player getVariable ["TAS_PlayerIsLeadership",false]) then {
+			player setVariable ["TAS_PlayerHasLr",true];
+		};
+
+	};
+
+	//give player LR radio if approved to do so
+	if (player getVariable ["TAS_PlayerHasLr",false]) then {
+		player addBackpack TAS_radioBackpack;
+		[(call TFAR_fnc_activeLrRadio), 1, "50"] call TFAR_fnc_SetChannelFrequency; //set 50 as active radio channel on channel 1
+		[(call TFAR_fnc_activeLrRadio), 2, "55"] call TFAR_fnc_SetChannelFrequency; //set 55 (fire support) as radio channel two (not active and not additional)
+	};
+
+	player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Enabled. It may take a second for Teamspeak to initialize your radios. If your radio freq shows up as blank, do not panic as this happens when it is set via script. All SRs are set on squad freq and LRs on 50 (channel 1) and 55 (channel 2)."]];
+	//systemChat "Radio loadout init finished. It may take a second for Teamspeak to initialize your radio fully.";
+
+} else {
+	
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Disabled."]]; };
+	//systemChat "TFAR automatic radio assignment disabled."
+
+};
+
+if (TAS_radioAdditionals) then {
+	private _standardRadioAssignment = [] spawn {
+		waitUntil {(call TFAR_fnc_haveSWRadio)}; //wait until have radio
+		[(call TFAR_fnc_activeSwRadio), 1] call TFAR_fnc_setAdditionalSwChannel; //set Channel 2 to additional (0-based index)
+		[(call TFAR_fnc_ActiveSWRadio), 2] call TFAR_fnc_setAdditionalSwStereo; //set additional channel to right ear only
+		[(call TFAR_fnc_ActiveSWRadio), 1] call TFAR_fnc_setSwStereo; //set main channel to left ear
+	};
+	player createDiaryRecord ["tasMissionTemplate", ["Radio Additional Channels Assignment", "Enabled. Your left ear is your main channel (capslock to transmit and by default is the squad-wide net), while your right ear is your additional channel (T to transmit, usually the fireteam net). Your Long Range radio remains unchanged."]];
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Radio Additional Channels Assignment", "Disabled."]]; };
+};
+
+//ctab setup
+if (TAS_ctabEnabled) then {
+	player addItem "ItemcTabHCam"; //give all players a helmetcam, will auto delete hcam if inventory is full
+	player linkItem "itemAndroid"; //give everyone an android in their gps slot, will be overwriten if they are leadership
+	if (player getVariable ["TAS_PlayerIsLeadership",false]) then {player linkItem "itemcTab"; player addItem "itemAndroid";}; //give leadership an android in their inventories and a tablet in their gps slot (will delete existing item), will auto delete android if inventory is full
+	//systemChat "cTab loadout init finished.";
+	player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Enabled. All units have recieved an Android and helmet cam, while leadership have also recieved a rugged tablet."]];
+} else {
+	//systemChat "cTab automatic item assignment disabled."
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Disabled."]]; };
+};
+
+//dynamic groups code
+if (TAS_dynamicGroupsEnabled) then {
+	["InitializePlayer", [player, true]] call BIS_fnc_dynamicGroups; // Initializes the player/client side Dynamic Groups framework and registers the player group
+	player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Enabled. Press 'U' to open the Dynamic Groups menu."]];
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Disabled."]]; };
+};
+
+//disableStamina, simple way since the more complicated way with addMPEventhandler bugged out recently. Must be here and in onPlayerRespawn
+if (TAS_vanillaStaminaDisabled) then {
+	player enableFatigue false;
+	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Disabled."]];
+} else {
+	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Enabled."]];
+};
+
+//Sets custom aim coefficient (precision and/or weapon sway) and recoil coefficient. Must be here and in onPlayerRespawn
+if (TAS_doAimCoefChange) then {
+	player setCustomAimCoef TAS_aimCoef;
+	player setUnitRecoilCoefficient TAS_recoilCoef;
+	player createDiaryRecord ["tasMissionTemplate", ["Sway/Recoil Coefficient Changes", format ["Sway coefficient: %1. Recoil Coefficient: %2",TAS_aimCoef,TAS_recoilCoef]]];
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Sway/Recoil Coefficient Changes", "Vanilla coefficients are enabled."]]; };
+};
+
+//Add TAS Afk Script
+if (TAS_afkEnabled) then {
+	// Register a simple keypress to an action
+	//#include "\a3\ui_f\hpp\defineDIKCodes.inc" //these two lines can be removed if wanted, rn script uses the number codes instead
+	//#define USER_19 0x10C
+	//25 for P, 0x10C for User Action 19
+	//[24, [false, true, true]] is "O + lctrl + lalt", can change in cba keybindings if wanted
+	["TAS Keybindings","afk_script_key_v2","Run TAS Afk Script", {[] spawn TAS_fnc_AfkScript}, "", [24, [false, true, true]]] call CBA_fnc_addKeybind;
+
+	//make a diary record tutorial
+	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Enabled. To start/stop the AFK script, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Run AFK Script. By default, it will be Left Control + Left Alt + O."]];
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Disabled."]]; };
+	//systemChat "Afk System disabled.";
+};
+
+//Add TAS Earplugs Script
+if (TAS_earplugsEnabled) then {
+	// Register a simple keypress to an action
+	//#include "\a3\ui_f\hpp\defineDIKCodes.inc" //these two lines can be removed if wanted, rn script uses the number codes instead
+	//#define USER_19 0x10C
+	//25 for P, 0x10C for User Action 19
+	//[18, [false, true, true]] is "E + lctrl + lalt", can change in cba keybindings if wanted
+	["TAS Keybindings","earplugs_key","Toggle Earplugs", {[] spawn TAS_fnc_earplugs}, "", [18, [false, true, true]]] call CBA_fnc_addKeybind;
+
+	//make a diary record tutorial
+	player createDiaryRecord ["tasMissionTemplate", ["Earplugs Script", "Enabled. To enable/disable the earplugs, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Toggle Earplugs. By default, it will be Left Control + Left Alt + E."]];
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Earplugs Script", "Disabled."]]; };
+	//systemChat "Afk System disabled.";
+};
+
+//Add TAS Music Hotkey Script
+if (TAS_musicKeyEnabled) then {
+	["TAS Keybindings","music_key","Toggle Music", {[] spawn TAS_fnc_toggleMusic}, "", [13, [false, true, true]]] call CBA_fnc_addKeybind; //13 is =
+
+	//make a diary record tutorial
+	player createDiaryRecord ["tasMissionTemplate", ["Music Hotkey Script", "Enabled. To enable/disable music audio, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Toggle Music. By default, it will be Left Control + Left Alt + =."]];
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Music Hotkey Script", "Disabled."]]; };
+	//systemChat "Afk System disabled.";
+};
+
+//Add FOB Script
+if (TAS_fobEnabled) then {
+	[] execVM "buildfob\initfob.sqf";
+} else {
+	//systemChat "FOB/Rallypoint building disabled.";
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["FOB/Rallypoint System", "Disabled."]]; };
+};
+
+//global tfar diary entry
+if (TAS_globalTfarEnabled) then { 
+	//function handled in description.ext
+	player createDiaryRecord ["tasMissionTemplate", ["Global TFAR Script", "Enabled. Sets all Short Range radios to a single channel for Zeus/Lore events. Restores radios to prior channel when run a second time. Can be executed from either debug console or via trigger by using remoteExecCall on TAS_fnc_globalTFAR."]];
+} else {
+	//systemChat "TAS Global TFAR System disabled."
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Global TFAR Script", "Disabled."]]; };
+};
+
 if (TAS_bftEnabled) then {
 	[] execVM "functions\scripts\QS_icons.sqf";
 	//systemChat "QS BFT initiated.";
@@ -631,4 +612,43 @@ if (TAS_3dGroupIcons) then { //intentionally the "do" variant for performance re
 
 if (TAS_trimGroupNames) then {
 	[group player,false] spawn TAS_fnc_trimGroupName;
+};
+
+if (TAS_ModLog) then {
+	private _logMessage = "";
+
+	if (isClass(configFile >> "CfgPatches" >> "Revo_NoWeaponSway")) then {
+		_shameMessage = format ["%1 is running No Weapon Sway",player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			//"I am running No Weapon Sway!" remoteExec ["globalChat"];
+		};
+	};
+	if (isClass(configFile >> "CfgPatches" >> "cTab")) then { 
+		_shameMessage = format ["%1 is running cTab",player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			"I am running cTab!" remoteExec ["globalChat"];
+		};
+	};
+	if (isClass(configFile >> "CfgPatches" >> "Ronon_gun_Pat")) then { 
+		_shameMessage = format ["%1 is running Stargate",player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			"I am running Stargate!" remoteExec ["globalChat"];
+		};
+	};
+	if ((isClass(configFile >> "CfgPatches" >> "BRIDGE_PunchMod")) || (isClass(configFile >> "CfgPatches" >> "BRIDGE_punch"))) then { 
+		_shameMessage = format ["%1 is running Knock People Unconscious",player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			"I am running Knock People Unconscious!" remoteExec ["globalChat"];
+		};
+	};
+
+	/*if (isClass(configFile >> "CfgPatches" >> "rhsusf_weapons")) then { 
+		//"I am running AAA! Shame on me!" remoteExec ["globalChat"];
+		_shameMessage = format ["%1 is running AAA",player];
+		_shameMessage remoteExec ["diag_log"];
+	};*/
 };
