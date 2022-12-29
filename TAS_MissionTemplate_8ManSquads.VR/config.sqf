@@ -65,16 +65,20 @@ TAS_radioBackpack 		= "TFAR_anprc155_coyote"; //defaults to 155 coyote ("TFAR_an
 //Assigns player loadouts via config
 //It looks at the config files for the given faction and tries to match each player's Role Description with the name of a unit from that faction. If found, it gives them that unit's loadout, if not found, it gives them a Rifleman loadout from that faction
 //Note that the actualy inventory items (stuff in uniform and vest and etc) of the player will be overwritten by TAS_populateInventory if that is enabled, but this will still set the clothing, weapons, etc
-//To disable loadout assignment on a given unit while keeping the system enabled for other units, place the following in its init box: this setVariable ["TAS_disableConfigLoadoutAssignment",true];
-//You can also manually set the loadout names if you don't want it to autodetermine based on the role description. To do this, put the following lines into the init box of the unit:
-	//this setVariable ["TAS_overrideConfigLoadout",true];
-	//this setVariable ["TAS_overrideConfigLoadoutName","Display name of unit in given faction whose loadout should be given to this player"];
+//To disable loadout assignment on a given unit while keeping the system enabled for other units, place the following in its init box:
+	//this setVariable ["TAS_disableConfigLoadoutAssignment",true];
+//You can also manually set the loadout names if you don't want it to autodetermine based on the role description. To do this, put the following lines into the init box of the unit (it can have spaces, the underscores are just for easy selection and deletion):
+	//this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
 TAS_useConfigLoadout 	= false; 		//default false
+TAS_configLoadoutCustom	= false;		//default false. Set to true if you want to assign override loadouts via the script menu in initPlayerLocal instead of via unit init boxes with the above code
 TAS_configFaction 		= "BLU_F"; 		//you can find the config name by placing a unit, right click, log, log faction classname to clipboard
+TAS_configUnitPrefix	= "";			//prefix, including space if necessary. Use it when your units are named like 'SF Rifleman', 'SF Team Leader' to avoid retyping, otherwise leave blank
 TAS_defaultConfigUnit 	= "Rifleman"; 	//if role description doesn't match any unit in the faction, it falls back to this unit name for the loadout assignment
 TAS_configLoadoutNumber = 0; 			//Advanced users only. When multiple loadouts are found, use the # loadout found (zero-based)
 //publicVariable "TAS_useConfigLoadout";
+//publicVariable "TAS_configLoadoutCustom";
 //publicVariable "TAS_configFaction";
+//publicVariable "TAS_configUnitPrefix";
 //publicVariable "TAS_defaultConfigUnit";
 //publicVariable "TAS_configLoadoutNumber";
 

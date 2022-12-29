@@ -4,19 +4,17 @@
 	Sets given unit's loadout by comparing its roleDescription to unit names in the given faction to search, with fallbacks if no matches are found.
 	Do not use in cases where roleDescription does not exist, such as in singleplayer or on units without a set roleDescription.
 
-	[player,TAS_configFaction,"Rifleman"] call TAS_fnc_assignLoadoutFromConfig;
+	[player,TAS_configFaction,"Rifleman",""] call TAS_fnc_assignLoadoutFromConfig;
 */
-
+params ["_givenUnit","_faction","_defaultUnitName","_prefix"];
 private ["_unit"]; //do it here to avoid reptition in the switch
-private _givenUnit = _this select 0;
-private _faction = _this select 1;
-private _defaultUnitName = _this select 2;
 private _roleDescription = roleDescription _givenUnit;
 
 if (_givenUnit getVariable ["TAS_disableConfigLoadoutAssignment",false]) exitWith { systemChat "Your loadout has not been assigned from config due to the Mission Maker disabling it for you in particular." }; //exit script if unit has been flagged to not have a changed loadout.
 
-if (_givenUnit getVariable ["TAS_overrideConfigLoadout",false]) then {
+if ((_givenUnit getVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"]) isNotEqualTo "Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player") then { //skip if on the default
 	_roleDescription = _givenUnit getVariable ["TAS_overrideConfigLoadoutName",_defaultUnitName];
+	_roleDescription = format ["%1%2",_prefix,_roleDescription];	//account for prefix
 } else {
 	/*if (isNil _roleDescription) then { //TODO arma always registers this as being nil for some reason???
 		systemChat roleDescription player;
@@ -34,6 +32,7 @@ if (_givenUnit getVariable ["TAS_overrideConfigLoadout",false]) then {
 		private _indexOfBracket = _roleDescription find "[";
 		_roleDescription = _roleDescription select [0,(_indexOfBracket - 1)]; //-1 to remove the space before it
 	};
+	_roleDescription = format ["%1%2",_prefix,_roleDescription];	//account for prefix
 };
 
 private _matchingUnitArray = ("(configname _x iskindOf 'CAManBase') && (getNumber (_x >> 'scope') >= 2) && (gettext (_x >> 'faction') == _faction) && (gettext (_x >> 'displayName') == _roleDescription)" configClasses (configfile >> "CfgVehicles")) apply {configName _x};

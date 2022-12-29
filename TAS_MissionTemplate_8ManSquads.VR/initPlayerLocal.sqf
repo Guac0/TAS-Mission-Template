@@ -153,7 +153,95 @@ if (TAS_globalTfarEnabled) then {
 };
 
 if (TAS_useConfigLoadout) then {
-	[player,TAS_configFaction,TAS_defaultConfigUnit] call TAS_fnc_assignLoadoutFromConfig;
+
+	if (TAS_configLoadoutCustom) then {
+
+		//Change 'Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player' to the role name that you want players named accordingly to have that unit's gear
+			//note that TAS_configUnitPrefix is still applied to these units
+
+		switch (true) do
+		{
+			//cmd
+			case ("Officer" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("JTAC" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Combat Life Saver" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Engineer" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+
+			//recon
+			case ("Recon Team Leader" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Recon Paramedic" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Recon Demo Specialist" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Recon Sharpshooter" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+
+			//air
+			case ("Pilot" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Copilot" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+
+			//armor
+			case ("Commander" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Gunner" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Driver" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+
+			//squad (medic is in cmd section)
+			case ("Squad Leader" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("RTO" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Machinegunner" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Team Leader" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Autorifleman" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Rifleman (AT)" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+
+			//other, feel free to add more if you have custom names
+			case ("Zeus" in _roleDescriptionSimple): {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			default {
+				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+
+		};
+		
+	} else {
+		[player,TAS_configFaction,TAS_defaultConfigUnit,TAS_configUnitPrefix] call TAS_fnc_assignLoadoutFromConfig;
+	};
+
 	player createDiaryRecord ["tasMissionTemplate", ["Loadout Assignment From Config", "Your loadout has been set accordingly to the given faction and your role description. See your chat messages for more information in the case of the script resorting to fallback loadouts or a notficiation that Zeus has chosen to skip your loadout assignment in particular."]];
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Loadout Assignment From Config", "Disabled."]]; };
