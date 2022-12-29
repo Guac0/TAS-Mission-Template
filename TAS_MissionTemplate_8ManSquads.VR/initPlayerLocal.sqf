@@ -540,3 +540,7 @@ if (TAS_doDiscordUpdate) then {
 if (TAS_3dGroupIcons) then { //intentionally the "do" variant for performance reasons
 	[] spawn TAS_fnc_3dGroupIcons;
 };
+
+if (TAS_trimGroupNames) then {
+	[group player,false] spawn TAS_fnc_trimGroupName;
+};

@@ -339,6 +339,10 @@ TAS_fpsDisplayEnabled 	= true; //default true
 TAS_fixDeathColor		= true; //default true
 //publicVariable "TAS_fixDeathColor";
 
+//trims player group names to get rid of the extra spaces added by the template's need for duplicate group names
+TAS_trimGroupNames 		= true;
+//publicVariable "TAS_trimGroupNames";
+
 
 
 
