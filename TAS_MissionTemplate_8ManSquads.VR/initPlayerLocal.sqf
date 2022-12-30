@@ -61,7 +61,7 @@ if (TAS_useConfigLoadout) then {
 			case ("JTAC" in _roleDescriptionSimple): {
 				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
 			};
-			case ("Combat Life Saver" in _roleDescriptionSimple): {
+			case (("Combat Life Saver" in _roleDescriptionSimple) || ("Medic" in _roleDescriptionSimple) || ("medic" in _roleDescriptionSimple)): {
 				this setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
 			};
 			case ("Engineer" in _roleDescriptionSimple): {
@@ -233,7 +233,7 @@ if (TAS_populateInventory) then {
 			case ("JTAC" in _roleDescriptionSimple): {
 				
 			};
-			case ("Combat Life Saver" in _roleDescriptionSimple): {
+			case (("Combat Life Saver" in _roleDescriptionSimple) || ("Medic" in _roleDescriptionSimple) || ("medic" in _roleDescriptionSimple)): {
 				
 			};
 			case ("Engineer" in _roleDescriptionSimple): {

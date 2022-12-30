@@ -43,7 +43,7 @@ switch (true) do
 	case ("JTAC" in _roleDescriptionSimple): {
 		//private _arsenalBox = exampleBoxName;
 	};
-	case ("Combat Life Saver" in _roleDescriptionSimple): {
+	case (("Combat Life Saver" in _roleDescriptionSimple) || ("Medic" in _roleDescriptionSimple) || ("medic" in _roleDescriptionSimple)): {
 		//private _arsenalBox = exampleBoxName;
 	};
 	case ("Engineer" in _roleDescriptionSimple): {
