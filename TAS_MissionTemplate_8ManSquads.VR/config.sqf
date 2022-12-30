@@ -13,6 +13,10 @@
 //to add a custom fortify preset, go to description.ext and follow the instructions there
 
 
+//to use the automated reviewer, play the game and execute the following in the debug console:
+	//[] call TAS_fnc_automatedReviewer;
+
+
 
 
 
