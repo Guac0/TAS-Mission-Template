@@ -99,6 +99,7 @@ class CfgFunctions
 			class zeusMarkerFollow;
 			class openRespawnGui;
 			class automatedReviewer;
+			class roleBasedArsenal;
 		};
 		class buildFob
 		{

@@ -317,6 +317,69 @@ if (TAS_populateInventory) then {
 
 
 
+if (TAS_roleBasedArsenals) then {
+
+	_openRoleArsenalAceAction = [
+		"roleArsenalAceAction"
+		"Open Role-Based Arsenal",
+		"",
+		{
+			player call TAS_fnc_roleBasedArsenal;
+		},
+		{
+			TAS_roleBasedArsenals
+		},
+		{},
+		{},
+		{},
+		10
+	] call ace_interact_menu_fnc_createAction;
+	/*
+	* Argument:
+	* 0: Action name <STRING>
+	* 1: Name of the action shown in the menu <STRING>
+	* 2: Icon <STRING>
+	* 3: Statement <CODE>
+	* 4: Condition <CODE>
+	* 5: Insert children code <CODE> (Optional)
+	* 6: Action parameters <ANY> (Optional)
+	* 7: Position (Position array, Position code or Selection Name) <ARRAY>, <CODE> or <STRING> (Optional)
+	* 8: Distance <NUMBER> (Optional)
+	* 9: Other parameters [showDisabled,enableInside,canCollapse,runOnHover,doNotCheckLOS] <ARRAY> (Optional)
+	* 10: Modifier function <CODE> (Optional)
+	*/
+	{
+		[_x, 0, ["ACE_MainActions"], _openRoleArsenalAceAction] call ace_interact_menu_fnc_addActionToObject;
+	} forEach TAS_visibleArsenalBoxes;
+
+	//vanilla action too ig
+	{
+		_x addAction [
+			"Open Role-Based Arsenal",	// title
+			{
+				params ["_target", "_caller", "_actionId", "_arguments"]; // script
+				_caller call TAS_fnc_roleBasedArsenal;
+			},
+			nil,		// arguments
+			5,		// priority
+			true,		// showWindow
+			false,		// hideOnUse
+			"",			// shortcut
+			"TAS_roleBasedArsenals", 	// condition
+			10,			// radius
+			false,		// unconscious
+			"",			// selection
+			""			// memoryPoint
+		];
+	} forEach TAS_visibleArsenalBoxes;
+
+	player createDiaryRecord ["tasMissionTemplate", ["Role-Based Arsenals", "Enabled. Use the action on the arsenals to access the role-based arsenals."]];
+
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Role-Based Arsenals", "Disabled."]]; };
+};
+
+
 //radio setup
 if (TAS_radiosEnabled) then {
 	

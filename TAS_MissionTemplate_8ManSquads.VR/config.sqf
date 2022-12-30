@@ -98,6 +98,21 @@ TAS_configLoadoutNumber = 0; 			//Advanced users only. When multiple loadouts ar
 TAS_populateInventory 	= true; //default true
 //publicVariable "TAS_populateInventory";
 
+/*
+Adds role-based ace arsenals. See the steps below for configuring steps.
+	1. Make arsenal boxes in your mission for the various roles you want to have a special arsenal
+	2. Give the arsenal boxes a variable name (like "arsenalMedic" for example)
+	3. Make the boxes invisible and/or hide them someone in the mission
+	4. Go to functions/fn_roleBasedArsenal.sqf and follow the steps there to assign each role to an arsenal box
+	5. Make some box(es) and place them at the normal arsenal area and give them variable names
+		these will be where players will have the action to open the arsenals. don't make these be arsenal boxes in Eden,
+		the script will take care of automatically making them be the proper role-based arsenal depending on who opens them
+	6. Edit TAS_visibleArsenalBoxes to contain the variable names (no quotation marks) of the boxes you've made at the player arsenal area to have the role-based arsenals
+		note: these boxes should not actually have arsenals set for them
+*/
+TAS_roleBasedArsenal	= false; //default false
+TAS_visibleArsenalBoxes = [arsenal_1,arsenal_2]; 
+
 
 
 
