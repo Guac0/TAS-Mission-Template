@@ -288,6 +288,14 @@ if (TAS_populateInventory) then {
 			case ("Rifleman (AT)" in _roleDescriptionSimple): {
 				
 			};
+
+			//other, feel free to add more if you have custom names
+			case ("Zeus" in _roleDescriptionSimple): {
+				
+			};
+			default {
+
+			};
 		};
 	};
 
