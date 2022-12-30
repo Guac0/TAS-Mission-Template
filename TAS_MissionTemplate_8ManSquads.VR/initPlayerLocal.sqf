@@ -2,6 +2,7 @@
 //////////////////////////////Variable Setup////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+sleep 1; //needed for some tfar stuff, TODO move?
 
 
 //setup diary subject
@@ -156,7 +157,10 @@ if (TAS_populateInventory) then {
 	for "_i" from 1 to 2 do { player addItem "ACE_CableTie" };
 	player addItem "ACE_Earplugs";
 	player addItem "ACE_EntrenchingTool";
-	//player linkItem "ItemGPS";
+
+	if (TAS_inventoryAddGps) then {
+		player linkItem "ItemGPS";
+	};
 	//player linkItem "ItemMap";
 	//player linkItem "ItemWatch";
 	//player linkItem "ItemCompass";
@@ -320,7 +324,7 @@ if (TAS_populateInventory) then {
 if (TAS_roleBasedArsenals) then {
 
 	_openRoleArsenalAceAction = [
-		"roleArsenalAceAction"
+		"roleArsenalAceAction",
 		"Open Role-Based Arsenal",
 		"",
 		{
@@ -349,28 +353,33 @@ if (TAS_roleBasedArsenals) then {
 	* 10: Modifier function <CODE> (Optional)
 	*/
 	{
-		[_x, 0, ["ACE_MainActions"], _openRoleArsenalAceAction] call ace_interact_menu_fnc_addActionToObject;
-	} forEach TAS_visibleArsenalBoxes;
+		private _arsenal = _x;
+		_arsenal = missionNamespace getVariable [_arsenal, objNull]; //convert from string to object, otherwise we get errors
+		if (!isNull _arsenal) then {
+			//ace
+			[_arsenal, 0, ["ACE_MainActions"], _openRoleArsenalAceAction] call ace_interact_menu_fnc_addActionToObject;
 
-	//vanilla action too ig
-	{
-		_x addAction [
-			"Open Role-Based Arsenal",	// title
-			{
-				params ["_target", "_caller", "_actionId", "_arguments"]; // script
-				_caller call TAS_fnc_roleBasedArsenal;
-			},
-			nil,		// arguments
-			5,		// priority
-			true,		// showWindow
-			false,		// hideOnUse
-			"",			// shortcut
-			"TAS_roleBasedArsenals", 	// condition
-			10,			// radius
-			false,		// unconscious
-			"",			// selection
-			""			// memoryPoint
-		];
+			//vanilla too ig
+			_arsenal addAction [
+				"Open Role-Based Arsenal",	// title
+				{
+					params ["_target", "_caller", "_actionId", "_arguments"]; // script
+					_caller call TAS_fnc_roleBasedArsenal;
+				},
+				nil,		// arguments
+				99,		// priority
+				true,		// showWindow
+				false,		// hideOnUse
+				"",			// shortcut
+				"TAS_roleBasedArsenals", 	// condition
+				10,			// radius
+				false,		// unconscious
+				"",			// selection
+				""			// memoryPoint
+			];
+		} else {
+			systemChat "TAS-MISSION-TEMPLATE Error: arsenal in TAS_visibleArsenalBoxes does not exist in the mission!";
+		};
 	} forEach TAS_visibleArsenalBoxes;
 
 	player createDiaryRecord ["tasMissionTemplate", ["Role-Based Arsenals", "Enabled. Use the action on the arsenals to access the role-based arsenals."]];

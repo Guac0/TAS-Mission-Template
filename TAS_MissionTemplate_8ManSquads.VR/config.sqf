@@ -96,6 +96,7 @@ TAS_configLoadoutNumber = 0; 			//Advanced users only. When multiple loadouts ar
 //Grenades: 2x M67s, 2x white smoke, 1x purple smoke
 //If engineer, gives 1x toolkit, 1x mine detector
 TAS_populateInventory 	= true; //default true
+TAS_inventoryAddGps		= true;	//default true. Adds a GPS to each player's terminal slot
 //publicVariable "TAS_populateInventory";
 
 /*
@@ -107,11 +108,11 @@ Adds role-based ace arsenals. See the steps below for configuring steps.
 	5. Make some box(es) and place them at the normal arsenal area and give them variable names
 		these will be where players will have the action to open the arsenals. don't make these be arsenal boxes in Eden,
 		the script will take care of automatically making them be the proper role-based arsenal depending on who opens them
-	6. Edit TAS_visibleArsenalBoxes to contain the variable names (no quotation marks) of the boxes you've made at the player arsenal area to have the role-based arsenals
+	6. Edit TAS_visibleArsenalBoxes to contain the variable names (with quotation marks) of the boxes you've made at the player arsenal area to have the role-based arsenals
 		note: these boxes should not actually have arsenals set for them
 */
-TAS_roleBasedArsenal	= false; //default false
-TAS_visibleArsenalBoxes = [arsenal_1,arsenal_2]; 
+TAS_roleBasedArsenals	= true; //default false
+TAS_visibleArsenalBoxes = ["arsenal_1","arsenal_2"]; 
 
 
 
@@ -504,5 +505,3 @@ TAS_doDiscordUpdate		= true; //default true
 TAS_discordUpdateDelay 	= 30; 	//default 30
 //publicVariable "TAS_doDiscordUpdate";
 //publicVariable "TAS_discordUpdateDelay";
-
-

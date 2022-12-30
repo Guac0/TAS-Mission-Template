@@ -26,7 +26,7 @@ if ((_roleDescription find "[") != -1) then { //remove info about assigned color
 */
 
 //put your basic arsenal variable name here. It'll be the default arsenal for anyone that doesnt get a custom one.
-private _arsenalBox = exampleBoxName;
+private _arsenalBox = arsenal_4;
 
 //iterate through possible roles and open the corresponding arsenal for each
 switch (true) do
@@ -38,7 +38,7 @@ switch (true) do
 
 	//cmd
 	case ("Officer" in _roleDescriptionSimple): {
-		//private _arsenalBox = exampleBoxName;
+		private _arsenalBox = arsenal_5;
 	};
 	case ("JTAC" in _roleDescriptionSimple): {
 		//private _arsenalBox = exampleBoxName;
