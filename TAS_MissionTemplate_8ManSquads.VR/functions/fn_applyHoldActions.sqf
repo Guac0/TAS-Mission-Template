@@ -115,8 +115,10 @@ if (TAS_resupplyObjectEnabled) then { //check if the resupply object actually ex
 		] call BIS_fnc_holdActionAdd;
 		TAS_holdActionIDs pushBack [AceHealObject,_actionID];
 	} else { //if resupply object stuff is turned on but missing the objects needed for it to work, then display a warning that the resupply system will be disabled.
-		systemChat "WARNING: Resupply Creator enabled, but missing the relevant spawner object(s) in mission! Disabling resupply creator...";
-		diag_log text "TAS-Mission-Template WARNING: Resupply Creator enabled, but missing the relevant spawner object(s) in mission! Disabling resupply creator...";
+		if (isServer) then {
+			systemChat "WARNING: Resupply Creator enabled, but missing the relevant spawner object(s) in mission! Disabling resupply creator...";
+			diag_log text "TAS-Mission-Template WARNING: Resupply Creator enabled, but missing the relevant spawner object(s) in mission! Disabling resupply creator...";
+		};
 	};
 };
 

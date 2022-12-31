@@ -43,7 +43,9 @@ switch (count _matchingUnitArray) do {
 			_matchingUnitArray = ("(configname _x iskindOf 'CAManBase') && (getNumber (_x >> 'scope') >= 2) && (gettext (_x >> 'faction') == _faction)" configClasses (configfile >> "CfgVehicles")) apply {configName _x};
 		};
 		_unit = _matchingUnitArray select 0;
-		systemChat "fn_assignLoadoutFromConfig: Role description did not match a unit type in the given faction, fallback loadout assigned!";
+		if (isServer) then {
+			systemChat "fn_assignLoadoutFromConfig: Role description did not match a unit type in the given faction, fallback loadout assigned!";
+		};
 	};
 	case 1: { //only one result found, good
 		_unit = _matchingUnitArray select 0;
@@ -53,7 +55,9 @@ switch (count _matchingUnitArray) do {
 		//systemChat str count _matchingUnitArray;
 		//systemChat str _matchingUnitArray;
 		//systemChat "Warning: fn_assignLoadoutFromConfig has encountered unexpected state when attempting to match loadouts. It is possible that multiple matching loadouts were found; attempting to use the first loadout found.";
-		systemChat "fn_assignLoadoutFromConfig: Multiple compatible loadouts were found, attempting to use the best one available!";
+		if (isServer) then {
+			systemChat "fn_assignLoadoutFromConfig: Multiple compatible loadouts were found, attempting to use the best one available!";
+		};
 	};
 };
 
