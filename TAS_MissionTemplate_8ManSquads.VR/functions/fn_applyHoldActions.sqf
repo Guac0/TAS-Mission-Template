@@ -139,6 +139,6 @@ if (TAS_resupplyObjectEnabled) then { //check if the resupply object actually ex
 //////////////////////
 ////Debug (at end)////
 //////////////////////
-private _debugMessage = format ["%1 has applied their hold actions! Actions applied:", name player, TAS_holdActionIDs];
+private _debugMessage = format ["%1 has applied their hold actions! Actions applied: %2", name player, TAS_holdActionIDs];
 diag_log _debugMessage;
 _debugMessage remoteExec ["diag_log",2];
