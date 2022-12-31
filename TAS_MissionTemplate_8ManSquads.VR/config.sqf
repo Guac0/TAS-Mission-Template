@@ -196,29 +196,9 @@ Notes for options/configuration not present in this file:
 		After respawning, it forces the player to wait the specified duration (while either spectating/editing loadout/chilling in base) before being shown the reinsert menu
 			TAS_respawnSpectator is recommended to be enabled with this system, and TAS_respawnSpectatorTime is used for the duration of the wait.
 		There are 3 methods for adding a reinsert vehicle:
-			1. In eden, give a variable any variable name and place the below code in its init box. Change "Respawn Vehicle 1" (both occurances) to whatever you want the vehicle to be named.
+			1. In eden, give a vehicle any variable name and place the below code in its init box. Change "Respawn Vehicle 1" to whatever you want the vehicle to be named.
 					if (isServer) then {
-						this spawn {
-							waitUntil {!isNil "TAS_respawnInVehicle"};
-							if (TAS_respawnInVehicle) then {
-								waitUntil {!isNil "TAS_respawnLocations"};
-								TAS_respawnLocations pushBack [_this,"Respawn Vehicle 1"];
-								[_this,"hd_flag","ColorUNKNOWN","Respawn Vehicle 1",true,5] call TAS_fnc_markerFollow;
-								publicVariable "TAS_respawnLocations";
-								_this addMPEventHandler ["MPKilled", {
-									params ["_unit", "_killer", "_instigator", "_useEffects"];
-									private _path = [TAS_respawnLocations, _unit] call BIS_fnc_findNestedElement;
-									if (_path isNotEqualTo []) then {
-										diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic removing repsawn vic from list!";
-										private _indexOfOldVehiclePair = _path select 0;
-										TAS_respawnLocations deleteAt _indexOfOldVehiclePair;
-										publicVariable "TAS_respawnLocations";
-									} else {
-										diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic cannot find vehicle to remove!";
-									};
-								}];
-							};
-						};
+						[this,"Respawn Vehicle 1"] spawn TAS_fnc_assignRespawnVicInit;
 					};
 			2. Using the Zeus module called "Assign As Respawn Vehicle" under the "TAS Mission Template" category by placing it on a vehicle and changing the options shown on it as needed
 			3. If no vehicles are configured as being reinsert vehicles within 30 seconds of mission start, then the mission template will automatically add the vehicle with

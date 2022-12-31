@@ -49,28 +49,7 @@ private _onConfirm =
 	missionNamespace setVariable [_vehicleName, _unit];
 	publicVariable _vehicleName;
 
-	//systemChat format ["5: %1",_unit];
-	[_unit,"hd_flag","ColorUNKNOWN",_name,true,5] call TAS_fnc_markerFollow;
-	TAS_respawnLocations pushBack [_unit,_name]; //["TAS_zeusRespawnVehicle1","test1"]
-	publicVariable "TAS_respawnLocations";
-
-	//systemChat format ["assignRespawnVic a"];
-	_unit addMPEventHandler ["MPKilled", {	//removes respawn vehicle from list. global effect, but unknown effect on JIP.
-		params ["_unit", "_killer", "_instigator", "_useEffects"];
-		//systemChat format ["assignRespawnVic b %1",TAS_respawnLocations];
-		private _path = [TAS_respawnLocations, _unit] call BIS_fnc_findNestedElement;
-		if (_path isNotEqualTo []) then {	//only execute if it exists
-			diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic removing repsawn vic from list!";
-			private _indexOfOldVehiclePair = _path select 0;
-			TAS_respawnLocations deleteAt _indexOfOldVehiclePair;
-			publicVariable "TAS_respawnLocations";	// not needed due to global effect but better safe than sorry
-		} else {
-			diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic cannot find vehicle to remove!";
-		};
-		//systemChat format ["assignRespawnVic c %1 %2 %3 %4",_unit,_path,_indexOfOldRallyPair];
-		//systemChat format ["assignRespawnVic d %1",TAS_respawnLocations];
-	}];
-	//systemChat format ["assignRespawnVic e"];
+	[_unit,_name] remoteExec ["TAS_fnc_assignRespawnVicInit",2]; //exec on server
 };
 [
 	"Set Respawn Vehicle Name", 

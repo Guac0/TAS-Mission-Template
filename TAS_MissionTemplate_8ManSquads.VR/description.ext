@@ -101,6 +101,7 @@ class CfgFunctions
 			class automatedReviewer;
 			class roleBasedArsenal;
 			class trimGroupName;
+			class assignRespawnVicInit;
 		};
 		class buildFob
 		{
