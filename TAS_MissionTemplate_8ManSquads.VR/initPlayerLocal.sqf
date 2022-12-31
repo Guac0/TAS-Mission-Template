@@ -649,26 +649,34 @@ if (TAS_respawnInVehicle) then {
 [] call TAS_fnc_applyHoldActions;
 
 if (TAS_arsenalCurate) then {
+	private _debugCurate = false;
+	if (_debugCurate) then { systemChat "a"; };
 	{
+		if (_debugCurate) then { systemChat format ["b %1",_x]; };
 		//do some fancy stuff before removing items to account for arsenals that don't actually exist.
 		private _arsenal = _x;
 		_arsenal = missionNamespace getVariable [_arsenal, objNull]; //convert from string to object, otherwise we get errors
 		if (!isNull _arsenal) then {
+			//Remember that classnames must be case sensitive, and that ace arsenal (sometimes) lies and says that they're lowercase! Get the real name from the config files or elsewhere!
 			//RHS USAF Doomsday
 			if (isClass(configFile >> "CfgPatches" >> "rhsusf_weapons")) then { 
+				if (_debugCurate) then { systemChat "c"; };
 				[_arsenal, ["rhsusf_5Rnd_doomsday_Buck","rhsusf_8Rnd_doomsday_Buck"]] call ace_arsenal_fnc_removeVirtualItems;
 			};
 			//TAS Flashlights
 			if (isClass(configFile >> "CfgPatches" >> "TAS_BrightLite")) then { 
-				[_arsenal, ["tas_acc_brightlite_sniper","tas_acc_brightlite_high","tas_acc_brightlite_low","tas_acc_brightlite_static","tas_acc_nightlite_sniper","tas_acc_nightlite_high","tas_acc_nightlite_low","tas_acc_nightlite_static"]] call ace_arsenal_fnc_removeVirtualItems;
+				if (_debugCurate) then { systemChat "d"; };
+				[_arsenal, ["TAS_acc_brightlite_sniper","TAS_acc_brightlite_high","TAS_acc_brightlite_low","TAS_acc_brightlite_static","TAS_acc_nightlite_sniper","TAS_acc_nightlite_high","TAS_acc_nightlite_low","TAS_acc_nightlite_static"]] call ace_arsenal_fnc_removeVirtualItems;
 			};
 			//TAS Doomsday
 			if (isClass(configFile >> "CfgPatches" >> "TAS_Revolver")) then { 
-				[_arsenal, ["TAS_6Rnd_doomsday_Buck"]] call ace_arsenal_fnc_removeVirtualItems;
+				if (_debugCurate) then { systemChat "e"; };
+				[_arsenal, ["TAS_6Rnd_doomsday_Buck"]] call ace_arsenal_fnc_removeVirtualItems; //TAS_6Rnd_FRAG too?
 			};
 			//[_x, []] call ace_arsenal_fnc_removeVirtualItems;
 		};
 	} forEach ["arsenal_1","arsenal_2","arsenal_3","arsenal_4","arsenal_5","arsenal_6","arsenal_7","arsenal_8","arsenal_9","arsenal_10"]; //template only provides 3 arsenals, but more are provided in case mission maker copy pastes them (they'll automatically be named arsenal_X)
+	if (_debugCurate) then { systemChat "f"; };
 };
 
 if (TAS_doTemplateBriefing) then {
