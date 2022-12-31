@@ -86,31 +86,14 @@ if (TAS_waveRespawn) then {
 //at bottom because has sleep
 if (TAS_respawnInVehicle) then {
 	TAS_respawnLocations = [];
-	sleep 3; //should be enough time for waitUntil in object init fields to activate
+	sleep 30; //should be enough time for waitUntil in object init fields to activate, plus extra time for zeus to manually configure a vic (not really enough time but didnt want to do too long so that testing it doesnt take too long)
 	if (count TAS_respawnLocations == 0) then { //add fallback respawn vehicle if no other respawn vehicles are made
 		if (isNil "logistics_vehicle") then {
 			systemchat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
 			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
 		} else {
 			
-			[logistics_vehicle,"hd_flag","ColorUNKNOWN","Default Respawn Vehicle",true,60] call TAS_fnc_markerFollow;
-			TAS_respawnLocations pushBack [logistics_vehicle,"Default Respawn Vehicle"];
-			
-			logistics_vehicle addMPEventHandler ["MPKilled", {	//removes respawn vehicle from list. global effect, but unknown effect on JIP.
-				params ["_unit", "_killer", "_instigator", "_useEffects"];
-				//systemChat format ["assignRespawnVic b %1",TAS_respawnLocations];
-				private _path = [TAS_respawnLocations, _unit] call BIS_fnc_findNestedElement;
-				if (_path isNotEqualTo []) then {	//only execute if it exists
-					diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic removing repsawn vic from list!";
-					private _indexOfOldVehiclePair = _path select 0;
-					TAS_respawnLocations deleteAt _indexOfOldVehiclePair;
-					publicVariable "TAS_respawnLocations";	// not needed due to global effect but better safe than sorry
-				} else {
-					diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic cannot find vehicle to remove!";
-				};
-				//systemChat format ["assignRespawnVic c %1 %2 %3 %4",_unit,_path,_indexOfOldRallyPair];
-				//systemChat format ["assignRespawnVic d %1",TAS_respawnLocations];
-			}];
+			[logistics_vehicle,"Default Respawn Vehicle"] spawn TAS_fnc_assignRespawnVicInit;
 			
 			systemChat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
 			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
