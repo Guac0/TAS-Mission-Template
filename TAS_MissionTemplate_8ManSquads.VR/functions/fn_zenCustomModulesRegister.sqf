@@ -109,6 +109,14 @@ if (TAS_zeusFollowMarker) then {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Attach Marker to Object", "Disabled."]]; };
 };
 
+if (TAS_globalTfarEnabled) then {
+	_moduleList pushBack ["Configure Global TFAR", {_this call TAS_fnc_zeusGlobalTfar}];
+	player createDiaryRecord ["tasMissionTemplate", ["Zeus Global TFAR", "Enabled. Adds a module to Zeus to allow them to activate or disable the Global TFAR script."]];
+} else {
+	//systemChat "Custom Zeus resupply modules disabled.";
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Global TFAR", "Disabled."]]; };
+};
+
 
 
 //registering ZEN custom modules, code modified from Crow

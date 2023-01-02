@@ -104,6 +104,7 @@ class CfgFunctions
 			class assignRespawnVicInit;
 			class autoDisableGroupIcons;
 			class briefing;
+			class zeusGlobalTfar;
 		};
 		class buildFob
 		{
