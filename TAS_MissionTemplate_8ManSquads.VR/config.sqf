@@ -518,6 +518,10 @@ TAS_zeusFollowMarker 	= true; //default true
 //publicVariable "TAS_zeusFollowMarker";
 
 
+//add module to zeus to enable RRR zone script on placed unit
+TAS_zeusServiceVehicle 	= true; //default true
+
+
 
 
 

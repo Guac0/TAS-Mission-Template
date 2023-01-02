@@ -3,6 +3,7 @@ _veh = _this select 0;
 _vehType = getText(configFile>>"CfgVehicles">>typeOf _veh>>"DisplayName");
 
 //note that trigger already checks for driver, this is just a backup
+//TODO make chat appear for all players in vic for MP
 if (driver _veh == player) exitWith { 
 
 	_veh vehicleChat format ["Servicing %1.", _vehType];
