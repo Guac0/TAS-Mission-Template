@@ -54,6 +54,15 @@ Notes for options/configuration not present in this file:
 	TAS_resupplyObjectEnabled 		= true; //default true
 
 
+/*
+	Removes certain problematic items from arsenal boxes that are otherwise hidden and unremoveable
+		See initPlayer for full list, but this is things like doomsday, hidden brightlights, etc
+		arsenal boxes names must be arsenal_# from 1 to 10, template already gives you 1-3 premade and you can just copy paste those
+		Only turn this to "false" if its a meme op and thus players should have extreme yield lights and doomsday and etc
+	*/
+	TAS_arsenalCurate 		= true; //default true
+
+
 
 
 
@@ -345,13 +354,6 @@ TAS_recoilCoef 	  		= 0.75;		//default 0.75; no effect if TAS_doCoefChanges is F
 //Required Mods: CTAB
 TAS_ctabEnabled 		= false; //default false (since ctab isnt in scifi modpack)
 //publicVariable "TAS_ctabEnabled";
-
-
-//Removes certain problematic items from arsenal boxes that are otherwise hidden and unremoveable (boxes names must be arsenal_# from 1 to 10, template already gives you 1-3 premade and you can just copy paste those)
-//See initPlayer for full list, but this is things like doomsday, hidden brightlights, etc
-//possibly broken
-TAS_arsenalCurate 		= true; //defaults to true
-//publicVariable "TAS_arsenalCurate";
 
 
 
