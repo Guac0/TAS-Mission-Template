@@ -18,7 +18,7 @@ if (TAS_3dGroupIconsRange != 0) then {
 
 
 switch (true) do {
-	case ( _isTimeBased && _isRangeBased) then {
+	case ( _isTimeBased && _isRangeBased): {
 		systemChat "TAS_fnc_autoDisableGroupIcons called but both time and range based endings are enabled!";
 		diag_log text "TAS-MISSION-TEMPLATE WARNING: TAS_fnc_autoDisableGroupIcons called but both time and range based endings are enabled!";
 	};
@@ -42,7 +42,8 @@ switch (true) do {
 			//private _numberOfAllPlayers = count (allPlayers - _headlessClients);
 			private _numberPlayersFarAway = count (allPlayers select { _x distance2D AceHealObject > TAS_3dGroupIconsRange });
 			private _numberPlayersClose = count (allPlayers select { _x distance2D AceHealObject < TAS_3dGroupIconsRange });
-			if (_playersFarAway > _numberPlayersClose) then {true};
+			if (_numberPlayersFarAway > _numberPlayersClose) exitWith { true };
+			false
 		};
 		TAS_3dGroupIcons = false;
 		publicVariable "TAS_3dGroupIcons";
