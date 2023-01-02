@@ -145,9 +145,41 @@ if (TAS_useConfigLoadout) then {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Loadout Assignment From Config", "Disabled."]]; };
 };
 
+//radio setup, needs to be before custom equipment due to backpack replacement
+if (TAS_radiosEnabled) then {
+	player linkItem TAS_radioPersonal;
+	//LR radio possession marking
+	if (TAS_NoSquadleadLr) then {
+		//give radio if player is RTO
+		if (("Radioman" in _roleDescription) || ("RTO" in _roleDescription)) then {
+			player setVariable ["TAS_PlayerHasLr",true];
+		};
+		//give radio if player is a normal leadership guy (if they aren't an SL)
+		if ((player getVariable ["TAS_PlayerisLeadership",false]) && !("Squad Leader" in _roleDescription)) then {
+			player setVariable ["TAS_PlayerHasLr",true];
+		};
+	} else {
+		//if player is leadership, then give radio
+		if (player getVariable ["TAS_PlayerIsLeadership",false]) then {
+			player setVariable ["TAS_PlayerHasLr",true];
+		};
+	};
+	//give player LR radio if approved to do so
+	if (player getVariable ["TAS_PlayerHasLr",false]) then {
+		player addBackpack TAS_radioBackpack;
+		[(call TFAR_fnc_activeLrRadio), 1, "50"] call TFAR_fnc_SetChannelFrequency; //set 50 as active radio channel on channel 1
+		[(call TFAR_fnc_activeLrRadio), 2, "55"] call TFAR_fnc_SetChannelFrequency; //set 55 (fire support) as radio channel two (not active and not additional)
+	};
+	player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Enabled.<br/><br/>It may take a second for Teamspeak to initialize your radios. If your radio freq shows up as blank, do not panic as this happens when it is set via script. All SRs are set on squad freq and LRs on 50 (channel 1) and 55 (channel 2)."]];
+	//systemChat "Radio loadout init finished. It may take a second for Teamspeak to initialize your radio fully.";
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Disabled."]]; };
+	//systemChat "TFAR automatic radio assignment disabled."
+};
+
 if (TAS_populateInventory) then {
 	//clear items (should remove everything in cargo of uniform/vest/backpack, wont remove radios and gps and etc)
-	removeAllItems player;
+	removeAllItems player; //does not remove radio and gps items
 	{player removeMagazine _x} forEach magazines player;
 	//for "_i" from 1 to 10 do { player addItem " " };
 
@@ -175,60 +207,6 @@ if (TAS_populateInventory) then {
 	for "_i" from 1 to 2 do { player addItem "HandGrenade" }; //vanilla m67, v40 is MiniGrenade
 	for "_i" from 1 to 2 do { player addItem "SmokeShell" }; //white smoke
 	for "_i" from 1 to 1 do { player addItem "SmokeShellPurple" }; //purple smoke
-
-	//ammo
-	if (primaryWeapon player != "") then {
-		//for "_i" from 1 to 8 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
-		if (count ([primaryWeapon player] call CBA_fnc_compatibleMagazines) > 0) then {									
-			for "_i" from 1 to 5 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 0) };
-			if (count ([primaryWeapon player] call CBA_fnc_compatibleMagazines) > 1) then {  								
-				for "_i" from 1 to 3 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 1) }; 
-			};
-		};
-		{
-			if (_x != "this") then {
-				if (count ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
-					for "_i" from 1 to 5 do { player addItem ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
-					if (count ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 1) then {  								//adds CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
-						for "_i" from 1 to 3 do { player addItem ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines select 1) }; //standard ammo
-					};
-				};
-			};
-		} forEach (getArray (configFile >> "CfgWeapons" >> (primaryWeapon player) >> "muzzles"));				//check for each muzzle so that UGL has ammo
-	};
-	//for "_i" from 1 to 4 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 1) }; //special ammo, usually but not always tracers. Buggy so just double the amount of standard mags
-	if (handgunWeapon player != "") then {
-		//for "_i" from 1 to 1 do { player addItem ([handgunWeapon player] call CBA_fnc_compatibleMagazines select 0) };
-		if (count ([handgunWeapon player] call CBA_fnc_compatibleMagazines) > 0) then {									
-			for "_i" from 1 to 1 do { player addItem ([handgunWeapon player] call CBA_fnc_compatibleMagazines select 0) };
-		};
-		{
-			if (_x != "this") then {
-				if (count ([configFile >> "CfgWeapons" >> handgunWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
-					for "_i" from 1 to 1 do { player addItem ([configFile >> "CfgWeapons" >> handgunWeapon player >> _x] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
-				};
-			};
-		} forEach (getArray (configFile >> "CfgWeapons" >> (handgunWeapon player) >> "muzzles"));
-	};
-	if (secondaryWeapon player != "") then {
-		//for "_i" from 1 to 2 do { player addItem ([secondaryWeapon player] call CBA_fnc_compatibleMagazines select 0) }; //add launcher ammo if player has launcher
-		if (count ([secondaryWeapon player] call CBA_fnc_compatibleMagazines) > 0) then {									
-			for "_i" from 1 to 2 do { player addItem ([secondaryWeapon player] call CBA_fnc_compatibleMagazines select 0) };
-			if (count ([secondaryWeapon player] call CBA_fnc_compatibleMagazines) > 1) then {  								
-				for "_i" from 1 to 1 do { player addItem ([secondaryWeapon player] call CBA_fnc_compatibleMagazines select 1) }; 
-			};
-		};
-		{
-			if (_x != "this") then {
-				if (count ([configFile >> "CfgWeapons" >> secondaryWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
-					for "_i" from 1 to 2 do { player addItem ([configFile >> "CfgWeapons" >> secondaryWeapon player >> _x] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
-					if (count ([configFile >> "CfgWeapons" >> secondaryWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 1) then {  								//adds CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
-						for "_i" from 1 to 1 do { player addItem ([configFile >> "CfgWeapons" >> secondaryWeapon player >> _x] call CBA_fnc_compatibleMagazines select 1) }; //standard ammo
-					};
-				};
-			};
-		} forEach (getArray (configFile >> "CfgWeapons" >> (secondaryWeapon player) >> "muzzles"));
-	};
 
 	//medic special stuff
 	//https://github.com/acemod/ACE3/blob/master/addons/medical_treatment/functions/fnc_isMedic.sqf
@@ -354,6 +332,60 @@ if (TAS_populateInventory) then {
 	/////////End Custom Equipment///////////
 	////////////////////////////////////////
 
+	//ammo
+	if (primaryWeapon player != "") then {
+		//for "_i" from 1 to 8 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
+		if (count ([primaryWeapon player] call CBA_fnc_compatibleMagazines) > 0) then {									
+			for "_i" from 1 to 6 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 0) };
+			if (count ([primaryWeapon player] call CBA_fnc_compatibleMagazines) > 1) then {  								
+				for "_i" from 1 to 4 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 1) }; 
+			};
+		};
+		{
+			if (_x != "this") then {
+				if (count ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+					for "_i" from 1 to 6 do { player addItem ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
+					if (count ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 1) then {  								//adds CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
+						for "_i" from 1 to 4 do { player addItem ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines select 1) }; //standard ammo
+					};
+				};
+			};
+		} forEach (getArray (configFile >> "CfgWeapons" >> (primaryWeapon player) >> "muzzles"));				//check for each muzzle so that UGL has ammo
+	};
+	//for "_i" from 1 to 4 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 1) }; //special ammo, usually but not always tracers. Buggy so just double the amount of standard mags
+	if (handgunWeapon player != "") then {
+		//for "_i" from 1 to 1 do { player addItem ([handgunWeapon player] call CBA_fnc_compatibleMagazines select 0) };
+		if (count ([handgunWeapon player] call CBA_fnc_compatibleMagazines) > 0) then {									
+			for "_i" from 1 to 1 do { player addItem ([handgunWeapon player] call CBA_fnc_compatibleMagazines select 0) };
+		};
+		{
+			if (_x != "this") then {
+				if (count ([configFile >> "CfgWeapons" >> handgunWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+					for "_i" from 1 to 1 do { player addItem ([configFile >> "CfgWeapons" >> handgunWeapon player >> _x] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
+				};
+			};
+		} forEach (getArray (configFile >> "CfgWeapons" >> (handgunWeapon player) >> "muzzles"));
+	};
+	if (secondaryWeapon player != "") then {
+		//for "_i" from 1 to 2 do { player addItem ([secondaryWeapon player] call CBA_fnc_compatibleMagazines select 0) }; //add launcher ammo if player has launcher
+		if (count ([secondaryWeapon player] call CBA_fnc_compatibleMagazines) > 0) then {									
+			for "_i" from 1 to 2 do { player addItem ([secondaryWeapon player] call CBA_fnc_compatibleMagazines select 0) };
+			if (count ([secondaryWeapon player] call CBA_fnc_compatibleMagazines) > 1) then {  								
+				for "_i" from 1 to 2 do { player addItem ([secondaryWeapon player] call CBA_fnc_compatibleMagazines select 1) }; 
+			};
+		};
+		{
+			if (_x != "this") then {
+				if (count ([configFile >> "CfgWeapons" >> secondaryWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+					for "_i" from 1 to 2 do { player addItem ([configFile >> "CfgWeapons" >> secondaryWeapon player >> _x] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
+					if (count ([configFile >> "CfgWeapons" >> secondaryWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 1) then {  								//adds CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
+						for "_i" from 1 to 2 do { player addItem ([configFile >> "CfgWeapons" >> secondaryWeapon player >> _x] call CBA_fnc_compatibleMagazines select 1) }; //standard ammo
+					};
+				};
+			};
+		} forEach (getArray (configFile >> "CfgWeapons" >> (secondaryWeapon player) >> "muzzles"));
+	};
+
 	player createDiaryRecord ["tasMissionTemplate", ["Inventory Population", "Enabled.<br/><br/>You have been given basic medical, grenade, ammo, and loadout-specific supplies."]];
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Inventory Population", "Disabled"]]; };
@@ -433,50 +465,6 @@ if (TAS_roleBasedArsenals) then {
 
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Role-Based Arsenals", "Disabled."]]; };
-};
-
-
-//radio setup
-if (TAS_radiosEnabled) then {
-	
-	player linkItem TAS_radioPersonal;
-	
-	//LR radio possession marking
-	if (TAS_NoSquadleadLr) then {
-
-		//give radio if player is RTO
-		if (("Radioman" in _roleDescription) || ("RTO" in _roleDescription)) then {
-			player setVariable ["TAS_PlayerHasLr",true];
-		};
-		//give radio if player is a normal leadership guy (if they aren't an SL)
-		if ((player getVariable ["TAS_PlayerisLeadership",false]) && !("Squad Leader" in _roleDescription)) then {
-			player setVariable ["TAS_PlayerHasLr",true];
-		};
-
-	} else {
-
-		//if player is leadership, then give radio
-		if (player getVariable ["TAS_PlayerIsLeadership",false]) then {
-			player setVariable ["TAS_PlayerHasLr",true];
-		};
-
-	};
-
-	//give player LR radio if approved to do so
-	if (player getVariable ["TAS_PlayerHasLr",false]) then {
-		player addBackpack TAS_radioBackpack;
-		[(call TFAR_fnc_activeLrRadio), 1, "50"] call TFAR_fnc_SetChannelFrequency; //set 50 as active radio channel on channel 1
-		[(call TFAR_fnc_activeLrRadio), 2, "55"] call TFAR_fnc_SetChannelFrequency; //set 55 (fire support) as radio channel two (not active and not additional)
-	};
-
-	player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Enabled.<br/><br/>It may take a second for Teamspeak to initialize your radios. If your radio freq shows up as blank, do not panic as this happens when it is set via script. All SRs are set on squad freq and LRs on 50 (channel 1) and 55 (channel 2)."]];
-	//systemChat "Radio loadout init finished. It may take a second for Teamspeak to initialize your radio fully.";
-
-} else {
-	
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Disabled."]]; };
-	//systemChat "TFAR automatic radio assignment disabled."
-
 };
 
 if (TAS_radioAdditionals) then {

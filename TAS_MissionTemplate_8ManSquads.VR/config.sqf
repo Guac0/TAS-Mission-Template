@@ -149,7 +149,8 @@ Notes for options/configuration not present in this file:
 		Grenades: 2x M67s, 2x white smoke, 1x purple smoke
 		If engineer, gives 1x toolkit, 1x mine detector
 		TAS_populateInventory enables/disables the whole system
-		TAS_inventoryAddGps enables automatically putting a vanilla GPS item into each player's terminal slot (requires TAS_populateInventory to be set to true)
+		TAS_inventoryAddGps enables automatically putting a vanilla GPS item into each player's terminal slot (requires TAS_populateInventory to be set to true).
+			Note that even if set to false players might have a GPS if it was a part of their EDEN inventories.
 	Note: see initPlayerLocal.sqf in the custom equipment section if you want to add items for everyone or for only certain roles in addition to the items stated above
 	*/
 	TAS_populateInventory 	= true; //default true
