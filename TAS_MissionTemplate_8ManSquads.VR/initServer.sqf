@@ -83,6 +83,10 @@ if (TAS_waveRespawn) then {
 	[] spawn TAS_fnc_waveRespawn;
 };
 
+if (TAS_3dGroupIcons) then {
+	[] spawn TAS_fnc_autoDisableGroupIcons;
+};
+
 //at bottom because has sleep
 if (TAS_respawnInVehicle) then {
 	TAS_respawnLocations = [];

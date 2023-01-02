@@ -37,6 +37,23 @@ Notes for options/configuration not present in this file:
 
 
 /*
+	Adds 3d icons over group leaders' heads for identification purposes, intended to be used during prep time.
+		Automatically activates on mission start, zeus can enable/disable it with a zeus module
+		It can also automatically disable after a certain time has passed or after players move away from the start zone
+		TAS_3dGroupIcons enables/disables the whole system
+		TAS_3dGroupIconsTime sets the time to wait from mission start to automatically disable the group icons.
+			Set to 0 to disable.
+			Do not enable both TAS_3dGroupIconsTime and TAS_3dGroupIconsRange! (enable = both are non-zero numbers)
+		TAS_3dGroupIconsRange sets the range from AceHealObject to check for nearby players. If more players are beyond this range than players who are within this range, then the group icons are disabled.
+			Set to 0 to disable.
+			If enabled, requires AceHealObject to be present!
+	*/
+	TAS_3dGroupIcons 		= true; //default true
+	TAS_3dGroupIconsTime	= 0;	//default 0
+	TAS_3dGroupIconsRange	= 150;	//default 150
+
+
+/*
 	Manages actions tied to the 'AceHealObject' in the mission
 		TAS_aceHealObjectEnabled adds a hold action to it that gives an Ace Heal to all players within a certain radius when activated
 		TAS_aceSpectateObjectEnabled adds a hold action to it that puts the player into acespectator mode
@@ -469,12 +486,6 @@ TAS_zeusInfoText 		= true; //default true
 //Adds zeus modules for manually managing group ownership
 TAS_zeusHcTransfer 		= true; //default true
 //publicVariable "TAS_zeusHcTransfer";
-
-
-//Adds 3d icons over group leaders' heads for identification purposes, intended to be used during prep time.
-	//Automatically activates on mission start, zeus can enable/disable it with a zeus module
-TAS_3dGroupIcons 		= true; //default true
-//publicVariable "TAS_3dGroupIcons";
 
 
 //allows zeus to trigger an automatic debug and cleanup of hold actions available in the mission
