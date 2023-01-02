@@ -49,8 +49,13 @@ if (TAS_useConfigLoadout) then {
 
 	if (TAS_configLoadoutCustom) then {
 
-		//Change 'Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player' to the role name that you want players named accordingly to have that unit's gear
-			//note that TAS_configUnitPrefix is still applied to these units
+		/*Change 'Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player' to the role name that you want players named accordingly to have that unit's gear
+			note that TAS_configUnitPrefix is still applied to these units
+			Also, very rarely, a mod might decide to use invisible characters instead of spaces between words in a unit's display name
+				For example, CUP's ION has names like "FieldÂ Medic" (the whitespace is unicode U+00a0)
+				If you have issues with normal names not working, spawn the unit in zeus and execute this code in its ZEN code box to get its real display name:
+					private _name = getText (configFile >> "cfgVehicles" >> typeOf _this >> "displayName"); copyToClipboard _name; systemChat _name;
+			*/
 
 		switch (true) do
 		{
@@ -173,14 +178,35 @@ if (TAS_populateInventory) then {
 
 	//ammo
 	if (primaryWeapon player != "") then {
-		for "_i" from 1 to 8 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
+		//for "_i" from 1 to 8 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
+		{
+			if (count ([_x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+				for "_i" from 1 to 6 do { player addItem ([_x] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
+				if (count ([_x] call CBA_fnc_compatibleMagazines) > 1) then {  								//adds CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
+					for "_i" from 1 to 4 do { player addItem ([_x] call CBA_fnc_compatibleMagazines select 1) }; //standard ammo
+				};
+			};
+		} forEach (getArray (configFile >> "CfgWeapons" >> (primaryWeapon _x) >> "muzzles"));				//check for each muzzle so that UGL has ammo
 	};
 	//for "_i" from 1 to 4 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 1) }; //special ammo, usually but not always tracers. Buggy so just double the amount of standard mags
 	if (handgunWeapon player != "") then {
-		for "_i" from 1 to 1 do { player addItem ([handgunWeapon player] call CBA_fnc_compatibleMagazines select 0) };
+		//for "_i" from 1 to 1 do { player addItem ([handgunWeapon player] call CBA_fnc_compatibleMagazines select 0) };
+		{
+			if (count ([_x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+				for "_i" from 1 to 2 do { player addItem ([_x] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
+			};
+		} forEach (getArray (configFile >> "CfgWeapons" >> (handgunWeapon _x) >> "muzzles"));				//check for each muzzle so that UGL has ammo
 	};
 	if (secondaryWeapon player != "") then {
-		for "_i" from 1 to 2 do { player addItem ([secondaryWeapon player] call CBA_fnc_compatibleMagazines select 0) }; //add launcher ammo if player has launcher
+		//for "_i" from 1 to 2 do { player addItem ([secondaryWeapon player] call CBA_fnc_compatibleMagazines select 0) }; //add launcher ammo if player has launcher
+		{
+			if (count ([_x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+				for "_i" from 1 to 1 do { player addItem ([_x] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
+				if (count ([_x] call CBA_fnc_compatibleMagazines) > 1) then {  								//adds CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
+					for "_i" from 1 to 1 do { player addItem ([_x] call CBA_fnc_compatibleMagazines select 1) }; //standard ammo
+				};
+			};
+		} forEach (getArray (configFile >> "CfgWeapons" >> (secondaryWeapon _x) >> "muzzles"));				//check for each muzzle so that UGL has ammo
 	};
 
 	//medic special stuff

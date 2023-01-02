@@ -3,12 +3,19 @@
 	
 	Sets given unit's loadout by comparing its roleDescription to unit names in the given faction to search, with fallbacks if no matches are found.
 	Do not use in cases where roleDescription does not exist, such as in singleplayer or on units without a set roleDescription.
+	Note that some mods are cursed and use invisible characters instead of spaces and thus will fail ordinary name checks
+		For example, CUP ION has it like this: "FieldÂ Medic"
+		If you experience errors, then spawn a unit in zeus and execute this code in its ZEN code box to get its REAL name: 
+			private _name = getText (configFile >> "cfgVehicles" >> typeOf _this >> "displayName"); copyToClipboard _name; systemChat _name;
 
 	[player,TAS_configFaction,"Rifleman",""] call TAS_fnc_assignLoadoutFromConfig;
 */
 params ["_givenUnit","_faction","_defaultUnitName","_prefix"];
 private ["_unit"]; //do it here to avoid reptition in the switch
 private _roleDescription = roleDescription _givenUnit;
+private _debug = false;
+
+if (_debug) then { systemChat "a"; };
 
 if (_givenUnit getVariable ["TAS_disableConfigLoadoutAssignment",false]) exitWith { systemChat "Your loadout has not been assigned from config due to the Mission Maker disabling it for you in particular." }; //exit script if unit has been flagged to not have a changed loadout.
 
@@ -35,7 +42,10 @@ if ((_givenUnit getVariable ["TAS_overrideConfigLoadoutName","Display_name_of_un
 	_roleDescription = format ["%1%2",_prefix,_roleDescription];	//account for prefix
 };
 
+if (_debug) then { systemChat format ["b %1",_roleDescription]; };
+
 private _matchingUnitArray = ("(configname _x iskindOf 'CAManBase') && (getNumber (_x >> 'scope') >= 2) && (gettext (_x >> 'faction') == _faction) && (gettext (_x >> 'displayName') == _roleDescription)" configClasses (configfile >> "CfgVehicles")) apply {configName _x};
+if (_debug) then { systemChat format ["c %1",_matchingUnitArray]; };
 switch (count _matchingUnitArray) do {
 	case 0: { //no results, so first try to basic rifleman, then take any unit
 		_matchingUnitArray = ("(configname _x iskindOf 'CAManBase') && (getNumber (_x >> 'scope') >= 2) && (gettext (_x >> 'faction') == _faction) && (gettext (_x >> 'displayName') == _defaultUnitName)" configClasses (configfile >> "CfgVehicles")) apply {configName _x};
@@ -63,3 +73,5 @@ switch (count _matchingUnitArray) do {
 
 private _loadout = getUnitLoadout _unit;
 _givenUnit setUnitLoadout _loadout;
+
+if (_debug) then { systemChat format ["d"]; };
