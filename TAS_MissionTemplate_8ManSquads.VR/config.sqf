@@ -80,6 +80,15 @@ Notes for options/configuration not present in this file:
 	TAS_arsenalCurate 		= true; //default true
 
 
+/*
+	Creates the standard 4 part briefing in the briefing section of the diary records.
+		Functionally identical to creating a text briefing using the Eden modules or toolbars, just via an SQF file if you prefer to write it that way.
+		By default creates adds it for every player.
+		See functions/fn_briefing.sqf to customize
+		*/
+	TAS_textBriefing 		= false; //default false
+
+
 
 
 

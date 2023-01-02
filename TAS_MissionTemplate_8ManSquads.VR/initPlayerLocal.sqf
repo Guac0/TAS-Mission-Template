@@ -733,6 +733,19 @@ if (TAS_trimGroupNames) then {
 	[group player,false] spawn TAS_fnc_trimGroupName;
 };
 
+if (TAS_textBriefing) then {
+	[] spawn TAS_fnc_briefing;
+	/*
+	switch (side player) do {
+		case west: {};
+		case east: {};
+		case independent: {};
+		case civilian: {};
+		default {};
+	};
+	*/
+};
+
 if (TAS_ModLog) then {
 	private _logMessage = "";
 

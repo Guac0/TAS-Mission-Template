@@ -103,6 +103,7 @@ class CfgFunctions
 			class trimGroupName;
 			class assignRespawnVicInit;
 			class autoDisableGroupIcons;
+			class briefing;
 		};
 		class buildFob
 		{
