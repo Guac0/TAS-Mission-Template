@@ -709,9 +709,14 @@ if (TAS_arsenalCurate) then {
 				[_arsenal, ["TAS_6Rnd_doomsday_Buck"]] call ace_arsenal_fnc_removeVirtualItems; //TAS_6Rnd_FRAG too?
 			};
 			//[_x, []] call ace_arsenal_fnc_removeVirtualItems;
+			//LAGO stuff
+			if (isClass(configFile >> "CfgPatches" >> "LAGO_Biken")) then { //just check for biken b/c lazy
+				if (_debugCurate) then { systemChat "f"; };
+				[_arsenal, ["LAGO_Biken","LAGO_KU3K","LAGO_KU5K","LAGO_KU98K_NSK","LAGO_KUoooK","LAGO_SCannon","LAGO_CP"]] call ace_arsenal_fnc_removeVirtualItems; //TAS_6Rnd_FRAG too?
+			};
 		};
 	} forEach ["arsenal_1","arsenal_2","arsenal_3","arsenal_4","arsenal_5","arsenal_6","arsenal_7","arsenal_8","arsenal_9","arsenal_10"]; //template only provides 3 arsenals, but more are provided in case mission maker copy pastes them (they'll automatically be named arsenal_X)
-	if (_debugCurate) then { systemChat "f"; };
+	if (_debugCurate) then { systemChat "g"; };
 };
 
 if (TAS_doTemplateBriefing) then {

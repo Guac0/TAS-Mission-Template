@@ -71,6 +71,16 @@
 			*/
 		TAS_textBriefing 			= false; //default false
 
+	
+	/* Arsenal Curate
+		Removes certain problematic items from arsenal boxes that are otherwise hidden and unremoveable
+			See initPlayer for full list, but this is things like doomsday, hidden brightlights, LAGO superweapons, etc
+				They usually get accidentally added by zeus hitting "add all compatible" to a custom arsenal, which adds invisible things too
+			Arsenal boxes names must be arsenal_# from 1 to 10, template already gives you 1-3 premade and you can just copy paste those
+			Only turn this to "false" if its a meme op and thus players should have extreme yield lights and doomsday and etc
+		*/
+		TAS_arsenalCurate 		= true; //default true
+
 
 
 
@@ -338,7 +348,6 @@
 	/* Shortlist of options below that are enabled by default, in (roughly) the order that they appear:
 			ace heal object
 			ace spectate object
-			arsenal curate
 			disabling vanilla stamina
 			clean briefing of disabled template systems
 			dynamic groups
@@ -369,15 +378,6 @@
 			TAS_aceHealObjectEnabled 		= true; //default true
 			TAS_aceSpectateObjectEnabled 	= true; //default true
 
-
-		/* Arsenal Curate
-			Removes certain problematic items from arsenal boxes that are otherwise hidden and unremoveable
-				See initPlayer for full list, but this is things like doomsday, hidden brightlights, etc
-					They usually get accidentally added by zeus hitting "add all compatible" to a custom arsenal, which adds invisible things too
-				Arsenal boxes names must be arsenal_# from 1 to 10, template already gives you 1-3 premade and you can just copy paste those
-				Only turn this to "false" if its a meme op and thus players should have extreme yield lights and doomsday and etc
-			*/
-			TAS_arsenalCurate 		= true; //default true
 
 
 
