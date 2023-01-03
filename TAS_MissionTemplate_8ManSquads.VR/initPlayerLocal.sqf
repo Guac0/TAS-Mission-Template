@@ -786,6 +786,13 @@ if (TAS_ModLog) then {
 			"I am running Knock People Unconscious!" remoteExec ["globalChat"];
 		};
 	};
+	if (isClass(configFile >> "CfgPatches" >> "L_Suppress_Suppress_main")) then { 
+		_shameMessage = format ["%1 is not running Suppress",player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			"I am not running Suppress!" remoteExec ["globalChat"];
+		};
+	};
 
 	/*if (isClass(configFile >> "CfgPatches" >> "rhsusf_weapons")) then { 
 		//"I am running AAA! Shame on me!" remoteExec ["globalChat"];
