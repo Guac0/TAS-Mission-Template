@@ -799,6 +799,13 @@ if (TAS_ModLog) then {
 			[player,"I am not running Suppress!"] remoteExec ["globalChat"];
 		};
 	};
+	if (isClass(configFile >> "CfgPatches" >> "Alternative_Running")) then { 
+		_shameMessage = format ["%1 is running Alternative Running",name player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			[player,"I am running Alternative Running!"] remoteExec ["globalChat"];
+		};
+	};
 
 	/*if (isClass(configFile >> "CfgPatches" >> "rhsusf_weapons")) then { 
 		//[player,"I am running AAA! Shame on me!"] remoteExec ["globalChat"];
