@@ -28,7 +28,7 @@ Notes for options/configuration not present in this file:
 
 
 
-/*
+/* Blue Force Tracker
 	Initiates Quicksilver's Blue Force Tracking on map/gps
 		By default, marks all groups and players (not AI) on side, and colors people in your squad according to their team color
 		Customize its settings in scripts/QS_icons if you want to
@@ -36,7 +36,7 @@ Notes for options/configuration not present in this file:
 	TAS_bftEnabled 					= true; //default true
 
 
-/*
+/* 3d Group Icons
 	Adds 3d icons over group leaders' heads for identification purposes, intended to be used during prep time.
 		Automatically activates on mission start, zeus can enable/disable it with a zeus module
 		It can also automatically disable after a certain time has passed or after players move away from the start zone
@@ -53,7 +53,7 @@ Notes for options/configuration not present in this file:
 	TAS_3dGroupIconsRange	= 150;	//default 150
 
 
-/*
+/* AceHealObject
 	Manages actions tied to the 'AceHealObject' in the mission
 		TAS_aceHealObjectEnabled adds a hold action to it that gives an Ace Heal to all players within a certain radius when activated
 		TAS_aceSpectateObjectEnabled adds a hold action to it that puts the player into acespectator mode
@@ -62,7 +62,7 @@ Notes for options/configuration not present in this file:
 	TAS_aceSpectateObjectEnabled 	= true; //default true
 
 
-/*
+/* Resupply Object
 	Adds an "Create Resupply Box" action to a whiteboard that spawns the zeus resupply box on the parachute target object.
 		Useful for allowing players to run logi without zeus intervention to create resupply box.
 		Needs the "Create Resupply Box" whiteboard and "Resupply Spawn Helper" parachute jump target from mission.sqm to work
@@ -71,7 +71,7 @@ Notes for options/configuration not present in this file:
 	TAS_resupplyObjectEnabled 		= true; //default true
 
 
-/*
+/* Arsenal Curate
 	Removes certain problematic items from arsenal boxes that are otherwise hidden and unremoveable
 		See initPlayer for full list, but this is things like doomsday, hidden brightlights, etc
 		arsenal boxes names must be arsenal_# from 1 to 10, template already gives you 1-3 premade and you can just copy paste those
@@ -80,11 +80,11 @@ Notes for options/configuration not present in this file:
 	TAS_arsenalCurate 		= true; //default true
 
 
-/*
+/* Text Briefing
 	Creates the standard 4 part briefing in the briefing section of the diary records.
 		Functionally identical to creating a text briefing using the Eden modules or toolbars, just via an SQF file if you prefer to write it that way.
 		By default creates adds it for every player.
-		See functions/fn_briefing.sqf to customize
+		See functions/fn_briefing.sqf to customize.
 		*/
 	TAS_textBriefing 		= false; //default false
 
@@ -99,7 +99,7 @@ Notes for options/configuration not present in this file:
 
 
 
-/*
+/* TFAR Gear Assignment
 	Manages TFAR radio assignment. (note: does not assign frequencies, that's handled by the tfar attributes on units in eden)
 		TAS_radiosEnabled enables the whole radio giving system and will give all players the TAS_radioPersonal and all leadership players the TAS_radioBackpack in additional to the TAS_radioPersonal
 		TAS_NoSquadleadLr enables giving backpack radios to RTOs (role description containing "Radioman" or "RTO") instead of Squad Leads (while still giving backpack radios to GC, vehicle crew, etc)
@@ -114,7 +114,7 @@ Notes for options/configuration not present in this file:
 	TAS_radioBackpack 		= "TFAR_anprc155_coyote"; //default "TFAR_anprc155_coyote"
 
 
-/*
+/* Loadout from Config
 	Assigns player loadouts via config
 		It looks at the config files for the given faction and tries to match each player's Role Description with the name of a unit from that faction. If found, it gives them that unit's loadout, if not found, it gives them a Rifleman loadout from that faction
 		Note that the actualy inventory items (stuff in uniform and vest and etc) of the player will be overwritten by TAS_populateInventory if that is enabled, but this will still set the clothing, weapons, etc
@@ -140,7 +140,7 @@ Notes for options/configuration not present in this file:
 	TAS_configLoadoutNumber = 0; 			//default 0
 
 
-/*
+/* Populate Inventory
 	Automatically gives appropriate inventory items to players, loosely based on their role. Note: clears eden inventory before assigning the items (but doesn't change clothing or weapons)
 		Medical: 16x basic bandages, 8x morphine, 3x TQs, 2x epi, 2x 500ml blood
 			If medic, extra 40 basic bandages, 20 morphine, 15 epi, 6 TQs, 10x 500 ml blood, 6x 1000ml blood, 1x PAK
@@ -157,7 +157,7 @@ Notes for options/configuration not present in this file:
 	TAS_inventoryAddGps		= true;	//default true
 
 
-/*
+/* Role Based Arsenals
 	Adds role-based ace arsenals. See the steps below for configuring.
 		1. Make arsenal boxes in your mission for the various roles you want to have a special arsenal
 		2. Give the arsenal boxes a variable name (like "arsenalMedic" for example)
@@ -182,7 +182,7 @@ Notes for options/configuration not present in this file:
 
 
 
-/*
+/* Respawn Gear
 	Determines the gear that players get upon respawning.
 		Three choices:
 			1. Respawning with vanilla config loadout (default in vanilla, not recommended. set both options to false to pick this option)
@@ -194,7 +194,7 @@ Notes for options/configuration not present in this file:
 	TAS_respawnArsenalGear 	= true; 	//default true
 
 
-/*
+/* Spectator Options
 	Makes players respawn in ACE spectator.
 		Recommended to be enabled whenever you're using anything with a timer for reinserts (respawn vehicle, wave respawns, FOB system).
 			To clarify, "anything with a timer" does not include the vanilla respawn timer.
@@ -215,7 +215,7 @@ Notes for options/configuration not present in this file:
 	TAS_respawnSpectatorTime 			= 0; 		//default 0
 
 
-/*
+/* Wave Respawns
 	Does wave respawns, aka reinserts all dead players at once every set interval of time instead of them individually reinserting
 		TAS_waveRespawn enables/disables the whole system.
 		TAS_waveTime sets the time between each respawn wave.
@@ -226,7 +226,7 @@ Notes for options/configuration not present in this file:
 	TAS_waveTime		= 300;		//default 300 (5 minutes)
 
 
-/*
+/* Respawn in Vehicle
 	Adds the ability to reinsert through being teleported into the reinsert vehicle.
 		Uses a GUI to allow the player which vehicle to reinsert in if multiple are available.
 		After respawning, it forces the player to wait the specified duration (while either spectating/editing loadout/chilling in base) before being shown the reinsert menu
@@ -244,7 +244,7 @@ Notes for options/configuration not present in this file:
 	TAS_respawnInVehicle 	= false; //default false
 
 
-/*
+/* FOB System
 	Manages the FOB and rallypoints system, which give the players the ability to establish FOBs and Rallypoints and use them for reinserts.
 		The FOB consists of an action on the vehicle in the mission named "logistics_vehicle" which leadership players (GC members, SLs) can use
 			The action places a FOB around them, featuring ammo boxes, vehicle RRR crates, and some defensive structures (about 40 meters in diameter)
