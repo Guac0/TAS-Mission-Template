@@ -54,13 +54,23 @@ private _onConfirm =
 	TAS_respawnVehicles pushBack [_unit,_name]; //["TAS_zeusRespawnVehicle1","test1"]
 	publicVariable "TAS_respawnVehicles";
 
-	_unit addEventHandler ["Killed", {	//removes respawn vehicle from list. might not work if locality is changed.
+	//systemChat format ["assignRespawnVic a"];
+	_unit addMPEventHandler ["MPKilled", {	//removes respawn vehicle from list. global effect, but unknown effect on JIP.
 		params ["_unit", "_killer", "_instigator", "_useEffects"];
+		//systemChat format ["assignRespawnVic b %1",TAS_respawnVehicles];
 		private _path = [TAS_respawnVehicles, _unit] call BIS_fnc_findNestedElement;
-		private _indexOfOldRallyPair = _path select 0;
-		TAS_rallypointLocations deleteAt _indexOfOldRallyPair;
-		publicVariable "TAS_respawnVehicles";
+		if (_path isNotEqualTo []) then {	//only execute if it exists
+			diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic removing repsawn vic from list!";
+			private _indexOfOldVehiclePair = _path select 0;
+			TAS_respawnVehicles deleteAt _indexOfOldVehiclePair;
+			publicVariable "TAS_respawnVehicles";	// not needed due to global effect but better safe than sorry
+		} else {
+			diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic cannot find vehicle to remove!";
+		};
+		//systemChat format ["assignRespawnVic c %1 %2 %3 %4",_unit,_path,_indexOfOldRallyPair];
+		//systemChat format ["assignRespawnVic d %1",TAS_respawnVehicles];
 	}];
+	//systemChat format ["assignRespawnVic e"];
 };
 [
 	"Set Respawn Vehicle Name", 
