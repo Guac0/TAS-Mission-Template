@@ -1,4 +1,5 @@
 //if you want to add your own hold actions, then add them at the end (not at the very end, do it before the last debug message. just scroll down and you'll see)
+//systemChat "a";
 
 //if client already has actions made, then remove them. If client does not have actions made, then setup appropriate vars.
 private ["_actionID"];
@@ -113,7 +114,7 @@ if (TAS_resupplyObjectEnabled) then { //check if the resupply object actually ex
 			false,												// Remove on completion
 			false												// Show in unconscious state 
 		] call BIS_fnc_holdActionAdd;
-		TAS_holdActionIDs pushBack [AceHealObject,_actionID];
+		TAS_holdActionIDs pushBack [CreateResupplyObject,_actionID];
 	} else { //if resupply object stuff is turned on but missing the objects needed for it to work, then display a warning that the resupply system will be disabled.
 		if (isServer) then {
 			systemChat "WARNING: Resupply Creator enabled, but missing the relevant spawner object(s) in mission! Disabling resupply creator...";
