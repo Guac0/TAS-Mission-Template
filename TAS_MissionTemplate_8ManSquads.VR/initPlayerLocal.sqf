@@ -756,47 +756,48 @@ if (TAS_textBriefing) then {
 };
 
 if (TAS_ModLog) then {
+	//TOOD chat not working?
 	private _logMessage = "";
 
 	if (isClass(configFile >> "CfgPatches" >> "Revo_NoWeaponSway")) then {
-		_shameMessage = format ["%1 is running No Weapon Sway",player];
+		_shameMessage = format ["%1 is running No Weapon Sway",name player];
 		_shameMessage remoteExec ["diag_log",2];
 		if (TAS_ModLogShame) then {
-			//"I am running No Weapon Sway!" remoteExec ["globalChat"];
+			//[player,"I am running No Weapon Sway!"] remoteExec ["globalChat"];
 		};
 	};
 	if (isClass(configFile >> "CfgPatches" >> "cTab")) then { 
-		_shameMessage = format ["%1 is running cTab",player];
+		_shameMessage = format ["%1 is running cTab",name player];
 		_shameMessage remoteExec ["diag_log",2];
 		if (TAS_ModLogShame) then {
-			"I am running cTab!" remoteExec ["globalChat"];
+			[player,"I am running cTab!"] remoteExec ["globalChat"];
 		};
 	};
 	if (isClass(configFile >> "CfgPatches" >> "Ronon_gun_Pat")) then { 
-		_shameMessage = format ["%1 is running Stargate",player];
+		_shameMessage = format ["%1 is running Stargate",name player];
 		_shameMessage remoteExec ["diag_log",2];
 		if (TAS_ModLogShame) then {
-			"I am running Stargate!" remoteExec ["globalChat"];
+			[player,"I am running Stargate!"] remoteExec ["globalChat"];
 		};
 	};
 	if ((isClass(configFile >> "CfgPatches" >> "BRIDGE_PunchMod")) || (isClass(configFile >> "CfgPatches" >> "BRIDGE_punch"))) then { 
-		_shameMessage = format ["%1 is running Knock People Unconscious",player];
+		_shameMessage = format ["%1 is running Knock People Unconscious",name player];
 		_shameMessage remoteExec ["diag_log",2];
 		if (TAS_ModLogShame) then {
-			"I am running Knock People Unconscious!" remoteExec ["globalChat"];
+			[player,"I am running Knock People Unconscious!"] remoteExec ["globalChat"];
 		};
 	};
-	if (isClass(configFile >> "CfgPatches" >> "L_Suppress_Suppress_main")) then { 
-		_shameMessage = format ["%1 is not running Suppress",player];
+	if !(isClass(configFile >> "CfgPatches" >> "L_Suppress_Suppress_main")) then { 
+		_shameMessage = format ["%1 is not running Suppress",name player];
 		_shameMessage remoteExec ["diag_log",2];
 		if (TAS_ModLogShame) then {
-			"I am not running Suppress!" remoteExec ["globalChat"];
+			[player,"I am not running Suppress!"] remoteExec ["globalChat"];
 		};
 	};
 
 	/*if (isClass(configFile >> "CfgPatches" >> "rhsusf_weapons")) then { 
-		//"I am running AAA! Shame on me!" remoteExec ["globalChat"];
-		_shameMessage = format ["%1 is running AAA",player];
+		//[player,"I am running AAA! Shame on me!"] remoteExec ["globalChat"];
+		_shameMessage = format ["%1 is running AAA",name player];
 		_shameMessage remoteExec ["diag_log"];
 	};*/
 };
