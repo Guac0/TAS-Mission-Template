@@ -57,14 +57,14 @@ if (TAS_fobFullArsenals) then { //full arsenals
 
 [[_playerSide, "HQ"], format ["Forward Operating Base established by %1 at gridref %2.", name player, mapGridPosition logistics_vehicle]] remoteExec ["sideChat", side player];
 
-TAS_rallypointLocations pushBack [TAS_fobPositionATL,"Forward Operating Base"];
+TAS_respawnLocations pushBack [TAS_fobPositionATL,"Forward Operating Base"];
 TAS_fobBuilt = true;
 
 if (TAS_fobOverrun) then {
 	[] spawn TAS_fnc_fobOverrun;
 };
 
-publicVariable "TAS_rallypointLocations";
+publicVariable "TAS_respawnLocations";
 publicVariable "TAS_fobBuilt";
 publicVariable "TAS_fobRespawn";
 publicVariable "TAS_fobObjects"; //might be kinda high bandwidth, maybe just do publicVariableServer?

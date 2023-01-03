@@ -30,11 +30,9 @@ if (vehicle player != player) then {
 hint "You are now being shown the respawn GUI. If unexpected behavior occurs (such as selecting an option but nothing occuring), contact Zeus.";
 systemChat "You are now being shown the respawn GUI. If unexpected behavior occurs (such as selecting an option but nothing occuring), contact Zeus.";
 
-_respawnMode = _this;
-if (_respawnMode == "vehicle") then { _respawnLocations = TAS_respawnVehicles};
-if (_respawnMode == "rallypoint") then { _respawnLocations = TAS_rallypointLocations};
-//_respawnLocations = _this select 1;
+_respawnLocations = TAS_respawnLocations;
 _respawnLocationsNumber = count _respawnLocations;
+
 //create display for our controls
 _respawnGui = findDisplay 46 createDisplay "RscDisplayEmpty"; //uses main screen as basis
 uiNamespace setVariable ["TAS_respawnGUI", _respawnGui];	//to get around restrictions about disableSerialization in normal local variables
@@ -53,7 +51,7 @@ _menuInfoButton ctrlSetText ("Choose Your Respawn Location");
 _menuInfoButton buttonSetAction 'systemChat "Hit one of the other buttons that actually does something, not the title card!"';
 _menuInfoButton ctrlCommit 0;
 
-//sample data: TAS_respawnVehicles = [[vic1,"Respawn Vic 1"],[vic2,"Respawn Vic 2"],[vic3,"Respawn Vic 3"]];
+//sample data: TAS_respawnLocations = [[vic1,"Respawn Vic 1"],[vic2,"Respawn Vic 2"],[vic3,"Respawn Vic 3"]];
 TAS_inRespawnMenu = true;
 _currentSpacing = 1;
 for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-based arrays
@@ -63,32 +61,11 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 	if (typeName _currentRespawnLocation == "STRING") then { //translate from string to object if set by the zeus module or other method that sets vehicleVarName during runtime instead of via eden editor var name field
 		_currentRespawnLocation = missionNamespace getVariable [_currentRespawnLocation,objNull];
 	};
-	/*if (!isNull _currentRespawnLocation) then {
-		if (alive _currentRespawnLocation) then {
-			_button = _respawnGui ctrlCreate ["RscButton", -1]; 
-			_button ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
-			//_background ctrlSetTextColor _blue;
-			switch (_respawnMode) do {
-				case "vehicle": {
-					_button ctrlSetText format ["Respawn in %1",_currentRespawnLocationName];
-					_button buttonSetAction format [ //TODO add side compat //if ((side player != side group %1) && (side group %1 != sideUnknown )) exitWith {hint 'Targetted respawn vehicle is under the control of another side!'; systemChat 'Targetted respawn vehicle is under the control of another side!`};
-						"if (%1 emptyPositions 'cargo' == 0) exitWith {hint 'Passenger seats of targetted respawn vehicle are full!'; systemChat 'Passenger seats of targetted respawn vehicle are full!'}; player moveInCargo %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;",
-						_currentRespawnLocation
-					];
-				};
-				case "rallypoint": {
-					_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName];
-					_button buttonSetAction format ["player setPosAsl (getPosAsl %1); (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;",_currentRespawnLocation];
-				};
-				default {
-					_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName];
-					_button buttonSetAction format ["player setPosAsl (getPosAsl %1); (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;",_currentRespawnLocation];
-				};
-			};
-			_button ctrlCommit 0;
-			_currentSpacing = _currentSpacing + 1;
-		};
-	};*/
+	if (typeName _currentRespawnLocation == "OBJECT") then {
+		_respawnMode = "vehicle";
+	} else {
+		_respawnMode = "rallypoint";
+	};
 	if (_respawnMode == "vehicle") then {
 		if (!isNull _currentRespawnLocation) then {
 			if (alive _currentRespawnLocation) then {
@@ -100,7 +77,7 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 					"if (%1 emptyPositions 'cargo' == 0) exitWith {hint 'Passenger seats of targetted respawn vehicle are full!'; systemChat 'Passenger seats of targetted respawn vehicle are full!'}; player moveInCargo %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false; private _arrayStrings = ['TAS MISSION TEMPLATE: respawn GUI: teleported player',name player,'to vehicle',%1,'! Vehicle pos:',getPosATL %1,', player pos ATL:',getPosATL player]; private _output = _arrayStrings joinString ' '; _output remoteExec ['diag_log',2];",
 					_currentRespawnLocation
 				]; //NOTE: dead people count as occupying a full seat
-				];
+				_button ctrlCommit 0;
 				diag_log format ["TAS MISSION TEMPLATE: respawn GUI: added button with name %1 with location %2!",_currentRespawnLocationName,_currentRespawnLocation];
 			};
 		};
@@ -111,7 +88,7 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 		//_background ctrlSetTextColor _blue;
 		_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName];
 		_button buttonSetAction format ["player setPosAsl %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false; private _arrayStrings = ['TAS MISSION TEMPLATE: respawn GUI: teleported player',name player,'to rallypoint! Rallypoint pos:',%1,', player pos ATL:',getPosATL player]; private _output = _arrayStrings joinString ' '; _output remoteExec ['diag_log',2];",_currentRespawnLocation,_currentRespawnLocationName];
-		_button buttonSetAction format ["player setPosAsl %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;",_currentRespawnLocation];
+		_button ctrlCommit 0;
 		diag_log format ["TAS MISSION TEMPLATE: respawn GUI: added button with name %1 with location %2!",_currentRespawnLocationName,_currentRespawnLocation];
 	};
 	_button ctrlCommit 0;
@@ -148,7 +125,7 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 		_menuInfoButton buttonSetAction 'systemChat "Hit one of the other buttons that actually does something, not the title card!"';
 		_menuInfoButton ctrlCommit 0;
 
-		//sample data: TAS_respawnVehicles = [[vic1,"Respawn Vic 1"],[vic2,"Respawn Vic 2"],[vic3,"Respawn Vic 3"]];
+		//sample data: TAS_respawnLocations = [[vic1,"Respawn Vic 1"],[vic2,"Respawn Vic 2"],[vic3,"Respawn Vic 3"]];
 		TAS_inRespawnMenu = true;
 		_currentSpacing = 1;
 		for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-based arrays
@@ -158,32 +135,11 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 			if (typeName _currentRespawnLocation == "STRING") then { //translate from string to object if set by the zeus module or other method that sets vehicleVarName during runtime instead of via eden editor var name field
 				_currentRespawnLocation = missionNamespace getVariable [_currentRespawnLocation,objNull];
 			};
-			/*if (!isNull _currentRespawnLocation) then {
-				if (alive _currentRespawnLocation) then {
-					_button = _respawnGui ctrlCreate ["RscButton", -1]; 
-					_button ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
-					//_background ctrlSetTextColor _blue;
-					switch (_respawnMode) do {
-						case "vehicle": {
-							_button ctrlSetText format ["Respawn in %1",_currentRespawnLocationName];
-							_button buttonSetAction format [ //TODO add side compat //if ((side player != side group %1) && (side group %1 != sideUnknown )) exitWith {hint 'Targetted respawn vehicle is under the control of another side!'; systemChat 'Targetted respawn vehicle is under the control of another side!`};
-								"if (%1 emptyPositions 'cargo' == 0) exitWith {hint 'Passenger seats of targetted respawn vehicle are full!'; systemChat 'Passenger seats of targetted respawn vehicle are full!'}; player moveInCargo %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;",
-								_currentRespawnLocation
-							];
-						};
-						case "rallypoint": {
-							_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName];
-							_button buttonSetAction format ["player setPosAsl (getPosAsl %1); (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;",_currentRespawnLocation];
-						};
-						default {
-							_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName];
-							_button buttonSetAction format ["player setPosAsl (getPosAsl %1); (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;",_currentRespawnLocation];
-						};
-					};
-					_button ctrlCommit 0;
-					_currentSpacing = _currentSpacing + 1;
-				};
-			};*/
+			if (typeName _currentRespawnLocation == "OBJECT") then {
+				_respawnMode = "vehicle";
+			} else {
+				_respawnMode = "rallypoint";
+			};
 			if (_respawnMode == "vehicle") then {
 				if (!isNull _currentRespawnLocation) then {
 					if (alive _currentRespawnLocation) then {
@@ -226,9 +182,9 @@ if (isServer) then {
 	this spawn {
 		waitUntil {!isNil "TAS_respawnInVehicle"};
 		if (TAS_respawnInVehicle) then {
-			waitUntil {!isNil "TAS_respawnVehicles"};
-			TAS_respawnVehicles pushBack [_this,"Respawn Vehicle 1"];
-			publicVariable "TAS_respawnVehicles";
+			waitUntil {!isNil "TAS_respawnLocations"};
+			TAS_respawnLocations pushBack [_this,"Respawn Vehicle 1"];
+			publicVariable "TAS_respawnLocations";
 		};
 	};
 };

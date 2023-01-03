@@ -1,44 +1,9 @@
+////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////Variable Setup////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
-sleep 1; //wait for mission start (server init will happen in map screen)
+sleep 1; //needed for some tfar stuff, TODO move?
 
-if (TAS_ModLog) then {
-	private _logMessage = "";
-
-	if (isClass(configFile >> "CfgPatches" >> "Revo_NoWeaponSway")) then {
-		_shameMessage = format ["%1 is running No Weapon Sway",player];
-		_shameMessage remoteExec ["diag_log",2];
-		if (TAS_ModLogShame) then {
-			//"I am running No Weapon Sway!" remoteExec ["globalChat"];
-		};
-	};
-	if (isClass(configFile >> "CfgPatches" >> "cTab")) then { 
-		_shameMessage = format ["%1 is running cTab",player];
-		_shameMessage remoteExec ["diag_log",2];
-		if (TAS_ModLogShame) then {
-			"I am running cTab!" remoteExec ["globalChat"];
-		};
-	};
-	if (isClass(configFile >> "CfgPatches" >> "Ronon_gun_Pat")) then { 
-		_shameMessage = format ["%1 is running Stargate",player];
-		_shameMessage remoteExec ["diag_log",2];
-		if (TAS_ModLogShame) then {
-			"I am running Stargate!" remoteExec ["globalChat"];
-		};
-	};
-	if ((isClass(configFile >> "CfgPatches" >> "BRIDGE_PunchMod")) || (isClass(configFile >> "CfgPatches" >> "BRIDGE_punch"))) then { 
-		_shameMessage = format ["%1 is running Knock People Unconscious",player];
-		_shameMessage remoteExec ["diag_log",2];
-		if (TAS_ModLogShame) then {
-			"I am running Knock People Unconscious!" remoteExec ["globalChat"];
-		};
-	};
-
-	/*if (isClass(configFile >> "CfgPatches" >> "rhsusf_weapons")) then { 
-		//"I am running AAA! Shame on me!" remoteExec ["globalChat"];
-		_shameMessage = format ["%1 is running AAA",player];
-		_shameMessage remoteExec ["diag_log"];
-	};*/
-};
 
 //setup diary subject
 player createDiarySubject ["tasMissionTemplate","Mission Template","media\logo256x256.paa"];
@@ -70,106 +35,121 @@ if (_leadershipRoleDescriptionSimple in _roleDescription) then { //STRING in STR
 //	player setVariable ["TAS_PlayerisLeadership",true];
 //};
 
-//dynamic groups code
-if (TAS_dynamicGroupsEnabled) then {
-	["InitializePlayer", [player, true]] call BIS_fnc_dynamicGroups; // Initializes the player/client side Dynamic Groups framework and registers the player group
-	player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Enabled. Press 'U' to open the Dynamic Groups menu."]];
-} else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Disabled."]]; };
-};
 
-//disableStamina, simple way since the more complicated way with addMPEventhandler bugged out recently. Must be here and in onPlayerRespawn
-if (TAS_vanillaStaminaDisabled) then {
-	player enableFatigue false;
-	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Disabled."]];
-} else {
-	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Vanilla Stamina is Enabled."]];
-};
 
-//Sets custom aim coefficient (precision and/or weapon sway) and recoil coefficient. Must be here and in onPlayerRespawn
-if (TAS_doAimCoefChange) then {
-	player setCustomAimCoef TAS_aimCoef;
-	player setUnitRecoilCoefficient TAS_recoilCoef;
-	player createDiaryRecord ["tasMissionTemplate", ["Sway/Recoil Coefficient Changes", format ["Sway coefficient: %1. Recoil Coefficient: %2",TAS_aimCoef,TAS_recoilCoef]]];
-} else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Sway/Recoil Coefficient Changes", "Vanilla coefficients are enabled."]]; };
-};
+////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////Editable Scripts///////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//scripts below this point are intended to be editable by zeuses who want to customize the equipment given to their players (assuming the appropriate settings are enabled in the options)
+	//read the comments carefully!
 
-//Add TAS Afk Script
-if (TAS_afkEnabled) then {
-	// Register a simple keypress to an action
-	//#include "\a3\ui_f\hpp\defineDIKCodes.inc" //these two lines can be removed if wanted, rn script uses the number codes instead
-	//#define USER_19 0x10C
-	//25 for P, 0x10C for User Action 19
-	//[24, [false, true, true]] is "O + lctrl + lalt", can change in cba keybindings if wanted
-	["TAS Keybindings","afk_script_key_v2","Run TAS Afk Script", {[] call TAS_fnc_AfkScript}, "", [24, [false, true, true]]] call CBA_fnc_addKeybind;
 
-	//make a diary record tutorial
-	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Enabled. To start/stop the AFK script, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Run AFK Script. By default, it will be Left Control + Left Alt + O."]];
-} else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Disabled."]]; };
-	//systemChat "Afk System disabled.";
-};
-
-//Add TAS Earplugs Script
-if (TAS_earplugsEnabled) then {
-	// Register a simple keypress to an action
-	//#include "\a3\ui_f\hpp\defineDIKCodes.inc" //these two lines can be removed if wanted, rn script uses the number codes instead
-	//#define USER_19 0x10C
-	//25 for P, 0x10C for User Action 19
-	//[18, [false, true, true]] is "E + lctrl + lalt", can change in cba keybindings if wanted
-	["TAS Keybindings","earplugs_key","Toggle Earplugs", {[] call TAS_fnc_earplugs}, "", [18, [false, true, true]]] call CBA_fnc_addKeybind;
-
-	//make a diary record tutorial
-	player createDiaryRecord ["tasMissionTemplate", ["Earplugs Script", "Enabled. To enable/disable the earplugs, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Toggle Earplugs. By default, it will be Left Control + Left Alt + E."]];
-} else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Earplugs Script", "Disabled."]]; };
-	//systemChat "Afk System disabled.";
-};
-
-//Add TAS Music Hotkey Script
-if (TAS_musicKeyEnabled) then {
-	["TAS Keybindings","music_key","Toggle Music", {[] call TAS_fnc_toggleMusic}, "", [13, [false, true, true]]] call CBA_fnc_addKeybind; //13 is =
-
-	//make a diary record tutorial
-	player createDiaryRecord ["tasMissionTemplate", ["Music Hotkey Script", "Enabled. To enable/disable music audio, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Toggle Music. By default, it will be Left Control + Left Alt + =."]];
-} else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Music Hotkey Script", "Disabled."]]; };
-	//systemChat "Afk System disabled.";
-};
-
-//Add FOB Script
-if (TAS_fobEnabled) then {
-	[] execVM "buildfob\initfob.sqf";
-} else {
-	//systemChat "FOB/Rallypoint building disabled.";
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["FOB/Rallypoint System", "Disabled."]]; };
-};
-
-//global tfar diary entry
-if (TAS_globalTfarEnabled) then { 
-	//function handled in description.ext
-	player createDiaryRecord ["tasMissionTemplate", ["Global TFAR Script", "Enabled. Sets all Short Range radios to a single channel for Zeus/Lore events. Restores radios to prior channel when run a second time. Can be executed from either debug console or via trigger by using remoteExecCall on TAS_fnc_globalTFAR."]];
-} else {
-	//systemChat "TAS Global TFAR System disabled."
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Global TFAR Script", "Disabled."]]; };
-};
 
 if (TAS_useConfigLoadout) then {
-	[player,TAS_configFaction,TAS_defaultConfigUnit] call TAS_fnc_assignLoadoutFromConfig;
+
+	if (TAS_configLoadoutCustom) then {
+
+		/*Change 'Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player' to the role name that you want players named accordingly to have that unit's gear
+			note that TAS_configUnitPrefix is still applied to these units
+			Also, very rarely, a mod might decide to use invisible characters instead of spaces between words in a unit's display name
+				For example, CUP's ION has names like "FieldÂ Medic" (the whitespace is unicode U+00a0)
+				If you have issues with normal names not working, spawn the unit in zeus and execute this code in its ZEN code box to get its real display name:
+					private _name = getText (configFile >> "cfgVehicles" >> typeOf _this >> "displayName"); copyToClipboard _name; systemChat _name;
+			*/
+
+		switch (true) do
+		{
+			//cmd
+			case ("Officer" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("JTAC" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case (("Combat Life Saver" in _roleDescriptionSimple) || ("Medic" in _roleDescriptionSimple) || ("medic" in _roleDescriptionSimple)): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Engineer" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+
+			//recon
+			case ("Recon Team Leader" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Recon Paramedic" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Recon Demo Specialist" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Recon Sharpshooter" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+
+			//air
+			case ("Pilot" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Copilot" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+
+			//armor
+			case ("Commander" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Gunner" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Driver" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+
+			//squad (medic is in cmd section)
+			case ("Squad Leader" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("RTO" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Machinegunner" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Team Leader" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Autorifleman" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			case ("Rifleman (AT)" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+
+			//other, feel free to add more if you have custom names
+			case ("Zeus" in _roleDescriptionSimple): {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+			default {
+				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
+			};
+
+		};
+		
+	};
+
+	[player,TAS_configFaction,TAS_defaultConfigUnit,TAS_configUnitPrefix] call TAS_fnc_assignLoadoutFromConfig;
+
 	player createDiaryRecord ["tasMissionTemplate", ["Loadout Assignment From Config", "Your loadout has been set accordingly to the given faction and your role description. See your chat messages for more information in the case of the script resorting to fallback loadouts or a notficiation that Zeus has chosen to skip your loadout assignment in particular."]];
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Loadout Assignment From Config", "Disabled."]]; };
 };
 
-//radio setup
+//radio setup, needs to be before custom equipment due to backpack replacement
 if (TAS_radiosEnabled) then {
-	
 	player linkItem TAS_radioPersonal;
-	
 	//LR radio possession marking
 	if (TAS_NoSquadleadLr) then {
-
 		//give radio if player is RTO
 		if (("Radioman" in _roleDescription) || ("RTO" in _roleDescription)) then {
 			player setVariable ["TAS_PlayerHasLr",true];
@@ -178,60 +158,28 @@ if (TAS_radiosEnabled) then {
 		if ((player getVariable ["TAS_PlayerisLeadership",false]) && !("Squad Leader" in _roleDescription)) then {
 			player setVariable ["TAS_PlayerHasLr",true];
 		};
-
 	} else {
-
 		//if player is leadership, then give radio
 		if (player getVariable ["TAS_PlayerIsLeadership",false]) then {
 			player setVariable ["TAS_PlayerHasLr",true];
 		};
-
 	};
-
 	//give player LR radio if approved to do so
 	if (player getVariable ["TAS_PlayerHasLr",false]) then {
 		player addBackpack TAS_radioBackpack;
 		[(call TFAR_fnc_activeLrRadio), 1, "50"] call TFAR_fnc_SetChannelFrequency; //set 50 as active radio channel on channel 1
 		[(call TFAR_fnc_activeLrRadio), 2, "55"] call TFAR_fnc_SetChannelFrequency; //set 55 (fire support) as radio channel two (not active and not additional)
 	};
-
-	player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Enabled. It may take a second for Teamspeak to initialize your radios. If your radio freq shows up as blank, do not panic as this happens when it is set via script. All SRs are set on squad freq and LRs on 50 (channel 1) and 55 (channel 2)."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Enabled.<br/><br/>It may take a second for Teamspeak to initialize your radios. If your radio freq shows up as blank, do not panic as this happens when it is set via script. All SRs are set on squad freq and LRs on 50 (channel 1) and 55 (channel 2)."]];
 	//systemChat "Radio loadout init finished. It may take a second for Teamspeak to initialize your radio fully.";
-
 } else {
-	
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Disabled."]]; };
 	//systemChat "TFAR automatic radio assignment disabled."
-
-};
-
-if (TAS_radioAdditionals) then {
-	private _standardRadioAssignment = [] spawn {
-		waitUntil {(call TFAR_fnc_haveSWRadio)}; //wait until have radio
-		[(call TFAR_fnc_activeSwRadio), 1] call TFAR_fnc_setAdditionalSwChannel; //set Channel 2 to additional (0-based index)
-		[(call TFAR_fnc_ActiveSWRadio), 2] call TFAR_fnc_setAdditionalSwStereo; //set additional channel to right ear only
-		[(call TFAR_fnc_ActiveSWRadio), 1] call TFAR_fnc_setSwStereo; //set main channel to left ear
-	};
-	player createDiaryRecord ["tasMissionTemplate", ["Radio Additional Channels Assignment", "Enabled. Your left ear is your main channel (capslock to transmit and by default is the squad-wide net), while your right ear is your additional channel (T to transmit, usually the fireteam net). Your Long Range radio remains unchanged."]];
-} else {
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Radio Additional Channels Assignment", "Disabled."]]; };
-};
-
-//ctab setup
-if (TAS_ctabEnabled) then {
-	player addItem "ItemcTabHCam"; //give all players a helmetcam, will auto delete hcam if inventory is full
-	player linkItem "itemAndroid"; //give everyone an android in their gps slot, will be overwriten if they are leadership
-	if (player getVariable ["TAS_PlayerIsLeadership",false]) then {player linkItem "itemcTab"; player addItem "itemAndroid";}; //give leadership an android in their inventories and a tablet in their gps slot (will delete existing item), will auto delete android if inventory is full
-	//systemChat "cTab loadout init finished.";
-	player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Enabled. All units have recieved an Android and helmet cam, while leadership have also recieved a rugged tablet."]];
-} else {
-	//systemChat "cTab automatic item assignment disabled."
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Disabled."]]; };
 };
 
 if (TAS_populateInventory) then {
 	//clear items (should remove everything in cargo of uniform/vest/backpack, wont remove radios and gps and etc)
-	removeAllItems player;
+	removeAllItems player; //does not remove radio and gps items
 	{player removeMagazine _x} forEach magazines player;
 	//for "_i" from 1 to 10 do { player addItem " " };
 
@@ -246,7 +194,10 @@ if (TAS_populateInventory) then {
 	for "_i" from 1 to 2 do { player addItem "ACE_CableTie" };
 	player addItem "ACE_Earplugs";
 	player addItem "ACE_EntrenchingTool";
-	//player linkItem "ItemGPS";
+
+	if (TAS_inventoryAddGps) then {
+		player linkItem "ItemGPS";
+	};
 	//player linkItem "ItemMap";
 	//player linkItem "ItemWatch";
 	//player linkItem "ItemCompass";
@@ -256,18 +207,6 @@ if (TAS_populateInventory) then {
 	for "_i" from 1 to 2 do { player addItem "HandGrenade" }; //vanilla m67, v40 is MiniGrenade
 	for "_i" from 1 to 2 do { player addItem "SmokeShell" }; //white smoke
 	for "_i" from 1 to 1 do { player addItem "SmokeShellPurple" }; //purple smoke
-
-	//ammo
-	if (primaryWeapon player != "") then {
-		for "_i" from 1 to 8 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
-	};
-	//for "_i" from 1 to 4 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 1) }; //special ammo, usually but not always tracers. Buggy so just double the amount of standard mags
-	if (handgunWeapon player != "") then {
-		for "_i" from 1 to 1 do { player addItem ([handgunWeapon player] call CBA_fnc_compatibleMagazines select 0) };
-	};
-	if (secondaryWeapon player != "") then {
-		for "_i" from 1 to 2 do { player addItem ([secondaryWeapon player] call CBA_fnc_compatibleMagazines select 0) }; //add launcher ammo if player has launcher
-	};
 
 	//medic special stuff
 	//https://github.com/acemod/ACE3/blob/master/addons/medical_treatment/functions/fnc_isMedic.sqf
@@ -319,7 +258,7 @@ if (TAS_populateInventory) then {
 			case ("JTAC" in _roleDescriptionSimple): {
 				
 			};
-			case ("Combat Life Saver" in _roleDescriptionSimple): {
+			case (("Combat Life Saver" in _roleDescriptionSimple) || ("Medic" in _roleDescriptionSimple) || ("medic" in _roleDescriptionSimple)): {
 				
 			};
 			case ("Engineer" in _roleDescriptionSimple): {
@@ -378,6 +317,14 @@ if (TAS_populateInventory) then {
 			case ("Rifleman (AT)" in _roleDescriptionSimple): {
 				
 			};
+
+			//other, feel free to add more if you have custom names
+			case ("Zeus" in _roleDescriptionSimple): {
+				
+			};
+			default {
+
+			};
 		};
 	};
 
@@ -385,29 +332,268 @@ if (TAS_populateInventory) then {
 	/////////End Custom Equipment///////////
 	////////////////////////////////////////
 
-	player createDiaryRecord ["tasMissionTemplate", ["Inventory Population", "Enabled. You have been given basic medical, grenade, ammo, and loadout-specific supplies."]];
+	//ammo
+	if (primaryWeapon player != "") then {
+		//for "_i" from 1 to 8 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
+		if (count ([primaryWeapon player] call CBA_fnc_compatibleMagazines) > 0) then {									
+			for "_i" from 1 to 6 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 0) };
+			if (count ([primaryWeapon player] call CBA_fnc_compatibleMagazines) > 1) then {  								
+				for "_i" from 1 to 4 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 1) }; 
+			};
+		};
+		{
+			if (_x != "this") then {
+				if (count ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+					for "_i" from 1 to 6 do { player addItem ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
+					if (count ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 1) then {  								//adds CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
+						for "_i" from 1 to 4 do { player addItem ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines select 1) }; //standard ammo
+					};
+				};
+			};
+		} forEach (getArray (configFile >> "CfgWeapons" >> (primaryWeapon player) >> "muzzles"));				//check for each muzzle so that UGL has ammo
+	};
+	//for "_i" from 1 to 4 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 1) }; //special ammo, usually but not always tracers. Buggy so just double the amount of standard mags
+	if (handgunWeapon player != "") then {
+		//for "_i" from 1 to 1 do { player addItem ([handgunWeapon player] call CBA_fnc_compatibleMagazines select 0) };
+		if (count ([handgunWeapon player] call CBA_fnc_compatibleMagazines) > 0) then {									
+			for "_i" from 1 to 1 do { player addItem ([handgunWeapon player] call CBA_fnc_compatibleMagazines select 0) };
+		};
+		{
+			if (_x != "this") then {
+				if (count ([configFile >> "CfgWeapons" >> handgunWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+					for "_i" from 1 to 1 do { player addItem ([configFile >> "CfgWeapons" >> handgunWeapon player >> _x] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
+				};
+			};
+		} forEach (getArray (configFile >> "CfgWeapons" >> (handgunWeapon player) >> "muzzles"));
+	};
+	if (secondaryWeapon player != "") then {
+		//for "_i" from 1 to 2 do { player addItem ([secondaryWeapon player] call CBA_fnc_compatibleMagazines select 0) }; //add launcher ammo if player has launcher
+		if (count ([secondaryWeapon player] call CBA_fnc_compatibleMagazines) > 0) then {									
+			for "_i" from 1 to 2 do { player addItem ([secondaryWeapon player] call CBA_fnc_compatibleMagazines select 0) };
+			if (count ([secondaryWeapon player] call CBA_fnc_compatibleMagazines) > 1) then {  								
+				for "_i" from 1 to 2 do { player addItem ([secondaryWeapon player] call CBA_fnc_compatibleMagazines select 1) }; 
+			};
+		};
+		{
+			if (_x != "this") then {
+				if (count ([configFile >> "CfgWeapons" >> secondaryWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+					for "_i" from 1 to 2 do { player addItem ([configFile >> "CfgWeapons" >> secondaryWeapon player >> _x] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
+					if (count ([configFile >> "CfgWeapons" >> secondaryWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 1) then {  								//adds CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
+						for "_i" from 1 to 2 do { player addItem ([configFile >> "CfgWeapons" >> secondaryWeapon player >> _x] call CBA_fnc_compatibleMagazines select 1) }; //standard ammo
+					};
+				};
+			};
+		} forEach (getArray (configFile >> "CfgWeapons" >> (secondaryWeapon player) >> "muzzles"));
+	};
+
+	player createDiaryRecord ["tasMissionTemplate", ["Inventory Population", "Enabled.<br/><br/>You have been given basic medical, grenade, ammo, and loadout-specific supplies."]];
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Inventory Population", "Disabled"]]; };
+};
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////Non-Editable Scripts////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//scripts below this point are not intended to be editable by most zeuses
+
+
+
+if (TAS_roleBasedArsenals) then {
+
+	_openRoleArsenalAceAction = [
+		"roleArsenalAceAction",
+		"Open Role-Based Arsenal",
+		"",
+		{
+			player call TAS_fnc_roleBasedArsenal;
+		},
+		{
+			TAS_roleBasedArsenals
+		},
+		{},
+		{},
+		{},
+		10
+	] call ace_interact_menu_fnc_createAction;
+	/*
+	* Argument:
+	* 0: Action name <STRING>
+	* 1: Name of the action shown in the menu <STRING>
+	* 2: Icon <STRING>
+	* 3: Statement <CODE>
+	* 4: Condition <CODE>
+	* 5: Insert children code <CODE> (Optional)
+	* 6: Action parameters <ANY> (Optional)
+	* 7: Position (Position array, Position code or Selection Name) <ARRAY>, <CODE> or <STRING> (Optional)
+	* 8: Distance <NUMBER> (Optional)
+	* 9: Other parameters [showDisabled,enableInside,canCollapse,runOnHover,doNotCheckLOS] <ARRAY> (Optional)
+	* 10: Modifier function <CODE> (Optional)
+	*/
+	{
+		private _arsenal = _x;
+		_arsenal = missionNamespace getVariable [_arsenal, objNull]; //convert from string to object, otherwise we get errors
+		if (!isNull _arsenal) then {
+			//ace
+			[_arsenal, 0, ["ACE_MainActions"], _openRoleArsenalAceAction] call ace_interact_menu_fnc_addActionToObject;
+
+			//vanilla too ig
+			_arsenal addAction [
+				"Open Role-Based Arsenal",	// title
+				{
+					params ["_target", "_caller", "_actionId", "_arguments"]; // script
+					_caller call TAS_fnc_roleBasedArsenal;
+				},
+				nil,		// arguments
+				99,		// priority
+				true,		// showWindow
+				false,		// hideOnUse
+				"",			// shortcut
+				"TAS_roleBasedArsenals", 	// condition
+				10,			// radius
+				false,		// unconscious
+				"",			// selection
+				""			// memoryPoint
+			];
+		} else {
+			systemChat "TAS-MISSION-TEMPLATE Error: arsenal in TAS_visibleArsenalBoxes does not exist in the mission!";
+		};
+	} forEach TAS_visibleArsenalBoxes;
+
+	player createDiaryRecord ["tasMissionTemplate", ["Role-Based Arsenals", "Enabled.<br/><br/>Use the action on the arsenals to access the role-based arsenals."]];
+
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Role-Based Arsenals", "Disabled."]]; };
+};
+
+if (TAS_radioAdditionals) then {
+	private _standardRadioAssignment = [] spawn {
+		waitUntil {(call TFAR_fnc_haveSWRadio)}; //wait until have radio
+		[(call TFAR_fnc_activeSwRadio), 1] call TFAR_fnc_setAdditionalSwChannel; //set Channel 2 to additional (0-based index)
+		[(call TFAR_fnc_ActiveSWRadio), 2] call TFAR_fnc_setAdditionalSwStereo; //set additional channel to right ear only
+		[(call TFAR_fnc_ActiveSWRadio), 1] call TFAR_fnc_setSwStereo; //set main channel to left ear
+	};
+	player createDiaryRecord ["tasMissionTemplate", ["Radio Additional Channels Assignment", "Enabled.<br/><br/>Your left ear is your main channel (capslock to transmit and by default is the squad-wide net), while your right ear is your additional channel (T to transmit, usually the fireteam net). Your Long Range radio remains unchanged."]];
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Radio Additional Channels Assignment", "Disabled."]]; };
+};
+
+//ctab setup
+if (TAS_ctabEnabled) then {
+	player addItem "ItemcTabHCam"; //give all players a helmetcam, will auto delete hcam if inventory is full
+	player linkItem "itemAndroid"; //give everyone an android in their gps slot, will be overwriten if they are leadership
+	if (player getVariable ["TAS_PlayerIsLeadership",false]) then {player linkItem "itemcTab"; player addItem "itemAndroid";}; //give leadership an android in their inventories and a tablet in their gps slot (will delete existing item), will auto delete android if inventory is full
+	//systemChat "cTab loadout init finished.";
+	player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Enabled.<br/><br/>All units have recieved an Android and helmet cam, while leadership have also recieved a rugged tablet."]];
+} else {
+	//systemChat "cTab automatic item assignment disabled."
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Disabled."]]; };
+};
+
+//dynamic groups code
+if (TAS_dynamicGroupsEnabled) then {
+	["InitializePlayer", [player, true]] call BIS_fnc_dynamicGroups; // Initializes the player/client side Dynamic Groups framework and registers the player group
+	player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Enabled.<br/><br/>Press 'U' to open the Dynamic Groups menu."]];
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Dynamic Groups", "Disabled."]]; };
+};
+
+//disableStamina, simple way since the more complicated way with addMPEventhandler bugged out recently. Must be here and in onPlayerRespawn
+if (TAS_vanillaStaminaDisabled) then {
+	player enableFatigue false;
+	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Disabled.<br/><br/>Vanilla Stamina is Disabled."]];
+} else {
+	player createDiaryRecord ["tasMissionTemplate", ["Vanilla Stamina", "Enabled.<br/><br/>Vanilla Stamina is Enabled."]];
+};
+
+//Sets custom aim coefficient (precision and/or weapon sway) and recoil coefficient. Must be here and in onPlayerRespawn
+if (TAS_doAimCoefChange) then {
+	player setCustomAimCoef TAS_aimCoef;
+	player setUnitRecoilCoefficient TAS_recoilCoef;
+	player createDiaryRecord ["tasMissionTemplate", ["Sway/Recoil Coefficient Changes", format ["Sway coefficient: %1. Recoil Coefficient: %2",TAS_aimCoef,TAS_recoilCoef]]];
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Sway/Recoil Coefficient Changes", "Vanilla coefficients are enabled."]]; };
+};
+
+//Add TAS Afk Script
+if (TAS_afkEnabled) then {
+	// Register a simple keypress to an action
+	//#include "\a3\ui_f\hpp\defineDIKCodes.inc" //these two lines can be removed if wanted, rn script uses the number codes instead
+	//#define USER_19 0x10C
+	//25 for P, 0x10C for User Action 19
+	//[24, [false, true, true]] is "O + lctrl + lalt", can change in cba keybindings if wanted
+	["TAS Keybindings","afk_script_key_v2","Run TAS Afk Script", {[] spawn TAS_fnc_AfkScript}, "", [24, [false, true, true]]] call CBA_fnc_addKeybind;
+
+	//make a diary record tutorial
+	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Enabled.<br/><br/>To start/stop the AFK script, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Run AFK Script. By default, it will be Left Control + Left Alt + O."]];
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Disabled."]]; };
+	//systemChat "Afk System disabled.";
+};
+
+//Add TAS Earplugs Script
+if (TAS_earplugsEnabled) then {
+	// Register a simple keypress to an action
+	//#include "\a3\ui_f\hpp\defineDIKCodes.inc" //these two lines can be removed if wanted, rn script uses the number codes instead
+	//#define USER_19 0x10C
+	//25 for P, 0x10C for User Action 19
+	//[18, [false, true, true]] is "E + lctrl + lalt", can change in cba keybindings if wanted
+	["TAS Keybindings","earplugs_key","Toggle Earplugs", {[] spawn TAS_fnc_earplugs}, "", [18, [false, true, true]]] call CBA_fnc_addKeybind;
+
+	//make a diary record tutorial
+	player createDiaryRecord ["tasMissionTemplate", ["Earplugs Script", "Enabled.<br/><br/>To enable/disable the earplugs, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Toggle Earplugs. By default, it will be Left Control + Left Alt + E."]];
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Earplugs Script", "Disabled."]]; };
+	//systemChat "Afk System disabled.";
+};
+
+//Add TAS Music Hotkey Script
+if (TAS_musicKeyEnabled) then {
+	["TAS Keybindings","music_key","Toggle Music", {[] spawn TAS_fnc_toggleMusic}, "", [13, [false, true, true]]] call CBA_fnc_addKeybind; //13 is =
+
+	//make a diary record tutorial
+	player createDiaryRecord ["tasMissionTemplate", ["Music Hotkey Script", "Enabled.<br/><br/>To enable/disable music audio, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Toggle Music. By default, it will be Left Control + Left Alt + =."]];
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Music Hotkey Script", "Disabled."]]; };
+	//systemChat "Afk System disabled.";
+};
+
+//Add FOB Script
+if (TAS_fobEnabled) then {
+	[] execVM "buildfob\initfob.sqf";
+} else {
+	//systemChat "FOB/Rallypoint building disabled.";
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["FOB/Rallypoint System", "Disabled."]]; };
+};
+
+//global tfar diary entry
+if (TAS_globalTfarEnabled) then { 
+	//function handled in description.ext
+	player createDiaryRecord ["tasMissionTemplate", ["Global TFAR Script", "Enabled.<br/><br/>Sets all Short Range radios to a single channel for Zeus/Lore events. Restores radios to prior channel when run a second time. Can be executed from either debug console or via trigger by using remoteExecCall on TAS_fnc_globalTFAR."]];
+} else {
+	//systemChat "TAS Global TFAR System disabled."
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Global TFAR Script", "Disabled."]]; };
 };
 
 if (TAS_bftEnabled) then {
 	[] execVM "functions\scripts\QS_icons.sqf";
 	//systemChat "QS BFT initiated.";
-	player createDiaryRecord ["tasMissionTemplate", ["Quicksilver BFT", "Enabled. Open your map or GPS to activate it."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Quicksilver BFT", "Enabled.<br/><br/>Open your map or GPS to activate it."]];
 } else {
 	//systemChat "QS BFT disabled.";
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Quicksilver BFT", "Disabled."]]; };
 };
 
 if (TAS_aceHealObjectEnabled) then {
-	player createDiaryRecord ["tasMissionTemplate", ["Ace Heal Object", "Enabled. Interact with the heal object in order to see and activate the heal action."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Ace Heal Object", "Enabled.<br/><br/>Interact with the heal object in order to see and activate the heal action."]];
 } else {
 	//systemChat "Ace Heal Object disabled.";
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Ace Heal Object", "Disabled."]]; };
 };
 
 if (TAS_aceSpectateObjectEnabled) then {
-	player createDiaryRecord ["tasMissionTemplate", ["Ace Spectate Object", "Enabled. Interact with the heal/spectate object in order to see and activate the spectate action. Press the 'Escape' key to exit spectator."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Ace Spectate Object", "Enabled.<br/><br/>Interact with the heal/spectate object in order to see and activate the spectate action. Press the 'Escape' key to exit spectator."]];
 } else {
 	//systemChat "Ace Spectate Object disabled.";
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Ace Spectate Object", "Disabled."]]; };
@@ -415,7 +601,7 @@ if (TAS_aceSpectateObjectEnabled) then {
 
 //respawn with death gear
 if (TAS_respawnDeathGear) then {
-	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Death Loadout", "Enabled. You will respawn with the gear you had equipped when you died."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Death Loadout", "Enabled.<br/><br/>You will respawn with the gear you had equipped when you died."]];
 } else {
 	//systemChat "Respawn with Arsenal Loadout disabled.";
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Respawn With Death Loadout", "Disabled."]]; };
@@ -432,7 +618,7 @@ if (TAS_respawnArsenalGear) then {
 		player setVariable ["TAS_arsenalLoadout",_loadout];
 	}] call CBA_fnc_addEventHandler;
 
-	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Saved Loadout", "Enabled. Interact with the heal/spectate object in order to save your loadout."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Respawn With Saved Loadout", "Enabled.<br/><br/>Interact with the heal/spectate object in order to save your loadout."]];
 } else {
 	//systemChat "Respawn with Arsenal Loadout disabled.";
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Respawn With Saved Loadout", "Disabled."]]; };
@@ -440,19 +626,19 @@ if (TAS_respawnArsenalGear) then {
 
 //respawn in vehicle
 if (TAS_respawnInVehicle) then {
-	player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Enabled. After a waiting period specified by the mission maker, respawning players will be teleported into the logistics vehicle. During this waiting time, respawning players can spectate, edit their loadout, or hang out at base. Zeus has access to a module to add additional respawn vehicles. You can find it under 'TAS Mission Template' in the module list."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Enabled.<br/><br/>After a waiting period specified by the mission maker, respawning players will be teleported into the logistics vehicle. During this waiting time, respawning players can spectate, edit their loadout, or hang out at base. Zeus has access to a module to add additional respawn vehicles. You can find it under 'TAS Mission Template' in the module list."]];
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Respawn in Vehicle (Custom)", "Disabled."]]; };
 };
 
 if (TAS_fpsDisplayEnabled) then {
-	player createDiaryRecord ["tasMissionTemplate", ["FPS Counter (by MildlyInterested)", "Enabled. In the bottom left of the map you will see markers for the server and any HCs with various debug information."]];
+	player createDiaryRecord ["tasMissionTemplate", ["FPS Counter (by MildlyInterested)", "Enabled.<br/><br/>In the bottom left of the map you will see markers for the server and any HCs with various debug information."]];
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["FPS Counter (by MildlyInterested)", "Disabled."]]; };
 };
 
 if (TAS_resupplyObjectEnabled) then {
-	player createDiaryRecord ["tasMissionTemplate", ["Resupply Object Spawner", "Enabled. At base, players will be able to spawn a supply crate with ammo and medical for all the players."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Resupply Object Spawner", "Enabled.<br/><br/>At base, players will be able to spawn a supply crate with ammo and medical for all the players."]];
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Resupply Object Spawner", "Disabled."]]; };
 };
@@ -480,7 +666,7 @@ player createDiaryRecord ["tasMissionTemplate", ["Automatic RRR Zone", "If place
 //window break setup
 if (TAS_aceWindowBreak) then {
 	[] execVM "functions\scripts\ifx_windowBreak.sqf";
-	player createDiaryRecord ["tasMissionTemplate", ["Ace Window Break by IndigoFox", "Enabled. Walk up to any window and you will see an ace interaction somewhere near it in order to break it."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Ace Window Break by IndigoFox", "Enabled.<br/><br/>Walk up to any window and you will see an ace interaction somewhere near it in order to break it."]];
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Ace Window Break by IndigoFox", "Disabled."]]; };
 };
@@ -498,37 +684,42 @@ if (TAS_respawnInVehicle) then {
 [] call TAS_fnc_applyHoldActions;
 
 if (TAS_arsenalCurate) then {
+	private _debugCurate = false;
+	if (_debugCurate) then { systemChat "a"; };
 	{
+		if (_debugCurate) then { systemChat format ["b %1",_x]; };
 		//do some fancy stuff before removing items to account for arsenals that don't actually exist.
 		private _arsenal = _x;
 		_arsenal = missionNamespace getVariable [_arsenal, objNull]; //convert from string to object, otherwise we get errors
 		if (!isNull _arsenal) then {
+			//Remember that classnames must be case sensitive, and that ace arsenal (sometimes) lies and says that they're lowercase! Get the real name from the config files or elsewhere!
 			//RHS USAF Doomsday
 			if (isClass(configFile >> "CfgPatches" >> "rhsusf_weapons")) then { 
+				if (_debugCurate) then { systemChat "c"; };
 				[_arsenal, ["rhsusf_5Rnd_doomsday_Buck","rhsusf_8Rnd_doomsday_Buck"]] call ace_arsenal_fnc_removeVirtualItems;
 			};
 			//TAS Flashlights
 			if (isClass(configFile >> "CfgPatches" >> "TAS_BrightLite")) then { 
-				[_arsenal, ["tas_acc_brightlite_sniper","tas_acc_brightlite_high","tas_acc_brightlite_low","tas_acc_brightlite_static","tas_acc_nightlite_sniper","tas_acc_nightlite_high","tas_acc_nightlite_low","tas_acc_nightlite_static"]] call ace_arsenal_fnc_removeVirtualItems;
+				if (_debugCurate) then { systemChat "d"; };
+				[_arsenal, ["TAS_acc_brightlite_sniper","TAS_acc_brightlite_high","TAS_acc_brightlite_low","TAS_acc_brightlite_static","TAS_acc_nightlite_sniper","TAS_acc_nightlite_high","TAS_acc_nightlite_low","TAS_acc_nightlite_static"]] call ace_arsenal_fnc_removeVirtualItems;
 			};
 			//TAS Doomsday
 			if (isClass(configFile >> "CfgPatches" >> "TAS_Revolver")) then { 
-				[_arsenal, ["TAS_6Rnd_doomsday_Buck"]] call ace_arsenal_fnc_removeVirtualItems;
+				if (_debugCurate) then { systemChat "e"; };
+				[_arsenal, ["TAS_6Rnd_doomsday_Buck"]] call ace_arsenal_fnc_removeVirtualItems; //TAS_6Rnd_FRAG too?
 			};
 			//[_x, []] call ace_arsenal_fnc_removeVirtualItems;
+			//LAGO stuff
+			if (isClass(configFile >> "CfgPatches" >> "LAGO_Biken")) then { //just check for biken b/c lazy
+				if (_debugCurate) then { systemChat "f"; };
+				[_arsenal, ["LAGO_Biken","LAGO_KU3K","LAGO_KU5K","LAGO_KU98K_NSK","LAGO_KUoooK","LAGO_SCannon","LAGO_CP"]] call ace_arsenal_fnc_removeVirtualItems; //TAS_6Rnd_FRAG too?
+			};
 		};
 	} forEach ["arsenal_1","arsenal_2","arsenal_3","arsenal_4","arsenal_5","arsenal_6","arsenal_7","arsenal_8","arsenal_9","arsenal_10"]; //template only provides 3 arsenals, but more are provided in case mission maker copy pastes them (they'll automatically be named arsenal_X)
+	if (_debugCurate) then { systemChat "g"; };
 };
 
 if (TAS_doTemplateBriefing) then {
-	TAS_templateBriefing = [
-		"1. Fixed various critical typos in FOB system, respawn system, and 3d Group Icons.",
-		"2. Miscellaneous background fixed and minor updates.",
-		"Known issues: Respawn In Vehicle has approximately a 5% change to not work when you try to click the button. Fix is WIP.",
-		"Please visit the 'Mission Template' section in the mission notes (in the top left of the map screen) to be aware of the enabled toggleable features present in this mission.",
-		"You will only receive this message once every time you join a mission with a new mission template version."
-	];
-
 	private _lastBriefed = profileNamespace getVariable ["TAS_lastTemplateBriefNumber",0];	//new name as old one used string
 	if (_lastBriefed < TAS_templateVersion) then {
 		(format ["TAS Mission Template v%1 — What's New",TAS_templateVersion]) hintC TAS_templateBriefing;
@@ -550,4 +741,75 @@ if (TAS_doDiscordUpdate) then {
 
 if (TAS_3dGroupIcons) then { //intentionally the "do" variant for performance reasons
 	[] spawn TAS_fnc_3dGroupIcons;
+};
+
+if (TAS_trimGroupNames) then {
+	[group player,false] spawn TAS_fnc_trimGroupName;
+};
+
+if (TAS_textBriefing) then {
+	[] spawn TAS_fnc_briefing;
+	/*
+	switch (side player) do {
+		case west: {};
+		case east: {};
+		case independent: {};
+		case civilian: {};
+		default {};
+	};
+	*/
+};
+
+if (TAS_ModLog) then {
+	//TOOD chat not working?
+	private _logMessage = "";
+
+	if (isClass(configFile >> "CfgPatches" >> "Revo_NoWeaponSway")) then {
+		_shameMessage = format ["%1 is running No Weapon Sway",name player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			//[player,"I am running No Weapon Sway!"] remoteExec ["globalChat"];
+		};
+	};
+	if (isClass(configFile >> "CfgPatches" >> "cTab")) then { 
+		_shameMessage = format ["%1 is running cTab",name player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			[player,"I am running cTab!"] remoteExec ["globalChat"];
+		};
+	};
+	if (isClass(configFile >> "CfgPatches" >> "Ronon_gun_Pat")) then { 
+		_shameMessage = format ["%1 is running Stargate",name player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			[player,"I am running Stargate!"] remoteExec ["globalChat"];
+		};
+	};
+	if ((isClass(configFile >> "CfgPatches" >> "BRIDGE_PunchMod")) || (isClass(configFile >> "CfgPatches" >> "BRIDGE_punch"))) then { 
+		_shameMessage = format ["%1 is running Knock People Unconscious",name player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			[player,"I am running Knock People Unconscious!"] remoteExec ["globalChat"];
+		};
+	};
+	if !(isClass(configFile >> "CfgPatches" >> "L_Suppress_Suppress_main")) then { 
+		_shameMessage = format ["%1 is not running Suppress",name player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			[player,"I am not running Suppress!"] remoteExec ["globalChat"];
+		};
+	};
+	if (isClass(configFile >> "CfgPatches" >> "Alternative_Running")) then { 
+		_shameMessage = format ["%1 is running Alternative Running",name player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			[player,"I am running Alternative Running!"] remoteExec ["globalChat"];
+		};
+	};
+
+	/*if (isClass(configFile >> "CfgPatches" >> "rhsusf_weapons")) then { 
+		//[player,"I am running AAA! Shame on me!"] remoteExec ["globalChat"];
+		_shameMessage = format ["%1 is running AAA",name player];
+		_shameMessage remoteExec ["diag_log"];
+	};*/
 };

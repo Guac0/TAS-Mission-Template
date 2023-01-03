@@ -1,4 +1,4 @@
-private _debug = true;
+private _debug = false;
 
 if (_debug) then {
 	systemChat "onPlayerRespawn a";
@@ -134,15 +134,17 @@ if (_allowReinsert) then {
 		systemChat "Exit the vehicle before being shown the respawn GUI!"; //this too because while in arsenal, hints are hidden
 		waitUntil {sleep 0.25; vehicle player == player}; //wait until ace arsenal is exited to avoid gui errors
 	};
+
 	player setVariable ["TAS_waitingForReinsert",false];
-	if (TAS_respawnInVehicle) then { "vehicle" spawn TAS_fnc_respawnGui };
-	if (TAS_fobEnabled) then { "rallypoint" spawn TAS_fnc_respawnGui };
+	if (TAS_respawnInVehicle || TAS_fobEnabled) then { [] spawn TAS_fnc_openRespawnGui; };
 	//if respawn vehicle and fob aren't enabled, then nothing will happen (player will be left at the base they selected to respawn at)
 	//if you have a custom respawn method, add it below (make sure respawn vehicle and fob are disabled)
+		//change "spawn" to "call" above if you want the code below to run AFTER player is TPed to rally/fob/wherever
 
 
 
 };
+
 
 if (_debug) then {
 	systemChat "onPlayerRespawn f";

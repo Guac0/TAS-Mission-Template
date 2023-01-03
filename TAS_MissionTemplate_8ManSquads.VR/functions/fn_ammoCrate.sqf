@@ -119,15 +119,28 @@ if (_addMedical) then {
 if (_addBasicAmmo) then {
 	{
 		// Current player is saved in variable _x
-		if (primaryWeapon _x != "") then { 													//don't add primary ammo if player has no primary weapon
+		if (primaryWeapon _x isNotEqualTo "") then { 													//don't add primary ammo if player has no primary weapon
 			if (count (primaryWeaponMagazine _x) > 0) then { 								//only add magazines if player has magazine(s) loaded
 				for "_i" from 0 to ((count primaryWeaponMagazine _x) - 1) do {				//grab GL/other underbarrel rounds too if applicable
 					TAS_ammoCrateVariable addMagazineCargoGlobal [primaryWeaponMagazine _x select _i, 6];
 				};
 			} else {																		//if player has no magazines loaded (i.e. fully out of ammo), then take our best guess from CBA compat magazines IF weapon has any compatible magazines
-				if (count ([primaryWeapon _x] call CBA_fnc_compatibleMagazines) > 0) then { //only do this if there's actually valid magazines for the gun
-					TAS_ammoCrateVariable addMagazineCargoGlobal [[primaryWeapon _x] call CBA_fnc_compatibleMagazines select 0,6];
+				if (count ([primaryWeapon player] call CBA_fnc_compatibleMagazines) > 0) then {									
+					for "_i" from 1 to 6 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 0) };
+					if (count ([primaryWeapon player] call CBA_fnc_compatibleMagazines) > 1) then {  								
+						for "_i" from 1 to 4 do { player addItem ([primaryWeapon player] call CBA_fnc_compatibleMagazines select 1) }; 
+					};
 				};
+				{
+					if (_x isNotEqualTo "this") then {
+						if (count ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+							for "_i" from 1 to 6 do { player addItem ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines select 0) }; //standard ammo
+							if (count ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines) > 1) then {  								//adds CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
+								for "_i" from 1 to 4 do { player addItem ([configFile >> "CfgWeapons" >> primaryWeapon player >> _x] call CBA_fnc_compatibleMagazines select 1) }; //standard ammo
+							};
+						};
+					};
+				} forEach (getArray (configFile >> "CfgWeapons" >> (primaryWeapon player) >> "muzzles"));				//check for each muzzle so that UGL has ammo
 			};
 		};
 	} forEach allPlayers;
@@ -135,28 +148,58 @@ if (_addBasicAmmo) then {
 
 if (_addAdvancedAmmo) then {
 	{
-		if (primaryWeapon _x != "") then { 																		//don't add primary ammo if player has no primary weapon
-			if (count ([primaryWeapon _x] call CBA_fnc_compatibleMagazines) > 0) then {							//checks if weapon actually has compatible ammo
-				TAS_ammoCrateVariable addMagazineCargoGlobal [[primaryWeapon _x] call CBA_fnc_compatibleMagazines select 0,4]; 	//adds CBA's best guess for ammo
-				if (count ([primaryWeapon _x] call CBA_fnc_compatibleMagazines) > 1) then {  					//adds CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
-					TAS_ammoCrateVariable addMagazineCargoGlobal [[primaryWeapon _x] call CBA_fnc_compatibleMagazines select 1,4];
+		private _player = _x;
+		if (primaryWeapon _player isNotEqualTo "") then { 																		//don't add primary ammo if player has no primary weapon
+			if (count ([primaryWeapon _player] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+				TAS_ammoCrateVariable addMagazineCargoGlobal [[primaryWeapon _player] call CBA_fnc_compatibleMagazines select 0,6]; 	//adds CBA's best guess for ammo
+				if (count ([primaryWeapon _player] call CBA_fnc_compatibleMagazines) > 1) then {  								//adds CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
+					TAS_ammoCrateVariable addMagazineCargoGlobal [[primaryWeapon _player] call CBA_fnc_compatibleMagazines select 1,4];
 				};
 			};
+			{
+				if (_x isNotEqualTo "this") then {
+					if (count ([configFile >> "CfgWeapons" >> primaryWeapon _player >> _x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+						TAS_ammoCrateVariable addMagazineCargoGlobal [[configFile >> "CfgWeapons" >> primaryWeapon _player >> _x] call CBA_fnc_compatibleMagazines select 0,6]; 	//adds CBA's best guess for ammo
+						if (count ([configFile >> "CfgWeapons" >> primaryWeapon _player >> _x] call CBA_fnc_compatibleMagazines) > 1) then {  								//adds CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
+							TAS_ammoCrateVariable addMagazineCargoGlobal [[configFile >> "CfgWeapons" >> primaryWeapon _player >> _x] call CBA_fnc_compatibleMagazines select 1,4];
+						};
+					};
+				};
+			} forEach (getArray (configFile >> "CfgWeapons" >> (primaryWeapon _player) >> "muzzles"));				//check for each muzzle so that UGL has ammo
 		};
 
-		if (handgunWeapon _x != "") then { 																		//don't add primary ammo if player has no primary weapon
-			if (count ([handgunWeapon _x] call CBA_fnc_compatibleMagazines) > 0) then {							//checks if weapon actually has compatible ammo
-				TAS_ammoCrateVariable addMagazineCargoGlobal [[handgunWeapon _x] call CBA_fnc_compatibleMagazines select 0,2]; 	//adds CBA's best guess for ammo
+		if (handgunWeapon _player isNotEqualTo "") then { 																		//don't add primary ammo if _player has no primary weapon
+			if (count ([handgunWeapon _player] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+				TAS_ammoCrateVariable addMagazineCargoGlobal [[handgunWeapon _player] call CBA_fnc_compatibleMagazines select 0,2]; 	//adds CBA's best guess for ammo
 			};
+			{
+				if (_x isNotEqualTo "this") then {
+					if (count ([configFile >> "CfgWeapons" >> handgunWeapon _player >> _x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+						TAS_ammoCrateVariable addMagazineCargoGlobal [[configFile >> "CfgWeapons" >> handgunWeapon _player >> _x] call CBA_fnc_compatibleMagazines select 0,2]; 	//adds CBA's best guess for ammo
+					};
+				};
+			} forEach (getArray (configFile >> "CfgWeapons" >> (handgunWeapon _player) >> "muzzles"));				//check for each muzzle so that UGL has ammo
 		};
 		
-		if (secondaryWeapon _x != "") then { 																	//don't add ammo if player has no weapon
-			if (count ([secondaryWeapon _x] call CBA_fnc_compatibleMagazines) > 0) then {						//checks if weapon actually has compatible ammo
-				TAS_ammoCrateVariable addMagazineCargoGlobal [[secondaryWeapon _x] call CBA_fnc_compatibleMagazines select 0,2]; //adds two rounds of CBA's best guess for ammo
-				if (count ([secondaryWeapon _x] call CBA_fnc_compatibleMagazines) > 1) then {  					//adds two rounds of CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
-					TAS_ammoCrateVariable addMagazineCargoGlobal [[secondaryWeapon _x] call CBA_fnc_compatibleMagazines select 1,2];
+		if (secondaryWeapon _player isNotEqualTo "") then { 																	//don't add ammo if _player has no weapon
+			if (_x isNotEqualTo "this") then {
+				if (count ([secondaryWeapon _player] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+					TAS_ammoCrateVariable addMagazineCargoGlobal [[secondaryWeapon _player] call CBA_fnc_compatibleMagazines select 0,2]; 	//adds CBA's best guess for ammo
+					if (count ([secondaryWeapon _player] call CBA_fnc_compatibleMagazines) > 1) then {  								//adds CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
+						TAS_ammoCrateVariable addMagazineCargoGlobal [[secondaryWeapon _player] call CBA_fnc_compatibleMagazines select 1,2];
+					};
 				};
 			};
+			{
+				if (_x isNotEqualTo "this") then {
+					if (count ([configFile >> "CfgWeapons" >> secondaryWeapon _player >> _x] call CBA_fnc_compatibleMagazines) > 0) then {									//checks if weapon actually has compatible ammo
+						TAS_ammoCrateVariable addMagazineCargoGlobal [[configFile >> "CfgWeapons" >> secondaryWeapon _player >> _x] call CBA_fnc_compatibleMagazines select 0,2]; 	//adds CBA's best guess for ammo
+						if (count ([configFile >> "CfgWeapons" >> secondaryWeapon _player >> _x] call CBA_fnc_compatibleMagazines) > 1) then {  								//adds CBA's second best guess for ammo (for tracer rounds for rifles, HE rounds for launchers, and the like) if any exists
+							TAS_ammoCrateVariable addMagazineCargoGlobal [[configFile >> "CfgWeapons" >> secondaryWeapon _player >> _x] call CBA_fnc_compatibleMagazines select 1,2];
+						};
+					};
+				};
+			} forEach (getArray (configFile >> "CfgWeapons" >> (secondaryWeapon _player) >> "muzzles"));				//check for each muzzle so that UGL has ammo
 		};
 
 	} forEach allPlayers;
@@ -175,3 +218,13 @@ publicVariable "TAS_ammoCrateVariable"; //needed because arma code sucks
 [TAS_ammoCrateVariable, true, [0, 2, 0], 0] remoteExecCall ['ace_dragging_fnc_setDraggable'];
 
 TAS_ammoCrateVariable //return reference to created box
+
+/*
+notes
+muzzle detection: getArray (configFile >> "CfgWeapons" >> (primaryWeapon player) >> "muzzles")
+mx: ["this"]
+mx 3gl: ["this","GL_3GL_F"]
+msbs grot gl: ["this","UGL"]
+msbs grot sg: ["this","UBS_F"]
+ncar 15 (atlas): ["this","EGLM"]
+*/

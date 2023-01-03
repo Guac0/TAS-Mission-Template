@@ -8,7 +8,7 @@ if (_debug) then {
 	systemChat "rallypoint a";
 };
 
-private _rallyStillExistsCheck = [TAS_rallypointLocations, _rallypointPosATL] call BIS_fnc_findNestedElement;
+private _rallyStillExistsCheck = [TAS_respawnLocations, _rallypointPosATL] call BIS_fnc_findNestedElement;
 if (_rallyStillExistsCheck isEqualTo []) exitWith {
 	//rally location has been updated!
 	_rallyStillExists = false;
@@ -30,7 +30,7 @@ while {_rallyStillExists} do {
 	private _nearEnemies = 
 	_rallypointPosATL*/
 
-	_rallyStillExistsCheck = [TAS_rallypointLocations, _rallypointPosATL] call BIS_fnc_findNestedElement;
+	_rallyStillExistsCheck = [TAS_respawnLocations, _rallypointPosATL] call BIS_fnc_findNestedElement;
 	if (_rallyStillExistsCheck isEqualTo []) exitWith {
 		//rally location has been updated!
 		_rallyStillExists = false;
@@ -65,7 +65,7 @@ while {_rallyStillExists} do {
 				systemChat "rallypoint d";
 			};
 
-			_rallyStillExistsCheck = [TAS_rallypointLocations, _rallypointPosATL] call BIS_fnc_findNestedElement;
+			_rallyStillExistsCheck = [TAS_respawnLocations, _rallypointPosATL] call BIS_fnc_findNestedElement;
 			if (_rallyStillExistsCheck isEqualTo []) exitWith {
 				//rally location has been updated!
 				_rallyStillExists = false;
@@ -94,7 +94,7 @@ while {_rallyStillExists} do {
 			systemChat "rallypoint e";
 		};
 
-		_rallyStillExistsCheck = [TAS_rallypointLocations, _rallypointPosATL] call BIS_fnc_findNestedElement;
+		_rallyStillExistsCheck = [TAS_respawnLocations, _rallypointPosATL] call BIS_fnc_findNestedElement;
 		if (_rallyStillExistsCheck isEqualTo []) exitWith {
 			//rally location has been updated!
 			_rallyStillExists = false;
@@ -109,9 +109,9 @@ while {_rallyStillExists} do {
 
 			{_x setDamage 1} forEach TAS_rallypointCmd;
 			//TAS_rallypointCmdRespawn call BIS_fnc_removeRespawnPosition;
-			private _path = [TAS_rallypointLocations, "Cmd Rallypoint"] call BIS_fnc_findNestedElement;
+			private _path = [TAS_respawnLocations, "Cmd Rallypoint"] call BIS_fnc_findNestedElement;
 			private _indexOfOldRallyPair = _path select 0;
-			TAS_rallypointLocations deleteAt _indexOfOldRallyPair;
+			TAS_respawnLocations deleteAt _indexOfOldRallyPair;
 		} else {
 			private _msg = format ["The Cmd Rallypoint at grid reference %1 is no longer in immediate danger of being overrrun!", mapGridPosition _rallypointPosATL];
 			_msg remoteExec ["hint"];

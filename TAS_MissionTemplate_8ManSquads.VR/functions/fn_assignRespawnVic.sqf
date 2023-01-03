@@ -26,14 +26,14 @@ private _onConfirm =
 	};
 	
 	//validate if object is already respawn vic, or is name is already used
-	/*systemChat str TAS_respawnVehicles;
-	private _foundOccurance = [TAS_respawnVehicles, _name] call BIS_fnc_findNestedElement; //returns "[]" if not found 
+	/*systemChat str TAS_respawnLocations;
+	private _foundOccurance = [TAS_respawnLocations, _name] call BIS_fnc_findNestedElement; //returns "[]" if not found 
 	systemChat str _foundOccurence;
 	if (_foundOccurence != []) exitWith {
 		hint "The same name is already set for another respawn vehicle!";
 		systemChat "The same name is already set for another respawn vehicle!";
 	};
-	_foundOccurance = [TAS_respawnVehicles, _unit] call BIS_fnc_findNestedElement; //returns "[]" if not found
+	_foundOccurance = [TAS_respawnLocations, _unit] call BIS_fnc_findNestedElement; //returns "[]" if not found
 	systemChat str _foundOccurence;
 	if (_foundOccurence != []) exitWith {
 		hint "The given vehicle is already a respawn vehicle!";
@@ -41,7 +41,7 @@ private _onConfirm =
 	};*/
 
 	if (vehicleVarName _unit == "") then { //if vic doesn't have a var name, then give it one
-		_unit setVehicleVarName format ["TAS_zeusRespawnVehicle%1",count TAS_respawnVehicles]; //TODO make better
+		_unit setVehicleVarName format ["TAS_zeusRespawnVehicle%1",count TAS_respawnLocations]; //TODO make better
 		//systemChat format ["3: %1",_unit];
 	};
 	private _vehicleName = vehicleVarName _unit;
@@ -49,18 +49,7 @@ private _onConfirm =
 	missionNamespace setVariable [_vehicleName, _unit];
 	publicVariable _vehicleName;
 
-	//systemChat format ["5: %1",_unit];
-	[_unit,"hd_flag","ColorUNKNOWN",_name,true,5] call TAS_fnc_markerFollow;
-	TAS_respawnVehicles pushBack [_unit,_name]; //["TAS_zeusRespawnVehicle1","test1"]
-	publicVariable "TAS_respawnVehicles";
-
-	_unit addEventHandler ["Killed", {	//removes respawn vehicle from list. might not work if locality is changed.
-		params ["_unit", "_killer", "_instigator", "_useEffects"];
-		private _path = [TAS_respawnVehicles, _unit] call BIS_fnc_findNestedElement;
-		private _indexOfOldRallyPair = _path select 0;
-		TAS_rallypointLocations deleteAt _indexOfOldRallyPair;
-		publicVariable "TAS_respawnVehicles";
-	}];
+	[_unit,_name] remoteExec ["TAS_fnc_assignRespawnVicInit",2]; //exec on server
 };
 [
 	"Set Respawn Vehicle Name", 

@@ -17,7 +17,7 @@ private _rallypointPosATL 		= getPosAtl player;
 
 private _exit = false;
 if (TAS_rallyOutnumber) then {
-	if ( _nearEnemiesNumber > _nearFriendliesNumber) exitWith {_exit = true; systemChat format ["Rallypoint creation failure, enemies outnumber friendleis within %1m!",TAS_rallyDistance]};
+	if ( _nearEnemiesNumber > _nearFriendliesNumber) exitWith {_exit = true; systemChat format ["Rallypoint creation failure, enemies outnumber friendlies within %1m!",TAS_rallyDistance]};
 } else {
 	if ( _nearEnemiesNumber > 0 ) exitWith {_exit = true; systemChat format ["Rallypoint creation failure, enemies are within %1m!",TAS_rallyDistance]};
 };
@@ -27,14 +27,14 @@ if (TAS_rallyFoxtrotUsed == false) then { "rallypointFoxtrotMarker" setMarkerAlp
 if (TAS_rallyFoxtrotUsed == true) then {
 	{deleteVehicle _x} forEach TAS_rallypointFoxtrot;
 	//TAS_rallypointFoxtrotRespawn call BIS_fnc_removeRespawnPosition;
-	private _path = [TAS_rallypointLocations, "Foxtrot Rallypoint"] call BIS_fnc_findNestedElement;
+	private _path = [TAS_respawnLocations, "Foxtrot Rallypoint"] call BIS_fnc_findNestedElement;
 	private _indexOfOldRallyPair = _path select 0;
-	TAS_rallypointLocations deleteAt _indexOfOldRallyPair;
+	TAS_respawnLocations deleteAt _indexOfOldRallyPair;
 }; //if rallypoint already exists, delete it so the new one can be spawned
 
 //TAS_rallypointFoxtrotRespawn = [side player, getPos player, "Foxtrot Rallypoint"] call BIS_fnc_addRespawnPosition; //not private so we can delete later
-TAS_rallypointLocations pushBack [_rallypointPosATL,"Foxtrot Rallypoint"];
-publicVariable "TAS_rallypointLocations";
+TAS_respawnLocations pushBack [_rallypointPosATL,"Foxtrot Rallypoint"];
+publicVariable "TAS_respawnLocations";
 "rallypointFoxtrotMarker" setMarkerPos getPos player; //updates the rallypoint's position on map
 
 if (TAS_useSmallRally == false) then {

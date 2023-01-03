@@ -10,9 +10,9 @@
 if (TAS_fobRespawn) then {
 	TAS_fobRespawn call BIS_fnc_removeRespawnPosition;
 };
-private _path = [TAS_rallypointLocations, "Forward Operating Base"] call BIS_fnc_findNestedElement;
+private _path = [TAS_respawnLocations, "Forward Operating Base"] call BIS_fnc_findNestedElement;
 private _indexOfOldRallyPair = _path select 0;
-TAS_rallypointLocations deleteAt _indexOfOldRallyPair;
+TAS_respawnLocations deleteAt _indexOfOldRallyPair;
 
 //apply new var
 TAS_fobBuilt = false;

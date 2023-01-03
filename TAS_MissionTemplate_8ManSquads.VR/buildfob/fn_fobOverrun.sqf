@@ -77,9 +77,9 @@ while {!(TAS_fobDestroyed)} do {
 			if (TAS_fobRespawn) then {
 				TAS_fobRespawn call BIS_fnc_removeRespawnPosition;
 			};
-			private _path = [TAS_rallypointLocations, "Forward Operating Base"] call BIS_fnc_findNestedElement;
+			private _path = [TAS_respawnLocations, "Forward Operating Base"] call BIS_fnc_findNestedElement;
 			private _indexOfOldRallyPair = _path select 0;
-			TAS_rallypointLocations deleteAt _indexOfOldRallyPair;
+			TAS_respawnLocations deleteAt _indexOfOldRallyPair;
 		} else {
 			private _msg = format ["The Forward Operating Base at grid reference %1 is no longer in immediate danger of being overrrun!", mapGridPosition TAS_fobPositionATL];
 			_msg remoteExec ["hint"];
