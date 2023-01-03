@@ -28,6 +28,7 @@
 
 
 
+
 	/* Blue Force Tracker
 		Initiates Quicksilver's Blue Force Tracking on map/gps
 			By default, marks all groups and players (not AI) on side, and colors people in your squad according to their team color
@@ -48,18 +49,9 @@
 				Set to 0 to disable.
 				If enabled, requires AceHealObject to be present!
 		*/
-		TAS_3dGroupIcons 		= true; //default true
-		TAS_3dGroupIconsTime	= 0;	//default 0
-		TAS_3dGroupIconsRange	= 150;	//default 150
-
-
-	/* AceHealObject
-		Manages actions tied to the 'AceHealObject' in the mission
-			TAS_aceHealObjectEnabled adds a hold action to it that gives an Ace Heal to all players within a certain radius when activated
-			TAS_aceSpectateObjectEnabled adds a hold action to it that puts the player into acespectator mode
-			*/
-		TAS_aceHealObjectEnabled 		= true; //default true
-		TAS_aceSpectateObjectEnabled 	= true; //default true
+		TAS_3dGroupIcons 			= true; //default true
+		TAS_3dGroupIconsTime		= 0;	//default 0
+		TAS_3dGroupIconsRange		= 150;	//default 150
 
 
 	/* Resupply Object
@@ -68,25 +60,16 @@
 			Needs the "Create Resupply Box" whiteboard and "Resupply Spawn Helper" parachute jump target from mission.sqm to work
 			TAS_resupplyObjectEnabled enables/disables it
 		*/
-		TAS_resupplyObjectEnabled 		= true; //default true
-
-
-	/* Arsenal Curate
-		Removes certain problematic items from arsenal boxes that are otherwise hidden and unremoveable
-			See initPlayer for full list, but this is things like doomsday, hidden brightlights, etc
-			arsenal boxes names must be arsenal_# from 1 to 10, template already gives you 1-3 premade and you can just copy paste those
-			Only turn this to "false" if its a meme op and thus players should have extreme yield lights and doomsday and etc
-		*/
-		TAS_arsenalCurate 		= true; //default true
+		TAS_resupplyObjectEnabled 	= true; //default true
 
 
 	/* Text Briefing
 		Creates the standard 4 part briefing in the briefing section of the diary records.
 			Functionally identical to creating a text briefing using the Eden modules or toolbars, just via an SQF file if you prefer to write it that way.
-			By default creates adds it for every player.
+			By default it creates it for every player.
 			See functions/fn_briefing.sqf to customize.
 			*/
-		TAS_textBriefing 		= false; //default false
+		TAS_textBriefing 			= false; //default false
 
 
 
@@ -340,7 +323,7 @@
 	Below you can find various options that are not included in the main list for one of three reasons:
 		1. It is illogical to change these settings from the defaults
 			For example, they manage adding various zeus modules required to manage other systems enabled in the regular template options, or are just handy in general
-			Some, like TAS_resupplyObjectEnabled, are intended to be always enabled even if you don't include the relevant objects from the mission.sqm because 
+			Some, like TAS_aceHealObjectEnabled, are intended to be always enabled even if you don't include the relevant objects from the mission.sqm because 
 				they are capable to automatically detecting when they are not required (i.e. you delete the object the resupply creator is attached to)
 		2. They have either extremely advanced usage cases that only Guac uses, or are settings for developer work on the template/versioning
 			For example, TAS_spawnUnitsOnHC and TAS_templateVersion respectively
@@ -350,6 +333,51 @@
 		TL;DR: don't scroll down unless you know what you're doing, have been instructed to do so, or are very curious.
 
 	*/
+
+
+	/* Shortlist of options below that are enabled by default, in (roughly) the order that they appear:
+			ace heal object
+			ace spectate object
+			arsenal curate
+			disabling vanilla stamina
+			clean briefing of disabled template systems
+			dynamic groups
+			global TFAR
+			FPS display
+			trim group names
+			fix team color on death and respawn
+			adds various zeus modules
+			adds client keys for AFK, music mute, and earplugs
+			discord update
+			track all clients performance
+			does mod log of unallowed mods
+		*/
+
+
+
+	//////////////////////////////////
+	////Scripts/Functions Options/////
+	//////////////////////////////////
+
+
+
+		/* AceHealObject
+			Manages actions tied to the 'AceHealObject' in the mission
+				TAS_aceHealObjectEnabled adds a hold action to it that gives an Ace Heal to all players within a certain radius when activated
+				TAS_aceSpectateObjectEnabled adds a hold action to it that puts the player into acespectator mode
+				*/
+			TAS_aceHealObjectEnabled 		= true; //default true
+			TAS_aceSpectateObjectEnabled 	= true; //default true
+
+
+		/* Arsenal Curate
+			Removes certain problematic items from arsenal boxes that are otherwise hidden and unremoveable
+				See initPlayer for full list, but this is things like doomsday, hidden brightlights, etc
+					They usually get accidentally added by zeus hitting "add all compatible" to a custom arsenal, which adds invisible things too
+				Arsenal boxes names must be arsenal_# from 1 to 10, template already gives you 1-3 premade and you can just copy paste those
+				Only turn this to "false" if its a meme op and thus players should have extreme yield lights and doomsday and etc
+			*/
+			TAS_arsenalCurate 		= true; //default true
 
 
 
