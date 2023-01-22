@@ -112,6 +112,10 @@ while {_rallyStillExists} do {
 			private _path = [TAS_respawnLocations, "Foxtrot Rallypoint"] call BIS_fnc_findNestedElement;
 			private _indexOfOldRallyPair = _path select 0;
 			TAS_respawnLocations deleteAt _indexOfOldRallyPair;
+			"rallypointFoxtrotMarker" setMarkerAlpha 0;
+			TAS_rallyFoxtrotUsed = false;
+			publicVariable "TAS_respawnLocations";
+			publicVariable "TAS_rallyFoxtrotUsed";
 		} else {
 			private _msg = format ["The Foxtrot Rallypoint at grid reference %1 is no longer in immediate danger of being overrrun!", mapGridPosition _rallypointPosATL];
 			_msg remoteExec ["hint"];

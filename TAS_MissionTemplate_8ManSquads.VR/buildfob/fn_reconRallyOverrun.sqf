@@ -112,6 +112,10 @@ while {_rallyStillExists} do {
 			private _path = [TAS_respawnLocations, "Recon Rallypoint"] call BIS_fnc_findNestedElement;
 			private _indexOfOldRallyPair = _path select 0;
 			TAS_respawnLocations deleteAt _indexOfOldRallyPair;
+			"rallypointReconMarker" setMarkerAlpha 0;
+			TAS_rallyReconUsed = false;
+			publicVariable "TAS_respawnLocations";
+			publicVariable "TAS_rallyReconUsed";
 		} else {
 			private _msg = format ["The Recon Rallypoint at grid reference %1 is no longer in immediate danger of being overrrun!", mapGridPosition _rallypointPosATL];
 			_msg remoteExec ["hint"];
