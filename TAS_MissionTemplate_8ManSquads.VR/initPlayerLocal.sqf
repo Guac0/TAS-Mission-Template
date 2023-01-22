@@ -189,7 +189,8 @@ if (TAS_populateInventory) then {
 	for "_i" from 1 to 2 do { player addItem "ACE_epinephrine" };
 	for "_i" from 1 to 3 do { player addItem "ACE_tourniquet"};
 	for "_i" from 1 to 2 do { player addItem "ACE_bloodIV_500" };
-
+	for "_i" from 1 to 2 do { player addItem "ACE_splint" };
+	
 	//misc
 	for "_i" from 1 to 2 do { player addItem "ACE_CableTie" };
 	player addItem "ACE_Earplugs";
@@ -220,8 +221,12 @@ if (TAS_populateInventory) then {
 		for "_i" from 1 to 6 do { player addItem "ACE_tourniquet"};
 		for "_i" from 1 to 10 do { player addItem "ACE_bloodIV_500" };
 		for "_i" from 1 to 6 do { player addItem "ACE_bloodIV" };
+		for "_i" from 1 to 8 do { player addItem "ACE_splint" };
 		player addItem "ACE_personalAidKit";
 		//player addItem "ACE_surgicalKit";
+		player addItem "adv_aceCPR_AED";
+		player addItem "ROOK_SutureGun";
+		for "_i" from 1 to 4 do { player addMagazine "ROOK_SutureMag" };
 	};
 
 	//https://github.com/acemod/ACE3/blob/e4be783f80db5730ad5c351d611206a245b35a0f/addons/repair/functions/fnc_isEngineer.sqf
