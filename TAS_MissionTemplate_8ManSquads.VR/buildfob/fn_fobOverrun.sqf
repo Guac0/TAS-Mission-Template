@@ -1,4 +1,4 @@
-while {!(TAS_fobDestroyed)} do {
+while {!(TAS_fobBuilt)} do { //fobBuilt can be set false here (when destroyed) or in fobPackup.sqf
 	/*private _nearUnits = nearestObjects [TAS_fobPositionATL, ["Man"], TAS_fobOverrunDistance];	//wont find vehicles/infantry in vehicles!
 	private _nearUnitsAlive = [];
 	{ if (alive _x ) then { _nearUnitsAlive set [(count _nearUnitsAlive), _x]; }; } forEach _nearUnits;

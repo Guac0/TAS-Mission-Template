@@ -1,20 +1,20 @@
 //builds a fob with arsenals and repair boxes
 //if (isNil fobBuilt) then {fobBuilt = false; publicVariable "fobBuilt";}; ////if variable is nonexistant, create it (first time setup)
-
-//_nearestUnits = nearestObjects [player,["Man","Car","Tank"],300];//if enemies are within 150m, exit with fail message
+private _player = player; //dummy for now for future rewriting for enhanced MP compat
+//_nearestUnits = nearestObjects [_player,["Man","Car","Tank"],300];//if enemies are within 150m, exit with fail message
 //_enemySides = playerSide call BIS_fnc_enemySides;
 //if ( { _x countSide _nearestUnits > 0 } forEach _enemySides ) exitWith {systemChat "FOB creation failure, enemies are within 300m!"};
-//_nearEntities = player nearEntities [["Man","Car","Tank"],150];
-//_nearEnemies = player countEnemy _nearEntities;
-private _playerSide = side group player;
+//_nearEntities = _player nearEntities [["Man","Car","Tank"],150];
+//_nearEnemies = _player countEnemy _nearEntities;
+private _playerSide = side group _player;
 TAS_fobSide = _playerSide;
 publicVariable "TAS_fobSide";
 private _enemySides = [_playerSide] call BIS_fnc_enemySides;
 private _radius = TAS_fobDistance; //parameter from initServer.sqf, default 300
-private _nearEnemies = allUnits select {_x distance player < _radius AND side _x in _enemySides};
+private _nearEnemies = allUnits select {_x distance _player < _radius AND side _x in _enemySides};
 private _nearEnemiesNumber = count _nearEnemies;
 
-TAS_fobPositionATL = getPosAtl player;
+TAS_fobPositionATL = getPosAtl _player;
 publicVariable "TAS_fobPositionATL";
 
 if ( _nearEnemiesNumber > 0 ) exitWith {systemChat format ["FOB creation failure, enemies are within %1m!",TAS_fobDistance]};
@@ -55,16 +55,17 @@ if (TAS_fobFullArsenals) then { //full arsenals
 	} forEach _fobArsenals;
 };
 
-[[_playerSide, "HQ"], format ["Forward Operating Base established by %1 at gridref %2.", name player, mapGridPosition logistics_vehicle]] remoteExec ["sideChat", side player];
+[[_playerSide, "HQ"], format ["Forward Operating Base established by %1 at gridref %2.", name _player, mapGridPosition logistics_vehicle]] remoteExec ["sideChat", _playerSide];
 
 TAS_respawnLocations pushBack [TAS_fobPositionATL,"Forward Operating Base"];
 TAS_fobBuilt = true;
-
-if (TAS_fobOverrun) then {
-	[] spawn TAS_fnc_fobOverrun;
-};
 
 publicVariable "TAS_respawnLocations";
 publicVariable "TAS_fobBuilt";
 publicVariable "TAS_fobRespawn";
 publicVariable "TAS_fobObjects"; //might be kinda high bandwidth, maybe just do publicVariableServer?
+
+if (TAS_fobOverrun) then {
+	//[] spawn TAS_fnc_fobOverrun;
+	[] remoteExec ["TAS_fnc_fobOverrun",2];
+};
