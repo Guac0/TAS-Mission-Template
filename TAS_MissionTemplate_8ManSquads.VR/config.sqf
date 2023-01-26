@@ -81,6 +81,14 @@
 		*/
 		TAS_arsenalCurate 		= true; //default true
 
+	
+	/* Custom Object Mapper
+		Draws black rectangles on all present custom buildings added to the mission. 
+			See functions\fn_markCustomObjects for options. 
+			Code from FNF.
+		*/
+		TAS_markCustomObjectsMap = false; //default false
+
 
 
 
