@@ -45,7 +45,7 @@ while {true} do {
     if (_myfps < 20) then {_myfpsmarker setMarkerColor "ColorORANGE";};
     if (_myfps < 10) then {_myfpsmarker setMarkerColor "ColorRED";};
 
-    private _output = format ["%1 - FPS: %2 - Local groups: %3 - Local units: %4 - Active Scripts: [spawn: %5, execVM: %6, exec: %7, execFSM: %8]",
+    private _output = format ["%1 - FPS: %2 - Local groups: %3 - Local units: %4 - Active Scripts: [spawn: %5, execVM: %6, exec: %7, execFSM: %8] - Last Updated: %9 (server time)",
 		_sourcestr,
 		_myfps,
 		_localgroups,
@@ -53,7 +53,8 @@ while {true} do {
 		diag_activeScripts select 0,
 		diag_activeScripts select 1,
 		diag_activeScripts select 2,
-		diag_activeScripts select 3
+		diag_activeScripts select 3,
+        serverTime 
     ];
 
     _myfpsmarker setMarkerText _output;
