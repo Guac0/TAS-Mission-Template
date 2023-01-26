@@ -87,21 +87,23 @@ if (TAS_3dGroupIcons) then {
 	[] spawn TAS_fnc_autoDisableGroupIcons;
 };
 
-//at bottom because has sleep
+//at bottom because has sleep. NOTE: no longer needs to be at the bottom due to 'spawn' being added
 if (TAS_respawnInVehicle) then {
-	TAS_respawnLocations = [];
-	sleep 30; //should be enough time for waitUntil in object init fields to activate, plus extra time for zeus to manually configure a vic (not really enough time but didnt want to do too long so that testing it doesnt take too long)
-	if (count TAS_respawnLocations == 0) then { //add fallback respawn vehicle if no other respawn vehicles are made
-		if (isNil "logistics_vehicle") then {
-			systemchat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
-			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
-		} else {
-			
-			[logistics_vehicle,"Default Respawn Vehicle"] spawn TAS_fnc_assignRespawnVicInit;
-			
-			systemChat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
-			diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
+	[] spawn { //spawn due to sleep. if not spawned, then the sleep will hold this up.
+		TAS_respawnLocations = [];
+		sleep 30; //should be enough time for waitUntil in object init fields to activate, plus extra time for zeus to manually configure a vic (not really enough time but didnt want to do too long so that testing it doesnt take too long)
+		if (count TAS_respawnLocations == 0) then { //add fallback respawn vehicle if no other respawn vehicles are made
+			if (isNil "logistics_vehicle") then {
+				systemchat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
+				diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, and the fallback 'logistics vehicle' does not exist either!";
+			} else {
+				
+				[logistics_vehicle,"Default Respawn Vehicle"] spawn TAS_fnc_assignRespawnVicInit;
+				
+				systemChat "WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
+				diag_log text "TAS-Mission-Template WARNING: Respawn In Vehicle is enabled but no vehicles are set as respawn vehicles, adding 'logistics_vehicle' as a respawn vehicle as a fallback!";
+			};
 		};
+		publicVariable "TAS_respawnLocations";
 	};
-	publicVariable "TAS_respawnLocations";
 };
