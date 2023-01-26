@@ -35,7 +35,15 @@ if (TAS_rallyFoxtrotUsed == true) then {
 //TAS_rallypointFoxtrotRespawn = [side player, getPos player, "Foxtrot Rallypoint"] call BIS_fnc_addRespawnPosition; //not private so we can delete later
 TAS_respawnLocations pushBack [_rallypointPosATL,"Foxtrot Rallypoint"];
 publicVariable "TAS_respawnLocations";
-"rallypointFoxtrotMarker" setMarkerPos getPos player; //updates the rallypoint's position on map
+"rallypointFoxtrotMarker" setMarkerPosLocal getPos player; //updates the rallypoint's position on map
+switch (_friendlySide) do {
+	case west: { private _color = "colorBLUFOR" };
+	case east: { private _color = "colorOPFOR" };
+	case independent: { private _color = "colorIndependent" };
+	case civilian: { private _color = "colorCivilian" };
+	default { private _color = "colorCivilian" };
+};
+"rallypointFoxtrotMarker" setMarkerColor _color;	//last marker command is public
 
 if (TAS_useSmallRally == false) then {
 	TAS_rallypointFoxtrot = [getPos player, getDir player, call (compile (preprocessFileLineNumbers "buildfob\rallypointComposition.sqf"))] call BIS_fnc_ObjectsMapper; //not private so we can delete later

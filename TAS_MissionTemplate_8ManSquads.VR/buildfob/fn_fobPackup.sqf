@@ -1,5 +1,6 @@
 //hide marker and reset to origin
-"fobMarker" setMarkerAlpha 0;
+"fobMarker" setMarkerAlphaLocal 0;
+"fobMarker" setMarkerPosLocal [0,0,0];
 "fobMarker" setMarkerPos [0,0,0];
 
 //clean up objects 

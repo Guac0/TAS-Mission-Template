@@ -23,8 +23,16 @@ if ( _nearEnemiesNumber > 0 ) exitWith {systemChat format ["FOB creation failure
 if (TAS_fobRespawn) then {
 	TAS_fobRespawn = [_playerSide, TAS_fobPositionATL, "FOB Respawn"] call BIS_fnc_addRespawnPosition;
 };
-"fobMarker" setMarkerPos getPos logistics_vehicle; //updates the rallypoint's position on map
-"fobMarker" setMarkerAlpha 1;
+"fobMarker" setMarkerPosLocal getPos logistics_vehicle; //updates the rallypoint's position on map
+"fobMarker" setMarkerAlphaLocal 1;
+switch (TAS_fobSide) do {
+	case west: { private _color = "colorBLUFOR" };
+	case east: { private _color = "colorOPFOR" };
+	case independent: { private _color = "colorIndependent" };
+	case civilian: { private _color = "colorCivilian" };
+	default { private _color = "colorCivilian" };
+};
+"fobMarker" setMarkerColor _color;	//last marker command is public
 
 //handle objects and arsenals
 TAS_fobObjects = [getPos logistics_vehicle, getDir logistics_vehicle, call (compile (preprocessFileLineNumbers "buildfob\fobComposition.sqf"))] call BIS_fnc_ObjectsMapper; //spawn the fob composition, public in case we want to delete like we do rallypoints (currently not used)

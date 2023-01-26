@@ -35,7 +35,15 @@ if (TAS_rallyDeltaUsed == true) then {
 //TAS_rallypointDeltaRespawn = [side player, getPos player, "Delta Rallypoint"] call BIS_fnc_addRespawnPosition; //not private so we can delete later
 TAS_respawnLocations pushBack [_rallypointPosATL,"Delta Rallypoint"];
 publicVariable "TAS_respawnLocations";
-"rallypointDeltaMarker" setMarkerPos getPos player; //updates the rallypoint's position on map
+"rallypointDeltaMarker" setMarkerPosLocal getPos player; //updates the rallypoint's position on map
+switch (_friendlySide) do {
+	case west: { private _color = "colorBLUFOR" };
+	case east: { private _color = "colorOPFOR" };
+	case independent: { private _color = "colorIndependent" };
+	case civilian: { private _color = "colorCivilian" };
+	default { private _color = "colorCivilian" };
+};
+"rallypointDeltaMarker" setMarkerColor _color;	//last marker command is public
 
 if (TAS_useSmallRally == false) then {
 	TAS_rallypointDelta = [getPos player, getDir player, call (compile (preprocessFileLineNumbers "buildfob\rallypointComposition.sqf"))] call BIS_fnc_ObjectsMapper; //not private so we can delete later
