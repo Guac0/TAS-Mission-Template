@@ -487,6 +487,10 @@
 		TAS_trimGroupNames 		= true;
 		//publicVariable "TAS_trimGroupNames";
 
+		//adds an action on each (alive) player's arms to draw 250mL of blood from them
+		TAS_allowBloodDrawing	= true; //default true
+		//publicVariable "TAS_allowBloodDrawing";
+
 
 
 

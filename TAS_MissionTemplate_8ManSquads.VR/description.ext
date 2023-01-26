@@ -105,6 +105,7 @@ class CfgFunctions
 			class autoDisableGroupIcons;
 			class briefing;
 			class zeusGlobalTfar;
+			class drawBlood;
 		};
 		class buildFob
 		{

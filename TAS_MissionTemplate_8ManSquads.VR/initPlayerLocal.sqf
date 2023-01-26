@@ -765,6 +765,10 @@ if (TAS_textBriefing) then {
 	*/
 };
 
+if (TAS_allowBloodDrawing) then {
+	player remoteExec ["TAS_fnc_drawBlood",0,true];
+};
+
 if (TAS_ModLog) then {
 	//TOOD chat not working?
 	private _logMessage = "";
