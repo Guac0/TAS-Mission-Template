@@ -18,7 +18,7 @@ _outputArray pushBack format ["Mission time: %1. Time acceleration: %2",_time,ti
 private _numberOfGroups = count allGroups;
 private _numberOfGroupsAutodelete = count (allGroups select {isGroupDeletedWhenEmpty _x});
 _outputArray pushBack format ["Total number of groups: %1, wherein %2 will be automatically deleted when empty.",_numberOfGroups,_numberOfGroupsAutodelete]; // Remember that there can only be 288 groups per side at the same time!
-//todo group breakdown per side 
+//todo group breakdown per side
 
 
 //check for DLC restrictions?
@@ -28,7 +28,7 @@ _outputArray pushBack format ["Total number of groups: %1, wherein %2 will be au
 private _numberOfUnits = count allUnits; //does not include agents or vehicles
 private _numberOfAgents = count agents;
 private _numberOfUnitsWest = count units West;
-private _numberOfUnitsEast = count units West;
+private _numberOfUnitsEast = count units East;
 private _numberOfUnitsIndependent = count units Independent;
 private _numberOfUnitsCiv = count units Civilian;
 private _numberOfDeadUnits	= count allDeadMen; //includes agents
@@ -94,6 +94,23 @@ if (dynamicSimulationSystemEnabled) then {
 
 
 //todo triggers
+
+
+//check if template settings are customized from the defaults
+_outputArray pushBack format ["Mission Template Settings Check:"];
+{
+    private _settingName = _x select 0;
+    private _defaultValue = _x select 1;
+    if (_settingName isNotEqualTo _defaultValue) then {
+        _outputArray pushBack format ["%1 has been set to %2!",_settingName,_defaultValue];
+    };
+} forEach [
+    [TAS_bftEnabled,true],
+    [TAS_3dGroupIcons,true],
+    [TAS_3dGroupIconsTime,0],
+    [TAS_3dGroupIconsRange,150],
+    [TAS_resupplyObjectEnabled,true]
+]; //2D array of ALL config parameters and their default values
 
 
 
