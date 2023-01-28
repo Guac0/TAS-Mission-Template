@@ -87,7 +87,18 @@
 			See functions\fn_markCustomObjects for options. 
 			Code from FNF.
 		*/
-		TAS_markCustomObjectsMap = false; //default false
+		TAS_markCustomObjectsMap = true; //default false
+
+
+	/* Buddy Blood Drawing
+		Adds an action on each (alive) player's arms to draw 250mL of blood from them.
+			Action only shows on the radial medical menu, not the advanced menu due to technical reasons.
+			Add blood drawing to a custom unit by placing this code in their init:
+				if (isServer) then { this remoteExec ["TAS_fnc_drawBlood",0,true]; };
+			Customize shown text by going to function/fn_drawBlood.sqf if you want to use this for lore reasons
+				If you want only your custom units to have the draw blood action, set TAS_allowBloodDrawing to 'false' and add it manually to the specified units with the above code.
+		*/
+		TAS_allowBloodDrawing	= true; //default true
 
 
 
@@ -435,14 +446,7 @@
 		TAS_doTemplateBriefing 	= true;
 		//publicVariable "TAS_doTemplateBriefing";
 		TAS_templateBriefing = [
-			"1. Added UGL compatibility to the various ammo assignment systems. Enjoy raining explosive death upon your foes.",
-			"2. Added automatic GPS assignment (if enabled by Zeus). Try to get lost in the jungle now (spoiler: you can't. Well, I hope you can't...).",
-			"3. Truncated those OCD-inducing extra spaces in the group names.",
-			"4. Made the 3d group icons now automatically turn off after people leave the base. Your immersion should now be greatly improved.",
-			"5. Hid those annoying but meaningless errors that you'd get in chat when you joined a mission that was only 99% set up correctly.",
-			"6. Made the diary records look prettier (strut your stuff, girl!).",
-			"7. Fixed a bunch of annoying things with the FOB and Respawn Vehicle GUIs, especially them breaking if they triggered while you were loading up your Bergan with party favors in the arsenal.",
-			"8. Added Rallypoint and FOB Overrun mechanics, because I know how much people *love* playing defense!",
+			"",
 			"Known issues: Respawn In Vehicle has approximately a 5% change to not work when you try to click the button. Fix is WIP.",
 			"Please visit the 'Mission Template' section in the mission notes (in the top left of the map screen) to be aware of the enabled toggleable features present in this mission, and check your custom keybindings for the 'TAS Mission Template' section to access the various custom keybinds we have.",
 			"You will only receive this message once every time you join a mission with a new mission template version. Enjoy the mission!"
@@ -494,10 +498,6 @@
 		//trims player group names to get rid of the extra spaces added by the template's need for duplicate group names
 		TAS_trimGroupNames 		= true;
 		//publicVariable "TAS_trimGroupNames";
-
-		//adds an action on each (alive) player's arms to draw 250mL of blood from them
-		TAS_allowBloodDrawing	= true; //default true
-		//publicVariable "TAS_allowBloodDrawing";
 
 
 

@@ -1,15 +1,18 @@
 //from https://gist.github.com/Drofseh/4b650d0c06f8034f2c8f69cedf5eb8f6, credit to Drofseh
 //script has been adapted to not need to be executed from unit init
 //must be executed locally on each client and JIPed
-	// player remoteExec ["TAS_fnc_drawBlood",0,true];
+	// if (isServer) then { this remoteExec ["TAS_fnc_drawBlood",0,true]; };
 //todo: does this persist after respawn?
 
-_unit = _this;
+private _unit = _this;
 
 private _statementDrawBlood = {
-    if (!alive _unit) exitWith {
+    private _unit = _this select 0;
+    //systemChat format ["1: %1, %2",_unit, count _this]; //undefined
+    //diag_log format ["1: %1",_unit];
+    if (!alive _unit) exitWith { //TODO doesnt work
         [
-            ["You are attempting to draw blood from a dead body whose blood has been cooled to the point of uselessness."],
+            ["You are attempting to draw blood from a dead body whose blood has cooled to the point of uselessness."],
             true
         ] call CBA_fnc_notify;
     };
@@ -25,7 +28,10 @@ private _statementDrawBlood = {
         6, //Time it takes to complete the action
         [_unit],
         {
+            //_this = [[_param],position1,position2,position3]
+            //systemChat format ["3: %1",_this];
             private _target = _this select 0 select 0;
+            //systemChat format ["3: %1",_target];
 
             //Reduce the blood volume of the target by 0.25 L
             _target setVariable ["ace_medical_bloodVolume", ((_target getVariable ["ace_medical_bloodVolume", 6]) - 0.25)];
@@ -34,6 +40,11 @@ private _statementDrawBlood = {
             if (!([ace_player, "ACE_bloodIV_250", 1, true, true, true] call CBA_fnc_canAddItem)) then {
                 [
                     ["You don't have any room to carry a bag of blood so you've dropped it on the ground."],
+                    true
+                ] call CBA_fnc_notify;
+            } else {
+                [
+                    ["You've withdrawn 250mL of blood from the patient and stored it inside a blood bag."],
                     true
                 ] call CBA_fnc_notify;
             };
