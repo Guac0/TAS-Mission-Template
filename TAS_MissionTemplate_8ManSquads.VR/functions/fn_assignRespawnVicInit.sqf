@@ -7,7 +7,7 @@ params ["_vehicle","_name"];
 
 //waitUntil {!isNil "TAS_respawnInVehicle"}; //shouldnt be needed now that we have preinit for config.sqf
 if (TAS_respawnInVehicle) then {
-	//waitUntil {!isNil "TAS_respawnLocations"}; //shouldnt be needed now that we have preinit for config.sqf
+	waitUntil {!isNil "TAS_respawnLocations"};
 	TAS_respawnLocations pushBack [_vehicle,_name];
 	[_vehicle,"hd_flag","ColorUNKNOWN",_name,true,5] call TAS_fnc_markerFollow;
 	publicVariable "TAS_respawnLocations";
