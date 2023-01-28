@@ -106,6 +106,7 @@ class CfgFunctions
 			class briefing;
 			class zeusGlobalTfar;
 			class drawBlood;
+			class markCustomObjects;
 		};
 		class buildFob
 		{

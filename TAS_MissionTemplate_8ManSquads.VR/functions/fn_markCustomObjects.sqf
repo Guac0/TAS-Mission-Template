@@ -33,14 +33,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 private _baseClasses = ["Static","Cargo_base_F"]; //anything that is a subtype of these classes and is big enough will be marked
-private _classBlacklist = ["Land_DataTerminal_01_F","Wreck_Base","FlagCarrierCore","Base_CUP_Plant"]; //blacklist of item or parent classes to never mark
+private _classBlacklist = ["Land_DataTerminal_01_F","Wreck_Base","FlagCarrierCore","Base_CUP_Plant","Land_JumpTarget_F","Land_HelipadSquare_F","Land_HelipadCircle_F","Land_HelipadCivil_F","Land_HelipadEmpty_F","Land_HelipadRescue_F"]; //blacklist of item or parent classes to never mark
 /*private _markerBlacklist = switch (fnf_attackingSide) do {
   case west: {[nil, west, true] call fnf_fnc_inSafeZone};
   case east: {[nil, east, true] call fnf_fnc_inSafeZone};
   case independent: {[nil, independent, true] call fnf_fnc_inSafeZone};
   case sideEmpty: {[nil, nil, true] call fnf_fnc_inSafeZone};
 };*/
-private _markerBlacklist = [];
+private _markerBlacklist = []; //add variable names of marker areas wherein not to mark buildings here
 
 //checks bounding sphere value to see if object is large enough, not in the blacklist, and not in an excluded start zone
 _canMark = {
