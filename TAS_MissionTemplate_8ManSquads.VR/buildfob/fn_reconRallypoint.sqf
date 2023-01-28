@@ -36,12 +36,13 @@ if (TAS_rallyReconUsed == true) then {
 TAS_respawnLocations pushBack [_rallypointPosATL,"Recon Rallypoint"];
 publicVariable "TAS_respawnLocations";
 "rallypointReconMarker" setMarkerPosLocal getPos player; //updates the rallypoint's position on map
+private _color = "Default";
 switch (_friendlySide) do {
-	case west: { private _color = "colorBLUFOR" };
-	case east: { private _color = "colorOPFOR" };
-	case independent: { private _color = "colorIndependent" };
-	case civilian: { private _color = "colorCivilian" };
-	default { private _color = "colorCivilian" };
+	case west: { _color = "colorBLUFOR" };
+	case east: { _color = "colorOPFOR" };
+	case independent: { _color = "colorIndependent" };
+	case civilian: { _color = "colorCivilian" };
+	default { _color = "colorCivilian" };
 };
 "rallypointReconMarker" setMarkerColor _color;	//last marker command is public
 

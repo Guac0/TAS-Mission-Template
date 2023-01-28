@@ -25,12 +25,13 @@ if (TAS_fobRespawn) then {
 };
 "fobMarker" setMarkerPosLocal getPos logistics_vehicle; //updates the rallypoint's position on map
 "fobMarker" setMarkerAlphaLocal 1;
+private _color = "Default";
 switch (TAS_fobSide) do {
-	case west: { private _color = "colorBLUFOR" };
-	case east: { private _color = "colorOPFOR" };
-	case independent: { private _color = "colorIndependent" };
-	case civilian: { private _color = "colorCivilian" };
-	default { private _color = "colorCivilian" };
+	case west: { _color = "colorBLUFOR" };
+	case east: { _color = "colorOPFOR" };
+	case independent: { _color = "colorIndependent" };
+	case civilian: { _color = "colorCivilian" };
+	default { _color = "colorCivilian" };
 };
 "fobMarker" setMarkerColor _color;	//last marker command is public
 
