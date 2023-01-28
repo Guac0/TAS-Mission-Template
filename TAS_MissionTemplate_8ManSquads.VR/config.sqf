@@ -87,7 +87,7 @@
 			See functions\fn_markCustomObjects for options. 
 			Code from FNF.
 		*/
-		TAS_markCustomObjectsMap = true; //default false
+		TAS_markCustomObjectsMap = false; //default false
 
 
 	/* Buddy Blood Drawing
@@ -439,14 +439,17 @@
 
 
 
-		TAS_templateVersion 	= 11; //if it's a major release (like 10.0), note that arma will truncate the empty decimal to just '10'
+		TAS_templateVersion 	= 11.1; //if it's a major release (like 10.0), note that arma will truncate the empty decimal to just '10'
 		//publicVariable "TAS_templateVersion";
 
 
 		TAS_doTemplateBriefing 	= true;
 		//publicVariable "TAS_doTemplateBriefing";
 		TAS_templateBriefing = [
-			"",
+			"1. Added new medical items to medic inventory population (Splints and AED).",
+			"2. Added buddy blood drawing to each player's arms (only in radial medical menu, not advanced medical menu).",
+			"3. Added custom objects mapper (if enabled by Zeus).",
+			"4. Other zeus-side fixes and improvements.",
 			"Known issues: Respawn In Vehicle has approximately a 5% change to not work when you try to click the button. Fix is WIP.",
 			"Please visit the 'Mission Template' section in the mission notes (in the top left of the map screen) to be aware of the enabled toggleable features present in this mission, and check your custom keybindings for the 'TAS Mission Template' section to access the various custom keybinds we have.",
 			"You will only receive this message once every time you join a mission with a new mission template version. Enjoy the mission!"
