@@ -74,7 +74,7 @@
 	
 	/* Arsenal Curate
 		Removes certain problematic items from arsenal boxes that are otherwise hidden and unremoveable
-			See initPlayer for full list, but this is things like doomsday, hidden brightlights, LAGO superweapons, etc
+			See functions/fn_arsenalCurate.sqf for full list and to add/remove your own custom items, but this is things like doomsday, hidden brightlights, LAGO superweapons, etc
 				They usually get accidentally added by zeus hitting "add all compatible" to a custom arsenal, which adds invisible things too
 			Arsenal boxes names must be arsenal_# from 1 to 10, template already gives you 1-3 premade and you can just copy paste those
 			Only turn this to "false" if its a meme op and thus players should have extreme yield lights and doomsday and etc

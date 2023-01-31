@@ -107,6 +107,7 @@ class CfgFunctions
 			class zeusGlobalTfar;
 			class drawBlood;
 			class markCustomObjects;
+			class arsenalCurate;
 		};
 		class buildFob
 		{
