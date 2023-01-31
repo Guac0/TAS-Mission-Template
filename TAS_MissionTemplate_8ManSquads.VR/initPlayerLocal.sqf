@@ -1,9 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////Variable Setup////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-
-sleep 1; //needed for some tfar stuff, TODO move?
-
+//note that player object is fully available at the start of this script, but radios are not 
 
 //setup diary subject
 player createDiarySubject ["tasMissionTemplate","Mission Template","media\logo256x256.paa"];
@@ -167,8 +165,11 @@ if (TAS_radiosEnabled) then {
 	//give player LR radio if approved to do so
 	if (player getVariable ["TAS_PlayerHasLr",false]) then {
 		player addBackpack TAS_radioBackpack;
-		[(call TFAR_fnc_activeLrRadio), 1, "50"] call TFAR_fnc_SetChannelFrequency; //set 50 as active radio channel on channel 1
-		[(call TFAR_fnc_activeLrRadio), 2, "55"] call TFAR_fnc_SetChannelFrequency; //set 55 (fire support) as radio channel two (not active and not additional)
+		[] spawn { //spawn to avoid errors in TFAR radios not being inited at mission start
+			waitUntil {(call TFAR_fnc_haveSWRadio)};
+			[(call TFAR_fnc_activeLrRadio), 1, "50"] call TFAR_fnc_SetChannelFrequency; //set 50 as active radio channel on channel 1
+			[(call TFAR_fnc_activeLrRadio), 2, "55"] call TFAR_fnc_SetChannelFrequency; //set 55 (fire support) as radio channel two (not active and not additional)
+		};
 	};
 	player createDiaryRecord ["tasMissionTemplate", ["Radio Assignment", "Enabled.<br/><br/>It may take a second for Teamspeak to initialize your radios. If your radio freq shows up as blank, do not panic as this happens when it is set via script. All SRs are set on squad freq and LRs on 50 (channel 1) and 55 (channel 2)."]];
 	//systemChat "Radio loadout init finished. It may take a second for Teamspeak to initialize your radio fully.";
@@ -652,17 +653,20 @@ if (TAS_resupplyObjectEnabled) then {
 //if player has not had radio set to global most recently then cache current additional data and set additional to global
 private _playerRadiosAreGlobal = missionNamespace getVariable ["playersRadioGlobal", false];
 if (_playerRadiosAreGlobal == true) then {
-	private _activeSwRadio = call TFAR_fnc_ActiveSwRadio;
-	private _originalAdditionalChannel = _activeSwRadio call TFAR_fnc_getAdditionalSwChannel;
-	private _originalAdditionalStereo = _activeSwRadio call TFAR_fnc_getAdditionalSwStereo;
-	player setVariable ["originalAdditionalChannel", _originalAdditionalChannel];
-	player setVariable ["originalAdditionalStereo", _originalAdditionalStereo];
-	[_activeSwRadio, 8, "87"] call TFAR_fnc_SetChannelFrequency; //these two lines determine global channel and frequency, freq is the max freq LRs can go to
-	[_activeSwRadio, 7] call TFAR_fnc_setAdditionalSwChannel; //lower by 1 cause internally this fnc is zero-based
-	[_activeSwRadio, 0] call TFAR_fnc_setAdditionalSwStereo;
-	player setVariable ["playersRadioGlobal", true];
-	
-	diag_log format ["TAS_fnc_globalTFAR applied successfully during JIP."];
+	[] spawn { //spawn to avoid errors in TFAR radios not being inited at mission start
+		waitUntil {(call TFAR_fnc_haveSWRadio)};
+		private _activeSwRadio = call TFAR_fnc_ActiveSwRadio;
+		private _originalAdditionalChannel = _activeSwRadio call TFAR_fnc_getAdditionalSwChannel;
+		private _originalAdditionalStereo = _activeSwRadio call TFAR_fnc_getAdditionalSwStereo;
+		player setVariable ["originalAdditionalChannel", _originalAdditionalChannel];
+		player setVariable ["originalAdditionalStereo", _originalAdditionalStereo];
+		[_activeSwRadio, 8, "87"] call TFAR_fnc_SetChannelFrequency; //these two lines determine global channel and frequency, freq is the max freq LRs can go to
+		[_activeSwRadio, 7] call TFAR_fnc_setAdditionalSwChannel; //lower by 1 cause internally this fnc is zero-based
+		[_activeSwRadio, 0] call TFAR_fnc_setAdditionalSwStereo;
+		player setVariable ["playersRadioGlobal", true];
+		
+		diag_log format ["TAS_fnc_globalTFAR applied successfully during JIP."];
+	};
 };
 
 //diary record for repair zone. Figuring out the logic for detecting if repair zone exists hurts my mind, so don't bother with it.

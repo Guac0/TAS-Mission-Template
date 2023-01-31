@@ -632,3 +632,9 @@
 		TAS_discordUpdateDelay 	= 30; 	//default 30
 		//publicVariable "TAS_doDiscordUpdate";
 		//publicVariable "TAS_discordUpdateDelay";
+
+
+
+
+
+//note: player == null in preinit
