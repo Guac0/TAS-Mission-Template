@@ -383,6 +383,8 @@
 
 
 
+
+
 	//////////////////////////////////
 	////Scripts/Functions Options/////
 	//////////////////////////////////
@@ -396,6 +398,13 @@
 				*/
 			TAS_aceHealObjectEnabled 		= true; //default true
 			TAS_aceSpectateObjectEnabled 	= true; //default true
+
+
+		// boss
+			//see functions/fn_handleDamage for health value config
+			TAS_bossEnabled = true;
+			TAS_bossImagePath = "media/logo256x256.paa";
+
 
 
 
@@ -439,7 +448,7 @@
 
 
 
-		TAS_templateVersion 	= 11.1; //if it's a major release (like 10.0), note that arma will truncate the empty decimal to just '10'
+		TAS_templateVersion 	= 11.11; //if it's a major release (like 10.0), note that arma will truncate the empty decimal to just '10'
 		//publicVariable "TAS_templateVersion";
 
 

@@ -108,6 +108,8 @@ class CfgFunctions
 			class drawBlood;
 			class markCustomObjects;
 			class arsenalCurate;
+			class bossDisplayHealth;
+			class bossHandleDamage;
 		};
 		class buildFob
 		{
