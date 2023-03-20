@@ -44,7 +44,8 @@ switch (_friendlySide) do {
 	case civilian: { _color = "colorCivilian" };
 	default { _color = "colorCivilian" };
 };
-"rallypointDeltaMarker" setMarkerColor _color;	//last marker command is public
+"rallypointDeltaMarker" setMarkerColorLocal _color;	//last marker command is public
+"rallypointDeltaMarker" setMarkerText format ["%1 Rallypoint",groupId group player];
 
 if (TAS_useSmallRally == false) then {
 	TAS_rallypointDelta = [getPos player, getDir player, call (compile (preprocessFileLineNumbers "buildfob\rallypointComposition.sqf"))] call BIS_fnc_ObjectsMapper; //not private so we can delete later
@@ -52,7 +53,7 @@ if (TAS_useSmallRally == false) then {
 	TAS_rallypointDelta = [getPos player, getDir player, call (compile (preprocessFileLineNumbers "buildfob\rallypointSmallComposition.sqf"))] call BIS_fnc_ObjectsMapper;
 }; //spawn the rallypoint composition, size depends on mission params in initServer
 
-[player, format ["Delta rallypoint established by %1 at gridref %2.", name player, mapGridPosition player]] remoteExec ["sideChat", _friendlySide]; //tell everyone on same side about it
+[player, format ["%1 Rallypoint established by %2 at gridref %3.", groupId group player, name player, mapGridPosition player]] remoteExec ["sideChat", _friendlySide]; //tell everyone on same side about it
 
 TAS_rallyDeltaUsed = true; //tell game that the squad's rally is used and so it must be deleted before being respawned
 publicVariable "TAS_rallyDeltaUsed"; //might be unneccessary since only 1 person can be SL so don't need public, just exist on SL's machine

@@ -74,7 +74,7 @@ while {_rallyStillExists} do {
 				};
 			};
 			
-			private _msg = format ["The Bravo Rallypoint at grid reference %1 is in danger of being overrun!\n\nNearby Friendlies: %2\nNearby Enemies: %3\n\nTime left until Rallypoint is overrun: %4", mapGridPosition _rallypointPosATL,_nearFriendliesNumber,_nearEnemiesNumber,[((_timeRemaining)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
+			private _msg = format ["The %1 Rallypoint at grid reference %2 is in danger of being overrun!\n\nNearby Friendlies: %3\nNearby Enemies: %4\n\nTime left until Rallypoint is overrun: %5", groupId group player, mapGridPosition _rallypointPosATL,_nearFriendliesNumber,_nearEnemiesNumber,[((_timeRemaining)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
 			_msg remoteExec ["hint"];
 			sleep TAS_rallyOverrunInterval;
 			_timeRemaining = _timeRemaining - TAS_rallyOverrunInterval;
@@ -104,7 +104,7 @@ while {_rallyStillExists} do {
 		};
 
 		if (_overrunActive) then {
-			private _msg = format ["The Bravo Rallypoint at grid reference %1 has been overrun!", mapGridPosition _rallypointPosATL];
+			private _msg = format ["The %1 Rallypoint at grid reference %2 has been overrun!", groupId group player, mapGridPosition _rallypointPosATL];
 			_msg remoteExec ["hint"];
 
 			{_x setDamage 1} forEach TAS_rallypointBravo;
@@ -117,7 +117,7 @@ while {_rallyStillExists} do {
 			publicVariable "TAS_respawnLocations";
 			publicVariable "TAS_rallyBravoUsed";
 		} else {
-			private _msg = format ["The Bravo Rallypoint at grid reference %1 is no longer in immediate danger of being overrrun!", mapGridPosition _rallypointPosATL];
+			private _msg = format ["The %1 Rallypoint at grid reference %2 is no longer in immediate danger of being overrrun!", groupId group player, mapGridPosition _rallypointPosATL];
 			_msg remoteExec ["hint"];
 		};
 	};
