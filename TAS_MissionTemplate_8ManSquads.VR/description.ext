@@ -136,8 +136,9 @@ class CfgFunctions
 			class reconRallyOverrun;
 			class fobPackup;
 			class fobOverrun;
-			//class FobBuild;
-			//class initFOB;
+			class fobBuild;
+			class initFOB;
+			class initRallypoints;
 		};
 	};
 };

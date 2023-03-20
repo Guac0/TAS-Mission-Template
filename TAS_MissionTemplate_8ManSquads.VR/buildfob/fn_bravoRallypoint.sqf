@@ -8,7 +8,7 @@
 private _friendlySide 			= side group player;
 private _enemySides 			= [_friendlySide] call BIS_fnc_enemySides;
 private _radius 				= TAS_rallyDistance; //parameter from initServer.sqf, default 150
-private _nearUnits = allUnits select { _x distance _fobLocation < _radius };
+private _nearUnits = allUnits select { _x distance player < _radius };
 private _nearEnemies = _nearUnits select {alive _x && { side _x in _enemySides && { !(_x getVariable ["ACE_isUnconscious",false]) } } };
 private _nearEnemiesNumber = count _nearEnemies;
 private _nearFriendlies = _nearUnits select {alive _x && { side _x == _friendlySide && { !(_x getVariable ["ACE_isUnconscious",false]) } } }; //limitation: does not account for multiple friendly sides

@@ -23,7 +23,7 @@ if ( _nearEnemiesNumber > 0 ) exitWith {systemChat format ["FOB creation failure
 if (TAS_fobRespawn) then {
 	TAS_fobRespawn = [_playerSide, TAS_fobPositionATL, "FOB Respawn"] call BIS_fnc_addRespawnPosition;
 };
-"fobMarker" setMarkerPosLocal getPos logistics_vehicle; //updates the rallypoint's position on map
+"fobMarker" setMarkerPosLocal getPos logistics_vehicle; //updates the fob's position on map
 "fobMarker" setMarkerAlphaLocal 1;
 private _color = "Default";
 switch (TAS_fobSide) do {

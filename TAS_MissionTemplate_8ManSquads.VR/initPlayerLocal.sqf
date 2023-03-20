@@ -406,6 +406,10 @@ if (TAS_populateInventory) then {
 
 
 
+//arsenal GUI handling for respawnGUI. added even if respawninvehicle or etc are enabled as its useful for various scripts
+["ace_arsenal_displayOpened", {player setVariable ["TAS_aceArsenalOpen",true]}] call CBA_fnc_addEventHandler;
+["ace_arsenal_displayClosed", {player setVariable ["TAS_aceArsenalOpen",false]}] call CBA_fnc_addEventHandler;
+
 if (TAS_roleBasedArsenals) then {
 
 	_openRoleArsenalAceAction = [
@@ -567,11 +571,20 @@ if (TAS_musicKeyEnabled) then {
 
 //Add FOB Script
 if (TAS_fobEnabled) then {
-	[] execVM "buildfob\initfob.sqf";
+	[] spawn TAS_fnc_initFOB;
 } else {
 	//systemChat "FOB/Rallypoint building disabled.";
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["FOB/Rallypoint System", "Disabled."]]; };
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["FOB System", "Disabled."]]; };
 };
+
+//Add Rallypoints Script
+if (TAS_rallypointsEnabled) then {
+	[] spawn TAS_fnc_initRallypoints;
+} else {
+	//systemChat "FOB/Rallypoint building disabled.";
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Rallypoints System", "Disabled."]]; };
+};
+
 
 //global tfar diary entry
 if (TAS_globalTfarEnabled) then { 
@@ -678,12 +691,6 @@ if (TAS_aceWindowBreak) then {
 	player createDiaryRecord ["tasMissionTemplate", ["Ace Window Break by IndigoFox", "Enabled.<br/><br/>Walk up to any window and you will see an ace interaction somewhere near it in order to break it."]];
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Ace Window Break by IndigoFox", "Disabled."]]; };
-};
-
-if (TAS_respawnInVehicle) then {
-	//module now handled in zeus register function
-	["ace_arsenal_displayOpened", {player setVariable ["TAS_aceArsenalOpen",true]}] call CBA_fnc_addEventHandler;
-	["ace_arsenal_displayClosed", {player setVariable ["TAS_aceArsenalOpen",false]}] call CBA_fnc_addEventHandler;
 };
 
 //TODO check if we need to delay until curator is registered? and/or just set it as postInit in description.ext and remove it from here

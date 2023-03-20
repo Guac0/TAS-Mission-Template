@@ -24,7 +24,7 @@ while {_rallyStillExists} do {
 		systemChat "rallypoint b";
 	};
 
-	/*private _nearUnits = nearestObjects [_rallypointPosATL, ["Man"], TAS_fobOverrunDistance];	//wont find vehicles/infantry in vehicles!
+	/*private _nearUnits = nearestObjects [_rallypointPosATL, ["Man"], TAS_rallyDistance];	//wont find vehicles/infantry in vehicles!
 	private _nearUnitsAlive = [];
 	{ if (alive _x ) then { _nearUnitsAlive set [(count _nearUnitsAlive), _x]; }; } forEach _nearUnits;
 	private _nearEnemies = 

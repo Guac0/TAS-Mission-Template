@@ -175,6 +175,7 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	["TAS_fobOverrunTimer",TAS_fobOverrunTimer,300],
 	["TAS_fobOverrunInterval",TAS_fobOverrunInterval,30],
 	//rallypoints main
+	["TAS_rallypointsEnabled",TAS_rallypointsEnabled,false],
 	["TAS_useSmallRally",TAS_useSmallRally,true],
 	["TAS_rallyDistance",TAS_rallyDistance,150],
 	["TAS_rallyOutnumber",TAS_rallyOutnumber,true],

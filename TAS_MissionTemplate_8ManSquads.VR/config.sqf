@@ -257,19 +257,16 @@
 
 
 	/* FOB System
-		Manages the FOB and rallypoints system, which give the players the ability to establish FOBs and Rallypoints and use them for reinserts.
+		Manages the FOB system, which give the players the ability to establish FOBs and use them for reinserts.
 			The FOB consists of an action on the vehicle in the mission named "logistics_vehicle" which leadership players (GC members, SLs) can use
 				The action places a FOB around them, featuring ammo boxes, vehicle RRR crates, and some defensive structures (about 40 meters in diameter)
-			It also lets all squad leaders (and GC officer) place Rallypoints via an ace self action, which become reinsert positions for the respawn GUI
-			TAS_fobEnabled enables/disables the basic FOB and Rallypoint operation.
-				If you want Rallypoints but no FOB, enable this but do not include a "logistics_vehicle" in your mission.
-				If you want FOB but no rallypoints, just set TAS_rallyDistance to an absurdly high distance
 			TAS_respawnSpectator is recommended to be enabled with this system, and TAS_respawnSpectatorTime is used for the duration of the wait before people are shown the respawn menu.
 		*/
 		/*
 		FOB Basic Settings
+			TAS_fobEnabled enables/disables the basic FOB operation.
 			TAS_fobPackup enables/disables the ability for players to repack the FOB and place it again elsewhere
-			TAS_fobPackup enables/disables the placing of full arsenals at the FOB. If disabled, they instead contain medical supplies and ammo for each player's weapons
+			TAS_fobFullArsenals enables/disables the placing of full arsenals at the FOB. If disabled, they instead contain medical supplies and ammo for each player's weapons
 			TAS_fobDistance sets the distance from the logistics_vehicle that has to be clear of enemies in order for the FOB to be successfully placed
 			TAS_fobRespawn enables/disables adding a vanilla respawn position at the FOB in addition to adding it to the respawn GUI
 				You might want to disable this if you want players to spawn at main and then use the respawn GUI to respawn at the FOB
@@ -304,14 +301,24 @@
 		TAS_fobOverrunTimer		= 300;		//default 300 (5 min)
 		TAS_fobOverrunInterval	= 30;		//default 30 (1 min)
 
+
+	/* Rallypoint System
+		Manages the Rallypoints system, which give the players the ability to establish Rallypoints and use them for reinserts.
+			It lets all Squad leaders, GC leader, and Recon leader place Rallypoints via an ace self action, which become reinsert positions for the respawn GUI.
+				It also spawns a small campsite at the rallypoint's location and makes a marker appear on map.
+			TAS_respawnSpectator is recommended to be enabled with this system, and TAS_respawnSpectatorTime is used for the duration of the wait before people are shown the respawn menu.
+			You can change what the rallypoint looks like by modifying buildfob/rallypointComposition.sqf or buildfob/rallypointSmallComposition.sqf
+			By default, only players with "Squad Leader" and their squad name in their role description will get the rallypoint. Change this in buildfob/fn_initRallypoints.sqf
+				Recon just needs "Leader" and "Recon", and GC accepts several variations on "Leader", "Officer", etc as long as "GC", "Command Element", "Ground Command" is also included.
+		*/
 		/*
 		Rallypoint Basic Settings
+			TAS_rallypointsEnabled enables/disables the entire system.
 			TAS_useSmallRally enables/disables using the small rally. The small rally is slightly smaller than the regular rally and lacks the supply crate that the regular rally has
 			TAS_rallyDistance sets the distance that if enemies are within then rallypoint cannot be created
 			TAS_rallyOutnumber enables/disables using outnumbering instead of just any enemies being within TAS_rallyDistance. If enabled, more enemies than friendlies must be within TAS_rallyDistance to fail the rallypoint placement. If false, if any enemies are present then rallypoint creation fails.
-		
-			You can change what the rallypoint looks like by modifying buildfob/rallypointComposition.sqf or buildfob/rallypointSmallComposition.sqf
 		*/
+		TAS_rallypointsEnabled	= false;	//default false
 		TAS_useSmallRally 		= true; 	//default true
 		TAS_rallyDistance 		= 150; 		//default 150 meters
 		TAS_rallyOutnumber 		= true; 	//default true

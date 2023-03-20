@@ -136,7 +136,7 @@ if (_allowReinsert) then {
 	};
 
 	player setVariable ["TAS_waitingForReinsert",false];
-	if (TAS_respawnInVehicle || TAS_fobEnabled) then { [] spawn TAS_fnc_openRespawnGui; };
+	if (TAS_respawnInVehicle || TAS_fobEnabled || TAS_rallypointsEnabled) then { [] spawn TAS_fnc_openRespawnGui; };
 	//if respawn vehicle and fob aren't enabled, then nothing will happen (player will be left at the base they selected to respawn at)
 	//if you have a custom respawn method, add it below (make sure respawn vehicle and fob are disabled)
 		//change "spawn" to "call" above if you want the code below to run AFTER player is TPed to rally/fob/wherever
