@@ -97,9 +97,9 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 
 _escapeButton = _respawnGui ctrlCreate ["RscButton", -1]; 
 _escapeButton ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
-_escapeButton ctrlSetText ("Exit Respawn GUI (Cannot Reopen!)");
+_escapeButton ctrlSetText ("Exit Respawn GUI");
 //_background ctrlSetTextColor _red;
-_escapeButton buttonSetAction "(uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;";
+_escapeButton buttonSetAction "(uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false; [] spawn { if (!isNil 'AceHealObject') then { systemChat 'Use the hold action at the medical box to reopen the respawn GUI if desired!'; sleep 0.5; hint 'Use the hold action at the medical box to reopen the respawn GUI if desired!'; }; };"; //sleep to bypass clear hint at the bottom of this file
 _escapeButton ctrlCommit 0;
 
 //systemChat "starting loop";
@@ -167,9 +167,9 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 
 		_escapeButton = _respawnGui ctrlCreate ["RscButton", -1]; 
 		_escapeButton ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
-		_escapeButton ctrlSetText ("Exit Respawn GUI (Cannot Reopen!)");
+		_escapeButton ctrlSetText ("Exit Respawn GUI");
 		//_background ctrlSetTextColor _red;
-		_escapeButton buttonSetAction "(uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;";
+		_escapeButton buttonSetAction "(uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false; [] spawn { if (!isNil 'AceHealObject') then { systemChat 'Use the hold action at the medical box to reopen the respawn GUI if desired!'; sleep 0.5; hint 'Use the hold action at the medical box to reopen the respawn GUI if desired!'; }; };"; //sleep to bypass clear hint at the bottom of this file
 		_escapeButton ctrlCommit 0;
 	};
 	sleep 0.25;

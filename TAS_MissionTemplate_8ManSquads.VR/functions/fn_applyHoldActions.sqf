@@ -92,6 +92,29 @@ if (!isNil "AceHealObject") then { //check if the ace heal object actually exist
 		//systemChat "Respawn with Arsenal Loadout disabled.";
 		//diag_log text "Respawn with Arsenal Loadout disabled.";
 	};
+	if (TAS_respawnInVehicle || TAS_fobEnabled || TAS_rallypointsEnabled) then {
+		_actionID = [
+			AceHealObject,											// Object the action is attached to
+			"Open Respawn GUI",										// Title of the action
+			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
+			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
+			"(_this distance _target < 15) && !(player getVariable ['TAS_waitingForReinsert',false]) && (TAS_respawnInVehicle || TAS_fobEnabled || TAS_rallypointsEnabled)",						// Condition for the action to be shown
+			"_caller distance _target < 15",						// Condition for the action to progress
+			{},													// Code executed when action starts
+			{},													// Code executed on every progress tick
+			{ [] spawn TAS_fnc_openRespawnGui; },												// Code executed on completion
+			{},													// Code executed on interrupted
+			[],													// Arguments passed to the scripts as _this select 3
+			2,													// Action duration [s]
+			3,													// Priority
+			false,												// Remove on completion
+			false												// Show in unconscious state 
+		] call BIS_fnc_holdActionAdd;
+		TAS_holdActionIDs pushBack [AceHealObject,_actionID];
+	} else {
+		//systemChat "Respawn with Arsenal Loadout disabled.";
+		//diag_log text "Respawn with Arsenal Loadout disabled.";
+	};
 };
 
 //resupply object
