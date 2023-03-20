@@ -224,7 +224,7 @@
 		TAS_respawnSpectator 				= false; 	//default false
 		TAS_respawnSpectatorForceInterface 	= false; 	//default false
 		TAS_respawnSpectatorHideBody 		= true; 	//default true
-		TAS_respawnSpectatorTime 			= 0; 		//default 0
+		TAS_respawnSpectatorTime 			= 30; 		//default 30
 
 
 	/* Wave Respawns
