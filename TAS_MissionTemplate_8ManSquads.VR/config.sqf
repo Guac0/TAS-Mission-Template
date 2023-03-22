@@ -254,6 +254,20 @@
 			TAS_respawnInVehicle enables/disables the whole system.
 		*/
 		TAS_respawnInVehicle 	= false; //default false
+	
+
+	/* Flagpole Respawn
+		Just a simple hook into our custom respawnGUI system that allows flagpoles to be used as respawn locations.
+			To add flag poles as respawn locations, add the following code to its object init field and edit "Respawn Flag 1" to be the name to show to players for this respawn location.
+				if (isServer) then {
+					[this,"Respawn Flag 1"] spawn TAS_fnc_assignRespawnFlagpoleInit;
+				};
+			You can also add more flagpoles (or other objects) as respawn locations using the Zeus module.
+			You may wish to use the Zeus followMarker module on flagpoles if you want them to be tracked on the map for your players.
+
+			TAS_flagpoleRespawn enables/disables flagpoles for respawning.
+		*/
+		TAS_flagpoleRespawn		= false;		//default false
 
 
 	/* FOB System

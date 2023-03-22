@@ -65,6 +65,13 @@ if (TAS_rallypointsEnabled) then {
 	};
 };
 
+if (TAS_flagpoleRespawn) then {
+	if (isNil "TAS_respawnLocations") then { //mightve already been set up elsewhere
+		TAS_respawnLocations = [];
+		publicVariable "TAS_respawnLocations";
+	};
+};
+
 //show fps script by Mildly Interested/Bassbeard
 //Code here is for main server, headless client is in init.sqf
 if (TAS_fpsDisplayEnabled) then {

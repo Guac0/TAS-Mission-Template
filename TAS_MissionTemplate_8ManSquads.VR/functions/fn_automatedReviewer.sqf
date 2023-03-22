@@ -161,6 +161,8 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	["TAS_waveTime",TAS_waveTime,300],
 	//respawn in vehicle
 	["TAS_respawnInVehicle",TAS_respawnInVehicle,false],
+	//flagpole respawn
+	["TAS_flagpoleRespawn",TAS_flagpoleRespawn,false],
 	//fob system main
 	["TAS_fobEnabled",TAS_fobEnabled,false],
 	["TAS_fobPackup",TAS_fobPackup,false],

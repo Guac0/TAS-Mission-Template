@@ -110,6 +110,8 @@ class CfgFunctions
 			class arsenalCurate;
 			class bossDisplayHealth;
 			class bossHandleDamage;
+			class assignRespawnFlagpole;
+			class assignRespawnFlagpoleInit;
 		};
 		class buildFob
 		{

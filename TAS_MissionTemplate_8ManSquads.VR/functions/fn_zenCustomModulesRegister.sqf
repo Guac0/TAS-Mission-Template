@@ -15,6 +15,18 @@ if (TAS_respawnInVehicle) then {
 	//diary handled in initPlayerLocal
 };
 
+if (TAS_flagpoleRespawn) then {
+	_moduleList pushBack ["Add Flagpole as Respawn Position", {
+		private _unit = _this select 1;
+		if (isNull _unit) exitWith { systemChat "Place the module on an object like a flagpole!"};
+		_this call TAS_fnc_assignRespawnFlagpole;
+	}];
+	player createDiaryRecord ["tasMissionTemplate", ["Zeus Flagpole Respawn", "Enabled.<br/><br/>Adds a module to Zeus to allow them to add flagpoles as respawn positions."]];
+} else {
+	//systemChat "Custom Zeus resupply modules disabled.";
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Flagpole Respawn", "Disabled."]]; };
+};
+
 if (TAS_zeusInfoText) then {
 	_moduleList pushBack ["Play Info Text", {_this call TAS_fnc_zeusInfoText}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Info Text", "Enabled.<br/><br/>Adds a Zeus module to play info text to all players. You can find it under 'TAS Mission Template' in the module list."]];
@@ -56,14 +68,14 @@ if (TAS_zeusSpectateManager) then {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Manage ACE Spectator Settings", "Disabled."]]; };
 };
 
-if (TAS_respawnInVehicle || TAS_fobEnabled || TAS_rallypointsEnabled) then {
+if (TAS_respawnInVehicle || TAS_fobEnabled || TAS_rallypointsEnabled || TAS_flagpoleRespawn) then {
 	_moduleList pushBack ["Open Respawn GUI on Unit", {
 		private _unit = _this select 1;
 		if (isNull _unit) exitWith { systemChat "Place the module on a unit!"};
 		[] remoteExec ["TAS_fnc_openRespawnGui",_unit];
 		systemChat format ["Opened respawn GUI for unit %1",_unit];
 	}];
-	player createDiaryRecord ["tasMissionTemplate", ["Zeus Open Respawn GUI on Unit", "Enabled.<br/><br/>Adds a module to Zeus to allow them to activate the"]];
+	player createDiaryRecord ["tasMissionTemplate", ["Zeus Open Respawn GUI on Unit", "Enabled.<br/><br/>Adds a module to Zeus to allow them to activate the respawn GUI on a unit."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Open Respawn GUI on Unit", "Disabled."]]; };

@@ -52,6 +52,7 @@ _menuInfoButton buttonSetAction 'systemChat "Hit one of the other buttons that a
 _menuInfoButton ctrlCommit 0;
 
 //sample data: TAS_respawnLocations = [[vic1,"Respawn Vic 1"],[vic2,"Respawn Vic 2"],[vic3,"Respawn Vic 3"]];
+	//TAS_respawnLocations = [[flagpole1,"Flag Pole Number 1"]];
 TAS_inRespawnMenu = true;
 _currentSpacing = 1;
 for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-based arrays
@@ -62,7 +63,11 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 		_currentRespawnLocation = missionNamespace getVariable [_currentRespawnLocation,objNull];
 	};
 	if (typeName _currentRespawnLocation == "OBJECT") then {
-		_respawnMode = "vehicle";
+		if (_currentRespawnLocation isKindOf "AllVehicles") then {
+			_respawnMode = "vehicle";
+		} else {
+			_respawnMode = "static";
+		};
 	} else {
 		_respawnMode = "rallypoint";
 	};
@@ -76,9 +81,7 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 				_button buttonSetAction format [ //TODO add side compat //if ((side player != side group %1) && (side group %1 != sideUnknown )) exitWith {hint 'Targetted respawn vehicle is under the control of another side!'; systemChat 'Targetted respawn vehicle is under the control of another side!`};
 					"if (%1 emptyPositions 'cargo' == 0) exitWith {hint 'Passenger seats of targetted respawn vehicle are full!'; systemChat 'Passenger seats of targetted respawn vehicle are full!'}; player moveInCargo %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false; private _arrayStrings = ['TAS MISSION TEMPLATE: respawn GUI: teleported player',name player,'to vehicle',%1,'! Vehicle pos:',getPosATL %1,', player pos ATL:',getPosATL player]; private _output = _arrayStrings joinString ' '; _output remoteExec ['diag_log',2];",
 					_currentRespawnLocation
-				]; //NOTE: dead people count as occupying a full seat
-				_button ctrlCommit 0;
-				diag_log format ["TAS MISSION TEMPLATE: respawn GUI: added button with name %1 with location %2!",_currentRespawnLocationName,_currentRespawnLocation];
+				];
 			};
 		};
 	};
@@ -88,9 +91,15 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 		//_background ctrlSetTextColor _blue;
 		_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName];
 		_button buttonSetAction format ["player setPosAsl %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false; private _arrayStrings = ['TAS MISSION TEMPLATE: respawn GUI: teleported player',name player,'to rallypoint! Rallypoint pos:',%1,', player pos ATL:',getPosATL player]; private _output = _arrayStrings joinString ' '; _output remoteExec ['diag_log',2];",_currentRespawnLocation,_currentRespawnLocationName];
-		_button ctrlCommit 0;
-		diag_log format ["TAS MISSION TEMPLATE: respawn GUI: added button with name %1 with location %2!",_currentRespawnLocationName,_currentRespawnLocation];
 	};
+	if (_respawnMode == "static") then {
+		_button = _respawnGui ctrlCreate ["RscButton", -1]; 
+		_button ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
+		//_background ctrlSetTextColor _blue;
+		_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName];
+		_button buttonSetAction format ["player setPosAsl (getPosAsl %1); (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false; private _arrayStrings = ['TAS MISSION TEMPLATE: respawn GUI: teleported player',name player,'to flagpole',%1,'! Flagpole pos:',getPosATL %1,', player pos ATL:',getPosATL player]; private _output = _arrayStrings joinString ' '; _output remoteExec ['diag_log',2];",_currentRespawnLocation];
+	};
+	diag_log format ["TAS MISSION TEMPLATE: respawn GUI: added button with name %1 with location %2!",_currentRespawnLocationName,_currentRespawnLocation];
 	_button ctrlCommit 0;
 	_currentSpacing = _currentSpacing + 1;
 };
@@ -136,7 +145,11 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 				_currentRespawnLocation = missionNamespace getVariable [_currentRespawnLocation,objNull];
 			};
 			if (typeName _currentRespawnLocation == "OBJECT") then {
-				_respawnMode = "vehicle";
+				if (_currentRespawnLocation isKindOf "AllVehicles") then {
+					_respawnMode = "vehicle";
+				} else {
+					_respawnMode = "static";
+				};
 			} else {
 				_respawnMode = "rallypoint";
 			};
@@ -160,6 +173,13 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 				//_background ctrlSetTextColor _blue;
 				_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName];
 				_button buttonSetAction format ["player setPosAsl %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false; private _arrayStrings = ['TAS MISSION TEMPLATE: respawn GUI: teleported player',name player,'to rallypoint! Rallypoint pos:',%1,', player pos ATL:',getPosATL player]; private _output = _arrayStrings joinString ' '; _output remoteExec ['diag_log',2];",_currentRespawnLocation,_currentRespawnLocationName];
+			};
+			if (_respawnMode == "static") then {
+				_button = _respawnGui ctrlCreate ["RscButton", -1]; 
+				_button ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
+				//_background ctrlSetTextColor _blue;
+				_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName];
+				_button buttonSetAction format ["player setPosAsl (getPosAsl %1); (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false;  private _arrayStrings = ['TAS MISSION TEMPLATE: respawn GUI: teleported player',name player,'to flagpole',%1,'! Flagpole pos:',getPosATL %1,', player pos ATL:',getPosATL player]; private _output = _arrayStrings joinString ' '; _output remoteExec ['diag_log',2];",_currentRespawnLocation];
 			};
 			_button ctrlCommit 0;
 			_currentSpacing = _currentSpacing + 1;
