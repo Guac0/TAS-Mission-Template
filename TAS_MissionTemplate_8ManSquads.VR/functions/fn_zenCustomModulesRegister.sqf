@@ -137,6 +137,24 @@ if (TAS_zeusServiceVehicle) then {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Service Vehicle", "Disabled."]]; };
 };
 
+if (TAS_vassEnabled) then {
+	_moduleList pushBack ["[Shop System] Edit Balance", {
+		if (isNull (_this select 1)) exitWith {systemChat "Place the module on a unit!"};
+		_this call TAS_fnc_vassZeusEditMoney
+	}];
+	_moduleList pushBack ["[Shop System] View balance of player", {
+		if (isNull (_this select 1)) exitWith {systemChat "Place the module on a unit!"}; 
+		[[], {
+			private _currentMoney = profileNamespace getVariable [TAS_vassShopSystemVariable,0];
+			[[name player, _currentMoney], {
+				private _message = format ["%1 has a balance of %2.",_this select 0, _this select 1];
+				systemChat _message;
+				hint _message;
+			}] remoteExec ["spawn",remoteExecutedOwner];
+		}] remoteExec ["spawn",_this select 1];
+	}];
+};
+
 
 
 //registering ZEN custom modules, code modified from Crow

@@ -146,6 +146,83 @@ if (TAS_resupplyObjectEnabled) then { //check if the resupply object actually ex
 	};
 };
 
+if (TAS_vassEnabled) then {
+	{
+		private _object = _x;
+		_object = missionNamespace getVariable [_object, objNull]; //convert from string to object, otherwise we get errors
+		
+		if (!isNull _object) then {
+			//add save loadout option
+			[
+				_object,											// Object the action is attached to
+				"Save Loadout",										// Title of the action
+				"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
+				"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
+				"_this distance _target < 5",						// Condition for the action to be shown
+				"_caller distance _target < 5",						// Condition for the action to progress
+				{},													// Code executed when action starts
+				{},													// Code executed on every progress tick
+				{
+					TAS_rebuyCost = 0; //setup rebuy variables, not private because need to escape the if statements
+					if !(primaryWeapon player == "") then { //if player has a primary weapon, add cost
+						TAS_rebuyCost = TAS_rebuyCost + TAS_rebuyCostPrimary;
+					};
+					if !(secondaryWeapon player == "") then { //if player has a secondary (launcher) weapon, add cost
+						TAS_rebuyCost = TAS_rebuyCost + TAS_rebuyCostSecondary;
+					};
+					if !(handgunWeapon player == "") then { //if player has a handgun weapon, add cost
+						TAS_rebuyCost = TAS_rebuyCost + TAS_rebuyCostHandgun;
+					};
+					player setVariable ["rebuyCost",TAS_rebuyCost];
+					player setVariable ["arsenalLoadout",getUnitLoadout player];
+					hint format ["Note: it will cost %1$ to rebuy your saved loadout.",TAS_rebuyCost];
+				},												// Code executed on completion
+				{},													// Code executed on interrupted
+				[],													// Arguments passed to the scripts as _this select 3
+				2,													// Action duration [s]
+				4,													// Priority
+				false,												// Remove on completion
+				false												// Show in unconscious state 
+			] call BIS_fnc_holdActionAdd;
+
+			//add rebuy option, TODO: cost money depending on weapons selected
+			[
+				_object,											// Object the action is attached to
+				"Rebuy Loadout",										// Title of the action
+				"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
+				"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
+				"_this distance _target < 5",						// Condition for the action to be shown
+				"_caller distance _target < 5",						// Condition for the action to progress
+				{},													// Code executed when action starts
+				{},													// Code executed on every progress tick
+				{ 
+					_currentMoney = profileNamespace getVariable [TAS_vassShopSystemVariable,0]; //remove test and set to profileNamespace in future
+					_rebuyCost = player getVariable ["rebuyCost",0];
+					if (_currentMoney >= _rebuyCost) then {
+						_newMoney = _currentMoney - _rebuyCost;
+						profileNamespace setVariable [TAS_vassShopSystemVariable,_newMoney];
+						hint format ["You now have %1$ in cash after rebuying your loadout.",_newMoney];
+						player setUnitLoadout (player getVariable ["arsenalLoadout",[]]);
+					} else {
+						hint format ["You only have %1$ of the %2$ needed to rebuy your saved loadout!",_currentMoney,_rebuyCost];
+					};
+				},												// Code executed on completion
+				{},													// Code executed on interrupted
+				[],													// Arguments passed to the scripts as _this select 3
+				2,													// Action duration [s]
+				3,													// Priority
+				false,												// Remove on completion
+				false												// Show in unconscious state 
+			] call BIS_fnc_holdActionAdd;
+		} else {
+			if (isServer || (serverCommandAvailable "#logout") || (!isNull (getAssignedCuratorLogic player))) then { //only do visual error if server (singleplayer testing) or admin or zeus
+				systemchat format ["WARNING: One or more objects (%1) in TAS_vassSigns does not exist!",_x];
+			};
+			diag_log text format ["TAS-MISSION-TEMPLATE WARNING: One or more objects (%1) in TAS_vassSigns does not exist!",_x];
+		};
+	} forEach TAS_vassSigns;
+};
+
 /////////////////////////////////
 ////place custom actions here////
 /////////////////////////////////

@@ -51,7 +51,11 @@ allowFunctionsLog = 1;
 
 // As a security measure, functions are by default protected against rewriting during mission.
 // This restriction does not apply in missions previewed from the editor.
-allowFunctionsRecompile = "[0, 1] select (is3DENMultiplayer || is3DEN)";
+// allowFunctionsRecompile = "[0, 1] select (is3DENMultiplayer || is3DEN)"; //only enable in dev environment
+allowFunctionsRecompile = 1; //VASS requires always enabled
+
+// for VASS
+#include "VASS\gui\cfgGUI.hpp"
 
 class CfgFunctions
 {
@@ -112,6 +116,9 @@ class CfgFunctions
 			class bossHandleDamage;
 			class assignRespawnFlagpole;
 			class assignRespawnFlagpoleInit;
+			class vassZeusEditMoney;
+			class vassEndMission;
+			class vassPlayerInit;
 		};
 		class buildFob
 		{
@@ -143,6 +150,8 @@ class CfgFunctions
 			class initRallypoints;
 		};
 	};
+	// for VASS
+	#include "VASS\CfgFunctions.hpp"
 };
 
 class CfgDiscordRichPresence {

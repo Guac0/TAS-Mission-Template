@@ -44,6 +44,12 @@ if (TAS_respawnArsenalGear) then {
 	//systemChat "Respawn with Arsenal Loadout disabled.";
 };
 
+if (TAS_vassEnabled) then {
+	//VASS
+	//load editor loadout (player can choose to rebuy old loadout elsewhere)
+	player setUnitLoadout (player getVariable ["editorLoadout",[]]);
+};
+
 player setVariable ["TAS_waitingForReinsert",true];
 private _automaticExitSpectator = true;
 private _allowReinsert = true;
