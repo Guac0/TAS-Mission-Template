@@ -707,9 +707,12 @@ if (TAS_arsenalCurate) then {
 if (TAS_doTemplateBriefing) then {
 	private _lastBriefed = profileNamespace getVariable ["TAS_lastTemplateBriefNumber",0];	//new name as old one used string
 	if (_lastBriefed < TAS_templateVersion) then {
-		(format ["TAS Mission Template v%1 — What's New",TAS_templateVersion]) hintC TAS_templateBriefing;
-		profileNamespace setVariable ["TAS_lastTemplateBriefNumber",TAS_templateVersion];
-		//note: if client does a non-graceful game exit, this variable will not be saved. Not going to bother forcing a save here as it's not worth the time it takes.
+		[] spawn {
+			sleep 1; //to wait until after map screen
+			(format ["TAS Mission Template v%1 — What's New",TAS_templateVersion]) hintC TAS_templateBriefing;
+			profileNamespace setVariable ["TAS_lastTemplateBriefNumber",TAS_templateVersion];
+			//note: if client does a non-graceful game exit, this variable will not be saved. Not going to bother forcing a save here as it's not worth the time it takes.
+		};
 	};
 };
 
