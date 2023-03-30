@@ -435,22 +435,22 @@
 			best way to add items to a shop is to use the VASS mod and to edit the attributes of the shop object in Eden
 			best way to change money values ingame is to use the zeus module
 			*/
-			TAS_vassEnabled = false; //default false
-			TAS_vassShopSystemVariable = "tasRicPmcVass"; //what variable name to store money under
-			TAS_vassShopSystemLoadoutVariable = "tasRicPmcLoadout"; //what variable name to store gear under
-			TAS_vassDefaultBalance = 700; //default money to start players with
-			TAS_vassBonusStartingMoney = 0; //if you want to give extra money to players when they join this mission (for example, for completing the previous mission well), change this
-			TAS_vassPrebriefing = [ //shows to players when they load it
+			TAS_vassEnabled 			= false; 					//default false
+			TAS_vassShopSystemVariable 	= "TAS_exampleVassMoney"; 			//what variable name to store money under. Begin with "TAS_"
+			TAS_vassShopSystemLoadoutVariable = "TAS_exampleVassLoadout"; 	//what variable name to store gear under. Begin with "TAS_"
+			TAS_vassDefaultBalance 		= 700; 						//default money to start players with
+			TAS_vassBonusStartingMoney 	= 0; 						//if you want to give extra money to players when they join this mission (for example, for completing the previous mission well), change this
+			TAS_vassPrebriefing 		= [ 						//shows to players when they load into the mission. note how each line except for the last ends with a comma
 				"In this campaign, we have to buy our gear from the black market.",
 				"Each player's balance and loadout at mission end will carry over to the next mission.",
 				"All free items (cosmetics) are in the red crate's ace arsenal, everything else is in the other box.",
 				"Save your loadout at the sign to be able to rebuy it in the future for a small cost."
 			];
-			TAS_vassShops = ["arsenal_1","arsenal_2"]; //variable names of shop objects. note: if doing limited quantities and multiple shops, quantities will probably not be shared between shops
-			TAS_vassSigns = ["AceHealObject"]; //variable names of rebuy sign objects
-			TAS_rebuyCostPrimary = 35; //rebuy cost if kit has primary weapon
-			TAS_rebuyCostSecondary = 50; //rebuy cost if kit has launcher weapon
-			TAS_rebuyCostHandgun = 15; //rebuy cost if kit has handgun weapon
+			TAS_vassShops 				= ["arsenal_1","arsenal_2"]; //variable names of shop objects. note: if doing limited quantities and multiple shops, quantities will probably not be shared between shops
+			TAS_vassSigns 				= ["AceHealObject"]; 		//variable names of rebuy sign objects
+			TAS_rebuyCostPrimary 		= 35; 						//additive rebuy cost if kit has primary weapon
+			TAS_rebuyCostSecondary 		= 50; 						//additive rebuy cost if kit has launcher weapon
+			TAS_rebuyCostHandgun 		= 15; 						//additive rebuy cost if kit has handgun weapon
 
 
 
