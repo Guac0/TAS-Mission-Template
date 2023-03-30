@@ -114,6 +114,7 @@ class CfgFunctions
 			class arsenalCurate;
 			class bossDisplayHealth;
 			class bossHandleDamage;
+			class bossInit;
 			class assignRespawnFlagpole;
 			class assignRespawnFlagpoleInit;
 			class vassZeusEditMoney;

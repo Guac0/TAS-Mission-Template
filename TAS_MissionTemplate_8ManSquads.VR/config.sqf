@@ -422,10 +422,14 @@
 			TAS_aceSpectateObjectEnabled 	= true; //default true
 
 
-		// boss
-			//see functions/fn_handleDamage for health value config
-			TAS_bossEnabled = true;
-			TAS_bossImagePath = "media/logo256x256.paa";
+		/* Boss Script (WIP)
+			Initialize by running the following: [] remoteExec ["TAS_fnc_bossInit",2];
+			*/
+			TAS_bossEnabled 		= true;		//global on/off switch
+			TAS_bossImagePath 		= "media/logo256x256.paa"; //path to image file to use
+			TAS_bossParts 			= [[leg1,"LeftLeg",10],[leg2,"RightLeg",10],[torso,"Torso",30],[head,"Head",20]]; //2D array: object variable name, string name to show to players (one word due to limitations), integer of defaultHealth
+			TAS_bossInterval 		= 0.5; 		//interval to wait between visible boss health updates
+			TAS_bossHealthModifier 	= 1; 		//factor to change the inputted health values by. 1 is no change, 1.5 is 50% more, etc
 
 
 		/* Virtual Arsenal Shop System (VASS)
@@ -495,21 +499,36 @@
 
 
 
-		TAS_templateVersion 	= 11.11; //if it's a major release (like 10.0), note that arma will truncate the empty decimal to just '10'
+		TAS_templateVersion 	= 11.2; //if it's a major release (like 10.0), note that arma will truncate the empty decimal to just '10'
 		//publicVariable "TAS_templateVersion";
 
 
 		TAS_doTemplateBriefing 	= true;
 		//publicVariable "TAS_doTemplateBriefing";
 		TAS_templateBriefing = [
-			"1. Added new medical items to medic inventory population (Splints and AED).",
-			"2. Added buddy blood drawing to each player's arms (only in radial medical menu, not advanced medical menu).",
-			"3. Added custom objects mapper (if enabled by Zeus).",
-			"4. Other zeus-side fixes and improvements.",
-			"Known issues: Respawn In Vehicle has approximately a 5% change to not work when you try to click the button. Fix is WIP.",
+			"1. Made Rallypoint names adapt to current group names (yes, this means that 'Rally McRallypoint' will be shown as the name if you name your squad like that).",
+			"2. Added respawn on flagpole option using the TAS respawnGUI.",
+			"3. Fixed the respawn button when attempting to use respawn vehicles.",
+			"4. If you choose the 'EXIT' button when attempting to use the TAS respawn GUI, you can now re-open the GUI by choosing the appropriate action at the medical box in spawn.",
+			"5. Added some hidden systems that your Zeus may choose to enable...",
 			"Please visit the 'Mission Template' section in the mission notes (in the top left of the map screen) to be aware of the enabled toggleable features present in this mission, and check your custom keybindings for the 'TAS Mission Template' section to access the various custom keybinds we have.",
 			"You will only receive this message once every time you join a mission with a new mission template version. Enjoy the mission!"
 		];
+		/*
+		1. Converted Arsenal Curate into Standalone Function (easier to use on your custom arsenals)
+		2. Refactored various sleeps and waitUntils to allow for better initialization order (can brief in map screen)
+		3. WIP boss
+		4. Separated FOB and rallypoint systems in options/script files
+		5. Made rallypoint names adapt to current group names instead of being set statically
+		6. Changed the default value of respawnSpectatorTime to be non-0 to avoid confusion
+		7. Added respawnGUI button to AceHealObject so that players can open the respawn menu after choosing to hit EXIT instead of choosing an option
+		8. Added respawn on flagpole option
+		9. Added built in support for Virtual Arsenal Shop System script
+		10. Cleanup up outdated comments in mission.sqm
+		11. Fixed unclear wording for markCustomObjects script
+		12. Fixed respawnInVehicle button not working
+		13. Fixed template update message not showing
+		*/
 		//publicVariable "TAS_templateBriefing"; //is probably a problematically-large var to share 
 
 

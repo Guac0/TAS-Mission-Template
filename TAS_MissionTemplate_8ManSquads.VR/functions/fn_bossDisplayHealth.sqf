@@ -1,6 +1,5 @@
 //run locally on each client
 //[] spawn TAS_fnc_displayHealth;
-private _interval = 0.5;
 private _debug = false;
 
 if !(TAS_bossEnabled) exitWith {
@@ -14,7 +13,7 @@ if (_debug) then {
 	systemChat format ["Handle damage waiting for variable setup!"];
 };
 
-waitUntil {sleep _interval; !(isNil "TAS_bossComponents")};
+waitUntil {sleep TAS_bossInterval; !(isNil "TAS_bossComponents")};
 
 if (_debug) then {
 	systemChat format ["Handle damage starting loop!"];
@@ -46,7 +45,7 @@ while {true} do { //TODO not true
 
 	hint parseText (_output + "<br/><br/>" + _imag + "<br/><br/>");
 
-	sleep _interval;
+	sleep TAS_bossInterval;
 
 	/*
 	private _imag  = "<img color='#ff0000' size='2' image='logo256x256.paa' align='center'/>";

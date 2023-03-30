@@ -1,7 +1,6 @@
 //[this,"Left Leg"] spawn TAS_fnc_bossHandleDamage;
 //intended to be executed on server or where vehicle is local
-private _debug = true;
-private _healthModifier = 1;
+private _debug = false;
 
 if !(TAS_bossEnabled) exitWith {
 	diag_log "TAS MISSION TEMPLATE: attempted to handle boss health system without the boss system being enabled!";
@@ -11,33 +10,35 @@ if !(TAS_bossEnabled) exitWith {
 };
 
 //setup
-params ["_object","_componentName"];
+params ["_object","_componentName","_inputHealth"];
 if !(local _object) exitWith {
 	diag_log "TAS MISSION TEMPLATE: bossHandleDamage target vehicle is not local!";
-	if (_debug) then {
-		systemChat format ["bossHandleDamage target vehicle is not local!"];
-	};
+	//if (_debug) then {
+	systemChat format ["bossHandleDamage target vehicle is not local!"];
+	//};
 };
 private _varName = format ["TAS_%1",_componentName];
 
-private ["_health"];
+/*private ["_health"];
 switch (_componentName) do
 {
-	case "RightFoot": 			{ _health = [(10 * _healthModifier),(10 * _healthModifier)]; }; //1st is current health, 2nd is default health
-	case "RightFootCritical": 	{ _health = [(5 * _healthModifier),(5 * _healthModifier)]; };
-	case "RightLeg": 			{ _health = [(10 * _healthModifier),(10 * _healthModifier)]; };
-	case "RightArm": 			{ _health = [(15 * _healthModifier),(15 * _healthModifier)]; };
-	case "Belly": 				{ _health = [(10 * _healthModifier),(10 * _healthModifier)]; };
-	case "Center": 				{ _health = [(10 * _healthModifier),(10 * _healthModifier)]; };
-	case "Radar": 				{ _health = [(20 * _healthModifier),(20 * _healthModifier)]; };
-	case "Gun": 				{ _health = [(20 * _healthModifier),(20 * _healthModifier)]; };
-	case "SecondaryTurret": 			{ _health = [(10 * _healthModifier),(10 * _healthModifier)]; };
-	case "LeftFoot": 			{ _health = [(10 * _healthModifier),(10 * _healthModifier)]; };
-	case "LeftFootCritical": 	{ _health = [(5 * _healthModifier),(5 * _healthModifier)]; };
-	case "LeftLeg": 			{ _health = [(10 * _healthModifier),(10 * _healthModifier)]; };
-	case "LeftArm": 			{ _health = [(15 * _healthModifier),(15 * _healthModifier)]; };
-	default 					{ _health = [(10 * _healthModifier),(10 * _healthModifier)]; if (_debug) then { systemChat format ["Boss component health not found, defaulting to (10 * _healthModifier)!"]; }; };
-};
+	case "RightFoot": 			{ _health = [(10 * TAS_bossHealthModifier),(10 * TAS_bossHealthModifier)]; }; //1st is current health, 2nd is default health
+	case "RightFootCritical": 	{ _health = [(5 * TAS_bossHealthModifier),(5 * TAS_bossHealthModifier)]; };
+	case "RightLeg": 			{ _health = [(10 * TAS_bossHealthModifier),(10 * TAS_bossHealthModifier)]; };
+	case "RightArm": 			{ _health = [(15 * TAS_bossHealthModifier),(15 * TAS_bossHealthModifier)]; };
+	case "Belly": 				{ _health = [(10 * TAS_bossHealthModifier),(10 * TAS_bossHealthModifier)]; };
+	case "Center": 				{ _health = [(10 * TAS_bossHealthModifier),(10 * TAS_bossHealthModifier)]; };
+	case "Radar": 				{ _health = [(20 * TAS_bossHealthModifier),(20 * TAS_bossHealthModifier)]; };
+	case "Gun": 				{ _health = [(20 * TAS_bossHealthModifier),(20 * TAS_bossHealthModifier)]; };
+	case "SecondaryTurret": 			{ _health = [(10 * TAS_bossHealthModifier),(10 * TAS_bossHealthModifier)]; };
+	case "LeftFoot": 			{ _health = [(10 * TAS_bossHealthModifier),(10 * TAS_bossHealthModifier)]; };
+	case "LeftFootCritical": 	{ _health = [(5 * TAS_bossHealthModifier),(5 * TAS_bossHealthModifier)]; };
+	case "LeftLeg": 			{ _health = [(10 * TAS_bossHealthModifier),(10 * TAS_bossHealthModifier)]; };
+	case "LeftArm": 			{ _health = [(15 * TAS_bossHealthModifier),(15 * TAS_bossHealthModifier)]; };
+	default 					{ _health = [(10 * TAS_bossHealthModifier),(10 * TAS_bossHealthModifier)]; if (_debug) then { systemChat format ["Boss component health not found, defaulting to (10 * TAS_bossHealthModifier)!"]; }; };
+};*/
+private _health = [(_inputHealth * TAS_bossHealthModifier),(_inputHealth * TAS_bossHealthModifier)];
+
 
 //setup
 _object setVariable ["TAS_bossPartName",_componentName,true];
