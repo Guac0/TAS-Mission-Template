@@ -40,7 +40,7 @@ private _classBlacklist = ["Land_DataTerminal_01_F","Wreck_Base","FlagCarrierCor
   case independent: {[nil, independent, true] call fnf_fnc_inSafeZone};
   case sideEmpty: {[nil, nil, true] call fnf_fnc_inSafeZone};
 };*/
-private _markerBlacklist = []; //add variable names of marker areas wherein not to mark buildings here
+private _markerBlacklist = []; //add variable names (in quotations) of marker areas wherein not to mark buildings here
 
 //checks bounding sphere value to see if object is large enough, not in the blacklist, and not in an excluded start zone
 _canMark = {
