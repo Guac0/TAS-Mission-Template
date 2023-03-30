@@ -40,15 +40,6 @@ private _onConfirm =
 		systemChat "The given vehicle is already a respawn vehicle!";
 	};*/
 
-	if (vehicleVarName _unit == "") then { //if vic doesn't have a var name, then give it one
-		_unit setVehicleVarName format ["TAS_zeusRespawnVehicle%1",count TAS_respawnLocations]; //TODO make better
-		//systemChat format ["3: %1",_unit];
-	};
-	private _vehicleName = vehicleVarName _unit;
-	//systemChat format ["4: %1",_vehicleName];
-	missionNamespace setVariable [_vehicleName, _unit];
-	publicVariable _vehicleName;
-
 	[_unit,_name] remoteExec ["TAS_fnc_assignRespawnVicInit",2]; //exec on server
 };
 [

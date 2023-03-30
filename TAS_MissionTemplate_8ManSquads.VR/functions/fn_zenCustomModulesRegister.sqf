@@ -15,7 +15,7 @@ if (TAS_respawnInVehicle) then {
 	//diary handled in initPlayerLocal
 };
 
-if (TAS_flagpoleRespawn) then {
+if (true) then { //always be available
 	_moduleList pushBack ["Add Flagpole as Respawn Position", {
 		private _unit = _this select 1;
 		if (isNull _unit) exitWith { systemChat "Place the module on an object like a flagpole!"};

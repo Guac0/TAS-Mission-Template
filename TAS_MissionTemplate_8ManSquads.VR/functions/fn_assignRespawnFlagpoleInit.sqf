@@ -3,7 +3,15 @@
 params ["_object","_name"];
 if !(isServer) exitWith {systemChat "TAS-MISSION-TEMPLATE ERROR: fn_assignRespawnFlagpoleInit called on client instead of on server! Contact Admin!"};
 
-waitUntil {!isNil "TAS_respawnLocations"};
+if (isNil "TAS_respawnLocations") then { //mightve already been set up elsewhere
+	TAS_respawnLocations = [];
+	publicVariable "TAS_respawnLocations";
+};
+if !(TAS_flagpoleRespawn) then {
+	TAS_flagpoleRespawn = true;
+	publicVariable "TAS_flagpoleRespawn";
+};
+
 if (vehicleVarName _object == "") then { //if vic doesn't have a var name, then give it one
 	_object setVehicleVarName format ["TAS_zeusRespawnFlagpole%1",count TAS_respawnLocations]; //TODO make better
 	//systemChat format ["3: %1",_object];

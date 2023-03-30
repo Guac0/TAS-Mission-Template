@@ -6,21 +6,31 @@
 params ["_vehicle","_name"];
 
 //waitUntil {!isNil "TAS_respawnInVehicle"}; //shouldnt be needed now that we have preinit for config.sqf
-if (TAS_respawnInVehicle) then {
-	waitUntil {!isNil "TAS_respawnLocations"};
-	TAS_respawnLocations pushBack [_vehicle,_name];
-	[_vehicle,"hd_flag","ColorUNKNOWN",_name,true,5] call TAS_fnc_markerFollow;
-	publicVariable "TAS_respawnLocations";
-	_vehicle addMPEventHandler ["MPKilled", {
-		params ["_unit", "_killer", "_instigator", "_useEffects"];
-		private _path = [TAS_respawnLocations, _unit] call BIS_fnc_findNestedElement;
-		if (_path isNotEqualTo []) then {
-			diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic removing respawn vic from list!";
-			private _indexOfOldVehiclePair = _path select 0;
-			TAS_respawnLocations deleteAt _indexOfOldVehiclePair;
-			publicVariable "TAS_respawnLocations";
-		} else {
-			diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic cannot find vehicle to remove!";
-		};
-	}];
+if !(TAS_respawnInVehicle) exitWith {};
+
+waitUntil {!isNil "TAS_respawnLocations"};
+
+if (vehicleVarName _vehicle == "") then { //if vic doesn't have a var name, then give it one
+	_vehicle setVehicleVarName format ["TAS_zeusRespawnVehicle%1",count TAS_respawnLocations]; //TODO make better
+	//systemChat format ["3: %1",_unit];
 };
+private _vehicleName = vehicleVarName _vehicle;
+//systemChat format ["4: %1",_name];
+missionNamespace setVariable [_name, _vehicle];
+publicVariable _name;
+
+TAS_respawnLocations pushBack [_vehicle,_name];
+[_vehicle,"hd_flag","ColorUNKNOWN",_name,true,5] call TAS_fnc_markerFollow;
+publicVariable "TAS_respawnLocations";
+_vehicle addMPEventHandler ["MPKilled", {
+	params ["_unit", "_killer", "_instigator", "_useEffects"];
+	private _path = [TAS_respawnLocations, _unit] call BIS_fnc_findNestedElement;
+	if (_path isNotEqualTo []) then {
+		diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic removing respawn vic from list!";
+		private _indexOfOldVehiclePair = _path select 0;
+		TAS_respawnLocations deleteAt _indexOfOldVehiclePair;
+		publicVariable "TAS_respawnLocations";
+	} else {
+		diag_log "TAS-MISSION-TEMPLATE fn_assignRespawnVic cannot find vehicle to remove!";
+	};
+}];

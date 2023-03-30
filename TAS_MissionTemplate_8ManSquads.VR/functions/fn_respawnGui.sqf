@@ -161,7 +161,18 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 						//_background ctrlSetTextColor _blue;
 						_button ctrlSetText format ["Respawn in %1",_currentRespawnLocationName];
 						_button buttonSetAction format [ //TODO add side compat //if ((side player != side group %1) && (side group %1 != sideUnknown )) exitWith {hint 'Targetted respawn vehicle is under the control of another side!'; systemChat 'Targetted respawn vehicle is under the control of another side!`};
-							"if (%1 emptyPositions 'cargo' == 0) exitWith {hint 'Passenger seats of targetted respawn vehicle are full!'; systemChat 'Passenger seats of targetted respawn vehicle are full!'}; player moveInCargo %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false; private _arrayStrings = ['TAS MISSION TEMPLATE: respawn GUI: teleported player',name player,'to vehicle',%1,'! Vehicle pos:',getPosATL %1,', player pos ATL:',getPosATL player]; private _output = _arrayStrings joinString ' '; _output remoteExec ['diag_log',2];",
+							"
+								if (%1 emptyPositions 'cargo' == 0) exitWith {
+									hint 'Passenger seats of targetted respawn vehicle are full!';
+									systemChat 'Passenger seats of targetted respawn vehicle are full!'
+								};
+								player moveInCargo %1;
+								(uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1;
+								TAS_inRespawnMenu = false;
+								private _arrayStrings = ['TAS MISSION TEMPLATE: respawn GUI: teleported player',name player,'to vehicle',%1,'! Vehicle pos:',getPosATL %1,', player pos ATL:',getPosATL player];
+								private _output = _arrayStrings joinString ' ';
+								_output remoteExec ['diag_log',2];
+							",
 							_currentRespawnLocation
 						];
 					};
