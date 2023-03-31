@@ -10,14 +10,21 @@ if !(TAS_respawnInVehicle) exitWith {};
 
 waitUntil {!isNil "TAS_respawnLocations"};
 
-if (vehicleVarName _vehicle == "") then { //if vic doesn't have a var name, then give it one
+private _oldVarName = vehicleVarName _vehicle;
+if (_oldVarName == "") then { //if vic doesn't have a var name, then give it one
 	_vehicle setVehicleVarName format ["TAS_zeusRespawnVehicle%1",count TAS_respawnLocations]; //TODO make better
 	//systemChat format ["3: %1",_unit];
+} else {
+	//check if vehicleVarName is vehicle_# because thats the default
+	if ("vehicle_" in _oldVarName) then {
+		_vehicle setVehicleVarName format ["TAS_zeusRespawnVehicle%1",count TAS_respawnLocations]; //TODO make better
+		_vehicle setVariable ["TAS_respawnVehicleOldVarName",_oldVarName]; //store in a var in case we were wrong and var name is needed
+	};
 };
 private _vehicleName = vehicleVarName _vehicle;
 //systemChat format ["4: %1",_name];
 missionNamespace setVariable [_name, _vehicle];
-publicVariable _name;
+publicVariable _vehicleName;
 
 TAS_respawnLocations pushBack [_vehicle,_name];
 [_vehicle,"hd_flag","ColorUNKNOWN",_name,true,5] call TAS_fnc_markerFollow;
