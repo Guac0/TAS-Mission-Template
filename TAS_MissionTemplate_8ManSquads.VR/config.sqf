@@ -244,7 +244,7 @@
 			After respawning, it forces the player to wait the specified duration (while either spectating/editing loadout/chilling in base) before being shown the reinsert menu
 				TAS_respawnSpectator is recommended to be enabled with this system, and TAS_respawnSpectatorTime is used for the duration of the wait.
 			There are 3 methods for adding a reinsert vehicle:
-				1. In eden, give a vehicle any variable name and place the below code in its init box. Change "Respawn Vehicle 1" to whatever you want the vehicle to be named.
+				1. In eden, place the below code in a vehicle's init box. Change "Respawn Vehicle 1" to whatever you want the vehicle to be named when shown to players.
 						if (isServer) then {
 							[this,"Respawn Vehicle 1"] spawn TAS_fnc_assignRespawnVicInit;
 						};
