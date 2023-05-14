@@ -19,6 +19,12 @@ if (TAS_resupplyObjectEnabled) then {
 
 //hold actions are locally applied in fn_applyHoldActions (executed from initPlayerLocal.sqf)
 
+//several systems use TAS_respawnLocations so for simplicity let's just always have it be declared
+if (isNil "TAS_respawnLocations") then { //mightve already been set up elsewhere
+	TAS_respawnLocations = [];
+	publicVariable "TAS_respawnLocations";
+};
+
 //setup fob variables if fob system is enabled
 if (TAS_fobEnabled) then {
 	//{ 
@@ -28,47 +34,9 @@ if (TAS_fobEnabled) then {
 	publicVariable "TAS_fobBuilt";
 	TAS_fobDestroyed = false;
 	publicVariable "TAS_fobDestroyed";
-	if (isNil "TAS_respawnLocations") then { //mightve already been set up elsewhere
-		TAS_respawnLocations = [];
-		publicVariable "TAS_respawnLocations";
-	};
 
 	if !(isNil "logistics_vehicle") then {	//do not do marker follow if fob vehicle is missing
 		[logistics_vehicle,"hd_flag","ColorUNKNOWN","FOB Vehicle",true,5] spawn TAS_fnc_markerFollow; //TODO make this turn greyed out after FOB has been placed
-	};
-};
-
-if (TAS_rallypointsEnabled) then {
-	TAS_rallyCmdUsed = false;
-	publicVariable "TAS_rallyCmdUsed";
-	TAS_rallyAlphaUsed = false;
-	publicVariable "TAS_rallyAlphaUsed";
-	TAS_rallyBravoUsed = false;
-	publicVariable "TAS_rallyBravoUsed";
-	TAS_rallyCharlieUsed = false;
-	publicVariable "TAS_rallyCharlieUsed";
-	TAS_rallyDeltaUsed = false;
-	publicVariable "TAS_rallyDeltaUsed";
-	TAS_rallyEchoUsed = false;
-	publicVariable "TAS_rallyEchoUsed";
-	TAS_rallyFoxtrotUsed = false;
-	publicVariable "TAS_rallyFoxtrotUsed";
-	TAS_rallyGolfUsed = false;
-	publicVariable "TAS_rallyGolfUsed";
-	TAS_rallyHotelUsed = false;
-	publicVariable "TAS_rallyHotelUsed";
-	TAS_rallyReconUsed = false;
-	publicVariable "TAS_rallyReconUsed";
-	if (isNil "TAS_respawnLocations") then { //mightve already been set up elsewhere
-		TAS_respawnLocations = [];
-		publicVariable "TAS_respawnLocations";
-	};
-};
-
-if (TAS_flagpoleRespawn) then {
-	if (isNil "TAS_respawnLocations") then { //mightve already been set up elsewhere
-		TAS_respawnLocations = [];
-		publicVariable "TAS_respawnLocations";
 	};
 };
 

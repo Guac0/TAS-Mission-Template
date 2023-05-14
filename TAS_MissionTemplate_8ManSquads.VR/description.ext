@@ -125,31 +125,13 @@ class CfgFunctions
 		class buildFob
 		{
 			file = "buildfob";
-			class cmdRallypoint;
-			class alphaRallypoint; //TODO condense
-			class bravoRallypoint;
-			class charlieRallypoint;
-			class deltaRallypoint;
-			class echoRallypoint;
-			class foxtrotRallypoint;
-			class golfRallypoint;
-			class hotelRallypoint;
-			class reconRallypoint;
-			class cmdRallyOverrun;
-			class alphaRallyOverrun;
-			class bravoRallyOverrun;
-			class charlieRallyOverrun;
-			class deltaRallyOverrun;
-			class echoRallyOverrun;
-			class foxtrotRallyOverrun;
-			class golfRallyOverrun;
-			class hotelRallyOverrun;
-			class reconRallyOverrun;
 			class fobPackup;
 			class fobOverrun;
 			class fobBuild;
 			class initFOB;
 			class initRallypoints;
+			class genericRallypoint;
+			class genericRallyOverrun;
 		};
 	};
 	// for VASS

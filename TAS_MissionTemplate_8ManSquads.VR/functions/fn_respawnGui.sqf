@@ -72,7 +72,7 @@ _background ctrlCommit 0;
 //====================================================
 
 _menuInfoButton = _respawnGui ctrlCreate ["RscText", -1]; 
-_menuInfoButton ctrlSetPosition [0.275,0.11,0.45,0.05];
+_menuInfoButton ctrlSetPosition [0.275,0.04,0.45,0.05];
 _menuInfoButton ctrlSetText ("Choose Your Respawn Location:");
 //_background ctrlSetTextColor _cyan;
 //_menuInfoButton buttonSetAction 'systemChat "Hit one of the other buttons that actually does something, not the title card!"';
@@ -94,7 +94,7 @@ _menuRespawnTicketText ctrlCommit 0;
 */
 
 //====================================================
-// This decides spacing between buttons (shit yourself)
+// This decides spacing between buttons
 //====================================================
 
 // sample data: TAS_respawnLocations = [[vic1,"Respawn Vic 1"],[vic2,"Respawn Vic 2"],[vic3,"Respawn Vic 3"]];
@@ -142,7 +142,7 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 		_button = _respawnGui ctrlCreate ["RscButton", -1]; 
 		_button ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
 		//_background ctrlSetTextColor _blue;
-		_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName];
+		_button ctrlSetText format ["Respawn at %1 Rallypoint",_currentNestedIndex select 2]; //special name stored in the 3rd index (well, 2nd?)
 		_button buttonSetAction format ["player setPosAsl %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false; private _arrayStrings = ['TAS MISSION TEMPLATE: respawn GUI: teleported player',name player,'to rallypoint! Rallypoint pos:',%1,', player pos ATL:',getPosATL player]; private _output = _arrayStrings joinString ' '; _output remoteExec ['diag_log',2];",_currentRespawnLocation,_currentRespawnLocationName];
 	};
 	if (_respawnMode == "static") then {
@@ -170,7 +170,7 @@ _escapeButton buttonSetAction "
 	TAS_inRespawnMenu = false;
 	[] spawn { if (!isNil 'AceHealObject') then {
 		systemChat 'Use the hold action at the medical box to reopen the respawn GUI if desired!';
-		sleep 0.5; hint 'Use the hold action at the medical box to reopen the respawn GUI if desired!';
+		hint 'Use the hold action at the medical box to reopen the respawn GUI if desired!';
 	}; 
 };"; //sleep to bypass clear hint at the bottom of this file
 _escapeButton ctrlCommit 0;
@@ -205,7 +205,7 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 
 		//Choose respawn loc. button (turned into text by corny)
 		_menuInfoButton = _respawnGui ctrlCreate ["RscText", -1]; 
-		_menuInfoButton ctrlSetPosition [0.275,0.11,0.45,0.05];
+		_menuInfoButton ctrlSetPosition [0.275,0.04,0.45,0.05];
 		_menuInfoButton ctrlSetText ("Choose Your Respawn Location: ");
 		//_background ctrlSetTextColor _cyan;
 		//_menuInfoButton buttonSetAction 'systemChat "Hit one of the other buttons that actually does something, not the title card!"';
@@ -259,7 +259,7 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 				_button = _respawnGui ctrlCreate ["RscButton", -1]; 
 				_button ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
 				//_background ctrlSetTextColor _blue;
-				_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName];
+				_button ctrlSetText format ["Respawn at %1 Rallypoint",_currentNestedIndex select 2]; //special name stored in the 3rd index (well, 2nd?)
 				_button buttonSetAction format ["player setPosAsl %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false; private _arrayStrings = ['TAS MISSION TEMPLATE: respawn GUI: teleported player',name player,'to rallypoint! Rallypoint pos:',%1,', player pos ATL:',getPosATL player]; private _output = _arrayStrings joinString ' '; _output remoteExec ['diag_log',2];",_currentRespawnLocation,_currentRespawnLocationName];
 			};
 			if (_respawnMode == "static") then {
@@ -282,7 +282,7 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 			TAS_inRespawnMenu = false;
 			[] spawn { if (!isNil 'AceHealObject') then {
 				systemChat 'Use the hold action at the medical box to reopen the respawn GUI if desired!';
-				sleep 0.5; hint 'Use the hold action at the medical box to reopen the respawn GUI if desired!';
+				hint 'Use the hold action at the medical box to reopen the respawn GUI if desired!';
 			}; 
 		};"; //sleep to bypass clear hint at the bottom of this file
 		_escapeButton ctrlCommit 0;
@@ -305,4 +305,4 @@ if (isServer) then {
 };
 */
 
-hintSilent ""; //clear hint
+//hintSilent ""; //clear hint

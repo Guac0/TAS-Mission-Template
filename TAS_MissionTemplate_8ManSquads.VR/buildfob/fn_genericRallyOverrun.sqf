@@ -1,7 +1,7 @@
-//called from fn_HotelRallypoint.sqf
+//called from fn_cmdRallypoint.sqf
 //handles the overrun process for the rallypoint and automatically exits after overrun completes and/or rallypoint is moved
 
-params ["_friendlySide","_enemySides","_radius","_nearEnemies","_nearFriendlies","_nearEnemiesNumber","_nearFriendliesNumber","_rallypointPosATL"];
+params ["_friendlySide","_enemySides","_radius","_nearEnemies","_nearFriendlies","_nearEnemiesNumber","_nearFriendliesNumber","_rallypointPosATL","_rallyObjArray","_rallyName","_markerVarName"];
 private _debug = false;
 
 if (_debug) then {
@@ -41,13 +41,13 @@ while {_rallyStillExists} do {
 
 	//variable setup
 		//dont care about performance or I will go insane
-	private _minimumEnemies = TAS_rallyOverrunMinEnemy;
-	_nearUnits = allUnits select { _x distance _rallypointPosATL < _radius };
-	_nearEnemies = _nearUnits select {alive _x && { side _x in _enemySides && { !(_x getVariable ["ACE_isUnconscious",false]) } } };
-	_nearEnemiesNumber = count _nearEnemies;
-	_nearFriendlies = _nearUnits select {alive _x && { side _x == _friendlySide && { !(_x getVariable ["ACE_isUnconscious",false]) } } }; //limitation: does not account for multiple friendly sides
-	_nearFriendliesNumber = count _nearFriendlies;
-	private _nearFriendliesNumberWeighted = _nearFriendliesNumber * TAS_rallyOutnumberFactor;
+	private _minimumEnemies 				= TAS_rallyOverrunMinEnemy;
+	_nearUnits 								= allUnits select { _x distance _rallypointPosATL < _radius };
+	_nearEnemies 							= _nearUnits select {alive _x && { side _x in _enemySides && { !(_x getVariable ["ACE_isUnconscious",false]) } } };
+	_nearEnemiesNumber 						= count _nearEnemies;
+	_nearFriendlies 						= _nearUnits select {alive _x && { side _x == _friendlySide && { !(_x getVariable ["ACE_isUnconscious",false]) } } }; //limitation: does not account for multiple friendly sides
+	_nearFriendliesNumber 					= count _nearFriendlies;
+	private _nearFriendliesNumberWeighted 	= _nearFriendliesNumber * TAS_rallyOutnumberFactor;
 
 	//check if overrun
 	if ( ( _nearEnemiesNumber >= _minimumEnemies) && { _nearEnemiesNumber > _nearFriendliesNumberWeighted } ) then {
@@ -80,11 +80,11 @@ while {_rallyStillExists} do {
 			_timeRemaining = _timeRemaining - TAS_rallyOverrunInterval;
 
 			//check if overrun is canceled
-			_nearEnemies = allUnits select {alive _x && { _x distance _rallypointPosATL < _radius && { side _x in _enemySides } } };
-			_nearEnemiesNumber = count _nearEnemies;
-			_nearFriendlies = allUnits select {alive _x && { _x distance _rallypointPosATL < _radius && { side _x == _friendlySide } } }; //limitation: does not account for multiple friendlysides
-			_nearFriendliesNumber = count _nearFriendlies;
-			_nearFriendliesNumberWeighted = _nearFriendliesNumber * TAS_rallyOutnumberFactor;
+			_nearEnemies 					= allUnits select {alive _x && { _x distance _rallypointPosATL < _radius && { side _x in _enemySides } } };
+			_nearEnemiesNumber 				= count _nearEnemies;
+			_nearFriendlies 				= allUnits select {alive _x && { _x distance _rallypointPosATL < _radius && { side _x == _friendlySide } } }; //limitation: does not account for multiple friendlysides
+			_nearFriendliesNumber 			= count _nearFriendlies;
+			_nearFriendliesNumberWeighted 	= _nearFriendliesNumber * TAS_rallyOutnumberFactor;
 			if !( ( _nearEnemiesNumber >= _minimumEnemies) && { _nearEnemiesNumber > _nearFriendliesNumberWeighted } ) then {
 				_overrunActive = false;
 			};
@@ -107,15 +107,14 @@ while {_rallyStillExists} do {
 			private _msg = format ["The %1 Rallypoint at grid reference %2 has been overrun!", groupId group player, mapGridPosition _rallypointPosATL];
 			_msg remoteExec ["hint"];
 
-			{_x setDamage 1} forEach TAS_rallypointHotel;
-			//TAS_rallypointHotelRespawn call BIS_fnc_removeRespawnPosition;
-			private _path = [TAS_respawnLocations, "Hotel Rallypoint"] call BIS_fnc_findNestedElement;
+			{_x setDamage 1} forEach _rallyObjArray;
+			missionNamespace setVariable [_rallyName,_rallyObjArray,true];
+			//TAS_rallypointCmdRespawn call BIS_fnc_removeRespawnPosition;
+			private _path = [TAS_respawnLocations, _rallyName] call BIS_fnc_findNestedElement;
 			private _indexOfOldRallyPair = _path select 0;
 			TAS_respawnLocations deleteAt _indexOfOldRallyPair;
-			"rallypointHotelMarker" setMarkerAlpha 0;
-			TAS_rallyHotelUsed = false;
+			_markerVarName setMarkerAlpha 0;
 			publicVariable "TAS_respawnLocations";
-			publicVariable "TAS_rallyHotelUsed";
 		} else {
 			private _msg = format ["The %1 Rallypoint at grid reference %2 is no longer in immediate danger of being overrrun!", groupId group player, mapGridPosition _rallypointPosATL];
 			_msg remoteExec ["hint"];
