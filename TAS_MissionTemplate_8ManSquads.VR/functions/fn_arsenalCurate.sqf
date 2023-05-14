@@ -47,6 +47,12 @@ if (_debugCurate) then { systemChat "a"; };
 			[_arsenal, ["LAGO_Biken","LAGO_KU3K","LAGO_KU5K","LAGO_KU98K_NSK","LAGO_KUoooK","LAGO_SCannon","LAGO_CP"]] call ace_arsenal_fnc_removeVirtualItems; //TAS_6Rnd_FRAG too?
 		};
 
+		//M82 stuff
+		if (isClass(configFile >> "CfgPatches" >> "GX_M82A2_Weapon")) then { //just check for biken main mod b/c lazy and not checking for each of them
+			if (_debugCurate) then { systemChat "f"; };
+			[_arsenal, ["GX_M82A2_10Rnd_HE_Mag","GX_M82A2_10Rnd_HEDP_Mag"]] call ace_arsenal_fnc_removeVirtualItems; //TAS_6Rnd_FRAG too?
+		};
+
 		//template for adding more
 		/*
 		if (isClass(configFile >> "CfgPatches" >> "cfgPatchesNameOfMod")) then {
