@@ -1,3 +1,8 @@
+//====================================================
+// Commented to be readable by a single celled organism
+// original by Guac, lives counter and some comments by Corny
+// this function creates a respawn menu after the player respawns (called from onPlayerRespawn.sqf)
+//====================================================
 //TODO make function, fix teleporting into vehicle
 
 disableSerialization;
@@ -10,6 +15,11 @@ _red = [1,0,0,0.5];
 _blue = [0,1,0,0.5];
 _green = [0,0,1,0.5];
 _cyan = [0,1,1,0.5];
+_white = [1,1,1,1];
+
+//====================================================
+// Some crazy shit that I would not understand in a hundred years - Corny
+//====================================================
 
 //gui doesnt work in disableSerialization file
 /*
@@ -27,6 +37,14 @@ if (vehicle player != player) then {
 //sleep 0.1; //wait for ace arsenal to fully exit
 //waitUntil { sleep 0.25; isnull ( uinamespace getvariable "RSCDisplayArsenal" ) }; //wait until vanilla arsenal is exited, this (sometimes?) throws errors when in ace arsenal (returns nil), so do it after the ace arsenal check
 
+//====================================================
+//  counts respawn locations and add the respawn gui to a variable for easy reference (very cool)
+//====================================================
+// Cool facts: 
+// _respawnGUI <--- what the fuck ? (its a display object)
+// How wacky is that ?
+//====================================================
+
 hint "You are now being shown the respawn GUI. If unexpected behavior occurs (such as selecting an option but nothing occuring), contact Zeus.";
 systemChat "You are now being shown the respawn GUI. If unexpected behavior occurs (such as selecting an option but nothing occuring), contact Zeus.";
 
@@ -37,6 +55,11 @@ _respawnLocationsNumber = count _respawnLocations;
 _respawnGui = findDisplay 46 createDisplay "RscDisplayEmpty"; //uses main screen as basis
 uiNamespace setVariable ["TAS_respawnGUI", _respawnGui];	//to get around restrictions about disableSerialization in normal local variables
 
+
+//====================================================
+// GUI background
+//====================================================
+
 //Add pre defined buttons for each admin diary entry to be clicked on
 //background
 _background = _respawnGui ctrlCreate ["IGUIBack", -1];
@@ -44,17 +67,47 @@ _background ctrlSetPosition [0.25,0,0.5,0.11+(0.08*(_respawnLocationsNumber+1))]
 _background ctrlSetBackgroundColor _black;
 _background ctrlCommit 0;
 
-_menuInfoButton = _respawnGui ctrlCreate ["RscButton", -1]; 
-_menuInfoButton ctrlSetPosition [0.275,0.03,0.45,0.05];
-_menuInfoButton ctrlSetText ("Choose Your Respawn Location");
+//====================================================
+// This says "Choose Your Respawn Location: "
+//====================================================
+
+_menuInfoButton = _respawnGui ctrlCreate ["RscText", -1]; 
+_menuInfoButton ctrlSetPosition [0.275,0.11,0.45,0.05];
+_menuInfoButton ctrlSetText ("Choose Your Respawn Location:");
 //_background ctrlSetTextColor _cyan;
-_menuInfoButton buttonSetAction 'systemChat "Hit one of the other buttons that actually does something, not the title card!"';
+//_menuInfoButton buttonSetAction 'systemChat "Hit one of the other buttons that actually does something, not the title card!"';
 _menuInfoButton ctrlCommit 0;
 
-//sample data: TAS_respawnLocations = [[vic1,"Respawn Vic 1"],[vic2,"Respawn Vic 2"],[vic3,"Respawn Vic 3"]];
-	//TAS_respawnLocations = [[flagpole1,"Flag Pole Number 1"]];
+
+	
+//====================================================
+// Text element that tells the player about remaining repsawn tickets
+//====================================================
+
+/*
+_respawnTickets = "Inf."; //works locally, therefore - per person
+_menuRespawnTicketText = _respawnGUI ctrlCreate ["RscStructuredText", -1];
+_menuRespawnTicketText ctrlSetPosition [0.275,0.05,0.45,0.05];
+_menuRespawnTicketText ctrlSetStructuredText (formatText ["You can respawn %1 times.", _respawnTickets]);
+//_menuRespawnTicketText ctrlSetTextColor _white;
+_menuRespawnTicketText ctrlCommit 0;
+*/
+
+//====================================================
+// This decides spacing between buttons (shit yourself)
+//====================================================
+
+// sample data: TAS_respawnLocations = [[vic1,"Respawn Vic 1"],[vic2,"Respawn Vic 2"],[vic3,"Respawn Vic 3"]];
+// TAS_respawnLocations = [[flagpole1,"Flag Pole Number 1"]];
+
 TAS_inRespawnMenu = true;
-_currentSpacing = 1;
+_currentSpacing = 1; //I set this to two because i am placing text at the top of the panel - Corny. set it back to 2 if using the "remaining tickets" dialog above
+						//also change all instances of 0.11 to 0.19 if set to 2
+
+//====================================================
+// For every respawn location, add a button in the magic GUI element that is RSCDisplay something something
+//====================================================
+
 for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-based arrays
 	_currentNestedIndex = _respawnLocations select _i;
 	_currentRespawnLocation = _currentNestedIndex select 0;
@@ -104,12 +157,27 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 	_currentSpacing = _currentSpacing + 1;
 };
 
+//====================================================
+// Adds button to exit respawn GUI
+//====================================================
+
 _escapeButton = _respawnGui ctrlCreate ["RscButton", -1]; 
 _escapeButton ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
 _escapeButton ctrlSetText ("Exit Respawn GUI");
 //_background ctrlSetTextColor _red;
-_escapeButton buttonSetAction "(uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false; [] spawn { if (!isNil 'AceHealObject') then { systemChat 'Use the hold action at the medical box to reopen the respawn GUI if desired!'; sleep 0.5; hint 'Use the hold action at the medical box to reopen the respawn GUI if desired!'; }; };"; //sleep to bypass clear hint at the bottom of this file
+_escapeButton buttonSetAction "
+	(uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1;
+	TAS_inRespawnMenu = false;
+	[] spawn { if (!isNil 'AceHealObject') then {
+		systemChat 'Use the hold action at the medical box to reopen the respawn GUI if desired!';
+		sleep 0.5; hint 'Use the hold action at the medical box to reopen the respawn GUI if desired!';
+	}; 
+};"; //sleep to bypass clear hint at the bottom of this file
 _escapeButton ctrlCommit 0;
+
+//====================================================
+// Function loop for as long as TAS_inRespawnMenu = true;
+//====================================================
 
 //systemChat "starting loop";
 while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without picking an option
@@ -123,15 +191,24 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 		//Add pre defined buttons for each admin diary entry to be clicked on
 		//background
 		_background = _respawnGui ctrlCreate ["IGUIBack", -1];
-		_background ctrlSetPosition [0.25,0,0.5,0.11+(0.08*(_respawnLocationsNumber+1))]; //xywh
+		_background ctrlSetPosition [0.25,0.03,0.5,0.11+(0.08*(_respawnLocationsNumber+1))]; //xywh
 		_background ctrlSetBackgroundColor _black;
 		_background ctrlCommit 0;
+		
+		//Remaining respawn count (just the text)
+		/*_respawnTickets = "Inf."; //works locally, therefore - per person
+		_menuRespawnTicketText = _respawnGUI ctrlCreate ["RscStructuredText", -1];
+		_menuRespawnTicketText ctrlSetPosition [0.275,0.05,0.45,0.05];
+		_menuRespawnTicketText ctrlSetStructuredText (formatText ["You can respawn %1 times.", _respawnTickets]);
+		_menuRespawnTicketText ctrlCommit 0;
+		*/
 
-		_menuInfoButton = _respawnGui ctrlCreate ["RscButton", -1]; 
-		_menuInfoButton ctrlSetPosition [0.275,0.03,0.45,0.05];
-		_menuInfoButton ctrlSetText ("Choose Your Respawn Location");
+		//Choose respawn loc. button (turned into text by corny)
+		_menuInfoButton = _respawnGui ctrlCreate ["RscText", -1]; 
+		_menuInfoButton ctrlSetPosition [0.275,0.11,0.45,0.05];
+		_menuInfoButton ctrlSetText ("Choose Your Respawn Location: ");
 		//_background ctrlSetTextColor _cyan;
-		_menuInfoButton buttonSetAction 'systemChat "Hit one of the other buttons that actually does something, not the title card!"';
+		//_menuInfoButton buttonSetAction 'systemChat "Hit one of the other buttons that actually does something, not the title card!"';
 		_menuInfoButton ctrlCommit 0;
 
 		//sample data: TAS_respawnLocations = [[vic1,"Respawn Vic 1"],[vic2,"Respawn Vic 2"],[vic3,"Respawn Vic 3"]];
@@ -198,9 +275,16 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 
 		_escapeButton = _respawnGui ctrlCreate ["RscButton", -1]; 
 		_escapeButton ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
-		_escapeButton ctrlSetText ("Exit Respawn GUI");
+		_escapeButton ctrlSetText ("Exit Respawn GUI (Cannot Reopen!)");
 		//_background ctrlSetTextColor _red;
-		_escapeButton buttonSetAction "(uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false; [] spawn { if (!isNil 'AceHealObject') then { systemChat 'Use the hold action at the medical box to reopen the respawn GUI if desired!'; sleep 0.5; hint 'Use the hold action at the medical box to reopen the respawn GUI if desired!'; }; };"; //sleep to bypass clear hint at the bottom of this file
+		_escapeButton buttonSetAction "
+			(uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1;
+			TAS_inRespawnMenu = false;
+			[] spawn { if (!isNil 'AceHealObject') then {
+				systemChat 'Use the hold action at the medical box to reopen the respawn GUI if desired!';
+				sleep 0.5; hint 'Use the hold action at the medical box to reopen the respawn GUI if desired!';
+			}; 
+		};"; //sleep to bypass clear hint at the bottom of this file
 		_escapeButton ctrlCommit 0;
 	};
 	sleep 0.25;
