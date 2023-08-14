@@ -155,6 +155,15 @@ if (TAS_vassEnabled) then {
 	}];
 };
 
+if (TAS_rallypointsEnabled) then {
+	_moduleList pushBack ["Rallypoints - Place", {_this call TAS_fnc_zeusRallypointPlace}];
+	_moduleList pushBack ["Rallypoints - Promote Unit", {if (isNull (_this select 1)) exitWith {systemChat "Place the module on a unit!"}; _this call TAS_fnc_zeusRallypointPromote}];
+	//player createDiaryRecord ["tasMissionTemplate", ["Zeus Service Vehicle", "Enabled.<br/><br/>Adds a module to Zeus to allow them to RRR a vehicle with chat messages to its crew."]];
+} else {
+	//systemChat "Custom Zeus resupply modules disabled.";
+	//if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Service Vehicle", "Disabled."]]; };
+};
+
 
 
 //registering ZEN custom modules, code modified from Crow

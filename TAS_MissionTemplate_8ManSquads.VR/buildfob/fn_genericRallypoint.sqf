@@ -5,7 +5,7 @@
 //_nearEnemies = _sourceUnit countEnemy _nearEntities;
 private _debug = false;
 
-params ["_sourceUnit","_rallyName","_markerVarName"];
+params ["_sourceUnit","_rallyName","_markerVarName","_customName"];
 if (_debug) then {
 	systemChat str _this;
 };
@@ -71,7 +71,11 @@ switch (_friendlySide) do {
 	default 			{ _color = "colorCivilian" 		};
 };
 _markerVarName setMarkerColorLocal _color;	//last marker command is public
-_markerVarName setMarkerText format ["%1 Rallypoint",_groupName];
+if (isNil "_customName") then {
+	_markerVarName setMarkerText format ["%1 Rallypoint",_groupName];
+} else {
+	_markerVarName setMarkerText format ["%1 Rallypoint",_customName];
+};
 
 if (TAS_useSmallRally == false) then {
 	_rallyObjArray = [getPos _sourceUnit, getDir _sourceUnit, call (compile (preprocessFileLineNumbers "buildfob\rallypointComposition.sqf"))] call BIS_fnc_ObjectsMapper; //not private so we can delete later
@@ -80,7 +84,11 @@ if (TAS_useSmallRally == false) then {
 }; //spawn the rallypoint composition, size depends on mission params in initServer
 missionNamespace setVariable [_rallyName,_rallyObjArray,true];
 
-[_sourceUnit, format ["%1 Rallypoint established by %2 at gridref %3.", _groupName, name _sourceUnit, mapGridPosition _sourceUnit]] remoteExec ["sideChat", _friendlySide]; //tell everyone on same side about it
+if (isNil "_customName") then {
+	[_sourceUnit, format ["%1 Rallypoint established by %2 at gridref %3.", _groupName, name _sourceUnit, mapGridPosition _sourceUnit]] remoteExec ["sideChat", _friendlySide]; //tell everyone on same side about it
+} else {
+	[_sourceUnit, format ["%1 Rallypoint established by Zeus at gridref %3.", _customName, name _sourceUnit, mapGridPosition _sourceUnit]] remoteExec ["sideChat", _friendlySide]; //tell everyone on same side about it
+};
 
 if (_debug) then {
 	systemChat "c";

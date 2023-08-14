@@ -332,7 +332,7 @@
 			TAS_rallyDistance sets the distance that if enemies are within then rallypoint cannot be created
 			TAS_rallyOutnumber enables/disables using outnumbering instead of just any enemies being within TAS_rallyDistance. If enabled, more enemies than friendlies must be within TAS_rallyDistance to fail the rallypoint placement. If false, if any enemies are present then rallypoint creation fails.
 		*/
-		TAS_rallypointsEnabled	= false;	//default false
+		TAS_rallypointsEnabled	= true;	//default false
 		TAS_useSmallRally 		= true; 	//default true
 		TAS_rallyDistance 		= 150; 		//default 150 meters
 		TAS_rallyOutnumber 		= true; 	//default true
@@ -350,7 +350,7 @@
 			TAS_rallyOverrunInterval  determines how often the overrun status is checked and/or broadcast to players. Must be a divisor of TAS_rallyOverrunTimer.
 				Values larger than 30 will result in the message fading out between updates
 		*/
-		TAS_rallypointOverrun 		= false;	//default false
+		TAS_rallypointOverrun 		= true;	//default false
 		TAS_rallyOutnumberFactor 	= 2;		//default 2 
 		TAS_rallyOverrunMinEnemy	= 4;		//default 4
 		TAS_rallyOverrunTimer		= 90;		//default 90 (1.5 min)
