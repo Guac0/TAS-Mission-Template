@@ -5,10 +5,10 @@ hint "Debug, if you see this and no other messages please contact Zeus.";
 
 if !(isServer) then { //only execute stuff with player on player machines
 	player allowDamage false;
-	private _retrievedMoneyForEnd = profileNamespace getVariable ["tasRicPmcVass",0];
+	private _retrievedMoneyForEnd = profileNamespace getVariable [TAS_vassShopSystemVariable,0];
 	hint "MISSION SAVE BEGINNING, EXPECT SMALL FREEZE WHILE VARIABLES ARE SAVED. DO NOT DISCONNECT UNTIL MISSION ENDS!";
 	sleep 3;
-	profileNamespace setVariable ["tasRicPmcLoadout",getUnitLoadout player]; //save loadout for next mission, money already saves automatically
+	profileNamespace setVariable [TAS_vassShopSystemLoadoutVariable,getUnitLoadout player]; //save loadout for next mission, money already saves automatically
 	saveProfileNamespace;
 	hint format ["Mission ending: Your current loadout and your balance of %1 has been saved!",_retrievedMoneyForEnd];
 };
