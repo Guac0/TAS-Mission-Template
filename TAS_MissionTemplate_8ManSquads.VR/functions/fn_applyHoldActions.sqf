@@ -42,7 +42,7 @@ if (!isNil "AceHealObject") then { //check if the ace heal object actually exist
 			false,												// Remove on completion
 			false												// Show in unconscious state 
 		] call BIS_fnc_holdActionAdd;
-		TAS_holdActionIDs pushBack [AceHealObject,_actionID];	//add action info to var for later removal if requested
+		TAS_holdActionIDs pushBack [AceHealObject,_actionID,"heal"];	//add action info to var for later removal if requested
 	} else {
 		//systemChat "Ace Heal Object disabled.";
 	};
@@ -65,7 +65,7 @@ if (!isNil "AceHealObject") then { //check if the ace heal object actually exist
 			false,												// Remove on completion
 			false												// Show in unconscious state 
 		] call BIS_fnc_holdActionAdd;
-		TAS_holdActionIDs pushBack [AceHealObject,_actionID];
+		TAS_holdActionIDs pushBack [AceHealObject,_actionID,"spectator"];
 	} else {
 		//systemChat "Ace Spectate Object disabled.";
 	};
@@ -87,7 +87,7 @@ if (!isNil "AceHealObject") then { //check if the ace heal object actually exist
 			false,												// Remove on completion
 			false												// Show in unconscious state 
 		] call BIS_fnc_holdActionAdd;
-		TAS_holdActionIDs pushBack [AceHealObject,_actionID];
+		TAS_holdActionIDs pushBack [AceHealObject,_actionID,"save_loadout"];
 	} else {
 		//systemChat "Respawn with Arsenal Loadout disabled.";
 		//diag_log text "Respawn with Arsenal Loadout disabled.";
@@ -110,7 +110,7 @@ if (!isNil "AceHealObject") then { //check if the ace heal object actually exist
 			false,												// Remove on completion
 			false												// Show in unconscious state 
 		] call BIS_fnc_holdActionAdd;
-		TAS_holdActionIDs pushBack [AceHealObject,_actionID];
+		TAS_holdActionIDs pushBack [AceHealObject,_actionID,"respawn_gui"];
 	} else {
 		//systemChat "Respawn with Arsenal Loadout disabled.";
 		//diag_log text "Respawn with Arsenal Loadout disabled.";
@@ -137,7 +137,7 @@ if (TAS_resupplyObjectEnabled) then { //check if the resupply object actually ex
 			false,												// Remove on completion
 			false												// Show in unconscious state 
 		] call BIS_fnc_holdActionAdd;
-		TAS_holdActionIDs pushBack [CreateResupplyObject,_actionID];
+		TAS_holdActionIDs pushBack [CreateResupplyObject,_actionID,"create_resupply"];
 	} else { //if resupply object stuff is turned on but missing the objects needed for it to work, then display a warning that the resupply system will be disabled.
 		if (isServer) then {
 			systemChat "WARNING: Resupply Creator enabled, but missing the relevant spawner object(s) in mission! Disabling resupply creator...";
@@ -153,7 +153,7 @@ if (TAS_vassEnabled) then {
 		
 		if (!isNull _object) then {
 			//add save loadout option
-			[
+			_actionID = [
 				_object,											// Object the action is attached to
 				"Save Loadout",										// Title of the action
 				"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
@@ -184,9 +184,10 @@ if (TAS_vassEnabled) then {
 				false,												// Remove on completion
 				false												// Show in unconscious state 
 			] call BIS_fnc_holdActionAdd;
+			TAS_holdActionIDs pushBack [_object,_actionID,"vass_save_loadout"];
 
 			//add rebuy option, TODO: cost money depending on weapons selected
-			[
+			_actionID = [
 				_object,											// Object the action is attached to
 				"Rebuy Loadout",										// Title of the action
 				"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
@@ -214,6 +215,7 @@ if (TAS_vassEnabled) then {
 				false,												// Remove on completion
 				false												// Show in unconscious state 
 			] call BIS_fnc_holdActionAdd;
+			TAS_holdActionIDs pushBack [_object,_actionID,"vass_rebuy_loadout"];
 		} else {
 			if (isServer || (serverCommandAvailable "#logout") || (!isNull (getAssignedCuratorLogic player))) then { //only do visual error if server (singleplayer testing) or admin or zeus
 				systemchat format ["WARNING: One or more objects (%1) in TAS_vassSigns does not exist!",_x];
