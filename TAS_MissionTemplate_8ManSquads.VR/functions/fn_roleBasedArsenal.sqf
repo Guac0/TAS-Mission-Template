@@ -87,7 +87,7 @@ switch (true) do
 	case ("Squad Leader" in _roleDescriptionSimple): {
 		//private _arsenalBox = exampleBoxName;
 	};
-	case ("RTO" in _roleDescriptionSimple): {
+	case (("RTO" in _roleDescriptionSimple) || ("RTO" in _roleDescriptionSimple)): {
 		//private _arsenalBox = exampleBoxName;
 	};
 	case ("Machinegunner" in _roleDescriptionSimple): {

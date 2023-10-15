@@ -108,7 +108,7 @@ if (TAS_useConfigLoadout) then {
 			case ("Squad Leader" in _roleDescriptionSimple): {
 				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
 			};
-			case ("RTO" in _roleDescriptionSimple): {
+			case (("Radioman" in _roleDescriptionSimple) || ("RTO" in _roleDescriptionSimple)): {
 				player setVariable ["TAS_overrideConfigLoadoutName","Display_name_of_unit_in_given_faction_whose_loadout_should_be_given_to_this_player"];
 			};
 			case ("Machinegunner" in _roleDescriptionSimple): {
@@ -308,7 +308,7 @@ if (TAS_populateInventory) then {
 			case ("Squad Leader" in _roleDescriptionSimple): {
 
 			};
-			case ("RTO" in _roleDescriptionSimple): {
+			case (("Radioman" in _roleDescriptionSimple) || ("RTO" in _roleDescriptionSimple)): {
 				
 			};
 			case ("Machinegunner" in _roleDescriptionSimple): {
