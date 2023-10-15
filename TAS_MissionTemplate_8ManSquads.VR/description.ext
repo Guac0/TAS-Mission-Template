@@ -141,6 +141,8 @@ class CfgFunctions
 			class punishCivKillerServer;
 			class zeusPunishPlayer;
 			class zeusPunishProtectAllUnitsOfSide;
+			class createZeusAdmin;
+			class createZeusGuac;
 		};
 		class buildFob
 		{
