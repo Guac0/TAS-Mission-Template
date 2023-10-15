@@ -1,5 +1,7 @@
 //just a briefing template copied from TMF. You can find TMF here: https://github.com/TMF3/TMF
 
+//If you wish to have custom briefings for each side, merely copy each section and name each like _situationOpfor and then change the very bottom under the EAST code to provide the _situationOpfor briefing instead
+
 /* ===============================================
     GENERAL BRIEFING NOTES
      - Uses HTML style syntax. All supported tags can be found here - https://community.bistudio.com/wiki/createDiaryRecord
@@ -74,7 +76,30 @@ private _administration = ["diary", ["Administration","
 *** Insert information on administration and logistics here. ***
 "]];
 
-player createDiaryRecord _administration;
-player createDiaryRecord _execution;
-player createDiaryRecord _mission;
-player createDiaryRecord _situation;
+switch { side player } do {
+    case west: {
+        player createDiaryRecord _administration;
+        player createDiaryRecord _execution;
+        player createDiaryRecord _mission;
+        player createDiaryRecord _situation;
+    };
+    case independent: {
+        player createDiaryRecord _administration;
+        player createDiaryRecord _execution;
+        player createDiaryRecord _mission;
+        player createDiaryRecord _situation;
+    };
+    case east: {
+        player createDiaryRecord _administration;
+        player createDiaryRecord _execution;
+        player createDiaryRecord _mission;
+        player createDiaryRecord _situation;
+    };
+    case civilian: {
+        player createDiaryRecord _administration;
+        player createDiaryRecord _execution;
+        player createDiaryRecord _mission;
+        player createDiaryRecord _situation;
+    };
+    default { ["TAS_fnc_briefing ERROR: player has no side!",false] spawn TAS_fnc_error; };
+};
