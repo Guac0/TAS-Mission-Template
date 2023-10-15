@@ -99,6 +99,26 @@
 				If you want only your custom units to have the draw blood action, set TAS_allowBloodDrawing to 'false' and add it manually to the specified units with the above code.
 		*/
 		TAS_allowBloodDrawing	= true; //default true
+	
+
+	/* Punish Civilian Killers
+		Adds a counter to players and when they have killed the provided number of protected units, they are locked into a timeout corner at the map origin [0,0,0].
+			After their timer is up, they are teleported to their previous position/vehicle/group leader.
+			By default, the system is not active unless the zeus modules are used.
+				To automatically apply the system to all civilian units, see description.ext and search for "PunishCivKiller"
+			To end a player's timeout prematurely, use the "Forgive" module in Zeus on them.
+
+			TAS_punishCivKillsThreshold is the number of civilian kills allowed before punishment (if set to 2, punishment will occur on the 3rd kill).
+				Setting this to 0 will cause the "Zeus - Punish Player" module to not work.
+			TAS_punishCivKillTimeout is the time in seconds to put the offending player into timeout for.
+			TAS_punishCivKillsSpectator puts the offending player into spectator during timeout. This is recommended so that they don't get bored, however, make sure your spectator settings don't allow for seeing enemies/etc.
+			TAS_punishCivKillerTpToLeader will attempt to teleport the offender to their group leader (if they have one) or their leader's vehicle after their timeout is over if set to true.
+		*/
+		TAS_punishCivKillsThreshold = 2;	//default 2
+		TAS_punishCivKillTimeout 	= 60;	//default 60
+		TAS_punishCivKillsSpectator	= true;	//default true
+		TAS_punishCivKillerTpToLeader = true; //default true
+		TAS_punishCivKillerHumiliate = true; //default true
 
 
 
@@ -341,6 +361,7 @@
 		Rallypoint Overrun Settings
 			The overrun sequence (if enabled) activates when more enemies than friendlies (adjusted by TAS_rallyOutnumberFactor) are within TAS_rallyDistance of a rally.
 				It gives the players TAS_rallyOverrunTimer to kill enough enemies to bring them back under the threshold. If this is not done in time, then the rally is destroyed.
+			There are several zeus modules available to manage the system ingame.
 
 			TAS_rallypointOverrun enables/disables the overrun system for rallypoints.
 			TAS_rallyOutnumberFactor determines how many more enemies than friendlies have to be in TAS_rallyDistance of the rally to begin the overrun sequence

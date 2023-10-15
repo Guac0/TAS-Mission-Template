@@ -164,6 +164,37 @@ if (TAS_rallypointsEnabled) then {
 	//if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Service Vehicle", "Disabled."]]; };
 };
 
+if (true) then { //always be available
+	_moduleList pushBack ["Punish - Add Protected Unit", {
+		private _unit = _this select 1;
+		if (isNull _unit) exitWith { systemChat "Place the module on an unit!"};
+		[_unit] remoteExec ["TAS_fnc_punishCivKillerServer",_unit];
+	}];
+	_moduleList pushBack ["Punish - Timeout Unit", {
+		private _unit = _this select 1;
+		if (isNull _unit) exitWith { systemChat "Place the module on an unit!"};
+		_this call TAS_fnc_zeusPunishPlayer;
+	}];
+	_moduleList pushBack ["Punish - Check Civ Kills of Unit", {
+		private _unit = _this select 1;
+		if (isNull _unit) exitWith { systemChat "Place the module on an unit!"};
+		systemChat format ["%1 has killed %2 protected units!",name _unit, _unit getVariable ["TAS_civsKilledByUnit",0]];
+	}];
+	_moduleList pushBack ["Punish - Forgive Unit", {
+		private _unit = _this select 1;
+		if (isNull _unit) exitWith { systemChat "Place the module on an unit!"};
+		systemChat format ["%1 has been forgiven of %2 protected kills!",name _unit, _unit getVariable ["TAS_civsKilledByUnit",0]];
+		_unit setVariable ["TAS_civsKilledByUnit",0,true];
+	}];
+	_moduleList pushBack ["Punish - Protect All Units of Side", {
+		_this call TAS_fnc_zeusPunishProtectAllUnitsOfSide;
+	}];
+	player createDiaryRecord ["tasMissionTemplate", ["Zeus Protect/Punish Modules", "Enabled.<br/><br/>"]];
+} else {
+	//systemChat "Custom Zeus resupply modules disabled.";
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Flagpole Respawn", "Disabled."]]; };
+};
+
 
 
 //registering ZEN custom modules, code modified from Crow

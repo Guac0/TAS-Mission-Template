@@ -47,6 +47,19 @@ class CfgMusic
 	};
 };
 
+//Uncomment this in order to automatically apply the civ killer script to all civilians spawned during the mission.
+/*
+class Extended_Init_EventHandlers
+{
+    class CAManBase
+    {
+        class PunishCivKiller {
+            init = "if (side (_this select 0) == civilian) then {_this call TAS_fnc_punishCivKillerServer};"; //[_unit]
+        };
+    };
+};
+*/
+
 // Allows functions to log to the RPT file.
 allowFunctionsLog = 1;
 
@@ -123,6 +136,11 @@ class CfgFunctions
 			class vassPlayerInit;
 			class zeusRallypointPlace;
 			class zeusRallypointPromote;
+			class error;
+			class punishCivKillerLocal;
+			class punishCivKillerServer;
+			class zeusPunishPlayer;
+			class zeusPunishProtectAllUnitsOfSide;
 		};
 		class buildFob
 		{
