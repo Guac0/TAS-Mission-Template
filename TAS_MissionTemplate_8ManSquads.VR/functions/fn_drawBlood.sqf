@@ -34,7 +34,7 @@ private _statementDrawBlood = {
             //systemChat format ["3: %1",_target];
 
             //Reduce the blood volume of the target by 0.25 L
-            _target setVariable ["ace_medical_bloodVolume", ((_target getVariable ["ace_medical_bloodVolume", 6]) - 0.25)];
+            _target setVariable ["ace_medical_bloodVolume", ((_target getVariable ["ace_medical_bloodVolume", 6]) - 0.25)], true;
 
             //Attempt to add a 250 ml blood bag to the player, warn if it will be placed on the ground instead.
             if (!([ace_player, "ACE_bloodIV_250", 1, true, true, true] call CBA_fnc_canAddItem)) then {
