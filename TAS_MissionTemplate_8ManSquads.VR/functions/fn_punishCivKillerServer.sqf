@@ -13,7 +13,7 @@
 	[_civ] remoteExec ["TAS_fnc_punishCivKiller",2];
 	[_civ] spawn TAS_fnc_punishCivKiller;
 */
-private _debug = true;
+private _debug = false;
 params ["_civ"];
 if (_debug) then { systemChat format ["Starting fn_punishCivKillerServer with %1",_civ]; };
 
@@ -23,7 +23,7 @@ if (_civ getVariable ["TAS_isProtectedUnit",false]) exitWith { if (_debug) then 
 
 _civ setVariable ["TAS_isProtectedUnit",true,true]; //dunno if it should be public but may as well
 _civ addEventHandler ["Killed", {
-	private _debug = true;
+	private _debug = false;
 	params ["_unit", "_killer", "_instigator", "_useEffects"];
 	if (_debug) then { systemChat format ["Starting fn_punishCivKillerLocal eventhandler with %1 and %2",_unit,_killer]; };
 	//todo catch edge cases where killer is a vehicle and arma gives the vehicle instead of the effectiveCommander?

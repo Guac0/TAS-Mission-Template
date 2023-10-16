@@ -66,7 +66,7 @@ private _eventHandler = _object addEventHandler ["HandleDamage", {
 	params ["_unit", "_selection", "_damage", "_source", "_projectile", "_hitIndex", "_instigator", "_hitPoint", "_directHit"];
 	private _componentName = _unit getVariable ["TAS_bossPartName","error: no component name"];
 	private _varName = format ["TAS_%1",_componentName];
-	private _debug = true;
+	private _debug = false;
 
 	//take hit value and subtract it from health pool
 	private _oldHealth = missionNamespace getVariable [_varName, [0,1]];;

@@ -14,7 +14,7 @@
 */
 
 //various setup
-private _debug = true;
+private _debug = false;
 params ["_killer","_timeout"];
 if (_debug) then { systemChat format ["Starting fn_punishCivKillerLocal with %1 and %2",_killer,_timeout]; };
 private _oldPos = getPosATL _killer;

@@ -1,6 +1,6 @@
 params [["_pos",[0,0,0],[[]],3], ["_unit",objNull,[objNull]]];
 
-private _debug = true;
+private _debug = false;
 if (_debug) then { systemChat format ["Starting fn_zeusPunishProtectAllUnitsOfSide with %1 and %2",_pos,_unit]; };
 
 //ZEN dialog
