@@ -143,6 +143,7 @@ class CfgFunctions
 			class zeusPunishProtectAllUnitsOfSide;
 			class createZeusAdmin;
 			class createZeusGuac;
+			class zeusSpawnAttackDog;
 		};
 		class buildFob
 		{

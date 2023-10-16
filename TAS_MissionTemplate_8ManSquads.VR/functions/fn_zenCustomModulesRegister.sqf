@@ -195,6 +195,12 @@ if (true) then { //always be available
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Flagpole Respawn", "Disabled."]]; };
 };
 
+if (true) then { //always be available
+	_moduleList pushBack ["Spawn Attack Dog", {
+		_this call TAS_fnc_zeusSpawnAttackDog;
+	}];
+};
+
 
 
 //registering ZEN custom modules, code modified from Crow
