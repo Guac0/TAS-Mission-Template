@@ -36,7 +36,10 @@ _civ addEventHandler ["Killed", {
 		if (_kills > TAS_punishCivKillsThreshold) then {
 			[_killer,TAS_punishCivKillTimeout] remoteExec ["TAS_fnc_punishCivKillerLocal",_killer];
 		};
-		(format ["%1 has killed a civilian/protected unit (%2)!",name _killer, name _unit]) remoteExec ["systemChat"];
+		if (TAS_punishCivKillerHumiliate) then {
+			(format ["%1 has killed a civilian/protected unit (%2)!",name _killer, name _unit]) remoteExec ["systemChat"];
+		};
+		(format ["%1 has killed a civilian/protected unit (%2)!",name _killer, name _unit]) remoteExec ["diag_log",2];
 	} else {
 		(format ["A protected unit (%1) has died, but the killer (%2) is not a player!",name _unit, name _killer]) remoteexec ["diag_log",2];
 	};

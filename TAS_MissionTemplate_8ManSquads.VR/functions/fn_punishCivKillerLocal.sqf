@@ -34,7 +34,9 @@ _killer allowDamage false;
 _killer setPosATL [0,0,0];
 _killer enableSimulationGlobal false;
 
-(format ["%1 has been put into timeout for %2 seconds!",name _killer, _timeout]) remoteExec ["systemChat"];
+if (TAS_punishCivKillerHumiliate) then {
+	(format ["%1 has been put into timeout for %2 seconds!",name _killer, _timeout]) remoteExec ["systemChat"];
+};
 
 //wait out his punishment
 private _time = _timeout;

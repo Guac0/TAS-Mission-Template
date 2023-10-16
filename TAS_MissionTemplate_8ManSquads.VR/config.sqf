@@ -113,12 +113,13 @@
 			TAS_punishCivKillTimeout is the time in seconds to put the offending player into timeout for.
 			TAS_punishCivKillsSpectator puts the offending player into spectator during timeout. This is recommended so that they don't get bored, however, make sure your spectator settings don't allow for seeing enemies/etc.
 			TAS_punishCivKillerTpToLeader will attempt to teleport the offender to their group leader (if they have one) or their leader's vehicle after their timeout is over if set to true.
+			TAS_punishCivKillerHumiliate displays a message in chat when a player kills a protected unit/is put into timeout
 		*/
-		TAS_punishCivKillsThreshold = 2;	//default 2
-		TAS_punishCivKillTimeout 	= 60;	//default 60
-		TAS_punishCivKillsSpectator	= true;	//default true
-		TAS_punishCivKillerTpToLeader = true; //default true
-		TAS_punishCivKillerHumiliate = true; //default true
+		TAS_punishCivKillsThreshold 	= 2;	//default 2
+		TAS_punishCivKillTimeout 		= 60;	//default 60
+		TAS_punishCivKillsSpectator		= true;	//default true
+		TAS_punishCivKillerTpToLeader 	= true; //default true
+		TAS_punishCivKillerHumiliate 	= true; //default true
 
 
 
