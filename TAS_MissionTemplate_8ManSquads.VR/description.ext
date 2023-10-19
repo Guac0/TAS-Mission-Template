@@ -144,6 +144,7 @@ class CfgFunctions
 			class createZeusAdmin;
 			class createZeusGuac;
 			class zeusSpawnAttackDog;
+			class playCornerVideo;
 		};
 		class buildFob
 		{
