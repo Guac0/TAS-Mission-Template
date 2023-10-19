@@ -123,6 +123,14 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	["TAS_arsenalCurate",TAS_arsenalCurate,true],
 	//custom object mapper
 	["TAS_markCustomObjectsMap",TAS_markCustomObjectsMap,false],
+	//buddy blood drawing
+	["TAS_allowBloodDrawing",TAS_allowBloodDrawing,true],
+	//punish civ killers
+	["TAS_punishCivKillsThreshold",TAS_punishCivKillsThreshold,2],
+	["TAS_punishCivKillTimeout",TAS_punishCivKillTimeout,60],
+	["TAS_punishCivKillsSpectator",TAS_punishCivKillsSpectator,true],
+	["TAS_punishCivKillerTpToLeader",TAS_punishCivKillerTpToLeader,true],
+	["TAS_punishCivKillerHumiliate",TAS_punishCivKillerHumiliate,true],
 	//////////////////////////////////
 	/////////Inventory Options////////
 	//////////////////////////////////
@@ -198,6 +206,25 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	//////////////////////////////////
 	//////////Misc Options////////////
 	//////////////////////////////////
+	//boss options
+	["TAS_bossEnabled",TAS_bossEnabled,true],
+	["TAS_bossImagePath",TAS_bossImagePath,"media/logo256x256.paa"],
+	//["TAS_bossParts",TAS_bossParts,[[leg1,"LeftLeg",10],[leg2,"RightLeg",10],[torso,"Torso",30],[head,"Head",20]]], //not checked due to 'leg1' and etc being ANY if not defined and thus not matching
+	["TAS_bossInterval",TAS_bossInterval,0.5],
+	["TAS_bossHealthModifier",TAS_bossHealthModifier,1],
+	//VASS options
+	["TAS_vassEnabled",TAS_vassEnabled,false],
+	["TAS_vassShopSystemVariable",TAS_vassShopSystemVariable,"TAS_exampleVassMoney"],
+	["TAS_vassShopSystemLoadoutVariable",TAS_vassShopSystemLoadoutVariable,"TAS_exampleVassLoadout"],
+	["TAS_vassDefaultBalance",TAS_vassDefaultBalance,700],
+	["TAS_vassBonusStartingMoney",TAS_vassBonusStartingMoney,0],
+	["TAS_vassPrebriefing",TAS_vassPrebriefing,["In this campaign, we have to buy our gear from the black market.","Each player's balance and loadout at mission end will carry over to the next mission.","All free items (cosmetics) are in the red crate's ace arsenal, everything else is in the other box.","Save your loadout at the sign to be able to rebuy it in the future for a small cost."]],
+	["TAS_vassShops",TAS_vassShops,["arsenal_1","arsenal_2"]],
+	["TAS_vassSigns",TAS_vassSigns,["AceHealObject"]],
+	["TAS_rebuyCostPrimary",TAS_rebuyCostPrimary,35],
+	["TAS_rebuyCostSecondary",TAS_rebuyCostSecondary,50],
+	["TAS_rebuyCostHandgun",TAS_rebuyCostHandgun,15],
+	//other assorted stuff 
 	["TAS_vanillaStaminaDisabled",TAS_vanillaStaminaDisabled,true],
 	["TAS_doAimCoefChange",TAS_doAimCoefChange,false],
 	["TAS_aimCoef",TAS_aimCoef,0.5],
@@ -217,7 +244,6 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	["TAS_fpsDisplayEnabled",TAS_fpsDisplayEnabled,true],
 	["TAS_fixDeathColor",TAS_fixDeathColor,true],
 	["TAS_trimGroupNames",TAS_trimGroupNames,true],
-	["TAS_allowBloodDrawing",TAS_allowBloodDrawing,true],
 	//////////////////////////////////
 	///////Logistics Options//////////
 	//////////////////////////////////
