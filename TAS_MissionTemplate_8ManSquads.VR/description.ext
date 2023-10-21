@@ -146,6 +146,10 @@ class CfgFunctions
 			class zeusSpawnAttackDog;
 			class playCornerVideo;
 			class addExo;
+			class scavLoadout;
+			class scavPlayerInit;
+			class scavPlayerEnd;
+			class scavServerInit;
 		};
 		class buildFob
 		{
