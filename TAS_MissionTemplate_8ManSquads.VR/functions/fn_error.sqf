@@ -1,5 +1,5 @@
 // %1: error string
-params [_msg,[_adminOnly,true]];
+params ["_msg",["_adminOnly",true]];
 
 if (typename _msg != "STRING") then {
     ["ERROR: TAS_fn_error called with a non-string message variable! Attempting to stringify parameter...",true];
