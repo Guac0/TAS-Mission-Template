@@ -122,6 +122,20 @@
 		TAS_punishCivKillerHumiliate 	= true; //default true
 
 
+	/*
+		TAS_ScavZone_Marker
+		*/
+		TAS_scavSystemEnabled 	= true;	//default false
+		TAS_scavAfterDeath		= true; //default true
+		TAS_scavStartingValuables = 10; //default 10
+		TAS_scavNeededValuables = 3; //default 3
+		TAS_scavSleepInterval = 300;
+		TAS_scavPlayerDistanceThreshold = 300;
+		TAS_scavObjectiveDistanceThreshold = 150;
+		TAS_scavNumberOfObjectives = 10;
+		TAS_scavBlacklistLocations = [];
+
+
 
 
 

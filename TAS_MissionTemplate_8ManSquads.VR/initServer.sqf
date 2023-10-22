@@ -79,6 +79,12 @@ if (TAS_markCustomObjectsMap) then {
 	[] spawn TAS_fnc_markCustomObjects;
 };
 
+if (TAS_scavSystemEnabled) then {
+	[] spawn {
+		sleep 1; //wait after map screen
+		[] spawn TAS_fnc_scavServerInit;
+	};
+};
 
 //at bottom because has sleep. NOTE: no longer needs to be at the bottom due to 'spawn' being added
 if (TAS_respawnInVehicle) then {

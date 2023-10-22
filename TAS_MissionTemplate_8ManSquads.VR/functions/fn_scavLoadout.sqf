@@ -4,9 +4,7 @@ Changes loadout to gear appropriate for a "scaveneger" style one. Vaguely themed
 [unit] remtoeExec ["TAS_fnc_scavLoadout",unit]; //execute locally to unit
 [player] call TAS_fnc_scavLoadout;
 */
-params ["_unit"];
-TAS_scavSystemEnabled = true;
-private _numberOfMags = 5;
+params ["_unit",["_numberOfMags",5]];
 
 //check flag to see if scav system is running
 if !(TAS_scavSystemEnabled) exitWith {

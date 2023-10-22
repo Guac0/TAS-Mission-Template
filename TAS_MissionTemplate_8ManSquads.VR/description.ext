@@ -150,6 +150,7 @@ class CfgFunctions
 			class scavPlayerInit;
 			class scavPlayerEnd;
 			class scavServerInit;
+			class scavRespawnObjectives;
 		};
 		class buildFob
 		{
