@@ -1,7 +1,7 @@
 params [["_pos",[0,0,0],[[]],3], ["_unit",objNull,[objNull]]];
 
 if (isNull _unit) exitWith {
-	systemChat "Error: place the scav loadout zeus module on the object that you wish to attach the marker to!";
+	systemChat "Error: place the scav loadout zeus module on the object that you wish to equip with a scav loadout!";
 	diag_log "TAS MISSION TEMPLATE: fn_zeusScavLoadout was executed without being placed on an object!";
 };
 
@@ -22,9 +22,9 @@ private _onConfirm =
 };
 
 [
-	"Spawn Info Text", 
+	"Give Scav Loadout to Unit", 
 	[
-		["SLIDER", ["Interval between position updates", ""], [1,20,5,0]],	//min 1 second, max 600 seconds, default 60 seconds, 0 decimal places
+		["SLIDER", ["Primary weapon magazines", ""], [1,20,5,0]],	//min 1 mag, max 20 mags, default 5 mags, 0 decimal places
 		["TOOLBOX:YESNO", ["Give radio?", "Players will have their radio set to TAS_scavRadioFreq"], false]
 	],
 	_onConfirm,
