@@ -1,6 +1,10 @@
 
-private _debug = true;
+private _debug = false;
 private _markers = [];
+
+/////////////////////////
+/////// EXTRACTS ////////
+/////////////////////////
 private _extracts = [];
 {
 	private _object = _x;
@@ -20,15 +24,29 @@ private _extracts = [];
 	};
 } forEach ["TAS_extract_1","TAS_extract_2","TAS_extract_3","TAS_extract_4","TAS_extract_5","TAS_extract_6","TAS_extract_7","TAS_extract_8","TAS_extract_9","TAS_extract_10"];
 
+/////////////////////////
+///// OBJECTIVES ////////
+/////////////////////////
 //spawn objectives and make markers
 //private _scavZone = triggerArea TAS_ScavZone_Marker;
 private _centerZone = getMarkerPos "TAS_ScavZone_Marker";
-private _buildings = _centerZone nearObjects ["Building",(getMarkerSize "TAS_ScavZone_Marker") select 0];
+private _zoneSize = getMarkerSize "TAS_ScavZone_Marker";
+private _buildings = _centerZone nearObjects ["Building",_zoneSize select 0];
 private _enterableBuildings = _buildings select {count ([_x] call BIS_fnc_buildingPositions) > 6};
 private _objectivesToMake = TAS_scavNumberOfObjectives;
 private _scavObjectives = [];
 private _blacklistLocations = TAS_scavBlacklistLocations + _extracts;
 private _attemptsRemaining = _objectivesToMake * 10;
+private _guardSide = TAS_scavAiSide;
+private ["_guardClass"];
+switch (_guardSide) do //need to spawn classnames from the corressponding side
+{
+	case west: { _guardClass = "B_Survivor_F" };
+	case independent: { _guardClass = "I_Survivor_F" };
+	case east: { _guardClass = "O_Survivor_F" };
+	case civilian: { _guardClass = "C_man_1" }; //todo find classname of looters
+	default { _guardClass = "I_Survivor_F" };
+};
 
 if (_debug) then {
 	[format ["fn_scavServerInit enterable buildings: %1",_enterableBuildings],true] call TAS_fnc_error;
@@ -67,28 +85,41 @@ while {(_objectivesToMake > 0) && (_attemptsRemaining > 0)} do { //dont get caug
 		private _objectiveBox = createVehicle ["VirtualReammoBox_camonet_F",(_potentialObjective buildingPos 0),[],0,"CAN_COLLIDE"]; //empty cache
 		_objectiveBox addItemCargoGlobal ["TAS_RationPizza", TAS_scavStartingValuables];
 		_objectiveBox allowDamage false;
-		private _objectiveGroupGuard = createGroup east;
-		private _objectiveGroupPatrol = createGroup east;
-		for "_i" from 1 to 6 do {
-			private _unit = _objectiveGroupGuard createUnit ["O_Survivor_F", getPos _objectiveBox,[],0,"NONE"];
+
+		private _objectiveGroupGuard = createGroup _guardSide;
+		private _objectiveGroupCamp = createGroup _guardSide;
+		private _objectiveGroupPatrol = createGroup _guardSide;
+		private _groups = [_objectiveGroupGuard,_objectiveGroupCamp,_objectiveGroupPatrol];
+		private _campLocation = [_objectiveBox, 5, 30, 3, 0, 0, 0, [], [getPos _objectiveBox, getPos _objectiveBox]] call BIS_fnc_findSafePos;
+		for "_i" from 1 to 4 do {
+			private _unit = _objectiveGroupGuard createUnit [_guardClass, getPos _objectiveBox,[],0,"NONE"];
+			_unit allowDamage false;
 			[_unit] call TAS_fnc_scavLoadout;
 		};
 		for "_i" from 1 to 3 do {
-			private _unit = _objectiveGroupPatrol createUnit ["O_Survivor_F", getPos _objectiveBox,[],0,"NONE"];
+			private _unit = _objectiveGroupCamp createUnit [_guardClass, _campLocation,[],0,"NONE"];
+			_unit allowDamage false;
+			[_unit] call TAS_fnc_scavLoadout;
+		};
+		for "_i" from 1 to 3 do {
+			private _unit = _objectiveGroupPatrol createUnit [_guardClass, _campLocation,[],0,"NONE"];
+			_unit allowDamage false;
 			[_unit] call TAS_fnc_scavLoadout;
 		};
 		[_objectiveGroupGuard, _objectiveBox, 10,[],true,false,2,false] call lambs_wp_fnc_taskGarrison;
+		[_objectiveGroupCamp, _campLocation, 5, [], true, false] call lambs_wp_fnc_taskCamp;
 		[_objectiveGroupPatrol, _objectiveBox, 50] call lambs_wp_fnc_taskPatrol;
-		//todo enable dysim
-		
-		[_objectiveGroupGuard,_objectiveGroupPatrol] spawn { //heal units in case lambs teleport hurts them
+		[_groups] spawn { //heal units in case lambs teleport hurts them
+			params ["_groups"];
 			sleep 5;
 			{
 				private _group = _x;
 				{
+					_x allowDamage true;
 					[objNull, _x] call ace_medical_treatment_fnc_fullHeal;
 				} forEach (units _group);
-			} forEach _this;
+				_x enableDynamicSimulation true; //wait to enable so that they can fall into place
+			} forEach _groups;
 		};
 
 		_marker = createMarkerLocal [format ["ScavObj_%1_Marker",_objectivesToMake],_objectiveBox];
@@ -98,7 +129,7 @@ while {(_objectivesToMake > 0) && (_attemptsRemaining > 0)} do { //dont get caug
 		_marker setMarkerAlpha 0; //broadcast
 		_markers pushback _marker;
 		
-		_scavObjectives pushBack [_objectiveBox,[_objectiveGroupGuard,_objectiveGroupPatrol],_marker];
+		_scavObjectives pushBack [_objectiveBox,_groups,_marker];
 		_blacklistLocations pushBack _objectiveBox;
 
 		_objectivesToMake = _objectivesToMake - 1;
@@ -112,8 +143,35 @@ if (_debug) then {
 	[format ["fn_scavServerInit found objectives: %1",_scavObjectives],true] call TAS_fnc_error;
 };
 
+/////////////////////////
+/////// ROAMERS /////////
+/////////////////////////
+private _numberRoamersSmall = TAS_scavRoamersSmall;
+private _numberRoamersBig = TAS_scavRoamersBig;
+
+private _roamerGroupsSmall = [];
+private _roamerGroupsBig = [];
+
+while {_numberRoamersSmall > 0} do {
+	private _group = [true] call TAS_fnc_scavSpawnRoamers; //can be "dummy" if doesnt find an acceptable spawnpoint
+	if (_group isNotEqualTo "dummy") then {
+		_roamerGroupsSmall pushBack _group;
+		_numberRoamersSmall = _numberRoamersSmall - 1;
+	};
+};
+while {_numberRoamersBig > 0} do {
+	private _group = [false] call TAS_fnc_scavSpawnRoamers; //can be null if doesnt find an acceptable spawnpoint
+	if (_group isNotEqualTo "dummy") then {
+		_roamerGroupsBig pushBack _group;
+		_numberRoamersBig = _numberRoamersBig - 1;
+	};
+};
+
+/////////////////////////
+/////// CLEANUP /////////
+/////////////////////////
 missionNamespace setVariable ["TAS_scavObjectives",_scavObjectives,true];
 missionNamespace setVariable ["TAS_scavTaskMarkers",_markers,true];
 missionNamespace setVariable ["TAS_scavExtracts",_extracts,true];
-
-//spawn new objs as needed and create more markers
+missionNamespace setVariable ["TAS_scavRoamerGroupsSmall",_roamerGroupsSmall,true];
+missionNamespace setVariable ["TAS_scavRoamerGroupsBig",_roamerGroupsBig,true];

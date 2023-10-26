@@ -151,6 +151,9 @@ class CfgFunctions
 			class scavPlayerEnd;
 			class scavServerInit;
 			class scavRespawnObjectives;
+			class scavSpawnRoamers;
+			class scavRespawnRoamers;
+			class zeusScavLoadout;
 		};
 		class buildFob
 		{

@@ -5,7 +5,7 @@ Initializes the scav system on a (local) player.
 
 player setVariable ["TAS_playerIsScav",true,true];
 [player] call TAS_fnc_scavLoadout;
-[player] joinSilent (createGroup independent);
+[player] joinSilent (createGroup TAS_scavPlayerSide);
 (group player) setGroupId [format ["%1's Scav Gang", name player]];
 
 //play audio briefing, give text diary entries, and assign task
@@ -69,4 +69,4 @@ player setVariable ["TAS_extractActions",_scavActions];
 //spawn in building near extract? or anywhere in AO thats not next to players/obj?
 private _spawnPointExtract = selectRandom _availableExtracts;
 private _spawnPoint = [_spawnPointExtract,3,20,1] call BIS_fnc_findSafePos;
-player setPosATL [_spawnPoint select 0, _spawnPoint select 1, 0.25];m
+player setPosATL [_spawnPoint select 0, _spawnPoint select 1, 0.25];

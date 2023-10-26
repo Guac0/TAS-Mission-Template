@@ -25,7 +25,6 @@ private _actionsToRemove = player getVariable ["TAS_scavActions",[]]; //[[object
 	_x setMarkerAlpha 0;
 } forEach (missionNamespace getVariable ["TAS_scavTaskMarkers",[]]);
 
-
 //sleep 3;
 
 //voiceline?
@@ -35,3 +34,9 @@ player setVariable ["TAS_playerIsScav",false,true];
 //[] call TAS_fnc_scavPlayerInit; //start whole scav thing over again if you want nonstop scaving
 
 //restore old pmc loadout and position
+private _loadout = player getVariable ["TAS_scavPmcLoadout",[]];
+if (_loadout != []) then {
+	[player, _loadout, false] call CBA_fnc_setLoadout;
+} else {
+	["Your old PMC loadout was not applied due to not being previously saved!",false] call TAS_fnc_error;
+};

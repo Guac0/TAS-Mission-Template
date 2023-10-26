@@ -1,14 +1,22 @@
 /*
 Changes loadout to gear appropriate for a "scaveneger" style one. Vaguely themed for woodland environments. Adjusts gear automatically based on presence of loaded mods.
 
-[unit] remtoeExec ["TAS_fnc_scavLoadout",unit]; //execute locally to unit
+[unit] remoteExec ["TAS_fnc_scavLoadout",unit]; //execute locally to unit
 [player] call TAS_fnc_scavLoadout;
 */
-params ["_unit",["_numberOfMags",5]];
+params ["_unit",["_numberOfMags",5],["_giveRadio",0]];
 
 //check flag to see if scav system is running
 if !(TAS_scavSystemEnabled) exitWith {
 	["fn_scavLoadout called but system is disabled!",true] call TAS_fnc_error;
+};
+
+if (_giveRadio == 0) then { //if not defined by params, default to yes if player and no if AI
+	if (isPlayer _unit) then {
+		_giveRadio = true;
+	} else {
+		_giveRadio = false;
+	};
 };
 
 //clear _unit inventory and give scav-appropriate gear and set radio
@@ -97,10 +105,6 @@ _unit linkItem "ItemMap";
 _unit linkItem "ItemWatch";
 _unit linkItem "ItemCompass";
 //_unit linkItem "ItemGPS";
-if (isPlayer _unit) then {
-	_unit linkItem "TFAR_anprc152";
-	[(call TFAR_fnc_activeSrRadio), 1, "84"] call TFAR_fnc_SetChannelFrequency;
-};
 
 //basic medical
 for "_i" from 1 to 16 do { _unit addItem "ACE_quikclot" };
@@ -129,4 +133,13 @@ for "_i" from 1 to 2 do { _unit addMagazine "MiniGrenade" }; //HandGrenade is m6
 for "_i" from 1 to 2 do { _unit addMagazine "SmokeShell" }; //white smoke
 //for "_i" from 1 to 1 do { _unit addItem "SmokeShellPurple" }; //purple smoke
 for "_i" from 1 to 2 do { _unit addMagazine "Chemlight_yellow" };
+
+//at end due to waitUntil
+if (_giveRadio) then {
+	_unit linkItem "TFAR_anprc152";
+	if (isPlayer _unit) then {
+		waitUntil {(call TFAR_fnc_haveSWRadio)};
+		[(call TFAR_fnc_activeSrRadio), 1, TAS_scavRadioFreq] call TFAR_fnc_SetChannelFrequency;
+	};
+};
 

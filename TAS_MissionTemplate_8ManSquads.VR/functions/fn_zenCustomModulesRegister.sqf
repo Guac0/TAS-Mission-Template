@@ -201,6 +201,12 @@ if (true) then { //always be available
 	}];
 };
 
+if (true) then { //always be available
+	_moduleList pushBack ["Give Scav Loadout", {
+		_this call TAS_spawn_zeusScavLoadout;
+	}];
+};
+
 
 
 //registering ZEN custom modules, code modified from Crow
