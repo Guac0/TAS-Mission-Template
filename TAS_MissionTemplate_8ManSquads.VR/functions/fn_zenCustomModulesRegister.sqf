@@ -207,6 +207,12 @@ if (true) then { //always be available
 	}];
 };
 
+if (true) then { //always be available
+	_moduleList pushBack ["Make Unit Juggernaut", {
+		_this call TAS_spawn_zeusAceJuggernaut;
+	}];
+};
+
 
 
 //registering ZEN custom modules, code modified from Crow

@@ -154,6 +154,8 @@ class CfgFunctions
 			class scavSpawnRoamers;
 			class scavRespawnRoamers;
 			class zeusScavLoadout;
+			class aceJuggernaut;
+			class zeusAceJuggernaut;
 		};
 		class buildFob
 		{
