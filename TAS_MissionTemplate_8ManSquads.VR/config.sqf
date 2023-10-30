@@ -129,21 +129,21 @@
 		TAS_scavAfterDeath		= true; //default true
 		TAS_scavStartingValuables = 10; //default 10
 		TAS_scavNeededValuables = 3; //default 3
-		TAS_scavSleepInterval = 300;
+		TAS_scavSleepInterval = 120;
 		TAS_scavPlayerDistanceThreshold = 300;
 		TAS_scavObjectiveDistanceThreshold = 250;
 		TAS_scavNumberOfObjectives = 7;
 		TAS_scavBlacklistLocations = [];
 		TAS_scavPlayerSide = west;
 		TAS_scavAiSide = independent;
-		TAS_scavAiRoamerSide = independent;
+		TAS_scavAiRoamerSide = east;
 		TAS_scavRadioFreq = "44";
-		TAS_scavRoamersSmall = 1;
-		TAS_scavRoamersBig = 1;
+		TAS_scavRoamersSmall = 5;
+		TAS_scavRoamersBig = 3;
 		TAS_scavRoamersSmallPatrolChance = 100;
 		TAS_scavRoamersBigPatrolChance = 0;
 		TAS_scavRoamersObjectiveDistance = 250;
-		TAS_scavRoamersPlayerDistance = 500;
+		TAS_scavRoamersPlayerDistance = 300;
 
 
 

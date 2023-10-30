@@ -3,7 +3,7 @@
 params ["_isSmall"];
 
 //setup
-private _debug = true;
+private _debug = false;
 private _objectiveDistance = TAS_scavRoamersObjectiveDistance;
 private _playerDistance = TAS_scavRoamersPlayerDistance;
 private _centerZone = getMarkerPos "TAS_ScavZone_Marker";
@@ -11,25 +11,26 @@ private _zoneSize = getMarkerSize "TAS_ScavZone_Marker";
 private _zoneArea = "TAS_ScavZone_Marker" call BIS_fnc_getArea;
 private _scavObjectives = missionNamespace getVariable ["TAS_scavObjectives",[]];
 private _blacklistLocations = TAS_scavBlacklistLocations + (missionNamespace getVariable ["TAS_scavExtracts",[]]);
+private _enterableBuildings = missionNamespace getVariable ["TAS_scavEnterableBuildingsInAO",[]];
 private ["_group"]; //predeclare for locality
 
-private _guardSidePatrol = TAS_scavAiSide;
+private _guardSidePatrol = TAS_scavAiRoamerSide; //todo decide what side -- TAS_scavAiRoamerSide or TAS_scavAiSide
 private _guardSideRoam = TAS_scavAiRoamerSide;
 private ["_guardClassPatrol","_guardClassRoam"];
 switch (_guardSidePatrol) do //need to spawn classnames from the corressponding side
 {
-	case west: { _guardClass = "B_Survivor_F" };
-	case independent: { _guardClass = "I_Survivor_F" };
-	case east: { _guardClass = "O_Survivor_F" };
-	case civilian: { _guardClass = "C_man_1" }; //todo find classname of looters
-	default { _guardClass = "I_Survivor_F" };
+	case west: { _guardClassPatrol = "B_Survivor_F" };
+	case independent: { _guardClassPatrol = "I_Survivor_F" };
+	case east: { _guardClassPatrol = "O_Survivor_F" };
+	case civilian: { _guardClassPatrol = "C_man_1" }; //nonhostile
+	default { _guardClassPatrol = "I_Survivor_F" };
 };
 switch (_guardSideRoam) do //need to spawn classnames from the corressponding side
 {
 	case west: { _guardClassRoam = "B_Survivor_F" };
 	case independent: { _guardClassRoam = "I_Survivor_F" };
 	case east: { _guardClassRoam = "O_Survivor_F" };
-	case civilian: { _guardClassRoam = "C_man_1" }; //todo find classname of looters
+	case civilian: { _guardClassRoam = "C_man_1" }; //nonhostile
 	default { _guardClassRoam = "I_Survivor_F" };
 };
 
@@ -42,7 +43,7 @@ if (_isSmall) then {
 
 	while {!(_isSuitable) && (_attemptsRemaining > 0)} do {
 
-		private _potentialSpawnpoint = [_zoneArea] call BIS_fnc_randomPos;
+		private _potentialSpawnpoint = [[_zoneArea]] call BIS_fnc_randomPos; //[[7212.49,5453.83,0],1200,1200,0,true,-1]
 		_isSuitable = true;
 
 		if (_debug) then {
@@ -89,16 +90,35 @@ if (_isSmall) then {
 				} else {
 					_unit = _group createUnit [_guardClassRoam, _safeSpawnpoint,[],0,"NONE"];
 				};
-				_unit allowDamage false;
+				//_unit allowDamage false;
 				[_unit] call TAS_fnc_scavLoadout;
 			};
 
 			if (_isPatrol) then {
-				[_group, _potentialSpawnpoint, 50] call lambs_wp_fnc_taskPatrol;
+
+				//[_group, _potentialSpawnpoint, 50] call lambs_wp_fnc_taskPatrol;
+
+				//select a few random houses, set them as move waypoints with a small timeout to simulate looting. stealth behavior?
+				for "_i" from 1 to 4 do {
+					_randomObj = selectRandom _enterableBuildings;
+					_objPos = ASLToAGL (getPosASL _randomObj);
+					private _waypoint = _group addWaypoint [_objPos, 0];
+					_waypoint setWaypointType "MOVE";
+					_waypoint setWaypointCompletionRadius 15; //prevent getting stuck in house since moving into house is iffy
+					_waypoint setWaypointTimeout [15, 30, 60]; //stick around a little
+				};
+				_randomObj = selectRandom _enterableBuildings;
+				_objPos = ASLToAGL (getPosASL _randomObj);
+				private _waypoint = _group addWaypoint [_objPos, 0];
+				_waypoint setWaypointType "CYCLE";
+
+				_group setBehaviourStrong "STEALTH";
+
 			} else {
-				private _numObjs = count(_scavObjectives);
+
+				private _numObjs = count _scavObjectives;
 				private _availableObjs = _scavObjectives;
-				for "_i" from 1 to _numObjs do {
+				for "_i" from 1 to (_numObjs - 1) do {
 					_randomObj = selectRandom _availableObjs;
 					_randomObjLocation = getPos (_randomObj select 0); //the objective box
 					_availableObjs = _availableObjs - _randomObj;
@@ -107,9 +127,16 @@ if (_isSmall) then {
 					//_waypoint setWaypointCompletionRadius 15; //will auto complete after search
 					//_waypoint setWaypointTimeout [min, mid, max]; //will auto complete after search
 				};
+				private _randomObj = selectRandom _availableObjs;
+				private _waypoint = _group addWaypoint [_randomObj, 0];
+				_waypoint setWaypointType "CYCLE";
+
+				_group setBehaviourStrong "COMBAT";
+				
 			};
 
 			_group enableDynamicSimulation true;
+			_group setFormation "DIAMOND";
 			
 		};
 
@@ -128,7 +155,7 @@ if (_isSmall) then {
 
 	while {!(_isSuitable) && (_attemptsRemaining > 0)} do {
 
-		private _potentialSpawnpoint = [_zoneArea] call BIS_fnc_randomPos;
+		private _potentialSpawnpoint = [[_zoneArea]] call BIS_fnc_randomPos;
 		_isSuitable = true;
 
 		if (_debug) then {
@@ -175,35 +202,54 @@ if (_isSmall) then {
 				} else {
 					_unit = _group createUnit [_guardClassRoam, _safeSpawnpoint,[],0,"NONE"];
 				};
-				_unit allowDamage false;
+				//_unit allowDamage false;
 				[_unit] call TAS_fnc_scavLoadout;
 			};
 
-			[_group] spawn { //heal units in case lambs teleport hurts them
-				params ["_group"];
-				sleep 5;
-				{
-					_x allowDamage true;
-					[objNull, _x] call ace_medical_treatment_fnc_fullHeal;
-				} forEach (units _group);
-				_group enableDynamicSimulation true;
-			};
-
 			if (_isPatrol) then {
-				[_group, _potentialSpawnpoint, 50] call lambs_wp_fnc_taskPatrol;
+
+				//[_group, _potentialSpawnpoint, 50] call lambs_wp_fnc_taskPatrol;
+
+				//select a few random houses, set them as move waypoints with a small timeout to simulate looting. stealth behavior?
+				for "_i" from 1 to 4 do {
+					_randomObj = selectRandom _enterableBuildings;
+					_objPos = ASLToAGL (getPosASL _randomObj);
+					private _waypoint = _group addWaypoint [_objPos, 0];
+					_waypoint setWaypointType "MOVE";
+					_waypoint setWaypointCompletionRadius 15; //prevent getting stuck in house since moving into house is iffy
+					_waypoint setWaypointTimeout [15, 30, 60]; //stick around a little
+				};
+				_randomObj = selectRandom _enterableBuildings;
+				_objPos = ASLToAGL (getPosASL _randomObj);
+				private _waypoint = _group addWaypoint [_objPos, 0];
+				_waypoint setWaypointType "CYCLE";
+
+				_group setBehaviourStrong "STEALTH";
+
 			} else {
-				private _numObjs = count(_scavObjectives);
+
+				private _numObjs = count _scavObjectives;
 				private _availableObjs = _scavObjectives;
-				for "_i" from 1 to _numObjs do {
-					_randomObj = selectRandom _availableObjs;
-					_randomObjLocation = getPos (_randomObj select 0); //the objective box
+				for "_i" from 1 to (_numObjs - 1) do {
+					private _randomObj = selectRandom _availableObjs;
+					private _randomObjLocation = ASLToAGL (getPosASL (_randomObj select 0)); //the objective box
 					_availableObjs = _availableObjs - _randomObj;
-					private _waypoint = _group addWaypoint [_randomObj, 0];
+					private _waypoint = _group addWaypoint [_randomObjLocation, 0];
 					_waypoint setWaypointType "SAD"; //todo replace with move or taskCQB?
 					//_waypoint setWaypointCompletionRadius 15; //will auto complete after search
 					//_waypoint setWaypointTimeout [min, mid, max]; //will auto complete after search
 				};
+				private _randomObj = selectRandom _availableObjs;
+				private _randomObjLocation = ASLToAGL (getPosASL (_randomObj select 0));
+				private _waypoint = _group addWaypoint [_randomObjLocation, 0];
+				_waypoint setWaypointType "CYCLE";
+
+				_group setBehaviourStrong "COMBAT";
+				
 			};
+
+			_group enableDynamicSimulation true;
+			_group setFormation "DIAMOND";
 			
 		};
 
@@ -218,7 +264,7 @@ if (isNil "_group") then {
 	_group = "dummy"; //idk. maybe do recursive?
 };
 
-[format ["TAS_fnc_scavSpawnRoamers returning with a value of %1",_group],true] call TAS_fnc_error;
+if (_debug) then { [format ["TAS_fnc_scavSpawnRoamers returning with a value of %1",_group],true] call TAS_fnc_error };
 //return the created group. it's up to the caller to update TAS_scavRoamerGroupsSmall
 //as that allows for performance/network optimizations if creating multiple in short succession
 _group

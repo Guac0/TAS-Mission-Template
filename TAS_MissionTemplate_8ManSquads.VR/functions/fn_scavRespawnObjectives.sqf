@@ -30,7 +30,7 @@ while {true} do {
 
 		private _inventory = getItemCargo _box;
 		private _path = [_inventory, "TAS_RationPizza"] call BIS_fnc_findNestedElement;
-		private _numberPizzas = (_inventory select 1) select (path select 1);
+		private _numberPizzas = (_inventory select 1) select (_path select 1);
 		if (_numberPizzas < TAS_scavStartingValuables) then {
 			//some of the pizzas are missing, so there's definitely been players here.
 			_needToRespawn = true;

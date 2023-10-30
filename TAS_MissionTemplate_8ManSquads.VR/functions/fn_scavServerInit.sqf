@@ -143,6 +143,13 @@ if (_debug) then {
 	[format ["fn_scavServerInit found objectives: %1",_scavObjectives],true] call TAS_fnc_error;
 };
 
+//need to do this early because spawnRoamers depends on it
+missionNamespace setVariable ["TAS_scavBuildingsInAO",_buildings,false]; //dont broadcast, lots of info
+missionNamespace setVariable ["TAS_scavEnterableBuildingsInAO",_enterableBuildings,false]; //dont broadcast, lots of info
+missionNamespace setVariable ["TAS_scavObjectives",_scavObjectives,true];
+missionNamespace setVariable ["TAS_scavTaskMarkers",_markers,true];
+missionNamespace setVariable ["TAS_scavExtracts",_extracts,true];
+
 /////////////////////////
 /////// ROAMERS /////////
 /////////////////////////
@@ -170,8 +177,8 @@ while {_numberRoamersBig > 0} do {
 /////////////////////////
 /////// CLEANUP /////////
 /////////////////////////
-missionNamespace setVariable ["TAS_scavObjectives",_scavObjectives,true];
-missionNamespace setVariable ["TAS_scavTaskMarkers",_markers,true];
-missionNamespace setVariable ["TAS_scavExtracts",_extracts,true];
 missionNamespace setVariable ["TAS_scavRoamerGroupsSmall",_roamerGroupsSmall,true];
 missionNamespace setVariable ["TAS_scavRoamerGroupsBig",_roamerGroupsBig,true];
+
+[] spawn TAS_fnc_scavRespawnRoamers;
+//[] spawn TAS_fnc_scavRespawnObjectives;

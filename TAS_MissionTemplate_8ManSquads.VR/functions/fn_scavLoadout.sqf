@@ -4,12 +4,14 @@ Changes loadout to gear appropriate for a "scaveneger" style one. Vaguely themed
 [unit] remoteExec ["TAS_fnc_scavLoadout",unit]; //execute locally to unit
 [player] call TAS_fnc_scavLoadout;
 */
-params ["_unit",["_numberOfMags",5],["_giveRadio",0]];
+params ["_unit",["_numberOfMags",8],["_giveRadio",0]];
 
 //check flag to see if scav system is running
 if !(TAS_scavSystemEnabled) exitWith {
 	["fn_scavLoadout called but system is disabled!",true] call TAS_fnc_error;
 };
+
+if (_unit isEqualTo objNull) exitWith { ["fn_scavLoadout called with a null unit!",true] call TAS_fnc_error }; //BIS commands seem to fail gracefully with a non-existing unit (createVehicle fed nonexistant classname) but ACE will throw a hissy fit
 
 if (_giveRadio == 0) then { //if not defined by params, default to yes if player and no if AI
 	if (isPlayer _unit) then {
