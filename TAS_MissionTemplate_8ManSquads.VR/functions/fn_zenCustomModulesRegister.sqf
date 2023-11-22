@@ -15,18 +15,6 @@ if (TAS_respawnInVehicle) then {
 	//diary handled in initPlayerLocal
 };
 
-if (true) then { //always be available
-	_moduleList pushBack ["Add Flagpole as Respawn Position", {
-		private _unit = _this select 1;
-		if (isNull _unit) exitWith { systemChat "Place the module on an object like a flagpole!"};
-		_this call TAS_fnc_assignRespawnFlagpole;
-	}];
-	player createDiaryRecord ["tasMissionTemplate", ["Zeus Flagpole Respawn", "Enabled.<br/><br/>Adds a module to Zeus to allow them to add flagpoles as respawn positions."]];
-} else {
-	//systemChat "Custom Zeus resupply modules disabled.";
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Flagpole Respawn", "Disabled."]]; };
-};
-
 if (TAS_zeusInfoText) then {
 	_moduleList pushBack ["Play Info Text", {_this call TAS_fnc_zeusInfoText}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Info Text", "Enabled.<br/><br/>Adds a Zeus module to play info text to all players. You can find it under 'TAS Mission Template' in the module list."]];
@@ -190,27 +178,40 @@ if (true) then { //always be available
 		_this call TAS_fnc_zeusPunishProtectAllUnitsOfSide;
 	}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Protect/Punish Modules", "Enabled.<br/><br/>"]];
-} else {
-	//systemChat "Custom Zeus resupply modules disabled.";
-	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Flagpole Respawn", "Disabled."]]; };
-};
 
-if (true) then { //always be available
+	_moduleList pushBack ["Add Flagpole as Respawn Position", {
+		private _unit = _this select 1;
+		if (isNull _unit) exitWith { systemChat "Place the module on an object like a flagpole!"};
+		_this call TAS_fnc_assignRespawnFlagpole;
+	}];
+	player createDiaryRecord ["tasMissionTemplate", ["Zeus Flagpole Respawn", "Enabled.<br/><br/>Adds a module to Zeus to allow them to add flagpoles as respawn positions."]];
+
 	_moduleList pushBack ["Spawn Attack Dog", {
 		_this call TAS_fnc_zeusSpawnAttackDog;
 	}];
-};
 
-if (true) then { //always be available
 	_moduleList pushBack ["Give Scav Loadout", {
-		_this call TAS_spawn_zeusScavLoadout;
+		_this call TAS_fnc_zeusScavLoadout;
 	}];
-};
 
-if (true) then { //always be available
 	_moduleList pushBack ["Make Unit Juggernaut", {
-		_this call TAS_spawn_zeusAceJuggernaut;
+		_this call TAS_fnc_zeusAceJuggernaut;
 	}];
+
+	_moduleList pushBack ["Add Admin Zeus", {
+		[] call TAS_fnc_createZeusAdmin;
+	}];
+
+	_moduleList pushBack ["Add Guac Zeus", {
+		[] call TAS_fnc_createZeusGuac;
+	}];
+
+	_moduleList pushBack ["Equip Unit with Exosuit (EXOMOD)", {
+		(_this select 1) call TAS_fnc_addExo;
+	}];
+} else {
+	//systemChat "Custom Zeus resupply modules disabled.";
+	//if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Flagpole Respawn", "Disabled."]]; };
 };
 
 
