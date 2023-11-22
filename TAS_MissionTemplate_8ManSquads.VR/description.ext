@@ -156,6 +156,8 @@ class CfgFunctions
 			class zeusScavLoadout;
 			class aceJuggernaut;
 			class zeusAceJuggernaut;
+			class zeusSetUnitOnFire;
+			class burnUnitOrArea;
 		};
 		class buildFob
 		{

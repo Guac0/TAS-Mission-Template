@@ -212,6 +212,10 @@ if (true) then { //always be available
 	_systemsModuleList pushBack ["Add Guac Zeus", {
 		[] call TAS_fnc_createZeusGuac;
 	}];
+
+	_moduleList pushBack ["Set Unit/Area on Fire", {
+		_this call TAS_fnc_zeusSetUnitOnFire;
+	}];
 	
 	if (isClass(configFile >> "CfgPatches" >> "PhoenixSystems_Exosuits")) then {
 		_moduleList pushBack ["Equip Unit with Exosuit (EXOMOD)", {
