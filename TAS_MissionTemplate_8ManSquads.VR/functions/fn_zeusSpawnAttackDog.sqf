@@ -5,7 +5,7 @@ params ["_pos","_unit"];
 ["Side Selector",[
 	["SIDES", ["", "Only the first selected side will be taken into account."], [east]],
 	["SLIDER", ["Search Radius", "The dogs will search within given radius for targets."], [0, 1000, 100, 0]],
-	["SLIDER", ["Dog Damage", "How much damage should give."], [0, 5, 1, 2]],
+	["SLIDER", ["Dog Damage", "How much damage should give."], [0, 25, 3, 2]],
 	["CHECKBOX", ["Attack all sides", "Allows the dog to attack all sides."], false],
 	["CHECKBOX", ["Spawn with Lightning", "Spawns lightning at the dog's spawn location."], false]
 ],
@@ -63,15 +63,15 @@ params ["_pos","_unit"];
 				[_dogNearestEnemy, _damage, _bodyPart, "stab"] remoteExec ["ace_medical_fnc_addDamageToUnit", _dogNearestEnemy, true];
 			};
 
-			if (_distance > 20) then {
+			if (_distance >= 15) then {
 				_dog playMove "Dog_Sprint";
 			};
 
-			if (_distance > 10 && {_distance < 20}) then {
+			if (_distance > 5 && {_distance < 15}) then {
 				_dog playMove "Dog_Run";
 			};
 
-			if (_distance > 3 && {_distance < 10}) then {
+			if (_distance > 3 && {_distance < 5}) then {
 				_dog playMove "Dog_Walk";
 			};
 
