@@ -1,9 +1,13 @@
 //inspiration taken from Crow's Zeus Additions
 
 private _moduleList = [];
+private _systemsModuleList = [];
+private _logisticsModuleList = [];
+private _protectModuleList = [];
+private _vassModuleList = [];
 
 if (TAS_zeusResupply) then {
-	_moduleList pushBack ["Spawn Resupply Crate", {_this call TAS_fnc_ammoCrateZeus}];
+	_logisticsModuleList pushBack ["Spawn Resupply Crate", {_this call TAS_fnc_ammoCrateZeus}];
 	player createDiaryRecord ["tasMissionTemplate", ["Custom Zeus Resupply Modules", "Enabled.<br/><br/>Adds two custom resupply modules to Zeus. One spawns the crate at the cursor location, while the other paradrops it. Each spawns a large crate with medical and 6 mags for each player's weapon. You can find it under 'TAS Mission Template' in the module list."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
@@ -11,7 +15,7 @@ if (TAS_zeusResupply) then {
 };
 
 if (TAS_respawnInVehicle) then {
-	_moduleList pushBack ["Assign As Respawn Vehicle", {_this call TAS_fnc_assignRespawnVic}];
+	_logisticsModuleList pushBack ["Assign As Respawn Vehicle", {_this call TAS_fnc_assignRespawnVic}];
 	//diary handled in initPlayerLocal
 };
 
@@ -24,7 +28,7 @@ if (TAS_zeusInfoText) then {
 };
 
 if (TAS_zeusHcTransfer) then {
-	_moduleList pushBack ["Transfer Group Ownership", {_this call TAS_fnc_zeusTransferGroupOwnership}];
+	_systemsModuleList pushBack ["Transfer Group Ownership", {_this call TAS_fnc_zeusTransferGroupOwnership}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Headless Client Group Trasnfer", "Enabled.<br/><br/>Adds a zeus module to manually transfer ownership of AI groups. You can find it under 'TAS Mission Template' in the module list."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
@@ -32,7 +36,7 @@ if (TAS_zeusHcTransfer) then {
 };
 
 if (TAS_3dGroupIcons) then {
-	_moduleList pushBack ["Manage 3d Group Icons", {_this call TAS_fnc_zeus3dGroupIcons}];
+	_systemsModuleList pushBack ["Manage 3d Group Icons", {_this call TAS_fnc_zeus3dGroupIcons}];
 	player createDiaryRecord ["tasMissionTemplate", ["3d Group Icons", "Enabled.<br/><br/>Adds 3d icons over group leaders' heads (enable/disable is managable through a zeus module). You can find the management zeus module under 'TAS Mission Template' in the module list."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
@@ -40,7 +44,7 @@ if (TAS_3dGroupIcons) then {
 };
 
 if (TAS_zeusActionDebug) then {
-	_moduleList pushBack ["Reapply Hold Actions", {_this remoteExec ["TAS_fnc_applyHoldActions",0]; systemChat "Reapplied hold actions for all players."}];
+	_systemsModuleList pushBack ["Reapply Hold Actions", {_this remoteExec ["TAS_fnc_applyHoldActions",0]; systemChat "Reapplied hold actions for all players."}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Hold Action Debug", "Enabled.<br/><br/>Adds a module to Zeus to allow them to trigger automatic debugging of the various hold actions present in a mission (i.e. medical box heal and stuff)."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
@@ -48,8 +52,8 @@ if (TAS_zeusActionDebug) then {
 };
 
 if (TAS_zeusSpectateManager) then {
-	_moduleList pushBack ["Manage ACE Spectator Settings", {_this call TAS_fnc_zeusSpectatorOptions}];
-	_moduleList pushBack ["Apply ACE Spectator", {_this call TAS_fnc_zeusApplySpectator}];
+	_logisticsModuleList pushBack ["Manage ACE Spectator Settings", {_this call TAS_fnc_zeusSpectatorOptions}];
+	_logisticsModuleList pushBack ["Apply ACE Spectator", {_this call TAS_fnc_zeusApplySpectator}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Manage ACE Spectator Settings", "Enabled.<br/><br/>Adds a module to Zeus to allow them to edit available sides and camera modes for spectator, as well as adding a module to let them manage the spectator status of individual units."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
@@ -57,7 +61,7 @@ if (TAS_zeusSpectateManager) then {
 };
 
 if (TAS_respawnInVehicle || TAS_fobEnabled || TAS_rallypointsEnabled || TAS_flagpoleRespawn) then {
-	_moduleList pushBack ["Open Respawn GUI on Unit", {
+	_logisticsModuleList pushBack ["Open Respawn GUI on Unit", {
 		private _unit = _this select 1;
 		if (isNull _unit) exitWith { systemChat "Place the module on a unit!"};
 		[] remoteExec ["TAS_fnc_openRespawnGui",_unit];
@@ -70,7 +74,7 @@ if (TAS_respawnInVehicle || TAS_fobEnabled || TAS_rallypointsEnabled || TAS_flag
 };
 
 if (TAS_zeusGroupDeletion) then {
-	_moduleList pushBack ["Enable Empty Group Deletion", {
+	_systemsModuleList pushBack ["Enable Empty Group Deletion", {
 		private _groupNumber = count allGroups;
 		diag_log format ["TAS-MISSION-TEMPLATE Empty group deletion starting, old groups: %1", _groupNumber];
 		[{
@@ -110,7 +114,7 @@ if (TAS_zeusFollowMarker) then {
 };
 
 if (TAS_globalTfarEnabled) then {
-	_moduleList pushBack ["Configure Global TFAR", {_this call TAS_fnc_zeusGlobalTfar}];
+	_systemsModuleList pushBack ["Toggle Global TFAR On/Off", {_this call TAS_fnc_zeusGlobalTfar}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Global TFAR", "Enabled.<br/><br/>Adds a module to Zeus to allow them to activate or disable the Global TFAR script."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
@@ -118,7 +122,7 @@ if (TAS_globalTfarEnabled) then {
 };
 
 if (TAS_zeusServiceVehicle) then {
-	_moduleList pushBack ["Service Vehicle", {if (isNull (_this select 1)) exitWith {systemChat "Place the module on a vehicle!"}; [(_this select 1)] remoteExec ["TAS_fnc_serviceHeli",_this]}];
+	_moduleList pushBack ["Service Vehicle (RRR)", {if (isNull (_this select 1)) exitWith {systemChat "Place the module on a vehicle!"}; [(_this select 1)] remoteExec ["TAS_fnc_serviceHeli",(_this select 1)]}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Service Vehicle", "Enabled.<br/><br/>Adds a module to Zeus to allow them to RRR a vehicle with chat messages to its crew."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
@@ -126,11 +130,11 @@ if (TAS_zeusServiceVehicle) then {
 };
 
 if (TAS_vassEnabled) then {
-	_moduleList pushBack ["[Shop System] Edit Balance", {
+	_vassModuleList pushBack ["Edit Balance of Player", {
 		if (isNull (_this select 1)) exitWith {systemChat "Place the module on a unit!"};
 		_this call TAS_fnc_vassZeusEditMoney
 	}];
-	_moduleList pushBack ["[Shop System] View balance of player", {
+	_vassModuleList pushBack ["View balance of player", {
 		if (isNull (_this select 1)) exitWith {systemChat "Place the module on a unit!"}; 
 		[[], {
 			private _currentMoney = profileNamespace getVariable [TAS_vassShopSystemVariable,0];
@@ -141,11 +145,14 @@ if (TAS_vassEnabled) then {
 			}] remoteExec ["spawn",remoteExecutedOwner];
 		}] remoteExec ["spawn",_this select 1];
 	}];
+	_vassModuleList pushBack ["End Mission", {
+		[] remoteExec ["TAS_fnc_vassEndMission"];
+	}];
 };
 
 if (TAS_rallypointsEnabled) then {
-	_moduleList pushBack ["Rallypoints - Place", {_this call TAS_fnc_zeusRallypointPlace}];
-	_moduleList pushBack ["Rallypoints - Promote Unit", {if (isNull (_this select 1)) exitWith {systemChat "Place the module on a unit!"}; _this call TAS_fnc_zeusRallypointPromote}];
+	_logisticsModuleList pushBack ["Rallypoints - Place", {_this call TAS_fnc_zeusRallypointPlace}];
+	_logisticsModuleList pushBack ["Rallypoints - Promote Unit", {if (isNull (_this select 1)) exitWith {systemChat "Place the module on a unit!"}; _this call TAS_fnc_zeusRallypointPromote}];
 	//player createDiaryRecord ["tasMissionTemplate", ["Zeus Service Vehicle", "Enabled.<br/><br/>Adds a module to Zeus to allow them to RRR a vehicle with chat messages to its crew."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
@@ -153,33 +160,33 @@ if (TAS_rallypointsEnabled) then {
 };
 
 if (true) then { //always be available
-	_moduleList pushBack ["Punish - Add Protected Unit", {
+	_protectModuleList pushBack ["Add Protected Unit", {
 		private _unit = _this select 1;
 		if (isNull _unit) exitWith { systemChat "Place the module on an unit!"};
 		[_unit] remoteExec ["TAS_fnc_punishCivKillerServer",_unit];
 	}];
-	_moduleList pushBack ["Punish - Timeout Unit", {
+	_protectModuleList pushBack ["Timeout Unit", {
 		private _unit = _this select 1;
 		if (isNull _unit) exitWith { systemChat "Place the module on an unit!"};
 		_this call TAS_fnc_zeusPunishPlayer;
 	}];
-	_moduleList pushBack ["Punish - Check Civ Kills of Unit", {
+	_protectModuleList pushBack ["Check Civ Kills of Unit", {
 		private _unit = _this select 1;
 		if (isNull _unit) exitWith { systemChat "Place the module on an unit!"};
 		systemChat format ["%1 has killed %2 protected units!",name _unit, _unit getVariable ["TAS_civsKilledByUnit",0]];
 	}];
-	_moduleList pushBack ["Punish - Forgive Unit", {
+	_protectModuleList pushBack ["Forgive Unit", {
 		private _unit = _this select 1;
 		if (isNull _unit) exitWith { systemChat "Place the module on an unit!"};
 		systemChat format ["%1 has been forgiven of %2 protected kills!",name _unit, _unit getVariable ["TAS_civsKilledByUnit",0]];
 		_unit setVariable ["TAS_civsKilledByUnit",0,true];
 	}];
-	_moduleList pushBack ["Punish - Protect All Units of Side", {
+	_protectModuleList pushBack ["Protect All Units of Side", {
 		_this call TAS_fnc_zeusPunishProtectAllUnitsOfSide;
 	}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Protect/Punish Modules", "Enabled.<br/><br/>"]];
 
-	_moduleList pushBack ["Add Flagpole as Respawn Position", {
+	_logisticsModuleList pushBack ["Add Flagpole as Respawn Position", {
 		private _unit = _this select 1;
 		if (isNull _unit) exitWith { systemChat "Place the module on an object like a flagpole!"};
 		_this call TAS_fnc_assignRespawnFlagpole;
@@ -194,21 +201,24 @@ if (true) then { //always be available
 		_this call TAS_fnc_zeusScavLoadout;
 	}];
 
-	_moduleList pushBack ["Make Unit Juggernaut", {
+	_moduleList pushBack ["Make Unit Into Juggernaut", {
 		_this call TAS_fnc_zeusAceJuggernaut;
 	}];
 
-	_moduleList pushBack ["Add Admin Zeus", {
+	_systemsModuleList pushBack ["Add Admin Zeus", {
 		[] call TAS_fnc_createZeusAdmin;
 	}];
 
-	_moduleList pushBack ["Add Guac Zeus", {
+	_systemsModuleList pushBack ["Add Guac Zeus", {
 		[] call TAS_fnc_createZeusGuac;
 	}];
+	
+	if (isClass(configFile >> "CfgPatches" >> "PhoenixSystems_Exosuits")) then {
+		_moduleList pushBack ["Equip Unit with Exosuit (EXOMOD)", {
+			(_this select 1) call TAS_fnc_addExo;
+		}];
+	};
 
-	_moduleList pushBack ["Equip Unit with Exosuit (EXOMOD)", {
-		(_this select 1) call TAS_fnc_addExo;
-	}];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
 	//if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Flagpole Respawn", "Disabled."]]; };
@@ -216,17 +226,70 @@ if (true) then { //always be available
 
 
 
-//registering ZEN custom modules, code modified from Crow
+//private _image = "media/logo256x256.paa";
 {
 	private _successfullyRegistered = 
 	[
-		"TAS Mission Template", 
+		"TAS Main", 
 		(_x select 0), 
-		(_x select 1)/*,
-		(_x select 2)*/ 						//none of the template modules have icons
+		(_x select 1)
 	] call zen_custom_modules_fnc_register;
 	if (!_successfullyRegistered) then {
 		systemChat format ["TAS-MISSION-TEMPLATE WARNING: Failed to register custom zeus module! Name of failed module: %1.",_x select 0];
 		diag_log format ["TAS-MISSION-TEMPLATE WARNING: Failed to register custom zeus module! Name of failed module: %1.",_x select 0];
 	};
 } forEach _moduleList;
+
+{
+	private _successfullyRegistered = 
+	[
+		"TAS Respawns and Logistics", 
+		(_x select 0), 
+		(_x select 1)
+	] call zen_custom_modules_fnc_register;
+	if (!_successfullyRegistered) then {
+		systemChat format ["TAS-MISSION-TEMPLATE WARNING: Failed to register custom zeus module! Name of failed module: %1.",_x select 0];
+		diag_log format ["TAS-MISSION-TEMPLATE WARNING: Failed to register custom zeus module! Name of failed module: %1.",_x select 0];
+	};
+} forEach _logisticsModuleList;
+
+{
+	private _successfullyRegistered = 
+	[
+		"TAS Systems", 
+		(_x select 0), 
+		(_x select 1)
+	] call zen_custom_modules_fnc_register;
+	if (!_successfullyRegistered) then {
+		systemChat format ["TAS-MISSION-TEMPLATE WARNING: Failed to register custom zeus module! Name of failed module: %1.",_x select 0];
+		diag_log format ["TAS-MISSION-TEMPLATE WARNING: Failed to register custom zeus module! Name of failed module: %1.",_x select 0];
+	};
+} forEach _systemsModuleList;
+
+{
+	private _successfullyRegistered = 
+	[
+		"TAS Punish / Protect", 
+		(_x select 0), 
+		(_x select 1)
+	] call zen_custom_modules_fnc_register;
+	if (!_successfullyRegistered) then {
+		systemChat format ["TAS-MISSION-TEMPLATE WARNING: Failed to register custom zeus module! Name of failed module: %1.",_x select 0];
+		diag_log format ["TAS-MISSION-TEMPLATE WARNING: Failed to register custom zeus module! Name of failed module: %1.",_x select 0];
+	};
+} forEach _protectModuleList;
+
+if (TAS_vassEnabled) then {
+	{
+		private _successfullyRegistered = 
+		[
+			"TAS Shop System", 
+			(_x select 0), 
+			(_x select 1)
+		] call zen_custom_modules_fnc_register;
+		if (!_successfullyRegistered) then {
+			systemChat format ["TAS-MISSION-TEMPLATE WARNING: Failed to register custom zeus module! Name of failed module: %1.",_x select 0];
+			diag_log format ["TAS-MISSION-TEMPLATE WARNING: Failed to register custom zeus module! Name of failed module: %1.",_x select 0];
+		};
+	} forEach _vassModuleList;
+};
