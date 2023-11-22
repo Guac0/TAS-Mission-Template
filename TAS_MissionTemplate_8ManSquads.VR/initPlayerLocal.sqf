@@ -185,7 +185,8 @@ if (TAS_populateInventory) then {
 	//for "_i" from 1 to 10 do { player addItem " " };
 
 	//basic medical
-	for "_i" from 1 to 16 do { player addItem "ACE_fieldDressing" };
+	for "_i" from 1 to 8 do { player addItem "ACE_elasticBandage" }; //ACE_fieldDressing ACE_elasticBandage ACE_packingBandage ACE_quikclot
+	for "_i" from 1 to 8 do { player addItem "ACE_quikclot" };
 	for "_i" from 1 to 8 do { player addItem "ACE_morphine" };
 	for "_i" from 1 to 2 do { player addItem "ACE_epinephrine" };
 	for "_i" from 1 to 3 do { player addItem "ACE_tourniquet"};
@@ -216,7 +217,8 @@ if (TAS_populateInventory) then {
 	private _aceMedic = [player,1] call ace_medical_treatment_fnc_isMedic;
 	private _aceDoctor = [player,2] call ace_medical_treatment_fnc_isMedic;
 	if ( _bisMedic == true || _aceMedic == true || _aceDoctor == true ) then {
-		for "_i" from 1 to 40 do { player addItem "ACE_fieldDressing" };
+		for "_i" from 1 to 20 do { player addItem "ACE_elasticBandage" }; //ACE_fieldDressing ACE_elasticBandage ACE_packingBandage ACE_quikclot
+		for "_i" from 1 to 20 do { player addItem "ACE_quikclot" };
 		for "_i" from 1 to 20 do { player addItem "ACE_morphine" };
 		for "_i" from 1 to 15 do { player addItem "ACE_epinephrine" };
 		for "_i" from 1 to 6 do { player addItem "ACE_tourniquet"};
@@ -224,10 +226,10 @@ if (TAS_populateInventory) then {
 		for "_i" from 1 to 6 do { player addItem "ACE_bloodIV" };
 		for "_i" from 1 to 8 do { player addItem "ACE_splint" };
 		player addItem "ACE_personalAidKit";
-		//player addItem "ACE_surgicalKit";
+		player addItem "ACE_surgicalKit";
 		player addItem "adv_aceCPR_AED";
-		player addItem "ROOK_SutureGun";
-		for "_i" from 1 to 4 do { player addMagazine "ROOK_SutureMag" };
+		//player addItem "ROOK_SutureGun";
+		//for "_i" from 1 to 4 do { player addMagazine "ROOK_SutureMag" };
 	};
 
 	//https://github.com/acemod/ACE3/blob/e4be783f80db5730ad5c351d611206a245b35a0f/addons/repair/functions/fnc_isEngineer.sqf
