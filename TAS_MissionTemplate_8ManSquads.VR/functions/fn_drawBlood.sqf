@@ -25,7 +25,7 @@ private _statementDrawBlood = {
     };
 
     [
-        6, //Time it takes to complete the action
+        4, //Time it takes to complete the action
         [_unit],
         {
             //_this = [[_param],position1,position2,position3]
