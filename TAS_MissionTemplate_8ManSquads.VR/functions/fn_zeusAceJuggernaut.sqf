@@ -23,7 +23,7 @@ private _onConfirm =
 [
 	"Make Unit into Juggernaut", 
 	[
-		["SLIDER", ["Hits before death", "Note: fragmentation and etc will all count as separate hits"], [1,100,10,0]]	//min 1 hit, max 100 hits, default 10 hits, 0 decimal places
+		["SLIDER", ["Hits before death", "Note: fragmentation and etc will all count as separate hits"], [1,500,10,0]]	//min 1 hit, max 100 hits, default 10 hits, 0 decimal places
 	],
 	_onConfirm,
 	{},

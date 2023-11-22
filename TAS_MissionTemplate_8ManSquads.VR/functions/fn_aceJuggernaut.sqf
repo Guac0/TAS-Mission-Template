@@ -10,6 +10,7 @@ Execute locally on the machine owner of the juggernaut unit.
 
 params ["_unit","_hitsBeforeDeath"];
 
+_unit allowDamage false;
 _unit addEventHandler ["HandleDamage",{0}];
 _unit removeAllEventHandlers "HitPart";
 _unit setVariable ["TAS_fnc_juggernautHitsBeforeDeath",_hitsBeforeDeath]; 
