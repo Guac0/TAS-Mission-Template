@@ -8,6 +8,8 @@ Sets respawn loadout of the player (if enabled in mission options) to the exosui
 
 params ["_unit"];
 
+if !(isClass(configFile >> "CfgPatches" >> "PhoenixSystems_Exosuits")) exitWith {["fn_addExo called but EXOMOD is not loaded!",true] call TAS_fnc_error};
+
 private _roleDescription = roleDescription _unit;
 private _roleDescriptionSimple = roleDescription _unit; //we'll use this in a sec
 
