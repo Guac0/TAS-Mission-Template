@@ -15,7 +15,7 @@
 
 //various setup
 private _debug = false;
-params ["_killer","_timeout"];
+params ["_killer","_timeout",["_forced",false]];
 if (_debug) then { systemChat format ["Starting fn_punishCivKillerLocal with %1 and %2",_killer,_timeout]; };
 private _oldPos = getPosATL _killer;
 private _oldVehicle = objNull;
@@ -42,11 +42,20 @@ if (TAS_punishCivKillerHumiliate) then {
 private _time = _timeout;
 systemChat format ["You have killed too many civilians and must wait %1 before being reinserted!",[((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
 hint format ["You have killed too many civilians and must wait %1 before being reinserted!",[((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
-while { (_time > 0) && ((_killer getVariable ["TAS_civsKilledByUnit",0]) > TAS_punishCivKillsThreshold) } do { //second condition is to allow for early out by zeus
-	_time = _time - 1;
-	//systemChat format ["You have killed too many civilians and must wait %1 before being reinserted!",[((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
-	hintSilent format ["You have killed too many civilians and must wait %1 before being reinserted!",[((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
-	sleep 1;
+if (_forced) then {
+	while { _time > 0 } do { //second condition is to allow for early out by zeus
+		_time = _time - 1;
+		//systemChat format ["You have killed too many civilians and must wait %1 before being reinserted!",[((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
+		hintSilent format ["You have killed too many civilians and must wait %1 before being reinserted!",[((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
+		sleep 1;
+	};
+} else {
+	while { (_time > 0) && ((_killer getVariable ["TAS_civsKilledByUnit",0]) > TAS_punishCivKillsThreshold) } do { //second condition is to allow for early out by zeus
+		_time = _time - 1;
+		//systemChat format ["You have killed too many civilians and must wait %1 before being reinserted!",[((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
+		hintSilent format ["You have killed too many civilians and must wait %1 before being reinserted!",[((_time)/60)+.01,"HH:MM"] call BIS_fnc_timetostring];
+		sleep 1;
+	};
 };
 
 //unfreeze the player

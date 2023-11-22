@@ -23,7 +23,7 @@ private _onConfirm =
 	if ((_unit getVariable ["TAS_civsKilledByUnit",0]) < 1) then {
 		_unit setVariable ["TAS_civsKilledByUnit",1];
 	};
-	[_unit,_timeout] remoteExec ["TAS_fnc_punishCivKillerLocal",_unit];
+	[_unit,_timeout] remoteExec ["TAS_fnc_punishCivKillerLocal",_unit,true];
 
 	systemChat format ["Sending %1 to timeout for %2 seconds!",name _unit,_timeout];
 };
