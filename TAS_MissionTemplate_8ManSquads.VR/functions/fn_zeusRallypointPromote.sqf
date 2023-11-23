@@ -17,10 +17,7 @@ private _onConfirm =
 	//Get in params again
 	_in params [["_pos",[0,0,0],[[]],3], ["_unit",objNull,[objNull]]];
 
-	private _number = missionNamespace getVariable ["TAS_numberOfZeusRallypoints",0];
-	_number = _number + 1;
-	private _rallyAction = [format ["zeusRallyAction%1",_number],"Place Squad Rallypoint","",{[3,[],{[player,_rallypointInternalName,_rallyMarkerName] call TAS_fnc_genericRallypoint;},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
-	missionNamespace setVariable ["TAS_numberOfZeusRallypoints",_number,true];
+	private _rallyAction = [format ["zeusRallyAction%1",(floor random 100)],"Place Squad Rallypoint","",{[3,[],{[player,_rallypointInternalName,_rallyMarkerName] call TAS_fnc_genericRallypoint;},{},"Establishing rallypoint..."] call ace_common_fnc_progressBar},{true}] call ace_interact_menu_fnc_createAction;
 	[_unit, 1, ["ACE_SelfActions"], _Rally_Hotel_Action] call ace_interact_menu_fnc_addActionToObject;
 
 };
