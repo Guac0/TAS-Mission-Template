@@ -26,6 +26,12 @@ if (_debug) then {
 	systemChat "_rallyObjArray";
 };
 
+/*
+if (isNil "_markerVarName") then {
+	private _markerVarName = createMarker [format [], position, channel, creator]
+};
+*/
+
 private _exit = false;
 if (TAS_rallyOutnumber) then {
 	if ( _nearEnemiesNumber > _nearFriendliesNumber) exitWith {_exit = true; systemChat format ["Rallypoint creation failure, enemies outnumber friendlies within %1m!",TAS_rallyDistance]};

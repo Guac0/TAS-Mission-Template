@@ -8,10 +8,7 @@ private _playerRoleDescription = roleDescription player;
 {
 	if (getMarkerColor _x == "") exitWith { //should be colorCiv. if missing, will be ""
 		//systemChat str _x;
-		if (isServer || (serverCommandAvailable "#logout") || (!isNull (getAssignedCuratorLogic player))) then { //only do visual error if server (singleplayer testing) or admin or zeus
-			systemchat "WARNING: You have enabled the Rallypoint system in the mission template options, but the mission.sqm does not contain the needed rallypoint markers! Disabling Rallypoints system...";
-		};
-		diag_log text "TAS-Mission-Template WARNING: You have enabled the Rallypoint system in the mission template options, but the mission.sqm does not contain the needed rallypoint markers! Disabling Rallypoints system...";
+		["TAS_fnc_initRallypoints WARNING: You have enabled the Rallypoint system in the mission template options, but the mission.sqm does not contain the needed rallypoint markers! Disabling Rallypoints system...",true] spawn TAS_fnc_error;
 	};
 } forEach ["rallypointAlphaMarker","rallypointBravoMarker","rallypointCharlieMarker","rallypointDeltaMarker","rallypointEchoMarker","rallypointFoxtrotMarker","rallypointReconMarker","rallypointCmdMarker"];
 

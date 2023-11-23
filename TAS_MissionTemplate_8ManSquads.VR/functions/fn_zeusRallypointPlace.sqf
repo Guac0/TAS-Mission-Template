@@ -1,5 +1,10 @@
 params [["_pos",[0,0,0],[[]],3], ["_unit",objNull,[objNull]]];
 
+if (isNull _unit) exitWith {
+	systemChat "Error: place the rallypoint place module on the unit it should be created for!";
+	diag_log "TAS MISSION TEMPLATE: fn_zeusRallypointPlace was executed without being placed on an object!";
+};
+
 //ZEN dialog
 private _onConfirm =
 {
@@ -13,7 +18,7 @@ private _onConfirm =
 	//Get in params again
 	_in params [["_pos",[0,0,0],[[]],3], ["_unit",objNull,[objNull]]];
 
-	[player,_rallypointInternalName,_rallyMarkerName,_customName,_pos] call TAS_fnc_genericRallypoint;
+	[_unit,_rallypointInternalName,_rallyMarkerName,_customName,_pos] call TAS_fnc_genericRallypoint;
 
 };
 
