@@ -125,7 +125,7 @@
 	/*
 		TAS_ScavZone_Marker
 		*/
-		TAS_scavSystemEnabled 	= true;	//default false
+		TAS_scavSystemEnabled 	= false;	//default false
 		TAS_scavAfterDeath		= true; //default true
 		TAS_scavStartingValuables = 10; //default 10
 		TAS_scavNeededValuables = 3; //default 3
@@ -144,6 +144,8 @@
 		TAS_scavRoamersBigPatrolChance = 0;
 		TAS_scavRoamersObjectiveDistance = 250;
 		TAS_scavRoamersPlayerDistance = 300;
+		TAS_scavRespawnRoamers = true;
+		TAS_scavRespawnObjectives = true;
 
 
 
