@@ -40,6 +40,33 @@ if (TAS_fobEnabled) then {
 	};
 };
 
+if (TAS_rallypointsEnabled) then {
+	TAS_rallyCmdUsed = false;
+	publicVariable "TAS_rallyCmdUsed";
+	TAS_rallyAlphaUsed = false;
+	publicVariable "TAS_rallyAlphaUsed";
+	TAS_rallyBravoUsed = false;
+	publicVariable "TAS_rallyBravoUsed";
+	TAS_rallyCharlieUsed = false;
+	publicVariable "TAS_rallyCharlieUsed";
+	TAS_rallyDeltaUsed = false;
+	publicVariable "TAS_rallyDeltaUsed";
+	TAS_rallyEchoUsed = false;
+	publicVariable "TAS_rallyEchoUsed";
+	TAS_rallyFoxtrotUsed = false;
+	publicVariable "TAS_rallyFoxtrotUsed";
+	TAS_rallyGolfUsed = false;
+	publicVariable "TAS_rallyGolfUsed";
+	TAS_rallyHotelUsed = false;
+	publicVariable "TAS_rallyHotelUsed";
+	TAS_rallyReconUsed = false;
+	publicVariable "TAS_rallyReconUsed";
+	if (isNil "TAS_respawnLocations") then { //mightve already been set up elsewhere
+		TAS_respawnLocations = [];
+		publicVariable "TAS_respawnLocations";
+	};
+};
+
 //show fps script by Mildly Interested/Bassbeard
 //Code here is for main server, headless client is in init.sqf
 if (TAS_fpsDisplayEnabled) then {

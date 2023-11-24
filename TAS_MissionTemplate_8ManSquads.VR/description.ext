@@ -134,8 +134,6 @@ class CfgFunctions
 			class vassZeusEditMoney;
 			class vassEndMission;
 			class vassPlayerInit;
-			class zeusRallypointPlace;
-			class zeusRallypointPromote;
 			class error;
 			class punishCivKillerLocal;
 			class punishCivKillerServer;
