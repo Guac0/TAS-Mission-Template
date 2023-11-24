@@ -91,7 +91,7 @@ class CfgFunctions
 			//class QS_icons.sqf;
 			class respawnGui;
 			class ServiceHeli;
-			//class show_Fps;
+			class showFps;
 			class afkScript;
 			class globalTfar;
 			class paradropAi;

@@ -70,7 +70,7 @@ if (TAS_rallypointsEnabled) then {
 //show fps script by Mildly Interested/Bassbeard
 //Code here is for main server, headless client is in init.sqf
 if (TAS_fpsDisplayEnabled) then {
-	[] execVM "functions\scripts\show_fps.sqf";
+	[] spawn TAS_fnc_showFps;
 	diag_log text "TAS-Mission-Template --------------------[Executed show_fps on Server]--------------------"; //will show in server logs
 };
 

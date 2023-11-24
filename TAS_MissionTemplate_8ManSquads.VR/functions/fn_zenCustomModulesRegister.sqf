@@ -214,6 +214,14 @@ if (true) then { //always be available
 		}];
 	};
 
+	_systemsModuleList pushBack ["Add Unit to Map FPS Display", {
+		[] spawn TAS_fnc_showFps;
+	}];
+
+	_systemsModuleList pushBack ["Log Unit's FPS", { //TODO make this into an actual zeus module with options
+		[true,300,2,true] remoteExec ["TAS_fnc_debugPerfRpt",_this select 1]; //log infinitely, log every 300 seconds, log to server, save log copy to client
+	}];
+
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
 	//if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Flagpole Respawn", "Disabled."]]; };

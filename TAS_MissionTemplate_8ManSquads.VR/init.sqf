@@ -15,7 +15,7 @@ diag_log format ["TAS-MISSION-TEMPLATE: Init.sqf: Client has survived beheading.
 //Code here is for headless clients, main server is in initServer.sqf
 if (TAS_fpsDisplayEnabled) then {
 	//if (!isDedicated && !hasInterface && isMultiplayer) then { //anything in here gets executed on the headless clients
-		[] execVM "functions\scripts\show_Fps.sqf";
+		[] spawn TAS_fnc_showFps;
 		diag_log text "--------------------[Executed show_fps on HC]--------------------"; //this will only show in the HCs logs
 	//};
 };
