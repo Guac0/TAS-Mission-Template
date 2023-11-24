@@ -1,34 +1,28 @@
-private _sourcestr = "Server";
-private _position = 0;
+//show fps script by Mildly Interested/Bassbeard, modified by Guac
 
-if (!isServer) then {
-    if (!isNil "HC1") then {
-        if (!isNull HC1) then {
-            if (local HC1) then {
-                _sourcestr = "HC1";
-                _position = 1;
-            };
-        };
-    };
+//are we going to run into issues with multiple clients executing this at game start and thus all having position 0?
+    //if so, we should wait a random number of seconds (5-30) before we start
+params [["_timeout",floor (random 30)],["_unit",player]];
 
-    if (!isNil "HC2") then {
-        if (!isNull HC2) then {
-            if (local HC2) then {
-                _sourcestr = "HC2";
-                _position = 2;
-            };
-        };
-    };
-
-    if (!isNil "HC3") then {
-        if (!isNull HC3) then {
-            if (local HC3) then {
-                _sourcestr = "HC3";
-                _position = 3;
-            };
-        };
-    };
+if (_timeout > 0) then {
+    sleep _timeout;
 };
+
+private _position = missionNamespace getVariable ["TAS_numberFpsDisplaysActive",0];
+missionNamespace setVariable ["TAS_numberFpsDisplaysActive",_position + 1,true];
+
+if (_position > 5) then {
+    (format ["TAS_showFps: selected position (%1) is > 5, map marker may not be visible due to excessive distance from map!",_position]) call TAS_fnc_error;
+};
+
+private ["_sourcestr"];
+if (isServer) then {
+    _sourcestr = "Server";
+} else {
+    _sourcestr = name _unit;
+};
+
+(format ["TAS_showFps: Executing on %1 with timeout of %2 and position of %3.",_sourcestr,_timeout,_position]) call TAS_fnc_error;
 
 private _myfpsmarker = createMarker [format ["fpsmarker%1", _sourcestr], [0, -500 - (500 * _position)]];
 _myfpsmarker setMarkerType "mil_start";
