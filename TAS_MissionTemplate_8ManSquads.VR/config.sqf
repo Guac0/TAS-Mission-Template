@@ -16,6 +16,8 @@
 			[] call TAS_fnc_automatedReviewer;
 
 		Generally speaking, the default options are usually the best for the majority of missions.
+
+		Maximum view distance/force grass rendering can be set in initPlayerLocal.sqf (CH View Distance only)
 	*/
 
 
