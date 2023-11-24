@@ -27,7 +27,7 @@ missionNamespace setVariable [_name, _vehicle];
 publicVariable _vehicleName;
 
 TAS_respawnLocations pushBack [_vehicle,_name];
-[_vehicle,"hd_flag","ColorUNKNOWN",_name,true,5] call TAS_fnc_markerFollow;
+[_vehicle,"hd_flag","ColorUNKNOWN",_name,true,5] remoteExec ["TAS_fnc_markerFollow",2];
 publicVariable "TAS_respawnLocations";
 _vehicle addMPEventHandler ["MPKilled", {
 	params ["_unit", "_killer", "_instigator", "_useEffects"];

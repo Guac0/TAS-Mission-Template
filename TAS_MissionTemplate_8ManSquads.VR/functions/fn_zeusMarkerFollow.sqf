@@ -20,7 +20,7 @@ private _onConfirm =
 	//Get in params again
 	_in params [["_pos",[0,0,0],[[]],3], ["_unit",objNull,[objNull]]];
 
-	[_unit,_markerType,_markerColor,_markerName,_deleteOnDeath,_interval] call TAS_fnc_markerFollow;
+	[_unit,_markerType,_markerColor,_markerName,_deleteOnDeath,_interval] remoteExec ["TAS_fnc_markerFollow",2];
 
 };
 

@@ -2,7 +2,7 @@
 	Author: Guac
 
 	Description:
-		Creates a marker, attaches it to an object, and updates its position every X seconds.
+		Creates a marker, attaches it to an object, and updates its position every X seconds. Should only be executed on server.
 
 	Parameter(s):
 		0: OBJECT - object to attach marker to
@@ -16,17 +16,17 @@
 		STRING - created marker
 
 	Examples:
-		[myObjectToFollow,"hd_flag","ColorUNKNOWN","My Awesome Marker Text That People Can See",true,30] call TAS_fnc_markerFollow;
+		[myObjectToFollow,"hd_flag","ColorUNKNOWN","My Awesome Marker Text That People Can See",true,30] remoteExec ["TAS_fnc_markerFollow",2];
+		[myObjectToFollow] remoteExec ["TAS_fnc_markerFollow",2];
 */
 //TODO add compatibility for declaring side and creator of markers, plus other options like alpha
 
+if !(isServer) exitWith {
+	[[format ["TAS_fnc_markerFollow called on %1 when it should only be called on server! Arguments: %2",name player,_this],false]] call TAS_fnc_error;
+};
+
 //TODO replace with params
-private _attachedObject 	= _this select 0;
-private _markerType 		= _this select 1;
-private _markerColor 		= _this select 2;
-private _markerText 		= _this select 3;
-private _deleteOnDeath 		= _this select 4;
-private _interval			= _this select 5;
+params [["_attachedObject",objNull],["_markerType","hd_flag"],["_markerColor","ColorUNKNOWN"],["_markerText",""],["_deleteOnDeath",true],["_interval",1]];
 
 private _marker = createMarkerLocal [format ["%1%2",_markerText,random 100],getPos _attachedObject]; //give it a semi-random name to avoid having multiple markers with the same name
 _marker setMarkerAlphaLocal 1;
