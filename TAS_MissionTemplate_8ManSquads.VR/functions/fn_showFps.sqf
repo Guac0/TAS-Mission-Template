@@ -12,7 +12,7 @@ private _position = missionNamespace getVariable ["TAS_numberFpsDisplaysActive",
 missionNamespace setVariable ["TAS_numberFpsDisplaysActive",_position + 1,true];
 
 if (_position > 5) then {
-    (format ["TAS_showFps: selected position (%1) is > 5, map marker may not be visible due to excessive distance from map!",_position]) call TAS_fnc_error;
+    [format ["TAS_showFps: selected position (%1) is > 5, map marker may not be visible due to excessive distance from map!",_position]] call TAS_fnc_error;
 };
 
 private ["_sourcestr"];
@@ -22,7 +22,7 @@ if (isServer) then {
     _sourcestr = name _unit;
 };
 
-(format ["TAS_showFps: Executing on %1 with timeout of %2 and position of %3.",_sourcestr,_timeout,_position]) call TAS_fnc_error;
+[format ["TAS_showFps: Executing on %1 with timeout of %2 and position of %3.",_sourcestr,_timeout,_position]] call TAS_fnc_error;
 
 private _myfpsmarker = createMarker [format ["fpsmarker%1", _sourcestr], [0, -500 - (500 * _position)]];
 _myfpsmarker setMarkerType "mil_start";
