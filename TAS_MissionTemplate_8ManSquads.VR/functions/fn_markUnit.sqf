@@ -18,7 +18,7 @@ if (isNull _cursorObject) exitWith {["TAS_fnc_markUnit called with objNull as cu
 
 if (_cursorObject getVariable ["TAS_isMarkedUnit",false]) exitWith {[format ["TAS_fnc_markUnit called on a unit already being tracked! Unit: %1",_cursorObject]] call TAS_fnc_error};
 
-if (!(_cursorObject isKindOf "CAManBase") && !(_cursorObject isKindOf "Car")) exitWith {["TAS_fnc_markUnit called without a unit or vehicle as cursorObject!"] call TAS_fnc_error};
+if (!(_cursorObject isKindOf "CAManBase") && !(_cursorObject isKindOf "AllVehicles")) exitWith {["TAS_fnc_markUnit called without a unit or vehicle as cursorObject!"] call TAS_fnc_error}; //well, AllVehicles should include soldiers, but not sure if CAManBase is included
 
 if !(alive _cursorObject) exitWith {["TAS_fnc_markUnit called with a dead object as cursorObject!"] call TAS_fnc_error}; 
 
@@ -60,7 +60,7 @@ if (_do3dIcon) then {
 				_cursorObject = _thisArgs select 0;
 				_name = _thisArgs select 1;
 				//_color = _thisArgs select 2;
-				_color = [1,0,0,1];
+				_color = [1,0,0,1]; //TODO fix hardcoding
 				_icon = "\A3\ui_f\data\map\markers\nato\o_unknown.paa";
 				
 				//set location and name of text
@@ -69,7 +69,7 @@ if (_do3dIcon) then {
 					_targetPositionAGLTop set [2, (_targetPositionAGLTop select 2) + 0.75];
 					_width = 0.5;
 					_height = 0.5;
-				} else {
+				} else { //AllVehicles
 					_targetPositionAGLTop = _cursorObject modelToWorldVisual [0,0,0]; //vehicle
 					_targetPositionAGLTop set [2, (_targetPositionAGLTop select 2) + 1.25];
 					_width = 1.5;
