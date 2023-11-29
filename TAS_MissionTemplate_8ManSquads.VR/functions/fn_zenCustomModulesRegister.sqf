@@ -122,7 +122,7 @@ if (TAS_globalTfarEnabled) then {
 };
 
 if (TAS_zeusServiceVehicle) then {
-	_moduleList pushBack ["Service Vehicle (RRR)", {if (isNull (_this select 1)) exitWith {systemChat "Place the module on a vehicle!"}; [(_this select 1)] remoteExec ["TAS_fnc_serviceHeli",(_this select 1)]}];
+	_logisticsModuleList pushBack ["Service Vehicle (RRR)", {if (isNull (_this select 1)) exitWith {systemChat "Place the module on a vehicle!"}; [(_this select 1)] remoteExec ["TAS_fnc_serviceHeli",(_this select 1)]}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Service Vehicle", "Enabled.<br/><br/>Adds a module to Zeus to allow them to RRR a vehicle with chat messages to its crew."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
