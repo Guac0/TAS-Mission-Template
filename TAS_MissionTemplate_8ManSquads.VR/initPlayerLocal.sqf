@@ -771,6 +771,10 @@ if (TAS_vassEnabled) then {
 	[] spawn TAS_fnc_vassPlayerInit;
 };
 
+if (TAS_addUnitMarkAction) then {
+	[] spawn TAS_fnc_addMarkingAction;
+};
+
 if (TAS_ModLog) then {
 	//TOOD chat not working?
 	private _logMessage = "";

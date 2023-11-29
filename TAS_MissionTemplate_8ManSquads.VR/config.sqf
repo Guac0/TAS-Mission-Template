@@ -149,6 +149,19 @@
 		TAS_scavRespawnRoamers = true;
 		TAS_scavRespawnObjectives = true;
 
+	
+	/* Unit Marking
+		Adds an action to each player's action menu that allows them to mark enemy units and vehicles if they are looking DIRECTLY at them.
+		Marking a unit adds a map marker to the unit that updates every second and/or a 3d icon above it.
+			Warning: 3d icons are in BETA, they show at infinite distance and are shown even if the unit is behind terrain/a building.
+		Marks are removed when the marked unit/vehicle dies.
+		Zeuses can mark units via a zeus module with extended options available.
+			This is available even if individual players' marking ability is disabled.
+		*/
+		TAS_addUnitMarkAction 	= false; //default false
+		TAS_markTargetOnMap		= true; //default true
+		TAS_markTarget3d		= true; //default true
+
 
 
 

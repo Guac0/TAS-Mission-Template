@@ -222,6 +222,10 @@ if (true) then { //always be available
 		[true,300,2,true] remoteExec ["TAS_fnc_debugPerfRpt",_this select 1]; //log infinitely, log every 300 seconds, log to server, save log copy to client
 	}];
 
+	_moduleList pushBack ["Mark Unit/Vehicle", {
+		_this call TAS_fnc_zeusMarkUnit;
+	}];
+
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
 	//if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Flagpole Respawn", "Disabled."]]; };
