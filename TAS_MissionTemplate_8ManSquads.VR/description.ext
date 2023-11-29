@@ -190,6 +190,20 @@ class CfgFunctions
 			class initRallypoints;
 		};
 	};
+
+	/*	KiloSwiss	*/
+	/*  https://steamcommunity.com/sharedfiles/filedetails/?id=2056899653  */
+	class KS
+	{
+		class ceaseFireFunctions
+		{
+			file = "functions\ceasefire";
+			class ceaseFire {};
+			class ceaseFireEH_onFiredMan {};
+			class ceaseFireEH_blockMuzzles {};
+		};
+	};
+
 	// for VASS
 	#include "VASS\CfgFunctions.hpp"
 };
