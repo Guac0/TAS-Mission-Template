@@ -30,6 +30,9 @@ player setVariable ["TAS_PersonalScavTaskName",_taskId];
 {
 	_x setMarkerAlphaLocal 1;
 } forEach (missionNamespace getVariable ["TAS_scavTaskMarkers",[]]);
+{
+	_x setMarkerAlphaLocal 0;
+} forEach TAS_scavPmcMarkers;
 
 /*
 class CfgSounds

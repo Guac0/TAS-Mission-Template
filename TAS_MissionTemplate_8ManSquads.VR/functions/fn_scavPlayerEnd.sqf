@@ -24,6 +24,9 @@ private _actionsToRemove = player getVariable ["TAS_scavActions",[]]; //[[object
 {
 	_x setMarkerAlphaLocal 0;
 } forEach (missionNamespace getVariable ["TAS_scavTaskMarkers",[]]);
+{
+	_x setMarkerAlphaLocal 1;
+} forEach TAS_scavPmcMarkers;
 
 //sleep 3;
 

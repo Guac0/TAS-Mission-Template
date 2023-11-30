@@ -143,6 +143,7 @@
 		TAS_scavObjectiveDistanceThreshold = 200;
 		TAS_scavNumberOfObjectives = 10;
 		TAS_scavBlacklistLocations = ["TAS_ObjectiveBlacklistObject_1","TAS_ObjectiveBlacklistObject_2","TAS_ObjectiveBlacklistObject_3","TAS_ObjectiveBlacklistObject_4"];
+		TAS_scavPmcMarkers = [];
 		TAS_scavPlayerSide = west;
 		TAS_scavAiSide = independent;
 		TAS_scavAiRoamerSide = east;
