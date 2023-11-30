@@ -3,17 +3,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //note that player object is fully available at the start of this script, but radios are not 
 
-////////////////////////////////////
-/////////CH View Distance///////////
-////////////////////////////////////
-//uncomment the below if you want to force maximum view distances and/or force grass rendering
-	//only works if players are running CH View Distance, otherwise no effect
-if (isClass(configFile >> "CfgPatches" >> "CHVD")) then {
-	//CHVD_allowNoGrass = false; //false for disabling client's ability to set 'low' terrain detail (which doesn't render grass). false = force render grass, true = leave it up to player
-	//CHVD_maxView = 400; //max terrain view distance client can set
-	//CHVD_maxObj = 400; //max object view distance client can set
-};
-
 
 
 //setup diary subject
