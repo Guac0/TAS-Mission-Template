@@ -10,14 +10,12 @@
 
 		If you're adding custom hold actions to your mission, you might want to put them in functions\fn_applyHoldActions.sqf, which has support for re-applying the actions if arma eats them.
 
-		To add a custom fortify preset, go to description.ext and follow the instructions there
+		To add a custom fortify preset, go to description.ext and follow the instructions there.
 
 		To use the automated reviewer, play the game and execute the following in the debug console:
 			[] call TAS_fnc_automatedReviewer;
 
 		Generally speaking, the default options are usually the best for the majority of missions.
-
-		Maximum view distance/force grass rendering can be set in initPlayerLocal.sqf (CH View Distance only)
 	*/
 
 
@@ -31,6 +29,15 @@
 
 
 
+	/* CH View Distance
+		Set the maximum view distance and whether players can disable grass ("LOW" terrain setting).
+		Only works if players are running CH View Distance, otherwise no effect (errors will not occur).
+		*/
+		CHVD_allowNoGrass 	= true; 	//false for disabling client's ability to set 'low' terrain detail (which doesn't render grass). false = force render grass, true = leave it up to player. default true
+		CHVD_maxView 		= 10000; 	//max terrain view distance client can set. default 10000 (10k)
+		CHVD_maxObj 		= 10000; 	//max object view distance client can set default 10000 (10k)
+	
+	
 	/* Blue Force Tracker
 		Initiates Quicksilver's Blue Force Tracking on map/gps
 			By default, marks all groups and players (not AI) on side, and colors people in your squad according to their team color
