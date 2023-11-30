@@ -159,6 +159,8 @@ class CfgFunctions
 			class markUnit;
 			class addMarkingAction;
 			class zeusMarkUnit;
+			class zeusSpawnScavGroup;
+			class scavFindSuitableBuilding;
 		};
 		class buildFob
 		{

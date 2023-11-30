@@ -1,4 +1,4 @@
-private _debug = true;
+private _debug = false;
 
 if (_debug) then { [format ["TAS_fnc_scavRespawnRoamers starting while loop!"],true] call TAS_fnc_error };
 

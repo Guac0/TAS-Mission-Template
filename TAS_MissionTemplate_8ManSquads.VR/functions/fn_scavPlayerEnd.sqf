@@ -31,8 +31,26 @@ private _actionsToRemove = player getVariable ["TAS_scavActions",[]]; //[[object
 
 player setVariable ["TAS_playerIsScav",false,true];
 
-//[] call TAS_fnc_scavPlayerInit; //start whole scav thing over again if you want nonstop scaving
+if (_isFail) then {
+	[] call TAS_fnc_scavPlayerInit; //start whole scav thing over again if you want nonstop scaving
+} else {
+	private _numberPizzas = {'TAS_RationPizza' == _x} count (items player);
+	private _moneyChange = _numberPizzas * TAS_scavRewardPerItem;
+	private _doChangeRelative = true;
+	private _tasOldMoney = profileNamespace getVariable TAS_vassShopSystemVariable;
+	private _tasNewMoney = 0;
+	if (_doChangeRelative) then {
+		_tasNewMoney = _tasOldMoney + _moneyChange;
+		hint format ["You now have %1$ in cash due to extracting successfully!",_tasNewMoney];
+	} else { //absolute change
+		_tasNewMoney = _moneyChange;
+		hint format ["You now have %1$ in cash due to a Zeus editing your previous balance by %2!",_tasNewMoney,_moneyChange];
+	};
+	profileNamespace setVariable [TAS_vassShopSystemVariable,_tasNewMoney];
+	player setPosATL (getPosATL scavTpHelper);
+};
 
+/*
 //restore old pmc loadout and position
 private _loadout = player getVariable ["TAS_scavPmcLoadout",[]];
 if (_loadout != []) then {
@@ -40,3 +58,4 @@ if (_loadout != []) then {
 } else {
 	["Your old PMC loadout was not applied due to not being previously saved!",false] call TAS_fnc_error;
 };
+*/

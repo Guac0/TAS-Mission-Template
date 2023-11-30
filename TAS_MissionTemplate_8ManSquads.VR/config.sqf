@@ -127,27 +127,28 @@
 	/*
 		TAS_ScavZone_Marker
 		*/
-		TAS_scavSystemEnabled 	= false;	//default false
+		TAS_scavSystemEnabled 	= true;	//default false
 		TAS_scavAfterDeath		= true; //default true
 		TAS_scavStartingValuables = 10; //default 10
 		TAS_scavNeededValuables = 3; //default 3
 		TAS_scavSleepInterval = 120;
-		TAS_scavPlayerDistanceThreshold = 300;
-		TAS_scavObjectiveDistanceThreshold = 250;
-		TAS_scavNumberOfObjectives = 7;
-		TAS_scavBlacklistLocations = [];
+		TAS_scavPlayerDistanceThreshold = 400;
+		TAS_scavObjectiveDistanceThreshold = 200;
+		TAS_scavNumberOfObjectives = 10;
+		TAS_scavBlacklistLocations = ["TAS_ObjectiveBlacklistObject_1","TAS_ObjectiveBlacklistObject_2","TAS_ObjectiveBlacklistObject_3","TAS_ObjectiveBlacklistObject_4"];
 		TAS_scavPlayerSide = west;
 		TAS_scavAiSide = independent;
 		TAS_scavAiRoamerSide = east;
 		TAS_scavRadioFreq = "44";
-		TAS_scavRoamersSmall = 5;
-		TAS_scavRoamersBig = 3;
+		TAS_scavRoamersSmall = 7;
+		TAS_scavRoamersBig = 7;
 		TAS_scavRoamersSmallPatrolChance = 100;
 		TAS_scavRoamersBigPatrolChance = 0;
-		TAS_scavRoamersObjectiveDistance = 250;
-		TAS_scavRoamersPlayerDistance = 300;
+		TAS_scavRoamersObjectiveDistance = 200;
+		TAS_scavRoamersPlayerDistance = 400;
 		TAS_scavRespawnRoamers = true;
-		TAS_scavRespawnObjectives = true;
+		TAS_scavRespawnObjectives = false;
+		TAS_scavRewardPerItem = 50;
 
 	
 	/* Unit Marking

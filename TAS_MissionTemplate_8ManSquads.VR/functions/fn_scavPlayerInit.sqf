@@ -3,11 +3,16 @@ Initializes the scav system on a (local) player.
 [] call TAS_fnc_scavPlayerInit;
 */
 
-player setVariable ["TAS_playerIsScav",true,true];
-[player] call TAS_fnc_scavLoadout;
-[player] joinSilent (createGroup TAS_scavPlayerSide);
-(group player) setGroupId [format ["%1's Scav Gang", name player]];
+params [["_firstTime",true]];
+if (_firstTime) then {
+	player setVariable ["TAS_playerIsScav",true,true];
+	[player,5] call TAS_fnc_scavLoadout;
+	[player] joinSilent (createGroup TAS_scavPlayerSide);
+	(group player) setGroupIdGlobal [format ["%1's Scav Gang", name player]];
+};
 
+player setVariable ["ace_medical_medicclass", 1, true]; //medic 
+player setUnitTrait ["Medic", true];
 //play audio briefing, give text diary entries, and assign task
 //playSound ["scavBriefing",1,0];
 //_path spawn TAS_fnc_playCornerVideo;
@@ -67,6 +72,23 @@ private _availableExtracts = missionNamespace getVariable ["TAS_scavExtracts",[]
 player setVariable ["TAS_extractActions",_scavActions];
 
 //spawn in building near extract? or anywhere in AO thats not next to players/obj?
-private _spawnPointExtract = selectRandom _availableExtracts;
-private _spawnPoint = [_spawnPointExtract,3,20,1] call BIS_fnc_findSafePos;
-player setPosATL [_spawnPoint select 0, _spawnPoint select 1, 0.25];
+
+private _spawnHouse = [] call TAS_fnc_scavFindSuitableBuilding;
+private _houseTpPosAGL = _spawnHouse buildingPos 1;
+if (_houseTpPosAGL isEqualTo [0,0,0]) then { //fallback, spawn near extract
+	private _spawnPointExtract = selectRandom _availableExtracts;
+	private _spawnPoint = [_spawnPointExtract,3,20,1] call BIS_fnc_findSafePos;
+	player setPosATL [_spawnPoint select 0, _spawnPoint select 1, 0.25];
+	["fn_scavPlayerInit houseTpPosAGL is invalid, performing backup spawn"] call TAS_fnc_error;
+} else {
+	player setPosASL (AGLToASL _houseTpPosAGL);
+};
+
+"Scav Intro" hintC [
+	"You are now playing as a scavenger.",
+	"One of the local power players has contracted you, they recently had a convoy get raided and its contents stolen.",
+	"The raiders have spread out their gains to a number of caches throughout the region.",
+	"Acquire at least 3 of the stolen Pizza items and get to an extraction point. Bonus pizzas will earn you a higher reward.",
+	"You may cooperate with other player scavengers if you wish. They can be contacted on the default radio frequency of 44.",
+	"Contact Zeus if you have questions, or if you wish to propose an alternative objective that you might get paid for."
+];
