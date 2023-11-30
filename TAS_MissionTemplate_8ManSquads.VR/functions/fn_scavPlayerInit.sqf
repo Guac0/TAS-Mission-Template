@@ -28,7 +28,7 @@ player setVariable ["TAS_PersonalScavTaskName",_taskId];
 
 //do markers. dont worry about markers created during scaving, would be immersion breaking anyways
 {
-	_x setMarkerAlpha 1;
+	_x setMarkerAlphaLocal 1;
 } forEach (missionNamespace getVariable ["TAS_scavTaskMarkers",[]]);
 
 /*
