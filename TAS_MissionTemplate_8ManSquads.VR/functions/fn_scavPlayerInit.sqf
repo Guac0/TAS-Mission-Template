@@ -74,18 +74,7 @@ private _availableExtracts = missionNamespace getVariable ["TAS_scavExtracts",[]
 } forEach _availableExtracts;
 player setVariable ["TAS_extractActions",_scavActions];
 
-//spawn in building near extract? or anywhere in AO thats not next to players/obj?
-
-private _spawnHouse = [] call TAS_fnc_scavFindSuitableBuilding;
-private _houseTpPosAGL = _spawnHouse buildingPos 1;
-if (_houseTpPosAGL isEqualTo [0,0,0]) then { //fallback, spawn near extract
-	private _spawnPointExtract = selectRandom _availableExtracts;
-	private _spawnPoint = [_spawnPointExtract,3,20,1] call BIS_fnc_findSafePos;
-	player setPosATL [_spawnPoint select 0, _spawnPoint select 1, 0.25];
-	["fn_scavPlayerInit houseTpPosAGL is invalid, performing backup spawn"] call TAS_fnc_error;
-} else {
-	player setPosASL (AGLToASL _houseTpPosAGL);
-};
+[player] remoteExec ["TAS_fnc_scavInsertPlayer",2];
 
 "Scav Intro" hintC [
 	"You are now playing as a scavenger.",

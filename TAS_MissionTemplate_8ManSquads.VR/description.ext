@@ -161,6 +161,7 @@ class CfgFunctions
 			class zeusMarkUnit;
 			class zeusSpawnScavGroup;
 			class scavFindSuitableBuilding;
+			class scavInsertPlayer;
 		};
 		class buildFob
 		{
