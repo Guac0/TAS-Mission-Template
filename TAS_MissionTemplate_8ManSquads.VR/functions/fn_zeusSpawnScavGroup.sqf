@@ -7,7 +7,10 @@ private _onConfirm =
 	_dialogResult params
 	[
 		"_numberUnits",
-		"_side"
+		"_side",
+		"_magazines",
+		"_radio"
+		"_grenades"
 	];
 	//Get in params again
 	_in params [["_pos",[0,0,0],[[]],3], ["_unit",objNull,[objNull]]];
@@ -30,7 +33,7 @@ private _onConfirm =
 		//private _safeSpawnpoint = [_pos, 0, 10, 1] call BIS_fnc_findSafePos; //spawn units around building
 		private _unit = _group createUnit [_unitClass, _pos,[],0,"NONE"]; //they'll spawn on top of each other but oh well. assume that zeus will choose a good position.
 		//_unit allowDamage false;
-		[_unit] call TAS_fnc_scavLoadout;
+		[_unit,_magazines,_radio,_grenades] call TAS_fnc_scavLoadout;
 	};
 
 	_group setFormation "DIAMOND";
@@ -44,7 +47,10 @@ private _onConfirm =
 	"Spawn Scav Group", 
 	[
 		["SLIDER", ["Number of units", ""], [1,20,5,0]],	//min 1 mag, max 20 mags, default 5 mags, 0 decimal places
-		["SIDES", ["Select 1", "Only the first selected side will be taken into account."], [east]]
+		["SIDES", ["Select 1", "Only the first selected side will be taken into account."], [east]],
+		["SLIDER", ["Primary weapon magazines", ""], [1,20,8,0]],	//min 1 mag, max 20 mags, default 5 mags, 0 decimal places
+		["TOOLBOX:YESNO", ["Give radio?", "Players will have their radio set to TAS_scavRadioFreq"], false],
+		["TOOLBOX:YESNO", ["Give grenades?", "2x V40s, 2x white smoke, 2x chemlights"], false]
 	],
 	_onConfirm,
 	{},

@@ -4,7 +4,7 @@ Changes loadout to gear appropriate for a "scaveneger" style one. Vaguely themed
 [unit] remoteExec ["TAS_fnc_scavLoadout",unit]; //execute locally to unit
 [player] call TAS_fnc_scavLoadout;
 */
-params ["_unit",["_numberOfMags",8],["_giveRadio",0]];
+params ["_unit",["_numberOfMags",8],["_giveRadio",0],["_addGrenades",false]];
 
 //check flag to see if scav system is running
 if !(TAS_scavSystemEnabled) exitWith {
@@ -131,10 +131,12 @@ for "_i" from 1 to 2 do { _unit addItem "ACE_CableTie" };
 //_unit addItem "ACE_EntrenchingTool";
 
 //grenades
-for "_i" from 1 to 2 do { _unit addMagazine "MiniGrenade" }; //HandGrenade is m67 vanilla, v40 is MiniGrenade
-for "_i" from 1 to 2 do { _unit addMagazine "SmokeShell" }; //white smoke
-//for "_i" from 1 to 1 do { _unit addItem "SmokeShellPurple" }; //purple smoke
-for "_i" from 1 to 2 do { _unit addMagazine "Chemlight_yellow" };
+if (_addGrenades) then {
+	for "_i" from 1 to 2 do { _unit addMagazine "MiniGrenade" }; //HandGrenade is m67 vanilla, v40 is MiniGrenade
+	for "_i" from 1 to 2 do { _unit addMagazine "SmokeShell" }; //white smoke
+	//for "_i" from 1 to 1 do { _unit addItem "SmokeShellPurple" }; //purple smoke
+	for "_i" from 1 to 2 do { _unit addMagazine "Chemlight_yellow" };
+};
 
 //at end due to waitUntil
 if (_giveRadio) then {

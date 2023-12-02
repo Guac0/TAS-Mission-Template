@@ -12,12 +12,13 @@ private _onConfirm =
 	_dialogResult params
 	[
 		"_mags",
-		"_radio"
+		"_radio",
+		"_grenades"
 	];
 	//Get in params again
 	_in params [["_pos",[0,0,0],[[]],3], ["_unit",objNull,[objNull]]];
 
-	[_unit,_mags,_radio] remoteExec ["TAS_fnc_scavLoadout",_unit];
+	[_unit,_mags,_radio,_grenades] remoteExec ["TAS_fnc_scavLoadout",_unit];
 
 };
 
