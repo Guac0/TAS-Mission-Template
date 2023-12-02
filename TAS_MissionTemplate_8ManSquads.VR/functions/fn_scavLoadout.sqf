@@ -4,7 +4,7 @@ Changes loadout to gear appropriate for a "scaveneger" style one. Vaguely themed
 [unit] remoteExec ["TAS_fnc_scavLoadout",unit]; //execute locally to unit
 [player] call TAS_fnc_scavLoadout;
 */
-params ["_unit",["_numberOfMags",8],["_giveRadio",0],["_addGrenades",false]];
+params ["_unit",["_numberOfMags",8],["_giveRadio",0],["_addGrenades",false],["_changeSkill",true]];
 
 //check flag to see if scav system is running
 if !(TAS_scavSystemEnabled) exitWith {
@@ -138,12 +138,20 @@ if (_addGrenades) then {
 	for "_i" from 1 to 2 do { _unit addMagazine "Chemlight_yellow" };
 };
 
-//at end due to waitUntil
-if (_giveRadio) then {
-	_unit linkItem "TFAR_anprc152";
-	if (isPlayer _unit) then {
-		waitUntil {(call TFAR_fnc_haveSWRadio)};
-		[(call TFAR_fnc_activeSrRadio), 1, TAS_scavRadioFreq] call TFAR_fnc_SetChannelFrequency;
+if (_changeSkill) then {
+	if !(isPlayer _unit) then {
+		{
+			_unit setSkill [_x select 0, _x select 1];
+		} forEach TAS_scavSkill;
 	};
 };
 
+//at end due to waitUntil
+//TODO option to give radio to AI scavs for lambs intel?
+if (_giveRadio) then {
+	if (isPlayer _unit) then {
+		_unit linkItem "TFAR_anprc152";
+		waitUntil {(call TFAR_fnc_haveSWRadio)};
+		[(call TFAR_fnc_activeSwRadio), 1, TAS_scavRadioFreq] call TFAR_fnc_SetChannelFrequency;
+	};
+};

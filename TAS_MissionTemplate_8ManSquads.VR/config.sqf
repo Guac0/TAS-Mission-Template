@@ -157,6 +157,17 @@
 		TAS_scavRespawnRoamers = true;
 		TAS_scavRespawnObjectives = false;
 		TAS_scavRewardPerItem = 50;
+		TAS_scavSkill = [
+			["general",0.8],
+			["courage",0.8],
+			["aimingAccuracy",0.25],
+			["aimingShake",0.25],
+			["aimingSpeed",0.25],
+			["commanding",0.8],
+			["spotDistance",0.25],
+			["spotTime",0.25],
+			["reloadSpeed",0.3]
+		]
 
 	
 	/* Unit Marking

@@ -13,12 +13,13 @@ private _onConfirm =
 	[
 		"_mags",
 		"_radio",
-		"_grenades"
+		"_grenades",
+		"_changeSkill"
 	];
 	//Get in params again
 	_in params [["_pos",[0,0,0],[[]],3], ["_unit",objNull,[objNull]]];
 
-	[_unit,_mags,_radio,_grenades] remoteExec ["TAS_fnc_scavLoadout",_unit];
+	[_unit,_mags,_radio,_grenades,_changeSkill] remoteExec ["TAS_fnc_scavLoadout",_unit];
 
 };
 
@@ -26,8 +27,9 @@ private _onConfirm =
 	"Give Scav Loadout to Unit", 
 	[
 		["SLIDER", ["Primary weapon magazines", ""], [1,20,5,0]],	//min 1 mag, max 20 mags, default 5 mags, 0 decimal places
-		["TOOLBOX:YESNO", ["Give radio?", "Players will have their radio set to TAS_scavRadioFreq"], false],
-		["TOOLBOX:YESNO", ["Give grenades?", "2x V40s, 2x white smoke, 2x chemlights"], false]
+		["TOOLBOX:YESNO", ["Give radio?", "Players will have their radio set to TAS_scavRadioFreq".], false],
+		["TOOLBOX:YESNO", ["Give grenades?", "2x V40s, 2x white smoke, 2x chemlights."], false],
+		["TOOLBOX:YESNO", ["Apply TAS_scavSkill?", "Does not apply to players."], true]
 	],
 	_onConfirm,
 	{},
