@@ -1,10 +1,5 @@
 params [["_pos",[0,0,0],[[]],3], ["_unit",objNull,[objNull]]];
 
-if (isNull _unit) exitWith {
-	systemChat "Error: place the scav loadout zeus module on the object that you wish to equip with a scav loadout!";
-	diag_log "TAS MISSION TEMPLATE: fn_zeusScavLoadout was executed without being placed on an object!";
-};
-
 //ZEN dialog
 private _onConfirm =
 {
@@ -17,6 +12,8 @@ private _onConfirm =
 	//Get in params again
 	_in params [["_pos",[0,0,0],[[]],3], ["_unit",objNull,[objNull]]];
 
+	if (count _side > 1) exitWith {["Error when executing Zeus Spawn Scav Group module: select only 1 side!",false] call TAS_fnc_error};
+	_side = _side select 0;
 	private _group = createGroup _side;
 	private _unitClass = "dummy";
 	switch {_side} do {
@@ -27,9 +24,11 @@ private _onConfirm =
 		default { _unitClass = "I_Survivor_F" };
 	};
 
+	[format ["TAS_fnc_zeusSpawnScavGroup executing with side %1, group %2, unitClass %3, number of units %4, and position %5!",_side,_group,_unitClass,_numberUnits,_pos]] call TAS_fnc_error;
+
 	for "_i" from 1 to _numberUnits do {
-		private _safeSpawnpoint = [_pos, 0, 10, 1] call BIS_fnc_findSafePos; //spawn units around building
-		private _unit = _group createUnit [_unitClass, _safeSpawnpoint,[],0,"NONE"];
+		//private _safeSpawnpoint = [_pos, 0, 10, 1] call BIS_fnc_findSafePos; //spawn units around building
+		private _unit = _group createUnit [_unitClass, _pos,[],0,"NONE"]; //they'll spawn on top of each other but oh well. assume that zeus will choose a good position.
 		//_unit allowDamage false;
 		[_unit] call TAS_fnc_scavLoadout;
 	};
