@@ -5,12 +5,12 @@ Initializes the scav system on a (local) player.
 
 params [["_firstTime",true]];
 if (_firstTime) then {
-	player setVariable ["TAS_playerIsScav",true,true];
 	[player,5] call TAS_fnc_scavLoadout;
 	[player] joinSilent (createGroup TAS_scavPlayerSide);
 	(group player) setGroupIdGlobal [format ["%1's Scav Gang", name player]];
 };
 
+player setVariable ["TAS_playerIsScav",true,true];
 player setVariable ["ace_medical_medicclass", 1, true]; //medic 
 player setUnitTrait ["Medic", true];
 //play audio briefing, give text diary entries, and assign task
@@ -74,7 +74,10 @@ private _availableExtracts = missionNamespace getVariable ["TAS_scavExtracts",[]
 } forEach _availableExtracts;
 player setVariable ["TAS_extractActions",_scavActions];
 
-[player] remoteExec ["TAS_fnc_scavInsertPlayer",2];
+[missionNamespace getVariable ["TAS_scavExtracts",[]]] spawn TAS_fnc_scavHandleExtractSmokes;
+
+//[player] remoteExec ["TAS_fnc_scavInsertPlayer",2];
+player setPosATL (getPosATL scavTpHelper);
 
 "Scav Intro" hintC [
 	"You are now playing as a scavenger.",
@@ -82,5 +85,6 @@ player setVariable ["TAS_extractActions",_scavActions];
 	"The raiders have spread out their gains to a number of caches throughout the region.",
 	"Acquire at least 3 of the stolen Pizza items and get to an extraction point. Bonus pizzas will earn you a higher reward.",
 	"You may cooperate with other player scavengers if you wish. They can be contacted on the default radio frequency of 44.",
+	"You have been placed into the Shop safe zone. When ready, use the flagpole to enter the AO.",
 	"Contact Zeus if you have questions, or if you wish to propose an alternative objective that you might get paid for."
 ];

@@ -23,7 +23,7 @@ private _extracts = [];
 	} else {
 		//["fn_scavServerInit: missing at least one extraction point!",true] call TAS_fnc_error;
 	};
-} forEach ["TAS_extract_1","TAS_extract_2","TAS_extract_3","TAS_extract_4","TAS_extract_5","TAS_extract_6","TAS_extract_7","TAS_extract_8","TAS_extract_9","TAS_extract_10"];
+} forEach ["TAS_extract_1","TAS_extract_2","TAS_extract_3","TAS_extract_4","TAS_extract_5","TAS_extract_6","TAS_extract_7","TAS_extract_8","TAS_extract_9","TAS_extract_10","TAS_extract_11","TAS_extract_12","TAS_extract_13","TAS_extract_14","TAS_extract_15"];
 
 private _blacklistObjects = [];
 {

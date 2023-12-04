@@ -142,8 +142,17 @@
 		TAS_scavPlayerDistanceThreshold = 400;
 		TAS_scavObjectiveDistanceThreshold = 200;
 		TAS_scavNumberOfObjectives = 10;
-		TAS_scavBlacklistLocations = ["TAS_ObjectiveBlacklistObject_1","TAS_ObjectiveBlacklistObject_2","TAS_ObjectiveBlacklistObject_3","TAS_ObjectiveBlacklistObject_4"];
-		TAS_scavPmcMarkers = [];
+		TAS_scavBlacklistLocations = ["TAS_ObjectiveBlacklistObject_1","TAS_ObjectiveBlacklistObject_2","TAS_ObjectiveBlacklistObject_3","TAS_ObjectiveBlacklistObject_4","TAS_ObjectiveBlacklistObject_5","TAS_ObjectiveBlacklistObject_6","TAS_ObjectiveBlacklistObject_7","TAS_ObjectiveBlacklistObject_8","TAS_ObjectiveBlacklistObject_9","TAS_ObjectiveBlacklistObject_10","TAS_ObjectiveBlacklistObject_11","TAS_ObjectiveBlacklistObject_12","TAS_ObjectiveBlacklistObject_13"];
+		TAS_scavPmcMarkers = ["TAS_PmcMarker_Base", 
+			"TAS_PmcMarker_Data_1", 
+			"TAS_PmcMarker_Data_2", 
+			"TAS_PmcMarker_Power_1", 
+			"TAS_PmcMarker_Power_2", 
+			"TAS_PmcMarker_Power_3", 
+			"TAS_PmcMarker_Sci_1", 
+			"TAS_PmcMarker_Sci_2", 
+			"TAS_PmcMarker_Start"
+		];
 		TAS_scavPlayerSide = west;
 		TAS_scavAiSide = independent;
 		TAS_scavAiRoamerSide = east;
@@ -155,8 +164,8 @@
 		TAS_scavRoamersObjectiveDistance = 200;
 		TAS_scavRoamersPlayerDistance = 400;
 		TAS_scavRespawnRoamers = true;
-		TAS_scavRespawnObjectives = false;
-		TAS_scavRewardPerItem = 50;
+		TAS_scavRespawnObjectives = true;
+		TAS_scavRewardPerItem = 100;
 		TAS_scavSkill = [
 			["general",0.8],
 			["courage",0.8],
@@ -167,7 +176,7 @@
 			["spotDistance",0.25],
 			["spotTime",0.25],
 			["reloadSpeed",0.3]
-		]
+		];
 
 	
 	/* Unit Marking

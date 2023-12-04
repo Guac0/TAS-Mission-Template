@@ -225,6 +225,34 @@ if (TAS_vassEnabled) then {
 	} forEach TAS_vassSigns;
 };
 
+if (TAS_scavSystemEnabled) then {
+	if (!isNil "scavInsertObject") then {
+		_actionID = [
+			scavInsertObject,											// Object the action is attached to
+			"Insert as Scav",										// Title of the action
+			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
+			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
+			"_this distance _target < 5",						// Condition for the action to be shown
+			"_caller distance _target < 5",						// Condition for the action to progress
+			{},													// Code executed when action starts
+			{},													// Code executed on every progress tick
+			{ 
+				[player] remoteExec ["TAS_fnc_scavInsertPlayer",2];
+			},												// Code executed on completion
+			{},													// Code executed on interrupted
+			[],													// Arguments passed to the scripts as _this select 3
+			5,													// Action duration [s]
+			3,													// Priority
+			false,												// Remove on completion
+			false												// Show in unconscious state 
+		] call BIS_fnc_holdActionAdd;
+		TAS_holdActionIDs pushBack [scavAction,_actionID,"scavReenterAction"];
+	} else {
+		["Scav system enabled, but mission is missing the scavInsertObject to attach the insert action to for scavs to enter the AO!"] call TAS_fnc_error;
+	};
+};
+
+
 /////////////////////////////////
 ////place custom actions here////
 /////////////////////////////////

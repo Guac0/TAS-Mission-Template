@@ -85,7 +85,7 @@ if (_isSmall) then {
 		private _waypoint = _group addWaypoint [_objPos, 0];
 		_waypoint setWaypointType "CYCLE";
 
-		_group setBehaviourStrong "STEALTH";
+		//_group setBehaviourStrong "STEALTH";
 
 	} else {
 
@@ -161,7 +161,7 @@ if (_isSmall) then {
 		private _waypoint = _group addWaypoint [_objPos, 0];
 		_waypoint setWaypointType "CYCLE";
 
-		_group setBehaviourStrong "STEALTH";
+		//_group setBehaviourStrong "STEALTH";
 
 	} else {
 

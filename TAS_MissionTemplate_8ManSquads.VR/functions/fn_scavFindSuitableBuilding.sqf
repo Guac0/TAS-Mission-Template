@@ -32,7 +32,7 @@ while {!(_isSuitable) && (_attemptsRemaining > 0)} do { //dont get caught in a f
 			};
 		} forEach _blacklistLocations;
 
-		if (count (allPlayers select { _x distance2D _potentialObjective < TAS_scavPlayerDistanceThreshold}) > 0) then {
+		if ([_potentialObjective] call TAS_fnc_scavCheckIfNearbyPlayer) then {
 		//if ({_x distance _potentialObjective < TAS_scavPlayerDistanceThreshold} count allPlayers > 0) then { //don't create an objective if players are nearby 
 			_isSuitable = false;
 			if (_debug) then {

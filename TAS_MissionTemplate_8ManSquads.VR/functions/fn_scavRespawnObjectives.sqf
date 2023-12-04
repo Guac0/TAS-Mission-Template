@@ -79,7 +79,7 @@ while {true} do {
 		if (_needToRespawn) then {
 			if (_debug) then { [format ["TAS_fnc_scavRespawnObjective attempting to respawn objective!"],true] call TAS_fnc_error };
 			//if ({_x distance _box < TAS_scavPlayerDistanceThreshold} count allPlayers > 0) then {
-			if (count (allPlayers select { _x distance2D _box < TAS_scavPlayerDistanceThreshold}) > 0) then {
+			if !([_box] call TAS_fnc_scavCheckIfNearbyPlayer) then {
 				clearItemCargoGlobal _box;
 				_box addItemCargoGlobal ["TAS_RationPizza", TAS_scavStartingValuables];
 

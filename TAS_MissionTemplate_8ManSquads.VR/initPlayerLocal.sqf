@@ -720,6 +720,24 @@ if (TAS_doTemplateBriefing) then {
 	};
 };
 
+if (TAS_scavSystemEnabled) then {
+	player createDiarySubject ["scavDiaryEntries","Tarkov Op Meta Info","media\logo256x256.paa"];
+	player createDiaryRecord [
+		"scavDiaryEntries",
+		[
+			"Scav Info",
+			"After you die, you will respawn as a Scavenger. Scavengers are inhabitants of the area and scavenge for materials to survive, often working for local power brokers called Traders.<br /><br />A Trader has told you that they recently had a convoy carrying vital food supplies get hijacked. The attackers have hidden the food supplies in a number of caches and are guarding them. Acquire at least 3 of the Pizza items and bring them to an extraction point. You get $100 per pizza item that you extract with.<br /><br />Traders have a shop in the safe zone where you can buy better weapons and gear. You get $100 for every pizza item you extract with.<br /><br />You may choose to either cooperate with other scavenger players, or fight them for any pizzas they may have. Zeus may give bonus money for good cooperation, ping them. All AI is hostile to you. You can contact other player scavengers on the default radio frequency 44.<br /><br />There is no dynamic loot script running, so don't search houses looking for gear. Feel free to loot dead bodies though.<br /><br />Unless specially instructed by Zeus, there is no reward to hunting PMCs. If you believe you have a good idea for a special task, contact Zeus."
+		]
+	];
+	player createDiaryRecord [
+		"scavDiaryEntries",
+		[
+			"PMC Info",
+			"You are members of USEC, a PMC group working for the Terragroup Labs corporation. About a week ago, all Terragroup employees were told to shelter at various Terragroup facilities due to a widespread state of unrest breaking out in the region. However, now that the unrest seems like it'll continue for quite some time, USEC operatives are venturing out to recover some personel and assets that didn't successfully evacuate earlier.<br /><br />You have various tasks to do. These are all marked on the map, and will be explained by Zeus in the briefing.<br /><br />When you are told you must 'Extract', you can either return to the start position or make it anywhere outside the play zone (marked on map). You can also exit the play zone and ask Zeus for a fast travel to another boundary location of the play zone."
+		]
+	];
+};
+
 if (TAS_trackPerformance) then {
 	[true,300,2,true] spawn TAS_fnc_debugPerfRpt;	//duration, delay between debugs, target for output, copy to local machine
 };
