@@ -600,7 +600,11 @@ if (TAS_globalTfarEnabled) then {
 };
 
 if (TAS_bftEnabled) then {
-	[] execVM "functions\scripts\QS_icons.sqf";
+	if !(TAS_bftOnlyShowOwnGroup) then {
+		[] execVM "functions\scripts\QS_icons.sqf";
+	} else {
+		[] execVM "functions\scripts\QS_icons_onlyOwnGroup.sqf";
+	};
 	//systemChat "QS BFT initiated.";
 	player createDiaryRecord ["tasMissionTemplate", ["Quicksilver BFT", "Enabled.<br/><br/>Open your map or GPS to activate it."]];
 } else {
