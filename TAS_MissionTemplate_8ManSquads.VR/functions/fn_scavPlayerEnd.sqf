@@ -50,6 +50,7 @@ if (_isFail) then {
 		hint format ["You now have %1$ in cash due to a Zeus editing your previous balance by %2!",_tasNewMoney,_moneyChange];
 	};
 	profileNamespace setVariable [TAS_vassShopSystemVariable,_tasNewMoney];
+	player removeItems "TAS_RationPizza";
 	player setPosATL (getPosATL scavTpHelper);
 };
 
