@@ -8,6 +8,14 @@ if (_firstTime) then {
 	[player,5] call TAS_fnc_scavLoadout;
 	[player] joinSilent (createGroup TAS_scavPlayerSide);
 	(group player) setGroupIdGlobal [format ["%1's Scav Gang", name player]];
+
+	//do markers. dont worry about markers created during scaving, would be immersion breaking anyways
+	{
+		_x setMarkerAlphaLocal 1;
+	} forEach (missionNamespace getVariable ["TAS_scavTaskMarkers",[]]);
+	{
+		_x setMarkerAlphaLocal 0;
+	} forEach TAS_scavPmcMarkers;
 };
 
 player setVariable ["TAS_playerIsScav",true,true];
@@ -25,14 +33,6 @@ player setVariable ["TAS_PersonalScavTaskName",_taskId];
 	"Fulfill Scavenger Contract",
 	""
 ],objNull,"ASSIGNED"] call BIS_fnc_taskCreate;
-
-//do markers. dont worry about markers created during scaving, would be immersion breaking anyways
-{
-	_x setMarkerAlphaLocal 1;
-} forEach (missionNamespace getVariable ["TAS_scavTaskMarkers",[]]);
-{
-	_x setMarkerAlphaLocal 0;
-} forEach TAS_scavPmcMarkers;
 
 /*
 class CfgSounds
@@ -57,7 +57,7 @@ private _availableExtracts = missionNamespace getVariable ["TAS_scavExtracts",[]
 		"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
 		"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
 		"_this distance _target < 5",						// Condition for the action to be shown
-		"(_caller distance _target < 5) && ({'TAS_RationPizza' == _x} count (items player) >= TAS_scavNeededValuables)",						// Condition for the action to progress
+		"(_caller distance _target < 5) && ({TAS_scavValuableClassname == _x} count (items player) >= TAS_scavNeededValuables)",						// Condition for the action to progress
 		{ [_target,3] call BIS_fnc_dataTerminalAnimate; },													// Code executed when action starts
 		{},													// Code executed on every progress tick
 		{
@@ -77,7 +77,13 @@ player setVariable ["TAS_extractActions",_scavActions];
 [missionNamespace getVariable ["TAS_scavExtracts",[]]] spawn TAS_fnc_scavHandleExtractSmokes;
 
 //[player] remoteExec ["TAS_fnc_scavInsertPlayer",2];
-player setPosATL (getPosATL scavTpHelper);
+private _tpHelper = TAS_scavSafeZoneTpHelper;
+_tpHelper = missionNamespace getVariable [_tpHelper, objNull]; //convert from string to object, otherwise we get errors
+if (!isNull _tpHelper) then {
+	player setPosATL (getPosATL _tpHelper);
+} else {
+	[format ["fn_scavPlayerInit: Critical error: TAS_scavSafeZoneTpHelper object with name %1 is null!",TAS_scavSafeZoneTpHelper],false] call TAS_fnc_error;
+};
 
 "Scav Intro" hintC [
 	"You are now playing as a scavenger.",
