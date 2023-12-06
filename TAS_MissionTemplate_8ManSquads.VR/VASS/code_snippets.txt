@@ -1,4 +1,7 @@
-//initServer
+//initPlayerLocal.sqf
+[shopCrate] call TER_fnc_addShop;
+
+//initServer.sqf 
 /*
 	Author: 7erra <https://forums.bohemia.net/profile/1139559-7erra/>
 
