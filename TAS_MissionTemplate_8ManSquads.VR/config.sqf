@@ -557,7 +557,7 @@
 			TAS_vassShopSystemLoadoutVariable = "TAS_exampleVassLoadout"; 	//what variable name to store gear under. Begin with "TAS_"
 			TAS_vassDefaultBalance 		= 700; 						//default money to start players with
 			TAS_vassBonusStartingMoney 	= 0; 						//if you want to give extra money to players when they join this mission (for example, for completing the previous mission well), change this
-			TAS_vassPrebriefing 		= [ 						//shows to players when they load into the mission. note how each line except for the last ends with a comma
+			TAS_vassPrebriefing 		= [ 						//shows to players when they load into the mission. note how each line except for the last ends with a comma. will not display hint if empty.
 				"In this campaign, we have to buy our gear from the black market.",
 				"Each player's balance and loadout at mission end will carry over to the next mission.",
 				"All free items (cosmetics) are in the red crate's ace arsenal, everything else is in the other box.",

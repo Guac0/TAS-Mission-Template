@@ -1,6 +1,10 @@
 //executed from initPlayerLocal. note that some aspects are handled in applyHoldAction.sqf and zenCustomModulesRegister.sqf
 
-"Shop System Prebriefing" hintC TAS_vassPrebriefing;
+if (count TAS_vassPrebriefing > 0) then {
+	"Shop System Prebriefing" hintC TAS_vassPrebriefing;
+} else {
+	["TAS_fnc_vassPlayerInit: TAS_vassPrebriefing is empty and therefore will not be displayed!"] call TAS_fnc_error;
+};
 
 //save player loadout from editor so that zeus can custom-make loadouts
 player setVariable ["editorLoadout",getUnitLoadout player]; //not profileNameSpace since unique to each mission
