@@ -14,7 +14,7 @@ if (TAS_doAimCoefChange) then {
 	player setUnitRecoilCoefficient TAS_recoilCoef;
 };
 
-if (TAS_scavAfterDeath) exitWith { //exit early since stuff beyond this is all loadout/reinsert stuff
+if (TAS_scavSystemEnabled) exitWith { //exit early since stuff beyond this is all loadout/reinsert stuff
 	[] spawn TAS_fnc_scavPlayerInit;
 };
 

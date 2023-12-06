@@ -134,53 +134,44 @@
 		TAS_punishCivKillerHumiliate 	= true; //default true
 
 
-	/*
-		TAS_ScavZone_Marker
-		*/
-		TAS_scavSystemEnabled 	= true;	//default false
-		TAS_scavAfterDeath		= true; //default true
-		TAS_scavStartingValuables = 10; //default 10
-		TAS_scavNeededValuables = 3; //default 3
-		TAS_scavSleepInterval = 120;
-		TAS_scavPlayerDistanceThreshold = 400;
-		TAS_scavObjectiveDistanceThreshold = 200;
-		TAS_scavNumberOfObjectives = 10;
-		TAS_scavBlacklistLocations = ["TAS_ObjectiveBlacklistObject_1","TAS_ObjectiveBlacklistObject_2","TAS_ObjectiveBlacklistObject_3","TAS_ObjectiveBlacklistObject_4","TAS_ObjectiveBlacklistObject_5","TAS_ObjectiveBlacklistObject_6","TAS_ObjectiveBlacklistObject_7","TAS_ObjectiveBlacklistObject_8","TAS_ObjectiveBlacklistObject_9","TAS_ObjectiveBlacklistObject_10","TAS_ObjectiveBlacklistObject_11","TAS_ObjectiveBlacklistObject_12","TAS_ObjectiveBlacklistObject_13"];
-		TAS_scavPmcMarkers = ["TAS_PmcMarker_Base", 
-			"TAS_PmcMarker_Data_1", 
-			"TAS_PmcMarker_Data_2", 
-			"TAS_PmcMarker_Power_1", 
-			"TAS_PmcMarker_Power_2", 
-			"TAS_PmcMarker_Power_3", 
-			"TAS_PmcMarker_Sci_1", 
-			"TAS_PmcMarker_Sci_2", 
-			"TAS_PmcMarker_Start"
-		];
-		TAS_scavPlayerSide = west;
-		TAS_scavAiSide = independent;
-		TAS_scavAiRoamerSide = east;
-		TAS_scavRadioFreq = "44";
-		TAS_scavRoamersSmall = 7;
-		TAS_scavRoamersBig = 7;
-		TAS_scavRoamersSmallPatrolChance = 100;
-		TAS_scavRoamersBigPatrolChance = 0;
-		TAS_scavRoamersObjectiveDistance = 200;
-		TAS_scavRoamersPlayerDistance = 400;
-		TAS_scavRespawnRoamers = true;
-		TAS_scavRespawnObjectives = true;
-		TAS_scavRewardPerItem = 100;
-		TAS_scavSkill = [
-			["general",0.8],
-			["courage",0.8],
-			["aimingAccuracy",0.25],
-			["aimingShake",0.25],
-			["aimingSpeed",0.25],
-			["commanding",0.8],
-			["spotDistance",0.25],
-			["spotTime",0.25],
-			["reloadSpeed",0.3]
-		];
+	/* TAS Scavenger System
+		The Scavenger system auto-populates an AO by placing "objectives" in random houses.
+			These objectives have a cache with a certain number of a certain item in it.
+			Objectives are guarded by 10 AI scavengers - 4 guarding the building itself, 3 on patrol, and 3 camping nearby.
+		
+		Additionally, there are a number of AI "roamer" scavenger groups.
+			There are a number - default 7 - of large groups of 5-8 scavs that travel between the objectives.
+			There are a number - default 7 - of small groups of 1-4 scavs that travel between random houses in the AO.
+		
+		When players die, they can reinsert as a Player Scavenger.
+			Player scavs have a randomized inventory of low quality items.
+			They are told to obtain the prize items from caches and extract with them.
+			Between runs, they can use a VASS shop (if set up by Zeus) to upgrade their gear.
+			They can choose to cooperate or fight other players.
+			Only player scavengers get map markers on cache objectives and extractions.
 
+		The Zeus must do the following to set up the system in Eden:
+			Make a square area marker covering the AO and put its variable name as the value of TAS_scavAoMarker below
+			Place several objects (recommend the data terminal object) where you want extraction points to be and put their names in TAS_scavExtractObjects below
+			Optionally, add blacklists for objectives/spawnpoints by placing objects and putting their variable names in TAS_scavBlacklistLocations below.
+			Optionally if there are markers normal players can see but you don't want Scav players to see, put their variable names in TAS_scavPmcMarkers below.
+			Enable VASS in config.sqf, and set the following to 0 or false or [] depending what's applicable: TAS_vassDefaultBalance, TAS_vassPrebriefing, TAS_vassShop, TAS_rebuyCostPrimary
+			Make a safe zone for Scavs for after they extract. I recommend an empty warehouse.
+				Place an object to act as a teleport helper and put its variable name in TAS_scavSafeZoneTpHelper below.
+				Place an object which will have the reinsert hold action on it and put its variable name in TAS_scavInsertActionObject below.
+				Optional but recommended, make a shop using VASS there.
+			Optionally but recommended, set TAS_bftOnlyShowOwnGroup to TRUE to avoid BFT shenanigans with seeing other, potentially unfriendly, players.
+		
+		Advanced options can be configured in the "Advanced" section of config.sqf
+		*/
+		TAS_scavSystemEnabled 			= false; //default false. Overall off/on switch.
+		TAS_scavInsertActionObject		= "scavActionObject"; //default "scavActionObject". Variable name (in quotations) of the object used as a teleporter helper for scavs to be TP'd to after extracting.
+		TAS_scavSafeZoneTpHelper		= "scavTpHelper"; //default "scavTpHelper". Variable name (in quotations) of the object used as a teleporter helper for scavs to be TP'd to after extracting.
+		TAS_scavAoMarker 				= "TAS_ScavZone_Marker"; //default TAS_ScavZone_Marker. Marker name (in quotes) of the marker covering the AO in which to create objectives/spawn players and roamers in. Must be a square.
+		TAS_scavBlacklistLocations 		= ["TAS_ObjectiveBlacklistObject_1","TAS_ObjectiveBlacklistObject_2","TAS_ObjectiveBlacklistObject_3","TAS_ObjectiveBlacklistObject_4","TAS_ObjectiveBlacklistObject_5","TAS_ObjectiveBlacklistObject_6","TAS_ObjectiveBlacklistObject_7","TAS_ObjectiveBlacklistObject_8","TAS_ObjectiveBlacklistObject_9","TAS_ObjectiveBlacklistObject_10","TAS_ObjectiveBlacklistObject_11","TAS_ObjectiveBlacklistObject_12","TAS_ObjectiveBlacklistObject_13","TAS_ObjectiveBlacklistObject_14","TAS_ObjectiveBlacklistObject_15"]; //Variable names (in quotes) of objects where you want to add a objective blacklist for TAS_scavObjectiveDistanceThreshold distance threshold. Excess object names not actually present in mission will be safely ignored.
+		TAS_scavExtractObjects 			= ["TAS_extract_1","TAS_extract_2","TAS_extract_3","TAS_extract_4","TAS_extract_5","TAS_extract_6","TAS_extract_7","TAS_extract_8","TAS_extract_9","TAS_extract_10","TAS_extract_11","TAS_extract_12","TAS_extract_13","TAS_extract_14","TAS_extract_15"]; //Variable names (in quotes) of objects you want to make into extraction objects/locations. Excess object names not actually present in mission will be safely ignored.
+		TAS_scavPmcMarkers 				= []; 	//default []. Marker variable names of markers to hide once a player becomes a scav (i.e. PMC only markers).
+		
 	
 	/* Unit Marking
 		Adds an action to each player's action menu that allows them to mark enemy units and vehicles if they are looking DIRECTLY at them.
@@ -502,6 +493,33 @@
 
 
 
+		/* Scavenger System Advanced Settings
+			Advanced settings for the Scavenger System. Read the description next to each option.
+			*/
+			TAS_scavNumberOfObjectives 		= 10;	//default 10. Number of objectives to create.
+			TAS_scavSkill 					= [["general",0.8],["courage",0.8],["aimingAccuracy",0.25],["aimingShake",0.25],["aimingSpeed",0.25],["commanding",0.8],["spotDistance",0.25],["spotTime",0.25],["reloadSpeed",0.3]]; //default: [["general",0.8],["courage",0.8],["aimingAccuracy",0.25],["aimingShake",0.25],["aimingSpeed",0.25],["commanding",0.8],["spotDistance",0.25],["spotTime",0.25],["reloadSpeed",0.3]]. The AI skill to give to AI scavs.
+			TAS_scavRadioFreq 				= "44";	//default "44". TFAR short range radio freq to set player scavs to when they spawn.
+			TAS_scavValuableClassname		= "TAS_RationPizza"; //default "TAS_RationPizza". Classname of the inventory item present in caches/checked for in extract eligibility/rewarded money for extracting with.
+			TAS_scavRewardPerItem 			= 100;	//default 100. The amount of money to give extracted player scavs per TAS_scavValuableClassname that they extracted with.
+			TAS_scavStartingValuables 		= 10; 	//default 10. Number of TAS_scavValuableClassname to be present in each cache.
+			TAS_scavNeededValuables 		= 3; 	//default 3. Minimum number of TAS_scavValuableClassname needed to be present in inventory before extraction is possible.
+			TAS_scavSleepInterval 			= 120;	//default 120. Time in seconds to sleep between repawning of roamers and objectives (where needed).
+			TAS_scavPlayerDistanceThreshold = 400;	//default 400. Distance in meters between a possible objective location and players (when objectives are first made during system init).
+			TAS_scavObjectiveDistanceThreshold = 200; //default 200. Distance in meters between a possible objective location and an already established objective location (when objectives are first made during system init).
+			TAS_scavPlayerSide 				= west;	//default west. Side of player scavs. Recommended to be hostile to TAS_scavAiSide and TAS_scavAiRoamerSide.
+			TAS_scavAiSide 					= independent; //default independent. Side of scavs guarding caches. Recommended to be hostile to TAS_scavPlayerSide and TAS_scavAiRoamerSide.
+			TAS_scavAiRoamerSide 			= east;	//default east. Side of scavs roaming about the map/attacking caches (if enabled). Recommended to be hostile to TAS_scavPlayerSide and TAS_scavAiSide.
+			TAS_scavRoamersSmall 			= 7;	//default 7. Number of small roamer AI groups to create and maintain. Each group has 1-4 AI scavs in it.
+			TAS_scavRoamersBig 				= 7;	//default 7. Number of large roamer AI groups to create and maintain. Each group has 5-8 AI scavs in it.
+			TAS_scavRoamersSmallPatrolChance = 100;	//default 100. Chance for small roamer groups to patrol (move to random buildings in the AO). If a group does not randomly patrol, they will instead move between the various caches.
+			TAS_scavRoamersBigPatrolChance 	= 0;	//default 0. Chance for large roamer groups to patrol (move to random buildings in the AO). If a group does not randomly patrol, they will instead move between the various caches.
+			TAS_scavRoamersObjectiveDistance = 200;	//default 200. Distance in meters between a possible roamer spawnpoint and an objective location. Continously calculated throughout the mission (i.e. dynamic).
+			TAS_scavRoamersPlayerDistance 	= 400;	//default 400. Distance in meters between a possible roamer spawnpoint and the nearest player. Continously calculated throughout the mission (i.e. dynamic).
+			TAS_scavRespawnRoamers 			= true; //default true. Whether to respawn roamer groups when all units in a particular roamer group are dead.
+			TAS_scavRespawnObjectives 		= true; //default true. Whether to respawn an objective (in the same position) when either all units in one of its guard groups is dead or when its count of pizzas is less than TAS_scavStartingValuables.
+
+
+
 	//////////////////////////////////
 	////Scripts/Functions Options/////
 	//////////////////////////////////
@@ -550,8 +568,6 @@
 			TAS_rebuyCostPrimary 		= 35; 						//additive rebuy cost if kit has primary weapon
 			TAS_rebuyCostSecondary 		= 50; 						//additive rebuy cost if kit has launcher weapon
 			TAS_rebuyCostHandgun 		= 15; 						//additive rebuy cost if kit has handgun weapon
-
-
 
 
 

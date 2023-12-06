@@ -34,7 +34,7 @@ while {true} do {
 		private _objectiveGroupPatrol = _groups select 2;
 
 		private _inventory = getItemCargo _box;
-		private _path = [_inventory, "TAS_RationPizza"] call BIS_fnc_findNestedElement;
+		private _path = [_inventory, TAS_scavValuableClassname] call BIS_fnc_findNestedElement;
 		private _numberPizzas = (_inventory select 1) select (_path select 1);
 		if (_numberPizzas < TAS_scavStartingValuables) then {
 			//some of the pizzas are missing, so there's definitely been players here.
@@ -81,7 +81,7 @@ while {true} do {
 			//if ({_x distance _box < TAS_scavPlayerDistanceThreshold} count allPlayers > 0) then {
 			if !([_box] call TAS_fnc_scavCheckIfNearbyPlayer) then {
 				clearItemCargoGlobal _box;
-				_box addItemCargoGlobal ["TAS_RationPizza", TAS_scavStartingValuables];
+				_box addItemCargoGlobal [TAS_scavValuableClassname, TAS_scavStartingValuables];
 
 				//delete old groups 
 				{

@@ -226,9 +226,10 @@ if (TAS_vassEnabled) then {
 };
 
 if (TAS_scavSystemEnabled) then {
-	if (!isNil "scavInsertObject") then {
+	private _object = missionNamespace getVariable [TAS_scavInsertActionObject, objNull]; //convert from string to object, otherwise we get errors
+	if (!isNull _object) then {
 		_actionID = [
-			scavInsertObject,											// Object the action is attached to
+			_object,											// Object the action is attached to
 			"Insert as Scav",										// Title of the action
 			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
 			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
@@ -248,7 +249,7 @@ if (TAS_scavSystemEnabled) then {
 		] call BIS_fnc_holdActionAdd;
 		TAS_holdActionIDs pushBack [scavAction,_actionID,"scavReenterAction"];
 	} else {
-		["Scav system enabled, but mission is missing the scavInsertObject to attach the insert action to for scavs to enter the AO!"] call TAS_fnc_error;
+		["Scav system enabled, but mission is missing the TAS_scavInsertActionObject to attach the insert action to for scavs to enter the AO!"] call TAS_fnc_error;
 	};
 };
 

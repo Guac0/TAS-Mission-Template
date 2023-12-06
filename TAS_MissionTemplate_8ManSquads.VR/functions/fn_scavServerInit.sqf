@@ -23,7 +23,7 @@ private _extracts = [];
 	} else {
 		//["fn_scavServerInit: missing at least one extraction point!",true] call TAS_fnc_error;
 	};
-} forEach ["TAS_extract_1","TAS_extract_2","TAS_extract_3","TAS_extract_4","TAS_extract_5","TAS_extract_6","TAS_extract_7","TAS_extract_8","TAS_extract_9","TAS_extract_10","TAS_extract_11","TAS_extract_12","TAS_extract_13","TAS_extract_14","TAS_extract_15"];
+} forEach TAS_scavExtractObjects;
 
 private _blacklistObjects = [];
 {
@@ -43,9 +43,9 @@ private _blacklistObjects = [];
 ///// OBJECTIVES ////////
 /////////////////////////
 //spawn objectives and make markers
-//private _scavZone = triggerArea TAS_ScavZone_Marker;
-private _centerZone = getMarkerPos "TAS_ScavZone_Marker";
-private _zoneSize = getMarkerSize "TAS_ScavZone_Marker";
+//private _scavZone = triggerArea TAS_scavAoMarker;
+private _centerZone = getMarkerPos TAS_scavAoMarker;
+private _zoneSize = getMarkerSize TAS_scavAoMarker;
 private _buildings = _centerZone nearObjects ["Building",_zoneSize select 0];
 private _enterableBuildings = _buildings select {count ([_x] call BIS_fnc_buildingPositions) > 6};
 private _objectivesToMake = TAS_scavNumberOfObjectives;
@@ -99,7 +99,7 @@ while {_objectivesToMake > 0} do { //dont get caught in a forever loop
 	private _potentialObjective = [] call TAS_fnc_scavFindSuitableBuilding;
 
 	private _objectiveBox = createVehicle ["VirtualReammoBox_camonet_F",(_potentialObjective buildingPos 0),[],0,"CAN_COLLIDE"]; //empty cache
-	_objectiveBox addItemCargoGlobal ["TAS_RationPizza", TAS_scavStartingValuables];
+	_objectiveBox addItemCargoGlobal [TAS_scavValuableClassname, TAS_scavStartingValuables];
 	_objectiveBox allowDamage false;
 
 	private _objectiveGroupGuard = createGroup _guardSide;
