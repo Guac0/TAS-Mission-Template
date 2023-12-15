@@ -106,11 +106,13 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
         _outputArray pushBack format ["%1 has been set to %2!",_settingName,_settingValue];
     };
 } forEach [
-	//////////////////////////////////
-	/////Scripts/Functions Options////
-	//////////////////////////////////
+	//CHVD CH View
+	["CHVD_allowNoGrass",CHVD_allowNoGrass,true],
+	["CHVD_maxView",CHVD_maxView,10000],
+	["CHVD_maxObj",CHVD_maxObj,10000],
 	//bft
     ["TAS_bftEnabled",TAS_bftEnabled,true],
+	["TAS_bftOnlyShowOwnGroup",TAS_bftOnlyShowOwnGroup,false],
 	//group icons
     ["TAS_3dGroupIcons",TAS_3dGroupIcons,true],
     ["TAS_3dGroupIconsTime",TAS_3dGroupIconsTime,0],
@@ -131,6 +133,40 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	["TAS_punishCivKillsSpectator",TAS_punishCivKillsSpectator,true],
 	["TAS_punishCivKillerTpToLeader",TAS_punishCivKillerTpToLeader,true],
 	["TAS_punishCivKillerHumiliate",TAS_punishCivKillerHumiliate,true],
+	//Scav Basic
+	["TAS_scavSystemEnabled",TAS_scavSystemEnabled,false],
+	["TAS_scavInsertActionObject",TAS_scavInsertActionObject,"scavActionObject"],
+	["TAS_scavSafeZoneTpHelper",TAS_scavSafeZoneTpHelper,"scavTpHelper"],
+	["TAS_scavAoMarker",TAS_scavAoMarker,"TAS_ScavZone_Marker"],
+	["TAS_scavBlacklistLocations",TAS_scavBlacklistLocations,["TAS_ObjectiveBlacklistObject_1","TAS_ObjectiveBlacklistObject_2","TAS_ObjectiveBlacklistObject_3","TAS_ObjectiveBlacklistObject_4","TAS_ObjectiveBlacklistObject_5","TAS_ObjectiveBlacklistObject_6","TAS_ObjectiveBlacklistObject_7","TAS_ObjectiveBlacklistObject_8","TAS_ObjectiveBlacklistObject_9","TAS_ObjectiveBlacklistObject_10","TAS_ObjectiveBlacklistObject_11","TAS_ObjectiveBlacklistObject_12","TAS_ObjectiveBlacklistObject_13","TAS_ObjectiveBlacklistObject_14","TAS_ObjectiveBlacklistObject_15"]],
+	["TAS_scavExtractObjects",TAS_scavExtractObjects,["TAS_extract_1","TAS_extract_2","TAS_extract_3","TAS_extract_4","TAS_extract_5","TAS_extract_6","TAS_extract_7","TAS_extract_8","TAS_extract_9","TAS_extract_10","TAS_extract_11","TAS_extract_12","TAS_extract_13","TAS_extract_14","TAS_extract_15"]],
+	["TAS_scavPmcMarkers",TAS_scavPmcMarkers,[]],
+	//Scav Advanced
+	["TAS_scavNumberOfObjectives",TAS_scavNumberOfObjectives,10],
+	["TAS_scavSkill",TAS_scavSkill,[["general",0.8],["courage",0.8],["aimingAccuracy",0.25],["aimingShake",0.25],["aimingSpeed",0.25],["commanding",0.8],["spotDistance",0.25],["spotTime",0.25],["reloadSpeed",0.3]]],
+	["TAS_scavRadioFreq",TAS_scavRadioFreq,"44"],
+	["TAS_scavValuableClassname",TAS_scavValuableClassname,"TAS_RationPizza"],
+	["TAS_scavRewardPerItem",TAS_scavRewardPerItem,100],
+	["TAS_scavStartingValuables",TAS_scavStartingValuables,10],
+	["TAS_scavNeededValuables",TAS_scavNeededValuables,3],
+	["TAS_scavSleepInterval",TAS_scavSleepInterval,120],
+	["TAS_scavPlayerDistanceThreshold",TAS_scavPlayerDistanceThreshold,400],
+	["TAS_scavObjectiveDistanceThreshold",TAS_scavObjectiveDistanceThreshold,200],
+	["TAS_scavPlayerSide",TAS_scavPlayerSide,west],
+	["TAS_scavAiSide",TAS_scavAiSide,independent],
+	["TAS_scavAiRoamerSide",TAS_scavAiRoamerSide,east],
+	["TAS_scavRoamersSmall",TAS_scavRoamersSmall,7],
+	["TAS_scavRoamersBig",TAS_scavRoamersBig,7],
+	["TAS_scavRoamersSmallPatrolChance",TAS_scavRoamersSmallPatrolChance,100],
+	["TAS_scavRoamersBigPatrolChance",TAS_scavRoamersBigPatrolChance,0],
+	["TAS_scavRoamersObjectiveDistance",TAS_scavRoamersObjectiveDistance,200],
+	["TAS_scavRoamersPlayerDistance",TAS_scavRoamersPlayerDistance,400],
+	["TAS_scavRespawnRoamers",TAS_scavRespawnRoamers,true],
+	["TAS_scavRespawnObjectives",TAS_scavRespawnObjectives,true],
+	//Spotting system/marking units
+	["TAS_addUnitMarkAction",TAS_addUnitMarkAction,false],
+	["TAS_markTargetOnMap",TAS_markTargetOnMap,true],
+	["TAS_markTarget3d",TAS_markTarget3d,true],
 	//////////////////////////////////
 	/////////Inventory Options////////
 	//////////////////////////////////
@@ -163,7 +199,7 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	["TAS_respawnSpectator",TAS_respawnSpectator,false],
 	["TAS_respawnSpectatorForceInterface",TAS_respawnSpectatorForceInterface,false],
 	["TAS_respawnSpectatorHideBody",TAS_respawnSpectatorHideBody,true],
-	["TAS_respawnSpectatorTime",TAS_respawnSpectatorTime,0],
+	["TAS_respawnSpectatorTime",TAS_respawnSpectatorTime,30],
 	//wave respawns
 	["TAS_waveRespawn",TAS_waveRespawn,false],
 	["TAS_waveTime",TAS_waveTime,300],
