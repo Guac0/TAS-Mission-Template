@@ -13,13 +13,13 @@ private _onConfirm =
 	
 	[_startIcons, {
 		if (_this) then {
-			TAS_do3dGroupIcons = true;
-			publicVariable "TAS_do3dGroupIcons";
+			TAS_3dGroupIcons = true;
+			publicVariable "TAS_3dGroupIcons";
 			private _clientsToSpawnOn = [0, -2] select (isDedicated); //is3DENMultiplayer || is3DEN
 			[] remoteExec ["TAS_fnc_3dGroupIcons",_clientsToSpawnOn];
 		} else {
-			TAS_do3dGroupIcons = false;
-			publicVariable "TAS_do3dGroupIcons";
+			TAS_3dGroupIcons = false;
+			publicVariable "TAS_3dGroupIcons";
 		};
 	}] remoteExec ["spawn",2];
 };

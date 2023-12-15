@@ -1,5 +1,7 @@
 respawnOnStart = -1; // 1 - Dont respawn on start. Don't run respawn script on start. 0 - Dont respawn on start. Run respawn script on start. 1 - Respawn on start. Run respawn script on start.
 disabledAI = 1; // 0: disabled - 1: enabled. Default: 0. Might want to disable this (0) for testing in MP so that the AI shows up.
+enableDebugConsole = 1; // Allows the logged in admin to use the debug console from the escape page.
+zeusCompositionScriptLevel = 2;
 
 //Enables the AceX kill tracker in your mission, shows at end screen
 class CfgDebriefingSections {
@@ -45,17 +47,38 @@ class CfgMusic
 	};
 };
 
+//Uncomment this in order to automatically apply the civ killer script to all civilians spawned during the mission.
+/*
+class Extended_Init_EventHandlers
+{
+    class CAManBase
+    {
+        class PunishCivKiller {
+            init = "if (side (_this select 0) == civilian) then {_this call TAS_fnc_punishCivKillerServer};"; //[_unit]
+        };
+    };
+};
+*/
+
 // Allows functions to log to the RPT file.
 allowFunctionsLog = 1;
 
 // As a security measure, functions are by default protected against rewriting during mission.
 // This restriction does not apply in missions previewed from the editor.
-allowFunctionsRecompile = "[0, 1] select (is3DENMultiplayer || is3DEN)";
+// allowFunctionsRecompile = "[0, 1] select (is3DENMultiplayer || is3DEN)"; //only enable in dev environment
+allowFunctionsRecompile = 1; //VASS requires always enabled
+
+// for VASS
+#include "VASS\gui\cfgGUI.hpp"
 
 class CfgFunctions
 {
 	class TAS //tag, so TAG_fnc_functionName
 	{
+		class init
+		{
+			class varsInit{file = "config.sqf"; preInit = 1;};
+		};
 		class Main //<ROOT>\Functions\Category\fn_functionName.sqf
 		{
 			//commented-out items are script files run once or no times in normal gameplay and as such can just be execVMed
@@ -68,7 +91,7 @@ class CfgFunctions
 			//class QS_icons.sqf;
 			class respawnGui;
 			class ServiceHeli;
-			//class show_Fps;
+			class showFps;
 			class afkScript;
 			class globalTfar;
 			class paradropAi;
@@ -81,12 +104,66 @@ class CfgFunctions
 			class assignLoadoutFromConfig;
 			class zeusInfoText;
 			class spawnAiWithWarning;
-			class transferGroupOwnership;
+			class zeusTransferGroupOwnership;
 			class toggleMusic;
 			class debugPerfRpt;
 			class updateDiscordRichPresence;
 			class 3dGroupIcons;
 			class zeus3dGroupIcons;
+			class applyHoldActions;
+			class zeusSpectatorOptions;
+			class zeusApplySpectator;
+			class waveRespawn;
+			class zeusMarkerFollow;
+			class openRespawnGui;
+			class automatedReviewer;
+			class roleBasedArsenal;
+			class trimGroupName;
+			class assignRespawnVicInit;
+			class autoDisableGroupIcons;
+			class briefing;
+			class zeusGlobalTfar;
+			class drawBlood;
+			class markCustomObjects;
+			class arsenalCurate;
+			class bossDisplayHealth;
+			class bossHandleDamage;
+			class bossInit;
+			class assignRespawnFlagpole;
+			class assignRespawnFlagpoleInit;
+			class vassZeusEditMoney;
+			class vassEndMission;
+			class vassPlayerInit;
+			class error;
+			class punishCivKillerLocal;
+			class punishCivKillerServer;
+			class zeusPunishPlayer;
+			class zeusPunishProtectAllUnitsOfSide;
+			class createZeusAdmin;
+			class createZeusGuac;
+			class zeusSpawnAttackDog;
+			class playCornerVideo;
+			class addExo;
+			class scavLoadout;
+			class scavPlayerInit;
+			class scavPlayerEnd;
+			class scavServerInit;
+			class scavRespawnObjectives;
+			class scavSpawnRoamers;
+			class scavRespawnRoamers;
+			class zeusScavLoadout;
+			class aceJuggernaut;
+			class zeusAceJuggernaut;
+			class zeusSetUnitOnFire;
+			class burnUnitOrArea;
+			class markUnit;
+			class addMarkingAction;
+			class zeusMarkUnit;
+			class zeusScavSpawnGroup;
+			class scavFindSuitableBuilding;
+			class scavInsertPlayer;
+			class scavCheckIfNearbyPlayer;
+			class scavHandleExtractSmokes;
 		};
 		class buildFob
 		{
@@ -98,11 +175,42 @@ class CfgFunctions
 			class deltaRallypoint;
 			class echoRallypoint;
 			class foxtrotRallypoint;
+			class golfRallypoint;
+			class hotelRallypoint;
 			class reconRallypoint;
-			//class FobBuild;
-			//class initFOB;
+			class cmdRallyOverrun;
+			class alphaRallyOverrun;
+			class bravoRallyOverrun;
+			class charlieRallyOverrun;
+			class deltaRallyOverrun;
+			class echoRallyOverrun;
+			class foxtrotRallyOverrun;
+			class golfRallyOverrun;
+			class hotelRallyOverrun;
+			class reconRallyOverrun;
+			class fobPackup;
+			class fobOverrun;
+			class fobBuild;
+			class initFOB;
+			class initRallypoints;
 		};
 	};
+
+	/*	KiloSwiss	*/
+	/*  https://steamcommunity.com/sharedfiles/filedetails/?id=2056899653  */
+	class KS
+	{
+		class ceaseFireFunctions
+		{
+			file = "functions\ceasefire";
+			class ceaseFire {};
+			class ceaseFireEH_onFiredMan {};
+			class ceaseFireEH_blockMuzzles {};
+		};
+	};
+
+	// for VASS
+	#include "VASS\CfgFunctions.hpp"
 };
 
 class CfgDiscordRichPresence {

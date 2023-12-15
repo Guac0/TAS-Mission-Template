@@ -5,17 +5,19 @@
 
 //_nearEntities = player nearEntities [["Man","Car","Tank"],150];
 //_nearEnemies = player countEnemy _nearEntities;
-private _enemySides = [side player] call BIS_fnc_enemySides;
-private _radius = TAS_rallyDistance; //parameter from initServer.sqf, default 150
-private _nearEnemies = allUnits select {_x distance player < _radius AND side _x in _enemySides};
-private _nearFriendlies = allUnits select {_x distance player < _radius AND side _x == playerSide}; //Note: playerSide will not update if player joins group on another side
+private _friendlySide 			= side group player;
+private _enemySides 			= [_friendlySide] call BIS_fnc_enemySides;
+private _radius 				= TAS_rallyDistance; //parameter from initServer.sqf, default 150
+private _nearUnits = allUnits select { _x distance player < _radius };
+private _nearEnemies = _nearUnits select {alive _x && { side _x in _enemySides && { !(_x getVariable ["ACE_isUnconscious",false]) } } };
 private _nearEnemiesNumber = count _nearEnemies;
+private _nearFriendlies = _nearUnits select {alive _x && { side _x == _friendlySide && { !(_x getVariable ["ACE_isUnconscious",false]) } } }; //limitation: does not account for multiple friendly sides
 private _nearFriendliesNumber = count _nearFriendlies;
-private _playerSide = side group player;
+private _rallypointPosATL 		= getPosAtl player;
 
 private _exit = false;
 if (TAS_rallyOutnumber) then {
-	if ( _nearEnemiesNumber > _nearFriendliesNumber) exitWith {_exit = true; systemChat format ["Rallypoint creation failure, enemies outnumber friendleis within %1m!",TAS_rallyDistance]};
+	if ( _nearEnemiesNumber > _nearFriendliesNumber) exitWith {_exit = true; systemChat format ["Rallypoint creation failure, enemies outnumber friendlies within %1m!",TAS_rallyDistance]};
 } else {
 	if ( _nearEnemiesNumber > 0 ) exitWith {_exit = true; systemChat format ["Rallypoint creation failure, enemies are within %1m!",TAS_rallyDistance]};
 };
@@ -25,15 +27,25 @@ if (TAS_rallyCharlieUsed == false) then { "rallypointCharlieMarker" setMarkerAlp
 if (TAS_rallyCharlieUsed == true) then {
 	{deleteVehicle _x} forEach TAS_rallypointCharlie;
 	//TAS_rallypointCharlieRespawn call BIS_fnc_removeRespawnPosition;
-	private _path = [TAS_rallypointLocations, "Charlie Rallypoint"] call BIS_fnc_findNestedElement;
+	private _path = [TAS_respawnLocations, "Charlie Rallypoint"] call BIS_fnc_findNestedElement;
 	private _indexOfOldRallyPair = _path select 0;
-	TAS_rallypointLocations deleteAt _indexOfOldRallyPair;
+	TAS_respawnLocations deleteAt _indexOfOldRallyPair;
 }; //if rallypoint already exists, delete it so the new one can be spawned
 
 //TAS_rallypointCharlieRespawn = [side player, getPos player, "Charlie Rallypoint"] call BIS_fnc_addRespawnPosition; //not private so we can delete later
-TAS_rallypointLocations pushBack [getPosAtl player,"Charlie Rallypoint"];
-publicVariable "TAS_rallypointLocations";
-"rallypointCharlieMarker" setMarkerPos getPos player; //updates the rallypoint's position on map
+TAS_respawnLocations pushBack [_rallypointPosATL,"Charlie Rallypoint"];
+publicVariable "TAS_respawnLocations";
+"rallypointCharlieMarker" setMarkerPosLocal getPos player; //updates the rallypoint's position on map
+private _color = "Default";
+switch (_friendlySide) do {
+	case west: { _color = "colorBLUFOR" };
+	case east: { _color = "colorOPFOR" };
+	case independent: { _color = "colorIndependent" };
+	case civilian: { _color = "colorCivilian" };
+	default { _color = "colorCivilian" };
+};
+"rallypointCharlieMarker" setMarkerColorLocal _color;	//last marker command is public
+"rallypointCharlieMarker" setMarkerText format ["%1 Rallypoint",groupId group player];
 
 if (TAS_useSmallRally == false) then {
 	TAS_rallypointCharlie = [getPos player, getDir player, call (compile (preprocessFileLineNumbers "buildfob\rallypointComposition.sqf"))] call BIS_fnc_ObjectsMapper; //not private so we can delete later
@@ -41,9 +53,15 @@ if (TAS_useSmallRally == false) then {
 	TAS_rallypointCharlie = [getPos player, getDir player, call (compile (preprocessFileLineNumbers "buildfob\rallypointSmallComposition.sqf"))] call BIS_fnc_ObjectsMapper;
 }; //spawn the rallypoint composition, size depends on mission params in initServer
 
-[player, format ["Charlie rallypoint established by %1 at gridref %2.", name player, mapGridPosition player]] remoteExec ["sideChat", _playerSide]; //tell everyone on same side about it
+[player, format ["%1 Rallypoint established by %2 at gridref %3.", groupId group player, name player, mapGridPosition player]] remoteExec ["sideChat", _friendlySide]; //tell everyone on same side about it
 
 TAS_rallyCharlieUsed = true; //tell game that the squad's rally is used and so it must be deleted before being respawned
 publicVariable "TAS_rallyCharlieUsed"; //might be unneccessary since only 1 person can be SL so don't need public, just exist on SL's machine
 										//might also need TAS_rallypointCharlieRespawn and TAS_rallypointCharlie to be public for functionality in case SL disconnects and is replaced
 											//for now, keep local to current SL machine since it's an edge case and would use up much bandwidth to publicVariable
+
+//systemChat "0";
+
+if (TAS_rallypointOverrun) then {
+	[_friendlySide,_enemySides,_radius,_nearEnemies,_nearFriendlies,_nearEnemiesNumber,_nearFriendliesNumber,_rallypointPosATL] remoteExec ["TAS_fnc_CharlieRallyOverrun",2]; //run overrun on server to avoid issues with FPS or client disconnect
+};

@@ -1,3 +1,3 @@
 ::updates other mission templates with script files (NOT mission.sqm), uses 8 member template as source
-robocopy "C:\Users\Guac\Documents\Arma 3\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_8ManSquads.VR" "C:\Users\Guac\Documents\Arma 3\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_5ManSquads.VR" *.* /e /purge /xf mission.sqm
+robocopy "C:\Users\Guac\Documents\Arma 3\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_8ManSquads.VR" "C:\Users\Guac\Documents\Arma 3\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_6ManSquads.VR" *.* /e /purge /xf mission.sqm
 robocopy "C:\Users\Guac\Documents\Arma 3\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_8ManSquads.VR" "C:\Users\Guac\Documents\Arma 3\mpmissions\Github\TAS-Mission-Template\TAS_MissionTemplate_10ManSquads.VR" *.* /e /purge /xf mission.sqm

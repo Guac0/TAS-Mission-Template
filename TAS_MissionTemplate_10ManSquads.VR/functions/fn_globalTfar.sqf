@@ -32,6 +32,8 @@ if (_playerRadiosAreGlobal == false) then { //if player has not had radio set to
 		diag_log format ["TAS_fnc_globalTFAR applied successfully."];
 	}] remoteExec ["spawn",_humanPlayers];
 
+	missionNamespace setVariable ["playersRadioGlobal", true];
+
 } else { //if radio is already global, then undo it back to the cached settings
 	
 	[[],{
@@ -42,6 +44,8 @@ if (_playerRadiosAreGlobal == false) then { //if player has not had radio set to
 		
 		diag_log format ["TAS_fnc_globalTFAR undone successfully."];
 	}] remoteExec ["spawn",_humanPlayers];
+
+	missionNamespace setVariable ["playersRadioGlobal", false];
 
 };
 
