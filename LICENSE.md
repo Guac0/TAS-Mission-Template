@@ -1,0 +1,1 @@
+This work is licensed under the Arma Public License Share Alike (APL-SA). Please view the README.md for more information, and visit the official license website for the full text of the license: https://www.bohemia.net/community/licenses/arma-public-license-share-alike
