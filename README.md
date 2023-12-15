@@ -25,7 +25,9 @@ It aims to provide a common baseline of features for mission creators and player
 4. Open the mission file in the 3den Editor.
    - It will be under the `mpmissions` folder.
 5. You will now be in the 3den Editor view. There are a few distinct sections of the template, such as required items (for scripts to function), useful examples that you can delete if you're not using them, and the players. Read the comment modules scattered around each section and each item in each section to see what's going on.
-6. This step is interchangable with the 3den Editor customization step. You should open `config.sqf` and read through each option to configure the Mission Template's scripts settings. Note that enabling some scripts requires corressponding objects in the 3den Editor part of the template to exist, so read the comments carefully before deleting items in the editor view (although the scripts are largely fault-tolerant and will disable themselves if a required object is missing). However, the default settings in `config.sqf` should be suitable for most missions!
+6. This step is interchangable with the 3den Editor customization step. You should open `config.sqf` and read through each option to configure the Mission Template's scripts settings.
+   - Note that enabling some scripts requires corresponding objects in the 3den Editor part of the template to exist, so read the comments carefully before deleting items in the editor view (although the scripts are largely fault-tolerant and will disable themselves if a required object is missing). 
+   - However, the default settings in `config.sqf` should be suitable for most missions!
 7. Now that you have the Mission Template configured, you can build your mission as normal.
 - If you have already built your mission and wish to merge it, make sure to merge it INTO the Mission Template's 3den file, as doing it the other way around will not copy over the script files or mission settings (the ones you configure in the `Settings` tab of the 3den Editor).
 8. Make sure to test your mission! In addition to your normal mission testing, you should do the following to make sure you set up the Mission Template correctly:
@@ -77,7 +79,9 @@ My response rate will vary according to my current responsibilities, but it will
 
 All your derivative work must comply with the license(s) that this work is under. See the licensing section for more details.
 
-This Mission Template and its components, while fairly modular, are intended to be used as one cohesive unit. Assuming your usage case complies with the license(s) this work is under, then you can attempt to take sections of this Mission Template and use them in different works (assuming those works comply with anything restrictions that this work places on derivative work). However, I reserve the right to limit support for cases that integrate only some of my work, as maintaining skeletonized sections of the codebase is difficult.
+This Mission Template and its components, while fairly modular, are intended to be used as one cohesive unit. Assuming your usage case complies with the license(s) this work is under, then you can attempt to take sections of this Mission Template and use them in different works (assuming those works comply with the few restrictions that this work places on derivative work).
+
+However, I reserve the right to limit support for cases that integrate only some of my work, as maintaining skeletonized sections of the codebase is difficult.
 
 ## Thank yous and Licensing
 
@@ -90,6 +94,8 @@ Thank you to notable figures in the Arma community who have made their scripts a
 - The TMF mission framework (the briefing template and readme licensing inspiration)
 - Others (mostly forum/discord posters who've helped me but I've forgotten their names).
 This shared code is licensed under their original terms, usually [APL-SA](https://www.bohemia.net/community/licenses/arma-public-license-share-alike) or adjacent.
+
+
 
 This Mission Template overall, namely my first-party contributions, is licensed under [APL-SA](https://www.bohemia.net/community/licenses/arma-public-license-share-alike). Please pay attention to Section 3 of the license, which refers to your specific duties in attribution and maintaining its share-alike status.
 If you use this mission template (in its entirity or partially), please do the following:
