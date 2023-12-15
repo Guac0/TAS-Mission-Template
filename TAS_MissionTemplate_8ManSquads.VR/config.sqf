@@ -1,3 +1,9 @@
+/*
+	This is a mission template brought to you by Guac.
+	Please see the GitHub repository for the full README, licensing, support, and new releases:
+	https://github.com/Guac0/TAS-Mission-Template 
+*/
+
 ///////////////////////////////////////////////////
 ///////////////Mission Maker Options///////////////
 ///////////////////////////////////////////////////
@@ -610,36 +616,21 @@
 
 
 
-		TAS_templateVersion 	= 11.2; //if it's a major release (like 10.0), note that arma will truncate the empty decimal to just '10'
+		TAS_templateVersion 	= 12.0; //if it's a major release (like 10.0), note that arma will truncate the empty decimal to just '10'
 		//publicVariable "TAS_templateVersion";
 
 
 		TAS_doTemplateBriefing 	= true;
 		//publicVariable "TAS_doTemplateBriefing";
 		TAS_templateBriefing = [
-			"1. Made Rallypoint names adapt to current group names (yes, this means that 'Rally McRallypoint' will be shown as the name if you name your squad like that).",
-			"2. Added respawn on flagpole option using the TAS respawnGUI.",
-			"3. Fixed the respawn button when attempting to use respawn vehicles.",
-			"4. If you choose the 'EXIT' button when attempting to use the TAS respawn GUI, you can now re-open the GUI by choosing the appropriate action at the medical box in spawn.",
-			"5. Added some hidden systems that your Zeus may choose to enable...",
+			"1. Added various torture zeus modules for Zeuses to use on the playerbase (set units on fire, spawn attack dog, timeout player, make unit into juggernaut, etc). Fun times ahead!",
+			"2. Added Cease Fire Zone, which Zeus may apply to arsenal areas to prevent weapons from being fired near them. Y'know, cause y'all couldn't behave...",
+			"3. Added an optional system that punishes players for killing multiple civilians. Disabled by default (which I'm sure that many of you are thankful for).",
+			"4. Fixed drawing blood not actually lowering the donator's blood levels, and make the draw blood action faster to complete. Why yes, you can in fact drain enough blood from someone to kill them.",
+			"5. Updated the automatic inventory population to use advanced medical items, like specialized bandages. Patch those boo-boos!",
 			"Please visit the 'Mission Template' section in the mission notes (in the top left of the map screen) to be aware of the enabled toggleable features present in this mission, and check your custom keybindings for the 'TAS Mission Template' section to access the various custom keybinds we have.",
 			"You will only receive this message once every time you join a mission with a new mission template version. Enjoy the mission!"
 		];
-		/*
-		1. Converted Arsenal Curate into Standalone Function (easier to use on your custom arsenals)
-		2. Refactored various sleeps and waitUntils to allow for better initialization order (can brief in map screen)
-		3. WIP boss
-		4. Separated FOB and rallypoint systems in options/script files
-		5. Made rallypoint names adapt to current group names instead of being set statically
-		6. Changed the default value of respawnSpectatorTime to be non-0 to avoid confusion
-		7. Added respawnGUI button to AceHealObject so that players can open the respawn menu after choosing to hit EXIT instead of choosing an option
-		8. Added respawn on flagpole option
-		9. Added built in support for Virtual Arsenal Shop System script
-		10. Cleanup up outdated comments in mission.sqm
-		11. Fixed unclear wording for markCustomObjects script
-		12. Fixed respawnInVehicle button not working
-		13. Fixed template update message not showing
-		*/
 		//publicVariable "TAS_templateBriefing"; //is probably a problematically-large var to share 
 
 
