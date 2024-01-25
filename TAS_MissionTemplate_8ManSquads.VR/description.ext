@@ -164,6 +164,8 @@ class CfgFunctions
 			class scavInsertPlayer;
 			class scavCheckIfNearbyPlayer;
 			class scavHandleExtractSmokes;
+			class saveStorageInit;
+			class saveStorageOpen;
 		};
 		class buildFob
 		{

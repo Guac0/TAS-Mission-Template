@@ -115,6 +115,56 @@ if (!isNil "AceHealObject") then { //check if the ace heal object actually exist
 		//systemChat "Respawn with Arsenal Loadout disabled.";
 		//diag_log text "Respawn with Arsenal Loadout disabled.";
 	};
+	if (TAS_playerStorage) then {
+		_actionID = [
+			AceHealObject,											// Object the action is attached to
+			"Open Player Storage Box",										// Title of the action
+			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
+			"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
+			"_this distance _target < 25",						// Condition for the action to be shown
+			"_caller distance _target < 25",						// Condition for the action to progress
+			{},													// Code executed when action starts
+			{},													// Code executed on every progress tick
+			{
+				private _container = player getVariable ["TAS_playerStorageBox",objNull];
+				_container setPos player; //tp to close enough for open to work
+				player action ["Gear",_container];
+			},												// Code executed on completion
+			{},													// Code executed on interrupted
+			[],													// Arguments passed to the scripts as _this select 3
+			2,													// Action duration [s]
+			3,													// Priority
+			false,												// Remove on completion
+			false												// Show in unconscious state 
+		] call BIS_fnc_holdActionAdd;
+		TAS_holdActionIDs pushBack [AceHealObject,_actionID,"open_storage"];
+
+		if !(TAS_storageFullSave) then { //Don't bother to save if we're already autosaving
+			_actionID = [
+				AceHealObject,											// Object the action is attached to
+				"Save Player Storage Box",										// Title of the action
+				"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
+				"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
+				"_this distance _target < 25",						// Condition for the action to be shown
+				"_caller distance _target < 25",						// Condition for the action to progress
+				{},													// Code executed when action starts
+				{},													// Code executed on every progress tick
+				{
+					saveProfileNamespace;
+				},												// Code executed on completion
+				{},													// Code executed on interrupted
+				[],													// Arguments passed to the scripts as _this select 3
+				2,													// Action duration [s]
+				3,													// Priority
+				false,												// Remove on completion
+				false												// Show in unconscious state 
+			] call BIS_fnc_holdActionAdd;
+			TAS_holdActionIDs pushBack [AceHealObject,_actionID,"open_storage"];
+		};
+	} else {
+		//systemChat "Player storage box disabled.";
+		//diag_log text "Player storage box disabled.";
+	};
 };
 
 //resupply object

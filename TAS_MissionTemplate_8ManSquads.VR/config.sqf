@@ -275,6 +275,31 @@
 		TAS_roleBasedArsenals	= false; 						//default false
 		TAS_visibleArsenalBoxes = ["arsenal_1","arsenal_2"]; 	//default ["arsenal_1","arsenal_2"]
 
+	
+	/* Persistant Player Storage
+		Allows each player to use a persistant storage box that is unique to them.
+			They access it via an action on the AceHealObject.
+			Only they can access the contents.
+			The contents persist between missions.
+				If the player crashes, then the latest data will not be saved!
+
+			TAS_playerStorage controls whether the system is enabled/disabled.
+			TAS_playerStorageVar is the unique identifier used to save storage contents unique to your campaign.
+				Change this to a (short) name of your campaign. Try 5 characters or less.
+			TAS_storageClassname is the classname of the box used. This controls how much inventory space is available.
+			TAS_storageLocation is the location of the debug corner to spawn the boxes at.
+			TAS_storageFullSave controls whether a full save of profileNamespace is done after every time the box is opened.
+				Setting this to true fully saves the data each time its opened, so contents are not lost if the player crashes!
+				However, saving takes a long time depending on how bloated the player's profileNamespace save file is...
+				If full saves are disabled, then players can do a manual save at the AceHealObject.
+				Full saves are always done at the end of the mission (if ended with fn_vassEndMission) regardless of this setting's value.
+		*/
+		TAS_playerStorage 		= false; //default false
+		TAS_playerStorageVar 	= "Test"; //default "Test", CHANGE THIS (see above)
+		TAS_storageClassname 	= "ReammoBox_F "; //default "ReammoBox_F"
+		TAS_storageLocation 	= [0,0,0]; //default [0,0,0] (map origin)
+		TAS_storageFullSave 	= false; //default false
+
 
 
 
