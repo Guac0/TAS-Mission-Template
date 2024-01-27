@@ -126,13 +126,11 @@ if (!isNil "AceHealObject") then { //check if the ace heal object actually exist
 			{},													// Code executed when action starts
 			{},													// Code executed on every progress tick
 			{
-				private _container = player getVariable ["TAS_playerStorageBox",objNull];
-				_container setPos player; //tp to close enough for open to work
-				player action ["Gear",_container];
+				[] call TAS_fnc_saveStorageOpen;
 			},												// Code executed on completion
 			{},													// Code executed on interrupted
 			[],													// Arguments passed to the scripts as _this select 3
-			2,													// Action duration [s]
+			1,													// Action duration [s]
 			3,													// Priority
 			false,												// Remove on completion
 			false												// Show in unconscious state 

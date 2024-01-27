@@ -786,6 +786,10 @@ if (TAS_addUnitMarkAction) then {
 	[] spawn TAS_fnc_addMarkingAction;
 };
 
+if (TAS_playerStorage) then {
+	[] spawn TAS_fnc_saveStorageInit;
+};
+
 if (TAS_ModLog) then {
 	//TOOD chat not working?
 	private _logMessage = "";
@@ -832,6 +836,14 @@ if (TAS_ModLog) then {
 			[player,"I am running Alternative Running!"] remoteExec ["globalChat"];
 		};
 	};
+	if (isClass(configFile >> "CfgPatches" >> "FT_Scripts")) then { 
+		_shameMessage = format ["%1 is running War on the Frontier",name player];
+		_shameMessage remoteExec ["diag_log",2];
+		if (TAS_ModLogShame) then {
+			[player,"I am running War on the Frontier!"] remoteExec ["globalChat"];
+		};
+	};
+	
 
 	/*if (isClass(configFile >> "CfgPatches" >> "rhsusf_weapons")) then { 
 		//[player,"I am running AAA! Shame on me!"] remoteExec ["globalChat"];

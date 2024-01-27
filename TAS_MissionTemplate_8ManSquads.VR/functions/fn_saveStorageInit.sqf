@@ -2,7 +2,7 @@
 // Spawns their box at 0 0 0, sets up variables, loads inventory, adds action to AceHealObject
 
 //options
-params [["_containerClassname",TAS_storageClassname],["_spawnLocation",TAS_storageLocation]]; //default to supply crate and 0 0 0
+params [["_containerClassname",TAS_storageClassname],["_spawnLocation",TAS_storageLocation],["_debug",false]]; //default to supply crate and 0 0 0
 
 // check if player already has a box somehow
 if ((player getVariable ["TAS_playerStorageBox",false]) isNotEqualTo false) exitWith {
@@ -17,6 +17,8 @@ clearItemCargoGlobal _container;
 clearWeaponCargoGlobal _container;
 clearBackpackCargoGlobal _container;
 clearMagazineCargoGlobal _container;
+
+if (_debug) then { [format ["TAS_fnc_saveStorageInit: Created box %1",_container]] call TAS_fnc_error; };
 
 player setVariable ["TAS_playerStorageBox",_container];
 
@@ -42,7 +44,7 @@ TAS_fnc_setContents = {
 		clearBackpackCargoGlobal _addedContainer;
 		clearMagazineCargoGlobal _addedContainer;
 		
-		[ _addedContainer, _contents ] call TAG_fnc_setContents;
+		[ _addedContainer, _contents ] call TAS_fnc_setContents;
 	}forEach _containers;
 	
 	_fnc_addContents = {
@@ -78,11 +80,13 @@ TAS_fnc_setContents = {
 };
 
 //Add cargo back in
-[ _container, profileNamespace getVariable [format ["TAS_playerStorageBoxContents%1",TAS_playerStorageVar],[]] ] call TAG_fnc_setContents;
+[ _container, profileNamespace getVariable [format ["TAS_playerStorageBoxContents%1",TAS_playerStorageVar],[]] ] call TAS_fnc_setContents;
 
 // Save contents when box is closed
 _container addEventHandler ["ContainerClosed", {
-	params ["_container", "_unit"];
+	params ["_container", "_unit", ["_debug",true]];
+
+	if (_debug) then { [format ["TAS_fnc_saveStorageInit ContainerClosed: Operating on box %1",_container]] call TAS_fnc_error; };
 
 	TAS_fnc_getContents = {
 		// Code by Larrow
@@ -99,20 +103,28 @@ _container addEventHandler ["ContainerClosed", {
 		{
 			_x params[ "_type", "_object" ];
 			
-			_containerCargo set[ _forEachIndex, [ _type, _object call TAG_fnc_getContents ] ];
+			_containerCargo set[ _forEachIndex, [ _type, _object call TAS_fnc_getContents ] ];
 		}forEach _containerCargo;
 		
 		[ _cargo, _containerCargo ]
 	};
 
 	//Get the contents
-	private _containerContents = _container call TAG_fnc_getContents;
+	private _containerContents = [_container] call TAS_fnc_getContents;
+
+	if (_debug) then { [format ["TAS_fnc_saveStorageInit ContainerClosed: found container data %1",_containerContents]] call TAS_fnc_error; };
 
 	profileNamespace setVariable [format ["TAS_playerStorageBoxContents%1",TAS_playerStorageVar],_containerContents];
-	hint "Your personal storage container's inventory has been saved!\n\nNote: saved data will be lost if game crashes.";
+	//hint "Your personal storage container's inventory has been saved!\n\nNote: saved data will be lost if game crashes.";
 
 	_container setPos TAS_storageLocation;
 	
+	if (TAS_storageFullSave) then {
+		saveProfileNamespace;
+	};
+
+	if (_debug) then { [format ["TAS_fnc_saveStorageInit ContainerClosed: Finished operating on %1, data stored to %2 and container set to %3",_container,format ["TAS_playerStorageBoxContents%1",TAS_playerStorageVar],TAS_storageLocation]] call TAS_fnc_error; };
+
 	//Save storage inventory (old way)
 	/*
 	private _magazines = getMagazineCargo _box; //[["item1","item2"],[3,2]]
@@ -128,9 +140,8 @@ _container addEventHandler ["ContainerClosed", {
 // Allow player to open the box anywhere if configured
 if (TAS_storageOpenAnywhere) then {
 	// ace probably auto reapplies this after death?
-	private _openAction = ["storageOpenAction","Open Player Storage","",{private _money = profileNamespace getVariable TAS_vassShopSystemVariable; hint format ["You have %1$ in cash.",_money];},{true}] call ace_interact_menu_fnc_createAction;
+	private _openAction = ["storageOpenAction","Open Player Storage","",{[] call TAS_fnc_saveStorageOpen},{true}] call ace_interact_menu_fnc_createAction;
 	[player, 1, ["ACE_SelfActions"], _openAction] call ace_interact_menu_fnc_addActionToObject;
-
 };
 
 // Add items (old way)

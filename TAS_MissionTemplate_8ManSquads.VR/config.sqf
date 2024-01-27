@@ -279,6 +279,7 @@
 	/* Persistant Player Storage
 		Allows each player to use a persistant storage box that is unique to them.
 			They access it via an action on the AceHealObject.
+				If you wish to add the action to other objects, go to functions/applyHoldActions.sqf, find the action, and copy it and change "AceHealObject" to the variable name of your object
 			Only they can access the contents.
 			The contents persist between missions.
 				If the player crashes, then the latest data will not be saved!
@@ -287,18 +288,20 @@
 			TAS_playerStorageVar is the unique identifier used to save storage contents unique to your campaign.
 				Change this to a (short) name of your campaign. Try 5 characters or less.
 			TAS_storageClassname is the classname of the box used. This controls how much inventory space is available.
+				"Box_IND_Grenades_F" can fit 6 MX rifles, "Box_IND_Support_F" can fit 12 MX rifles, "Box_IND_Wps_F" can fit 25 MX rifles, "I_supplyCrate_F" can fit 50 MX rifles.
 			TAS_storageLocation is the location of the debug corner to spawn the boxes at.
 			TAS_storageFullSave controls whether a full save of profileNamespace is done after every time the box is opened.
 				Setting this to true fully saves the data each time its opened, so contents are not lost if the player crashes!
-				However, saving takes a long time depending on how bloated the player's profileNamespace save file is...
+				However, saving may take a long time depending on how bloated the player's profileNamespace save file is...
 				If full saves are disabled, then players can do a manual save at the AceHealObject.
 				Full saves are always done at the end of the mission (if ended with fn_vassEndMission) regardless of this setting's value.
 		*/
-		TAS_playerStorage 		= false; //default false
-		TAS_playerStorageVar 	= "Test"; //default "Test", CHANGE THIS (see above)
-		TAS_storageClassname 	= "ReammoBox_F "; //default "ReammoBox_F"
-		TAS_storageLocation 	= [0,0,0]; //default [0,0,0] (map origin)
-		TAS_storageFullSave 	= false; //default false
+		TAS_playerStorage 		= true; 	//default false
+		TAS_playerStorageVar 	= "Test"; 	//default "Test", CHANGE THIS (see above)
+		TAS_storageClassname 	= "Box_IND_Support_F"; //default "Box_IND_Support_F"
+		TAS_storageLocation 	= [0,0,0]; 	//default [0,0,0] (map origin)
+		TAS_storageFullSave 	= true; 	//default true
+		TAS_storageOpenAnywhere = false; 	//default false
 
 
 
