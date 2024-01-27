@@ -166,6 +166,8 @@ class CfgFunctions
 			class scavHandleExtractSmokes;
 			class saveStorageInit;
 			class saveStorageOpen;
+			class vassGetLoadoutCost;
+			class vassGetLoadoutCostRecursive;
 		};
 		class buildFob
 		{

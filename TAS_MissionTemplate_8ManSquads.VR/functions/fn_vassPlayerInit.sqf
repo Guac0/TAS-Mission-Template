@@ -59,7 +59,7 @@ seeSelfBalanceAction = ["viewSelfBalance","View Current Balance","",{private _mo
 	_shopAction = [_shop,"Open Shop",5] call TER_fnc_addShop;
 	} else {
 		if (isServer || (serverCommandAvailable "#logout") || (!isNull (getAssignedCuratorLogic player))) then { //only do visual error if server (singleplayer testing) or admin or zeus
-			systemchat format ["WARNING: One or more objects (%1) in TAS_vassShops does not exist!",_x];
+			systemchat format ["CRITICAL ERROR: One or more objects (%1) in TAS_vassShops does not exist!",_x];
 		};
 		diag_log text format ["TAS-MISSION-TEMPLATE WARNING: One or more objects (%1) in TAS_vassShops does not exist!",_x];
 	};

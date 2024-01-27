@@ -597,11 +597,9 @@
 				"All free items (cosmetics) are in the red crate's ace arsenal, everything else is in the other box.",
 				"Save your loadout at the sign to be able to rebuy it in the future for a small cost."
 			];
-			TAS_vassShops 				= ["arsenal_1","arsenal_2"]; //variable names of shop objects. note: if doing limited quantities and multiple shops, quantities will probably not be shared between shops
+			TAS_vassShops 				= ["arsenal_1","arsenal_2"]; //variable names of shop objects. These should ideally have the same shop contents, as rebuy cost is calculated from the first one in the list. note: if doing limited quantities and multiple shops, quantities will probably not be shared between shops
 			TAS_vassSigns 				= ["AceHealObject"]; 		//variable names of rebuy sign objects
-			TAS_rebuyCostPrimary 		= 35; 						//additive rebuy cost if kit has primary weapon
-			TAS_rebuyCostSecondary 		= 50; 						//additive rebuy cost if kit has launcher weapon
-			TAS_rebuyCostHandgun 		= 15; 						//additive rebuy cost if kit has handgun weapon
+			TAS_vassRebuyFactor			= 0.5; 						// Percentage amount (in decimal form, so 1 = 100%) of total loadout value that a rebuy should cost. Default: 0.5 (50%)
 
 
 

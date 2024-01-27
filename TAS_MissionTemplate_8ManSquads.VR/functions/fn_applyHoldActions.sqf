@@ -212,15 +212,8 @@ if (TAS_vassEnabled) then {
 				{},													// Code executed on every progress tick
 				{
 					TAS_rebuyCost = 0; //setup rebuy variables, not private because need to escape the if statements
-					if !(primaryWeapon player == "") then { //if player has a primary weapon, add cost
-						TAS_rebuyCost = TAS_rebuyCost + TAS_rebuyCostPrimary;
-					};
-					if !(secondaryWeapon player == "") then { //if player has a secondary (launcher) weapon, add cost
-						TAS_rebuyCost = TAS_rebuyCost + TAS_rebuyCostSecondary;
-					};
-					if !(handgunWeapon player == "") then { //if player has a handgun weapon, add cost
-						TAS_rebuyCost = TAS_rebuyCost + TAS_rebuyCostHandgun;
-					};
+					private _cost = [TAS_vassShops select 0] call TAS_fnc_vassGetLoadoutCost;
+					TAS_rebuyCost = _cost * TAS_vassRebuyFactor;
 					player setVariable ["rebuyCost",TAS_rebuyCost];
 					player setVariable ["arsenalLoadout",getUnitLoadout player];
 					hint format ["Note: it will cost %1$ to rebuy your saved loadout.",TAS_rebuyCost];
