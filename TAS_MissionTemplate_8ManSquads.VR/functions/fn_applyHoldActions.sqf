@@ -69,7 +69,7 @@ if (!isNil "AceHealObject") then { //check if the ace heal object actually exist
 	} else {
 		//systemChat "Ace Spectate Object disabled.";
 	};
-	if (TAS_respawnArsenalGear) then {
+	if (TAS_respawnArsenalGear && !(TAS_vassEnabled)) then {
 		_actionID = [
 			AceHealObject,											// Object the action is attached to
 			"Manually Save Loadout",										// Title of the action
@@ -206,8 +206,8 @@ if (TAS_vassEnabled) then {
 				"Save Loadout",										// Title of the action
 				"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
 				"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
-				"_this distance _target < 5",						// Condition for the action to be shown
-				"_caller distance _target < 5",						// Condition for the action to progress
+				"_this distance _target < 15",						// Condition for the action to be shown
+				"_caller distance _target < 15",						// Condition for the action to progress
 				{},													// Code executed when action starts
 				{},													// Code executed on every progress tick
 				{
@@ -233,8 +233,8 @@ if (TAS_vassEnabled) then {
 				"Rebuy Loadout",										// Title of the action
 				"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
 				"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
-				"_this distance _target < 5",						// Condition for the action to be shown
-				"_caller distance _target < 5",						// Condition for the action to progress
+				"_this distance _target < 15",						// Condition for the action to be shown
+				"_caller distance _target < 15",						// Condition for the action to progress
 				{},													// Code executed when action starts
 				{},													// Code executed on every progress tick
 				{ 
