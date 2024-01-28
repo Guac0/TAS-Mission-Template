@@ -27,19 +27,23 @@ params ["_shop",["_unit",player],["_debug",false]]; //TODO change to false when 
 private _loadout = getUnitLoadout _unit;
 private _cost = 0;
 
-[format ["TAS_fnc_vassGetRebuyCost: Checking loadout of %1",_loadout]] call TAS_fnc_error;
+if (typeName _shop == "STRING") then {
+    _shop = missionNamespace getVariable [_shop, objNull]; //convert from string to object, otherwise we get errors
+};
+
+[format ["TAS_fnc_vassGetLoadoutCostRecursive: Checking loadout of %1",_loadout]] call TAS_fnc_error;
 
 {
     private _loadoutContainer = _x;
-    if (_debug) then { [format ["TAS_fnc_vassGetRebuyCost: Checking loadout section of index %1 with value %2",_forEachIndex,_loadoutContainer]] call TAS_fnc_error; };
+    if (_debug) then { [format ["TAS_fnc_vassGetLoadoutCostRecursive: Checking loadout section of index %1 with value %2",_forEachIndex,_loadoutContainer]] call TAS_fnc_error; };
 
-    private _returnedCost = [_loadoutContainer,_shop] call TAS_fnc_vassGetCostRecursive;
+    private _returnedCost = [_loadoutContainer,_shop] call TAS_fnc_vassGetLoadoutCostRecursive;
     _cost = _cost + _returnedCost;
 
-    if (_debug) then { [format ["TAS_fnc_vassGetRebuyCost: Loadout section costed %1 for a total cost of %2",_returnedCost,_cost]] call TAS_fnc_error; };
+    if (_debug) then { [format ["TAS_fnc_vassGetLoadoutCostRecursive: Loadout section costed %1 for a total cost of %2",_returnedCost,_cost]] call TAS_fnc_error; };
 } foreach _loadout;
 
-[format ["TAS_fnc_vassGetRebuyCost: Total loadout cost: %1",_cost]] call TAS_fnc_error;
+[format ["TAS_fnc_vassGetLoadoutCostRecursive: Total loadout cost: %1",_cost]] call TAS_fnc_error;
 
 //_unit setVariable ["TAS_playerRebuyCost",_rebuyCost]; //TODO save under player object or profileNamespace?
 
