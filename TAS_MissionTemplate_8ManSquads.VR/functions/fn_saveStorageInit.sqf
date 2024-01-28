@@ -84,7 +84,7 @@ TAS_fnc_setContents = {
 
 // Save contents when box is closed
 _container addEventHandler ["ContainerClosed", {
-	params ["_container", "_unit", ["_debug",true]];
+	params ["_container", "_unit", ["_debug",false]];
 
 	if (_debug) then { [format ["TAS_fnc_saveStorageInit ContainerClosed: Operating on box %1",_container]] call TAS_fnc_error; };
 
