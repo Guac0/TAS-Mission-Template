@@ -168,6 +168,11 @@ class CfgFunctions
 			class saveStorageOpen;
 			class vassGetLoadoutCost;
 			class vassGetLoadoutCostRecursive;
+			class lodgingAddBuyActions;
+			class lodgingBuyItem;
+			class lodgingGetNearbyItems;
+			class lodgingSpawnItem;
+			class lodgingSpawnItems;
 		};
 		class buildFob
 		{
