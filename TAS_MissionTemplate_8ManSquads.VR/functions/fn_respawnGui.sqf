@@ -9,7 +9,7 @@ disableSerialization;
 //various vars
 private ["_respawnMode","_respawnLocations","_respawnGUI","_respawnLocationsNumber","_background","_button","_currentSpacing","_currentNestedIndex","_currentRespawnLocation","_currentRespawnLocationName"];
 //colors
-private ["_black","_red","_blue","_green","_cyan"];
+private ["_black","_red","_blue","_green","_cyan","_white"];
 _black = [0,0,0,0.5];
 _red = [1,0,0,0.5];
 _blue = [0,1,0,0.5];
