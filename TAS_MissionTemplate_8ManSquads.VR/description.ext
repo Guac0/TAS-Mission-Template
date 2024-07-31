@@ -173,6 +173,10 @@ class CfgFunctions
 			class lodgingGetNearbyItems;
 			class lodgingSpawnItem;
 			class lodgingSpawnItems;
+			class cam_main;
+			class cam_camDataGrabber;
+			class cam_modifyCam;
+			class cam_transition;
 		};
 		class buildFob
 		{
