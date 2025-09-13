@@ -98,6 +98,7 @@ _menuRespawnTicketText ctrlCommit 0;
 //====================================================
 
 // sample data: TAS_respawnLocations = [[vic1,"Respawn Vic 1"],[vic2,"Respawn Vic 2"],[vic3,"Respawn Vic 3"]];
+// [[[111.713,133.848,0.00143909],"Cmd Rallypoint"]]
 // TAS_respawnLocations = [[flagpole1,"Flag Pole Number 1"]];
 
 TAS_inRespawnMenu = true;
@@ -109,7 +110,7 @@ _currentSpacing = 1; //I set this to two because i am placing text at the top of
 //====================================================
 
 for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-based arrays
-	_currentNestedIndex = _respawnLocations select _i;
+	_currentNestedIndex = _respawnLocations select _i; //A single respawn object, which is an array containing further fields with data on location and name
 	_currentRespawnLocation = _currentNestedIndex select 0;
 	_currentRespawnLocationName = _currentNestedIndex select 1;
 	if (typeName _currentRespawnLocation == "STRING") then { //translate from string to object if set by the zeus module or other method that sets vehicleVarName during runtime instead of via eden editor var name field
@@ -142,7 +143,7 @@ for "_i" from 0 to (_respawnLocationsNumber - 1) do { //-1 to account for zero-b
 		_button = _respawnGui ctrlCreate ["RscButton", -1]; 
 		_button ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
 		//_background ctrlSetTextColor _blue;
-		_button ctrlSetText format ["Respawn at %1 Rallypoint",_currentNestedIndex select 2]; //special name stored in the 3rd index (well, 2nd?)
+		_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName]; //special name stored in the 3rd index (well, 2nd?)
 		_button buttonSetAction format ["player setPosAsl %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false; private _arrayStrings = ['TAS MISSION TEMPLATE: respawn GUI: teleported player',name player,'to rallypoint! Rallypoint pos:',%1,', player pos ATL:',getPosATL player]; private _output = _arrayStrings joinString ' '; _output remoteExec ['diag_log',2];",_currentRespawnLocation,_currentRespawnLocationName];
 	};
 	if (_respawnMode == "static") then {
@@ -259,7 +260,7 @@ while {TAS_inRespawnMenu} do { //respawn the menu if player closes it without pi
 				_button = _respawnGui ctrlCreate ["RscButton", -1]; 
 				_button ctrlSetPosition [0.275,0.03 + 0.08 * _currentSpacing,0.45,0.05];
 				//_background ctrlSetTextColor _blue;
-				_button ctrlSetText format ["Respawn at %1 Rallypoint",_currentNestedIndex select 2]; //special name stored in the 3rd index (well, 2nd?)
+				_button ctrlSetText format ["Respawn at %1",_currentRespawnLocationName]; //special name stored in the 3rd index (well, 2nd?)
 				_button buttonSetAction format ["player setPosAsl %1; (uiNamespace getVariable ['TAS_respawnGUI',displayNull]) closeDisplay 1; TAS_inRespawnMenu = false; private _arrayStrings = ['TAS MISSION TEMPLATE: respawn GUI: teleported player',name player,'to rallypoint! Rallypoint pos:',%1,', player pos ATL:',getPosATL player]; private _output = _arrayStrings joinString ' '; _output remoteExec ['diag_log',2];",_currentRespawnLocation,_currentRespawnLocationName];
 			};
 			if (_respawnMode == "static") then {
