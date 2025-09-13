@@ -831,7 +831,7 @@
 
 		//logging information for certain mods, with optional chat messages
 		TAS_ModLog 				= true;	//default true
-		TAS_ModLogShame 		= true; //default true
+		TAS_ModLogShame 		= false; //default false
 		//publicVariable "TAS_ModLog";
 		//publicVariable "TAS_ModLogShame";
 
