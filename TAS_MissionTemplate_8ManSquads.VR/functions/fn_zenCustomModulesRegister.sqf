@@ -230,6 +230,10 @@ if (true) then { //always be available
 		_this call TAS_fnc_zeusMarkUnit;
 	}];
 
+	_moduleList pushBack ["TAS Endex", {
+		_this call TAS_fnc_zeusEndex;
+	}];
+
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
 	//if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Zeus Flagpole Respawn", "Disabled."]]; };

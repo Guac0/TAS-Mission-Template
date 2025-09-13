@@ -178,6 +178,8 @@ class CfgFunctions
 			class cam_modifyCam;
 			class cam_transition;
 			class aceArsenalCache;
+			class endex;
+			class zeusEndex;
 		};
 		class buildFob
 		{
