@@ -177,6 +177,7 @@ class CfgFunctions
 			class cam_camDataGrabber;
 			class cam_modifyCam;
 			class cam_transition;
+			class aceArsenalCache;
 		};
 		class buildFob
 		{

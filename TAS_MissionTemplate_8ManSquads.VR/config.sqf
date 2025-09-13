@@ -275,6 +275,17 @@
 		TAS_roleBasedArsenals	= false; 						//default false
 		TAS_visibleArsenalBoxes = ["arsenal_1","arsenal_2"]; 	//default ["arsenal_1","arsenal_2"]
 
+	/* Ace Arsenal Cache
+		Each arsenal placed in the mission is stored as a unique entry in the mission file. If the arsenal has lots of items, it takes up lots of space. This caches many arsenals into a single one to save file space.
+			Note: the options here are only compatible with a single arsenal. Multiple arsenals can be placed by copying the relevant code in initPlayerLocal.sqf
+			To use:
+				1. Change TAS_aceArsenalCache to True
+				2. Export the contents of the arsenals to TAS_aceArsenalCacheItems, then remove the arsenals (but keep the arsenal boxes themselves)
+				3. Give each of the arsenals a variable name and add them to TAS_aceArsenalCacheBoxes
+		*/
+		TAS_aceArsenalCache			= false;					 //default false
+		TAS_aceArsenalCacheItems 	= ["Item1","Item2","Item3"]; //["Item1","Item2","Item3"];
+		TAS_aceArsenalCacheBoxes	= ["arsenal_1","arsenal_2"]; //default ["arsenal_1","arsenal_2"]
 	
 	/* Persistant Player Storage
 		Allows each player to use a persistant storage box that is unique to them.
