@@ -10,6 +10,7 @@
 	Return: true
 
 	Examples: 
+	[TAS_aceArsenalCacheItems,TAS_aceArsenalCacheBoxes] spawn TAS_fnc_aceArsenalCache; //Add arsenals with values as set in config.sqf for the local player
 	[["Item1","Item2","Item3"],["arsenal_1","arsenal_2"]] spawn TAS_fnc_aceArsenalCache; //Add arsenals only for the local player
 	[["Item1","Item2","Item3"],["arsenal_1","arsenal_2"]] remoteExec ["TAS_fnc_aceArsenalCache"]; //Add arsenals for all players. NOTE: if the arsenals are large, try not to send their contents over the network using remoteexec!
 */

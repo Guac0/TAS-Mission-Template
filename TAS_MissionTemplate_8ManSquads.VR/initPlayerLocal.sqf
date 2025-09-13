@@ -707,6 +707,10 @@ if (TAS_aceWindowBreak) then {
 //apply hold actions
 [] call TAS_fnc_applyHoldActions;
 
+if (TAS_aceArsenalCache) then {
+	[TAS_aceArsenalCacheItems,TAS_aceArsenalCacheBoxes] spawn TAS_fnc_aceArsenalCache; //Add arsenals with values as set in config.sqf for the local player if enabled
+};
+
 if (TAS_arsenalCurate) then {
 	["arsenal_1","arsenal_2","arsenal_3","arsenal_4","arsenal_5","arsenal_6","arsenal_7","arsenal_8","arsenal_9","arsenal_10"] spawn TAS_fnc_arsenalCurate;
 		//template only provides 3 arsenals, but more are provided in case mission maker copy pastes them (they'll automatically be named arsenal_X)
