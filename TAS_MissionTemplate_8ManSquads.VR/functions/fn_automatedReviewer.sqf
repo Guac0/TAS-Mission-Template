@@ -280,6 +280,7 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	["TAS_fpsDisplayEnabled",TAS_fpsDisplayEnabled,true],
 	["TAS_fixDeathColor",TAS_fixDeathColor,true],
 	["TAS_trimGroupNames",TAS_trimGroupNames,true],
+	["TAS_diaryEnvironmentEnabled",TAS_diaryEnvironmentEnabled,true],
 	//////////////////////////////////
 	///////Logistics Options//////////
 	//////////////////////////////////

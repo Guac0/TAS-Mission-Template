@@ -589,6 +589,10 @@ if (TAS_rallypointsEnabled) then {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Rallypoints System", "Disabled."]]; };
 };
 
+//Add environment diary entry
+if (TAS_diaryEnvironmentEnabled) then {
+	[] spawn TAS_fnc_diaryEnvironment;
+};
 
 //global tfar diary entry
 if (TAS_globalTfarEnabled) then { 

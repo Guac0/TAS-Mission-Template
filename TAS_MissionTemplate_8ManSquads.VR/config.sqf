@@ -716,6 +716,8 @@
 		TAS_trimGroupNames 		= true;
 		//publicVariable "TAS_trimGroupNames";
 
+		//Adds a diary entry that automatically populates with various environmental details (time, weather, sunrise/sunset, etc)
+		TAS_diaryEnvironmentEnabled = true; //default true
 
 
 

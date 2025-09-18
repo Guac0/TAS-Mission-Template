@@ -180,6 +180,7 @@ class CfgFunctions
 			class aceArsenalCache;
 			class endex;
 			class zeusEndex;
+			class diaryEnvironment;
 		};
 		class buildFob
 		{
