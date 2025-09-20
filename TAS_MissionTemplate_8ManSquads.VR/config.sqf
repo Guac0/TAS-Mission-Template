@@ -179,6 +179,14 @@
 		TAS_scavExtractObjects 			= ["TAS_extract_1","TAS_extract_2","TAS_extract_3","TAS_extract_4","TAS_extract_5","TAS_extract_6","TAS_extract_7","TAS_extract_8","TAS_extract_9","TAS_extract_10","TAS_extract_11","TAS_extract_12","TAS_extract_13","TAS_extract_14","TAS_extract_15"]; //Variable names (in quotes) of objects you want to make into extraction objects/locations. Excess object names not actually present in mission will be safely ignored.
 		TAS_scavPmcMarkers 				= []; 	//default []. Marker variable names of markers to hide once a player becomes a scav (i.e. PMC only markers).
 
+	/* Mortar Monitor
+		Enables printing a message to Zeuses/Admins whenever a mortar is fired for awareness.
+			Intended to be used when the players have a mortar so that the Zeuses can respond to it accordingly.
+			Can optionally be set to print for AI mortar firing too if you want to keep tabs on automated artillery systems or the like.
+		*/
+		TAS_mortarLog 			= true; //default true
+		TAS_mortarLogPlayerOnly	= true; //default true
+
 
 
 

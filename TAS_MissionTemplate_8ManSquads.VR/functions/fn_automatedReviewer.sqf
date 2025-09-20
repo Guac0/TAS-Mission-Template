@@ -230,6 +230,9 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	["TAS_scavRoamersPlayerDistance",TAS_scavRoamersPlayerDistance,400],
 	["TAS_scavRespawnRoamers",TAS_scavRespawnRoamers,true],
 	["TAS_scavRespawnObjectives",TAS_scavRespawnObjectives,true],
+	//Mortar Monitor
+	["TAS_mortarLog",TAS_mortarLog,true],
+	["TAS_mortarLogPlayerOnly",TAS_mortarLogPlayerOnly,true],
 	//Spotting system/marking units
 	["TAS_addUnitMarkAction",TAS_addUnitMarkAction,false],
 	["TAS_markTargetOnMap",TAS_markTargetOnMap,true],

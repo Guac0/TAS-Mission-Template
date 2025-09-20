@@ -47,18 +47,23 @@ class CfgMusic
 	};
 };
 
-//Uncomment this in order to automatically apply the civ killer script to all civilians spawned during the mission.
-/*
 class Extended_Init_EventHandlers
 {
-    class CAManBase
+    class StaticMortar
+    {
+        class MortarMonitor {
+            init = "private _mortar = _this select 0; if (TAS_mortarLog) then {_mortar addEventHandler ['Fired', { params ['_unit', '_weapon', '_muzzle', '_mode', '_ammo', '_magazine', '_projectile', '_gunner']; if (local _unit) then { if (isPlayer _gunner) then { private _msg = format ['[ADMIN] Mortar firing - location %1, weapon %2, mode (range) %3, likely direction %4, ammo %5, gunner %6',getPos _unit,_weapon,_mode,getDir _unit,_ammo,name _gunner]; [_msg, true] remoteExec ['TAS_fnc_error'];};};}];};"; //[_unit]
+        };
+    };
+	//Uncomment this in order to automatically apply the civ killer script to all civilians spawned during the mission.
+	/*class CAManBase
     {
         class PunishCivKiller {
             init = "if (side (_this select 0) == civilian) then {_this call TAS_fnc_punishCivKillerServer};"; //[_unit]
         };
     };
+	*/
 };
-*/
 
 // Allows functions to log to the RPT file.
 allowFunctionsLog = 1;
