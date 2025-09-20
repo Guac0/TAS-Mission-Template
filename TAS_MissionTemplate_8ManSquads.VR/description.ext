@@ -98,9 +98,6 @@ allowFunctionsLog = 1;
 // allowFunctionsRecompile = "[0, 1] select (is3DENMultiplayer || is3DEN)"; //only enable in dev environment
 allowFunctionsRecompile = 1; //VASS requires always enabled
 
-// for VASS
-#include "VASS\gui\cfgGUI.hpp"
-
 class CfgFunctions
 {
 	class TAS //tag, so TAG_fnc_functionName
@@ -260,8 +257,12 @@ class CfgFunctions
 	};
 
 	// for VASS
-	#include "VASS\CfgFunctions.hpp"
+	//#include "VASS\CfgFunctions.hpp"
 };
+
+// for VASS
+//#include "VASS\gui\cfgGUI.hpp"
+
 
 class CfgDiscordRichPresence {
     applicationID="1004558588645212291";             // Provided by discord

@@ -594,6 +594,8 @@
 			recommend disable TAS_respawnArsenalGear and TAS_respawDeathGear
 			best way to add items to a shop is to use the VASS mod and to edit the attributes of the shop object in Eden
 			best way to change money values ingame is to use the zeus module
+
+			commented out code next to lines with "// for VASS" in description.ext should be uncommented! there should be 2 occurances of this
 			*/
 			TAS_vassEnabled 			= false; 					//default false
 			TAS_vassShopSystemVariable 	= "TAS_exampleVassMoney"; 			//what variable name to store money under. Begin with "TAS_"
