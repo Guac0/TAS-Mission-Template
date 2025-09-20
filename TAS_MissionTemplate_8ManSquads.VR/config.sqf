@@ -48,11 +48,11 @@
 		Initiates Quicksilver's Blue Force Tracking on map/gps
 			By default, marks all groups and players (not AI) on side, and colors people in your squad according to their team color
 			Customize its settings in scripts/QS_icons if you want to
-			Setting TAS_bftOnlyShowOwnGroup to TRUE only shows the units of each individual player's group on their map. Good for when you don't want squads seeing each other on the map.
+			Setting TAS_bftOnlyShowOwnGroup to TRUE only shows the units of each individual player's group on their map (both units of other groups and group markers are hidden). Good for when you don't want squads seeing each other on the map.
 				This still needs TAS_bftEnabled to be set to TRUE to take effect.
 			*/
 		TAS_bftEnabled 					= true; //default true
-		TAS_bftOnlyShowOwnGroup			= false; //default false
+		TAS_bftOnlyShowOwnGroup			= true; //default false
 
 
 	/* 3d Group Icons

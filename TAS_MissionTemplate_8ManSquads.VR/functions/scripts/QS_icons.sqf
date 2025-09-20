@@ -32,6 +32,8 @@ Installation:
 		http://forums.bistudio.com/showthread.php?184108-Soldier-Tracker-(-Map-and-GPS-Icons-)
 _________________________________________________________________/*/
 
+params [["_groupOnly",""]]; //Custom code by Guac allowing group only mode to be explicitly set via params. "" for undefined (variables declared here take precedence) or true/false (booleans, not strings) to override
+
 if (isDedicated || !hasInterface) exitWith {};
 private [
 	'_side','_sides','_QS_ST_X','_QS_ST_map_enableUnitIcons','_QS_ST_gps_enableUnitIcons',	'_QS_ST_enableGroupIcons','_QS_ST_faction','_QS_ST_friendlySides_EAST',
@@ -65,7 +67,13 @@ private [
 
 _QS_ST_map_enableUnitIcons = TRUE;							// BOOL. TRUE to enable MAP unit/vehicle Icons. Default TRUE.
 _QS_ST_gps_enableUnitIcons = TRUE;							// BOOL. TRUE to enable GPS unit/vehicle Icons. Default TRUE.
-_QS_ST_enableGroupIcons = TRUE;								// BOOL. TRUE to enable Map+GPS+HUD GROUP Icons. Default TRUE. Unknown what this does
+if (_groupOnly isNotEqualTo "") then { //Custom group mode override by Guac
+	//Override enabled
+	_QS_ST_enableGroupIcons = !(_groupOnly);
+} else {
+	//Override disabled, use value set in file
+	_QS_ST_enableGroupIcons = TRUE;							// BOOL. TRUE to enable Map+GPS+HUD GROUP Icons. Default TRUE. Unknown what this does
+};
 
 //================= ADMIN
 
@@ -129,7 +137,13 @@ _QS_ST_showCivilianIcons = FALSE;								// BOOL. Set TRUE to allow showing of c
 _QS_ST_iconMapText = TRUE;										// BOOL. TRUE to show unit/vehicle icon text on the map. FALSE to only show the icon and NO text (name/class). Default TRUE.
 _QS_ST_showMOS = TRUE;											// BOOL. TRUE = show Military Occupational Specialty text(unit/vehicle class/role display name), FALSE = disable and only show icons and names. Default FALSE.
 _QS_ST_showMOS_range = 10000;									// NUMBER. Range in distance to show MOS on the map. Default 3500.
-_QS_ST_showGroupOnly = FALSE;									// BOOL. Set TRUE to show ONLY the unit icons of THE PLAYERS GROUP MEMBERS on the MAP, FALSE to show ALL your factions units. May override other config. Default TRUE. NOTE: STILL SHOWS GROUP ICONS
+if (_groupOnly isNotEqualTo "") then { //Custom group mode override by Guac
+	//Override enabled
+	_QS_ST_showGroupOnly = _groupOnly;
+} else {
+	//Override disabled, use value set in file
+	_QS_ST_showGroupOnly = FALSE;								// BOOL. Set TRUE to show ONLY the unit icons of THE PLAYERS GROUP MEMBERS on the MAP, FALSE to show ALL your factions units. May override other config. Default TRUE. NOTE: STILL SHOWS GROUP ICONS
+};
 _QS_ST_showOnlyVehicles = FALSE;								// BOOL. Set TRUE to show ONLY vehicles, no foot-soldier units will be shown. May override other config. Default TRUE.
 _QS_ST_iconMapClickShowDetail = TRUE;							// BOOL. Set TRUE to show unit/vehicle detail when player clicks on their map near the vehicle. Only works for shown vehicles. Default TRUE.
 _QS_ST_iconUpdatePulseDelay = 0;								// NUMBER. How often should location of unit on the MAP be updated? 0 = as fast as possible, else if > 0 then it = time in seconds. Default 0.
@@ -161,7 +175,13 @@ _QS_ST_MAPrequireGPSItem = FALSE;								// BOOL. TRUE to require player have GP
 
 _QS_ST_GPSDist = 300;											// NUMBER. Distance from player that units shown on GPS. Higher number = lower script performance. Not significant but every 1/10th of a frame counts! Default 300
 _QS_ST_GPSshowNames = FALSE;									// BOOL. TRUE to show unit names on the GPS display. Default FALSE.
-_QS_ST_GPSshowGroupOnly = FALSE;								// BOOL. TRUE to show only group members on the GPS display. Default TRUE.
+if (_groupOnly isNotEqualTo "") then { //Custom group mode override by Guac
+	//Override enabled
+	_QS_ST_GPSshowGroupOnly = _groupOnly;
+} else {
+	//Override disabled, use value set in file
+	_QS_ST_GPSshowGroupOnly = FALSE;							// BOOL. TRUE to show only group members on the GPS display. Default TRUE.
+};
 _QS_ST_iconTextSize_GPS = 0.05;									// NUMBER. Icon Text Size on GPS display. Default is 0.05.
 _QS_ST_iconShadowGPS = 1;										// NUMBER. Icon Shadow on GPS. 0 = no shadow. 1 = shadow. 2 = outline. Must be 0, 1, or 2. Default 1.
 _QS_ST_GPSrequireGPSItem = FALSE;								// BOOL. TRUE to require player have GPS in his assigned items. Default FALSE.
@@ -170,19 +190,25 @@ _QS_ST_GPSrequireGPSItem = FALSE;								// BOOL. TRUE to require player have GP
 //============================= CONFIGURE GROUP ICONS ==============================//
 //==================================================================================//
 
-_QS_ST_showGroupMapIcons = TRUE;								// BOOL. Group icons displayed on map. Default TRUE.
+if (_groupOnly isNotEqualTo "") then { //Custom group mode override by Guac
+	//Override enabled
+	_QS_ST_showGroupMapIcons = !(_groupOnly);
+} else {
+	//Override disabled, use value set in file
+	_QS_ST_showGroupMapIcons = TRUE;							// BOOL. Group icons displayed on map. Default TRUE.
+};
 _QS_ST_showGroupHudIcons = FALSE;								// BOOL. Group icons displayed on player 3D HUD. Default FALSE.
-_QS_ST_showAIGroups = FALSE;										// BOOL. Show Groups with AI leaders. Default TRUE.
+_QS_ST_showAIGroups = FALSE;									// BOOL. Show Groups with AI leaders. Default TRUE.
 _QS_ST_showAINames = FALSE;										// BOOL. Show AI Names. If FALSE, when names are listed with Group features, will only display as '[AI]'. Default FALSE.
 _QS_ST_groupInteractiveIcons = TRUE;							// BOOL. Group icons are interactable (mouse hover and mouse click for group details). Default TRUE.
 _QS_ST_groupInteractiveIcons_showClass = TRUE;					// BOOL. TRUE to show units vehicle class when revealing group details with interactive map group click. Default TRUE.
 _QS_ST_dynamicGroupID = TRUE;									// BOOL. If TRUE, Script tries to utilize BIS-Dynamic-Groups Group Name for group info display (only available with QS_ST_groupInteractiveIcons), if available. Default TRUE. EDIT: Obsolete as of A3 1.48
 _QS_ST_showGroupMapText = TRUE;									// BOOL. TRUE to show Group Name on the map. If FALSE, name can still be seen by clicking on the group icon, if QS_ST_groupInteractiveIcons = TRUE. Default FALSE.
-_QS_ST_groupIconScale = 0.9;										// NUMBER. Group Icon Scale. Default = 0.75
-_QS_ST_groupIconOffset = [0,0.75];							// ARRAY (NUMBERS). [X,Y], offset position of icon from group leaders position. Can be positive or negative numbers. Default = [0.65,0.65];
-_QS_ST_groupTextFactionOnly = FALSE;								// BOOL. TRUE to show group icon text from ONLY the PLAYERS faction. FALSE will show text for all friendly/revealed factions. Default TRUE.
+_QS_ST_groupIconScale = 0.9;									// NUMBER. Group Icon Scale. Default = 0.75
+_QS_ST_groupIconOffset = [0,0.75];								// ARRAY (NUMBERS). [X,Y], offset position of icon from group leaders position. Can be positive or negative numbers. Default = [0.65,0.65];
+_QS_ST_groupTextFactionOnly = FALSE;							// BOOL. TRUE to show group icon text from ONLY the PLAYERS faction. FALSE will show text for all friendly/revealed factions. Default TRUE.
 _QS_ST_showCivilianGroups = FALSE;								// BOOL. TRUE to show Civilian groups. Must be whitelisted above in friendlySides. Default FALSE.
-_QS_ST_showOwnGroup = TRUE;									// BOOL. TRUE to show the Players own group icon. Default FALSE.
+_QS_ST_showOwnGroup = TRUE;										// BOOL. TRUE to show the Players own group icon. Default FALSE.
 _QS_ST_GRPrequireGPSItem = FALSE;								// BOOL. TRUE to require player have GPS in his assigned items. Default FALSE.
 
 //==================================================================================//
