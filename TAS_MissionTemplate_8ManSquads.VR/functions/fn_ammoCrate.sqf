@@ -92,10 +92,13 @@ if (_isPara) then {
 	//infinite smoke while resupply is not on the ground
 	TAS_ammoCrateVariable spawn {
 		sleep 5; //it pauses midair when initially being made, so wait for that to finish
-		while {(speed _this) > 0.1} do { //usually ~1 while falling in parachute
-			private _smoke = "SmokeShellPurple" createVehicle [0,0,0];
-			_smoke attachTo [_this, [0, 0, 0]];
-			sleep 30;													//smoke grenade lasts for 60 seconds when handheld, but seems to be like half that when attached like this (or might just be a scheduler issue?). NOTE: underground correction will not occur until this loop is exited (so might be a bit after it lands)
+		private _lastSmoke = 0;													
+		while {(speed _this) > 0.1; sleep 2} do { //usually ~1 while falling in parachute. Check every 2 seconds to avoid holding up script unnecessarily
+			if (time > (_lastSmoke + 30)) then {//smoke grenade lasts for 60 seconds when handheld, but seems to be like half that when attached like this (or might just be a scheduler issue?). NOTE: underground correction will not occur until this loop is exited (so might be a bit after it lands)
+				private _smoke = "SmokeShellPurple" createVehicle [0,0,0];
+				_smoke attachTo [_this, [0, 0, 0]];
+				_lastSmoke = time;
+			};
 		};
 		if (((getPosATL _this) select 2) < 0) then { 	//might have edge case if it lands on a building and clips into it, but that's hard to check for
 			[_this,0.5] call BIS_fnc_setHeight; 		//correct position to slightly above ground (it'll fall back down on its own). Arma is supposed to already do this, but doesn't always.
