@@ -177,19 +177,6 @@
 		TAS_scavBlacklistLocations 		= ["TAS_ObjectiveBlacklistObject_1","TAS_ObjectiveBlacklistObject_2","TAS_ObjectiveBlacklistObject_3","TAS_ObjectiveBlacklistObject_4","TAS_ObjectiveBlacklistObject_5","TAS_ObjectiveBlacklistObject_6","TAS_ObjectiveBlacklistObject_7","TAS_ObjectiveBlacklistObject_8","TAS_ObjectiveBlacklistObject_9","TAS_ObjectiveBlacklistObject_10","TAS_ObjectiveBlacklistObject_11","TAS_ObjectiveBlacklistObject_12","TAS_ObjectiveBlacklistObject_13","TAS_ObjectiveBlacklistObject_14","TAS_ObjectiveBlacklistObject_15"]; //Variable names (in quotes) of objects where you want to add a objective blacklist for TAS_scavObjectiveDistanceThreshold distance threshold. Excess object names not actually present in mission will be safely ignored.
 		TAS_scavExtractObjects 			= ["TAS_extract_1","TAS_extract_2","TAS_extract_3","TAS_extract_4","TAS_extract_5","TAS_extract_6","TAS_extract_7","TAS_extract_8","TAS_extract_9","TAS_extract_10","TAS_extract_11","TAS_extract_12","TAS_extract_13","TAS_extract_14","TAS_extract_15"]; //Variable names (in quotes) of objects you want to make into extraction objects/locations. Excess object names not actually present in mission will be safely ignored.
 		TAS_scavPmcMarkers 				= []; 	//default []. Marker variable names of markers to hide once a player becomes a scav (i.e. PMC only markers).
-		
-	
-	/* Unit Marking
-		Adds an action to each player's action menu that allows them to mark enemy units and vehicles if they are looking DIRECTLY at them.
-		Marking a unit adds a map marker to the unit that updates every second and/or a 3d icon above it.
-			Warning: 3d icons are in BETA, they show at infinite distance and are shown even if the unit is behind terrain/a building.
-		Marks are removed when the marked unit/vehicle dies.
-		Zeuses can mark units via a zeus module with extended options available.
-			This is available even if individual players' marking ability is disabled.
-		*/
-		TAS_addUnitMarkAction 	= false; //default false
-		TAS_markTargetOnMap		= true; //default true
-		TAS_markTarget3d		= true; //default true
 
 
 
@@ -254,10 +241,12 @@
 			TAS_populateInventory enables/disables the whole system
 			TAS_inventoryAddGps enables automatically putting a vanilla GPS item into each player's terminal slot (requires TAS_populateInventory to be set to true).
 				Note that even if set to false players might have a GPS if it was a part of their EDEN inventories.
+			cTab - if enabled, gives all players an Android and a helmet cam. Gives appropriate leaders the Rugged Tablet as well. Automatically disables if cTab items are not present.
 		Note: see initPlayerLocal.sqf in the custom equipment section if you want to add items for everyone or for only certain roles in addition to the items stated above
 		*/
 		TAS_populateInventory 	= true; //default true
 		TAS_inventoryAddGps		= true;	//default true
+		TAS_inventoryAddCtab 	= true; //default true
 
 
 	/* Role Based Arsenals
@@ -420,7 +409,7 @@
 		TAS_fobEnabled 			= false; 	//default false
 		TAS_fobPackup			= false;	//default false
 		TAS_fobFullArsenals 	= false; 	//default false
-		TAS_fobDistance 		= 300; 		//default 300 meters
+		TAS_fobDistance 		= 200; 		//default 200 meters
 		TAS_fobRespawn			= false;	//default false
 
 		/*
@@ -464,7 +453,7 @@
 		*/
 		TAS_rallypointsEnabled	= false;	//default false
 		TAS_useSmallRally 		= true; 	//default true
-		TAS_rallyDistance 		= 150; 		//default 150 meters
+		TAS_rallyDistance 		= 50; 		//default 50 meters
 		TAS_rallyOutnumber 		= true; 	//default true
 
 		/*
@@ -611,6 +600,19 @@
 			TAS_vassShops 				= ["arsenal_1","arsenal_2"]; //variable names of shop objects. These should ideally have the same shop contents, as rebuy cost is calculated from the first one in the list. note: if doing limited quantities and multiple shops, quantities will probably not be shared between shops
 			TAS_vassSigns 				= ["AceHealObject"]; 		//variable names of rebuy sign objects
 			TAS_vassRebuyFactor			= 0.5; 						// Percentage amount (in decimal form, so 1 = 100%) of total loadout value that a rebuy should cost. Default: 0.5 (50%)
+				
+	
+		/* Unit Marking
+			Adds an action to each player's action menu that allows them to mark enemy units and vehicles if they are looking DIRECTLY at them.
+			Marking a unit adds a map marker to the unit that updates every second and/or a 3d icon above it.
+				Warning: 3d icons are in BETA, they show at infinite distance and are shown even if the unit is behind terrain/a building.
+			Marks are removed when the marked unit/vehicle dies.
+			Zeuses can mark units via a zeus module with extended options available.
+				This is available even if individual players' marking ability is disabled.
+			*/
+			TAS_addUnitMarkAction 	= false; //default false
+			TAS_markTargetOnMap		= true; //default true
+			TAS_markTarget3d		= true; //default true
 
 
 
@@ -640,8 +642,8 @@
 		//automatically assign appropriate ctab items, for SL rugged tablet assignment needs preset variable names for SLs (see template)
 		//if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
 		//Required Mods: CTAB
-		TAS_ctabEnabled 		= false; //default false (since ctab isnt in scifi modpack)
-		//publicVariable "TAS_ctabEnabled";
+		TAS_inventoryAddCtab 		= false; //default false (since ctab isnt in scifi modpack)
+		//publicVariable "TAS_inventoryAddCtab";
 
 
 

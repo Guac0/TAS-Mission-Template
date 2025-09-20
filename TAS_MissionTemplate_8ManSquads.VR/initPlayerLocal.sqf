@@ -494,12 +494,18 @@ if (TAS_radioAdditionals) then {
 };
 
 //ctab setup
-if (TAS_ctabEnabled) then {
-	player addItem "ItemcTabHCam"; //give all players a helmetcam, will auto delete hcam if inventory is full
-	player linkItem "itemAndroid"; //give everyone an android in their gps slot, will be overwriten if they are leadership
-	if (player getVariable ["TAS_PlayerIsLeadership",false]) then {player linkItem "itemcTab"; player addItem "itemAndroid";}; //give leadership an android in their inventories and a tablet in their gps slot (will delete existing item), will auto delete android if inventory is full
-	//systemChat "cTab loadout init finished.";
-	player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Enabled.<br/><br/>All units have recieved an Android and helmet cam, while leadership have also recieved a rugged tablet."]];
+if (TAS_inventoryAddCtab) then {
+
+	if (isClass(configFile >> "CfgPatches" >> "cTab")) then { //Detect if cTab is loaded - TODO use non-standard check since there's so many ctab variants
+		player addItem "ItemcTabHCam"; //give all players a helmetcam, will auto delete hcam if inventory is full
+		player linkItem "itemAndroid"; //give everyone an android in their gps slot, will be overwriten if they are leadership
+		if (player getVariable ["TAS_PlayerIsLeadership",false]) then {player linkItem "itemcTab"; player addItem "itemAndroid";}; //give leadership an android in their inventories and a tablet in their gps slot (will delete existing item), will auto delete android if inventory is full
+		//systemChat "cTab loadout init finished.";
+		player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Enabled.<br/><br/>All units have recieved an Android and helmet cam, while leadership have also recieved a rugged tablet."]];
+	} else {
+		["TAS_inventoryAddCtab enabled but cTab does not appear to be loaded, cancelling cTab gear assignment!",true] call TAS_fnc_error;
+		if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Disabled."]]; };
+	};
 } else {
 	//systemChat "cTab automatic item assignment disabled."
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["cTab Assignment", "Disabled."]]; };
@@ -604,11 +610,7 @@ if (TAS_globalTfarEnabled) then {
 };
 
 if (TAS_bftEnabled) then {
-	if !(TAS_bftOnlyShowOwnGroup) then {
-		[] execVM "functions\scripts\QS_icons.sqf";
-	} else {
-		[] execVM "functions\scripts\QS_icons_onlyOwnGroup.sqf";
-	};
+	[TAS_bftOnlyShowOwnGroup] execVM "functions\scripts\QS_icons.sqf";
 	//systemChat "QS BFT initiated.";
 	player createDiaryRecord ["tasMissionTemplate", ["Quicksilver BFT", "Enabled.<br/><br/>Open your map or GPS to activate it."]];
 } else {
