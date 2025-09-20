@@ -65,6 +65,31 @@ class Extended_Init_EventHandlers
 	*/
 };
 
+class CfgSounds {
+	sounds[] = {};
+
+	class JuggernautSound1 {
+		name = "JuggernautSound1";	
+		sound[] = {"media\JuggernautSound1.ogg",3,1,150,1,1,1,0};	//The 18 indicates the distance at which the sound will be heard;
+		titles[] = {};
+	};
+	class JuggernautSound2 {
+		name = "JuggernautSound2";	
+		sound[] = {"media\JuggernautSound2.ogg",3,1,150,1,1,1,0};	//The 18 indicates the distance at which the sound will be heard;
+		titles[] = {};
+	};
+	class JuggernautSound3 {
+		name = "JuggernautSound3";	
+		sound[] = {"media\JuggernautSound3.ogg",3,1,150,1,1,1,0};	//The 18 indicates the distance at which the sound will be heard;
+		titles[] = {};
+	};
+	class JuggernautSound4 {
+		name = "JuggernautSound4";	
+		sound[] = {"media\JuggernautSound4.ogg",3,1,150,1,1,1,0};	//The 18 indicates the distance at which the sound will be heard;
+		titles[] = {};
+	};
+};
+
 // Allows functions to log to the RPT file.
 allowFunctionsLog = 1;
 
@@ -186,6 +211,9 @@ class CfgFunctions
 			class endex;
 			class zeusEndex;
 			class diaryEnvironment;
+			class aceJuggernautEffects;
+			class aceJuggernautStopEffects;
+			class megaMiller;
 		};
 		class buildFob
 		{
