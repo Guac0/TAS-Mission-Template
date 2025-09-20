@@ -1,27 +1,87 @@
-// [] call fn_automatedReviewer.sqf
-//4 spaces to count as a tab
+/*
+	Author: Guac
+
+	Requirements: None
+	
+	Description:
+	Gathers statistics about the mission to assist in quickly assessing the mission from a technical/statistics viewpoint.
+
+	Return: string - review results (also copied to your clipboard)
+
+	Examples: 
+	[] call TAS_fnc_automatedReviewer; //Works best when played in singleplayer from Eden
+*/
 
 private _outputArray = [];
 
 //mission, map, and template version
-_outputArray pushBack format ["Mission name: %1, Map: %2, Mission Template Version: %3",missionName,worldName,TAS_templateVersion];
+_outputArray pushBack format ["Mission name: %1, Map: %2 / %3, Mission Template Version: %4",missionName,worldName, getText (configFile >> "CfgWorlds" >> worldName >> "description"),TAS_templateVersion];
 
 
-//time
-private _time = [dayTime, "HH:MM"] call BIS_fnc_timeToString;
-_outputArray pushBack format ["Mission time: %1. Time acceleration: %2",_time,timeMultiplier];
+//Environment brief - largely copied by fn_diaryEnvironment
+//Map and time
+private _curDate = date;
+private _time = format ["%3/%2/%1 %4:%5",
+	_curDate select 0,
+	(if (_curDate select 1 < 10) then { "0" } else { "" }) + str (_curDate select 1),
+	(if (_curDate select 2 < 10) then { "0" } else { "" }) + str (_curDate select 2),
+	(if (_curDate select 3 < 10) then { "0" } else { "" }) + str (_curDate select 3),
+	(if (_curDate select 4 < 10) then { "0" } else { "" }) + str (_curDate select 4)
+];
+//_messageParts pushBack "LOCATION OF ORDERS"; //Already used for diary entry title
+_outputArray pushBack format ["Time: %1, Time Acceleration: %2x",_time, timeMultiplier];
+//Weather
+private _weather = [];
+if (lightnings > 0.1) then { _weather pushBack "Lightning"}; //Note: other conditions need to also be true before lightning will visually occur (rain/overcast? not very documented)
+switch (true) do {
+	case (rain > 0.7): {_weather pushBack "Monsoon Rainstorm"};
+	case (rain > 0.5): {_weather pushBack "Rainstorm"};
+	case (rain > 0.3): {_weather pushBack "Raining"};
+	case (rain > 0.1): {_weather pushBack "Drizzling"};
+};
+switch (true) do {
+	case (fog > 0.7): {_weather pushBack "Impenetrable Fog"};
+	case (fog > 0.5): {_weather pushBack "Thick Fog"};
+	case (fog > 0.3): {_weather pushBack "Moderate Fog"};
+	case (fog > 0.1): {_weather pushBack "Light Fog"};
+};
+switch (true) do {
+	case (overcast > 0.7): {_weather pushBack "Sullen Skies"};
+	case (overcast > 0.5): {_weather pushBack "Thick Clouds"};
+	case (overcast > 0.3): {_weather pushBack "Cloudy"};
+	case (overcast > 0.1): {_weather pushBack "Scattered Clouds"};
+	default {_weather pushBack "Sunny"};
+};
+private _weatherStr = "";
+{_weatherStr = _weatherStr + ", " + _x} forEach _weather;
+_weatherStr = _weatherStr select [2]; //trim first ", "
+if (fog > 0.1) then { //Only bother with Fog Base if fog is significant
+	_weatherStr = _weatherStr + format ["Fog Base: %1m",round(fogParams select 2)]; //FogDecay is useful but difficult to translate into a layman's terms, so don't bother with that
+};
+//Misc - Moon, Sunrise/Sunset
+private _moon = "";
+switch (true) do { //Note: also see moonIntensity. It is unclear how they interact besides moonPhase being more documented
+	case (moonPhase _curDate > 0.8): {_moon = "Full Moon";};
+	case (moonPhase _curDate> 0.6): {_moon = "Waxing Gibbous";};
+	case (moonPhase _curDate> 0.4): {_moon = "Half Moon";};
+	case (moonPhase _curDate > 0.2): {_moon = "Waning Crescent";};
+	default {_moon = "New Moon";};
+};
+_weatherStr = _weatherStr + format ["; Moon State: %1",_moon];
+_outputArray pushBack format ["Weather: %1",_weatherStr];
+private _sunrise = [((date call BIS_fnc_sunriseSunsetTime) select 0), "HH:MM"] call BIS_fnc_timeToString;
+private _sunset = [((date call BIS_fnc_sunriseSunsetTime) select 1), "HH:MM"] call BIS_fnc_timeToString;
+_outputArray pushBack format ["First Light: %1, Last Light: %2",_sunrise,_sunset];
 
-//todo weather 
 
-
-//check number of groups and if the majority (75%+ have automated group deletion on)
+//check number of groups and if they are auto deleted when empty
 private _numberOfGroups = count allGroups;
 private _numberOfGroupsAutodelete = count (allGroups select {isGroupDeletedWhenEmpty _x});
-_outputArray pushBack format ["Total number of groups: %1, wherein %2 will be automatically deleted when empty.",_numberOfGroups,_numberOfGroupsAutodelete]; // Remember that there can only be 288 groups per side at the same time!
-//todo group breakdown per side
+_outputArray pushBack format ["Total number of groups: %1, wherein %2 will be automatically deleted when empty. Remember that there is a max of 288 groups per side!",_numberOfGroups,_numberOfGroupsAutodelete]; // Remember that there can only be 288 groups per side at the same time!
+_outputArray pushBack format ["    Groups breakdown per side: West - %1, East - %2, Independent - %3, Civilian - %4.",count (allGroups select {side _x == west}),count (allGroups select {side _x == east}),count(allGroups select {side _x == independent}),count (allGroups select {side _x == civilian})];
 
 
-//check for DLC restrictions?
+//check for DLC restrictions? no great ways to do this...
 
 
 //check for number of units and if any are dead on mission start
@@ -38,8 +98,9 @@ _outputArray pushBack format ["    Unit breakdown per side: West - %1, East - %2
 //check for number of objects
 private _numberOfObjects = count allMissionObjects "all"; //does not count (most) ambient animals, does not track mines, might track some unintended game-created items
 private _numberOfObjectsNoSim = count ((allMissionObjects "all") select {!(simulationEnabled _x)});
+private _numberOfObjectsDySim = count ((allMissionObjects "all") select {dynamicSimulationEnabled _x});
 private _numberOfSimpleObjects = count allSimpleObjects [];
-_outputArray pushBack format ["Total number of objects: %1, wherein %2 have their simulation disabled. There are also an additional %3 simple objects.",_numberOfObjects,_numberOfObjectsNoSim,_numberOfSimpleObjects];
+_outputArray pushBack format ["Total number of objects: %1, wherein %2 have their simulation disabled and %3 have dynamic simulation enabled (not counting units). There are also an additional %4 simple objects.",_numberOfObjects,_numberOfObjectsNoSim,_numberOfObjectsDySim,_numberOfSimpleObjects];
 
 //player units
 private _numberOfPlayersWest = playableSlotsNumber west;
@@ -58,16 +119,20 @@ _outputArray pushBack format ["Total number of map markers: %1.",_numberOfMapMar
 private _numberOfMines = count allMines;
 _outputArray pushBack format ["Total number of mines: %1.",_numberOfMines];
 
-//count zeuses. TODO check what they're attached to
+//count zeuses and list the units attached to them - for #adminLogged, returns the current admin, not the adminLogged string
 private _numberOfZeusLogics = count allCurators;
-_outputArray pushBack format ["Total number of zeus logics: %1.",_numberOfZeusLogics];
+private _zeusUnits = [];
+{_zeusUnits pushBack (roleDescription (getAssignedCuratorUnit _x))} forEach allCurators;
+_outputArray pushBack format ["Total number of Zeus logics: %1.",_numberOfZeusLogics];
 
-//count HCs - TODO check if theyre set up properly?
+//count HCs
 private _headlessClients = entities "HeadlessClient_F";
 private _numberOfHeadlessClients = count _headlessClients;
-_outputArray pushBack format ["Total number of headless clients: %1.",_numberOfHeadlessClients];
+private _headlessNames = [];
+{_headlessNames pushBack (roleDescription _x)} forEach _headlessClients;
+_outputArray pushBack format ["Total number of headless clients: %1. Names: %2",_numberOfHeadlessClients,_headlessNames];
 
-//maybe check if heal box is enabled but nonfunctional? and other template features
+//todo - maybe check if heal box is enabled but nonfunctional? and other template features
 
 
 //get number and type of respawns?
@@ -90,10 +155,12 @@ if (dynamicSimulationSystemEnabled) then {
 };
 
 
-//todo init field checks
+//todo init field checks - not really feasible as of now with the methods that I know of
 
 
-//todo triggers
+//Triggers. Kind of a rough way to evaluate them but good enough.
+private _allTriggers = allMissionObjects "EmptyDetector";
+_outputArray pushBack format ["Total number of triggers: %1, where %2 have a condition of 'true', %3 have an interval of less than 1 second, %4 have an interval of every 1 second, and %5 have an interval of more than 1 second",count _allTriggers, count (_allTriggers select {(trim(toLowerANSI ((triggerStatements _x) select 0))) == "true"}),count (_allTriggers select {(triggerInterval _x) < 1}), count (_allTriggers select {(triggerInterval _x) == 1}), count (_allTriggers select {(triggerInterval _x) > 1})];
 
 
 //check if template settings are customized from the defaults
@@ -103,7 +170,7 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
     private _settingValue = _x select 1;
     private _defaultValue = _x select 2;
     if (_settingValue isNotEqualTo _defaultValue) then {
-        _outputArray pushBack format ["%1 has been set to %2!",_settingName,_settingValue];
+        _outputArray pushBack format ["    %1 has been set to %2!",_settingName,_settingValue];
     };
 } forEach [
 	//CHVD CH View
@@ -186,6 +253,7 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	//populate inventory
 	["TAS_populateInventory",TAS_populateInventory,true],
 	["TAS_inventoryAddGps",TAS_inventoryAddGps,true],
+	["TAS_inventoryAddCtab",TAS_inventoryAddCtab,true],
 	//role based arsenals
 	["TAS_roleBasedArsenals",TAS_roleBasedArsenals,false],
 	["TAS_visibleArsenalBoxes",TAS_visibleArsenalBoxes,["arsenal_1","arsenal_2"]],
@@ -211,7 +279,7 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	["TAS_fobEnabled",TAS_fobEnabled,false],
 	["TAS_fobPackup",TAS_fobPackup,false],
 	["TAS_fobFullArsenals",TAS_fobFullArsenals,false],
-	["TAS_fobDistance",300],
+	["TAS_fobDistance",TAS_fobDistance,200],
 	["TAS_fobRespawn",TAS_fobRespawn,false],
 	//fob overrun
 	["TAS_fobOverrun",TAS_fobOverrun,false],
@@ -223,7 +291,7 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	//rallypoints main
 	["TAS_rallypointsEnabled",TAS_rallypointsEnabled,false],
 	["TAS_useSmallRally",TAS_useSmallRally,true],
-	["TAS_rallyDistance",TAS_rallyDistance,150],
+	["TAS_rallyDistance",TAS_rallyDistance,50],
 	["TAS_rallyOutnumber",TAS_rallyOutnumber,true],
 	//rallypoint overrun
 	["TAS_rallypointOverrun",TAS_rallypointOverrun,false],
@@ -265,7 +333,6 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	["TAS_doAimCoefChange",TAS_doAimCoefChange,false],
 	["TAS_aimCoef",TAS_aimCoef,0.5],
 	["TAS_recoilCoef",TAS_recoilCoef,0.75],
-	["TAS_ctabEnabled",TAS_ctabEnabled,false],
 	//////////////////////////////////
 	////////Template Options//////////
 	//////////////////////////////////
@@ -308,8 +375,8 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	//////////Admin Options///////////
 	//////////////////////////////////
 	["TAS_ModLog",TAS_ModLog,true],
-	["TAS_ModLogShame",TAS_ModLogShame,true],
-	["TAS_trackPeformance",TAS_trackPeformance,true],
+	["TAS_ModLogShame",TAS_ModLogShame,false],
+	["TAS_trackPeformance",TAS_trackPerformance,true],
 	["TAS_doDiscordUpdate",TAS_doDiscordUpdate,true],
 	["TAS_discordUpdateDelay",TAS_discordUpdateDelay,30]
 ]; //2D array of ALL config parameters and their default values
@@ -330,22 +397,28 @@ copyToClipboard _finalOutput;
 diag_log _finalOutput;
 hint "Results of automated reviewer copied to clipboard!";
 systemChat "Results of automated reviewer copied to clipboard!";
-
-/* example results for template
-Mission name: tas_missiontemplate_8mansquads, Map: vr, Mission Template Version: 10.1
-Mission time: 13:37. Time acceleration: 1
-Total number of groups: 35, wherein 0 will be automatically deleted when empty.
-Total number of units: 13, wherein 0 are dead on mission start and 0 are agents.
-    Unit breakdown per side: West - 1, East - 1, Independent - 0, Civilian - 12.
-Total number of objects: 43, wherein 5 have their simulation disabled. There are also an additional 7 simple objects.
+_finalOutput
+/* example results for mission template
+Mission name: tas_missiontemplate_8mansquads, Map: vr / Virtual Reality, Mission Template Version: 12
+Time: 28/05/2035 13:37, Time Acceleration: 1x
+Weather: Sunny; Moon State: New Moon
+First Light: 04:59, Last Light: 19:00
+Total number of groups: 34, wherein 0 will be automatically deleted when empty. Remember that there is a max of 288 groups per side!
+    Groups breakdown per side: West - 10, East - 10, Independent - 10, Civilian - 4.
+Total number of units: 162, wherein 0 are dead on mission start and 0 are agents.
+    Unit breakdown per side: West - 50, East - 50, Independent - 50, Civilian - 12.
+Total number of objects: 200, wherein 4 have their simulation disabled and 1 have dynamic simulation enabled (not counting units). There are also an additional 7 simple objects.
 Total number of playable units: 153 (not counting logic entities like headless clients or spectators).
     Player slots breakdown per side: West - 50, East - 50, Independent - 50, Civilian - 3.
-Total number of map markers: 15.
-Total number of mines: 0.
-Total number of zeus logics: 5.
-Total number of headless clients: 0.
-Total number of respawns: 4. Vanilla respawn delay: 
+Total number of map markers: 14.
+Total number of mines: 7.
+Total number of Zeus logics: 4.
+Total number of headless clients: 3. Names: ["","",""]
+Total number of respawns: 4. Vanilla respawn delay: 5
     Respawn breakdown per side: West - 1, East - 1, Independent - 1, Civilian - 1.
 Dynamic simulation enabled. Unit simulation range: 700, vehicle simulation range: 700, empty vehicle simulation range: 700, object simulation range: 50, moving multiplier: 1
+Total number of triggers: 8, where 1 have a condition of 'true', 7 have an interval of less than 1 second, 0 have an interval of every 1 second, and 1 have an interval of more than 1 second
+Mission Template Settings Check:
+    TAS_inventoryAddCtab has been set to false!
 
 */
