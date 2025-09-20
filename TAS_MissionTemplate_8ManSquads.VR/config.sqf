@@ -666,18 +666,14 @@
 
 
 
-		TAS_templateVersion 	= 12.0; //if it's a major release (like 10.0), note that arma will truncate the empty decimal to just '10'
+		TAS_templateVersion 	= 12.1; //if it's a major release (like 10.0), note that arma will truncate the empty decimal to just '10'
 		//publicVariable "TAS_templateVersion";
 
 
 		TAS_doTemplateBriefing 	= true;
 		//publicVariable "TAS_doTemplateBriefing";
 		TAS_templateBriefing = [
-			"1. Added various torture zeus modules for Zeuses to use on the playerbase (set units on fire, spawn attack dog, timeout player, make unit into juggernaut, etc). Fun times ahead!",
-			"2. Added Cease Fire Zone, which Zeus may apply to arsenal areas to prevent weapons from being fired near them. Y'know, cause y'all couldn't behave...",
-			"3. Added an optional system that punishes players for killing multiple civilians. Disabled by default (which I'm sure that many of you are thankful for).",
-			"4. Fixed drawing blood not actually lowering the donator's blood levels, and make the draw blood action faster to complete. Why yes, you can in fact drain enough blood from someone to kill them.",
-			"5. Updated the automatic inventory population to use advanced medical items, like specialized bandages. Patch those boo-boos!",
+			"development increment",
 			"Please visit the 'Mission Template' section in the mission notes (in the top left of the map screen) to be aware of the enabled toggleable features present in this mission, and check your custom keybindings for the 'TAS Mission Template' section to access the various custom keybinds we have.",
 			"You will only receive this message once every time you join a mission with a new mission template version. Enjoy the mission!"
 		];
