@@ -52,7 +52,7 @@
 				This still needs TAS_bftEnabled to be set to TRUE to take effect.
 			*/
 		TAS_bftEnabled 					= true; //default true
-		TAS_bftOnlyShowOwnGroup			= true; //default false
+		TAS_bftOnlyShowOwnGroup			= false; //default false
 
 
 	/* 3d Group Icons
@@ -113,6 +113,7 @@
 			Action only shows on the radial medical menu, not the advanced menu due to technical reasons.
 			Add blood drawing to a custom unit by placing this code in their init:
 				if (isServer) then { this remoteExec ["TAS_fnc_drawBlood",0,true]; };
+				TAS_allowBloodDrawing does not need to be enabled for this to work!
 			Customize shown text by going to function/fn_drawBlood.sqf if you want to use this for lore reasons
 				If you want only your custom units to have the draw blood action, set TAS_allowBloodDrawing to 'false' and add it manually to the specified units with the above code.
 		*/
