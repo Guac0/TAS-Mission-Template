@@ -273,6 +273,7 @@
 		TAS_roleBasedArsenals	= false; 						//default false
 		TAS_visibleArsenalBoxes = ["arsenal_1","arsenal_2"]; 	//default ["arsenal_1","arsenal_2"]
 
+
 	/* Ace Arsenal Cache
 		Each arsenal placed in the mission is stored as a unique entry in the mission file. If the arsenal has lots of items, it takes up lots of space. This caches many arsenals into a single one to save file space.
 			Note: the options here are only compatible with a single arsenal. Multiple arsenals can be placed by copying the relevant code in initPlayerLocal.sqf
@@ -285,6 +286,7 @@
 		TAS_aceArsenalCacheItems 	= ["Item1","Item2","Item3"]; //["Item1","Item2","Item3"];
 		TAS_aceArsenalCacheBoxes	= ["arsenal_1","arsenal_2"]; //default ["arsenal_1","arsenal_2"]
 	
+
 	/* Persistant Player Storage
 		Allows each player to use a persistant storage box that is unique to them.
 			They access it via an action on the AceHealObject.
@@ -305,7 +307,7 @@
 				If full saves are disabled, then players can do a manual save at the AceHealObject.
 				Full saves are always done at the end of the mission (if ended with fn_vassEndMission) regardless of this setting's value.
 		*/
-		TAS_playerStorage 		= true; 	//default false
+		TAS_playerStorage 		= false; 	//default false
 		TAS_playerStorageVar 	= "Test"; 	//default "Test", CHANGE THIS (see above)
 		TAS_storageClassname 	= "Box_IND_Support_F"; //default "Box_IND_Support_F"
 		TAS_storageLocation 	= [0,0,0]; 	//default [0,0,0] (map origin)
@@ -648,13 +650,6 @@
 		//publicVariable "TAS_doAimCoefChange";
 		//publicVariable "TAS_aimCoef";
 		//publicVariable "TAS_recoilCoef";
-
-
-		//automatically assign appropriate ctab items, for SL rugged tablet assignment needs preset variable names for SLs (see template)
-		//if SL names are not preset, then will just give them rifleman stuff without error message. Better than nothing.
-		//Required Mods: CTAB
-		TAS_inventoryAddCtab 		= false; //default false (since ctab isnt in scifi modpack)
-		//publicVariable "TAS_inventoryAddCtab";
 
 
 
