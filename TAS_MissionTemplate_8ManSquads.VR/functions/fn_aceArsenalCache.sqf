@@ -17,9 +17,14 @@ params ["_arsenalContents","_arsenals"];
 
 {
 	if (!isNil _x) then { //check if this variable name exists
-		if (!isNull _x) then { //check if the object this variable refers to exists
-			[_x, _arsenalContents] call ace_arsenal_fnc_initBox;
+		private _arsenalBox = missionNamespace getVariable [_x, objNull];
+		if (!isNull _arsenalBox) then { //check if the object this variable refers to exists
+			[_arsenalBox, _arsenalContents] call ace_arsenal_fnc_initBox;
+		} else {
+			[format ["TAS_fnc_aceArsenalCache called with nonexistant box %1",_x],true] spawn TAS_fnc_error;
 		};
+	} else {
+		[format ["TAS_fnc_aceArsenalCache called with nonexistant string/box %1",_x],true] spawn TAS_fnc_error;
 	};
 } forEach _arsenals;
 
