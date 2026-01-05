@@ -763,7 +763,7 @@ if (TAS_doDiscordUpdate) then {
 	};
 };
 
-if (TAS_3dGroupIcons) then { //intentionally the "do" variant for performance reasons
+if (TAS_3dGroupIcons) then { 
 	[] spawn TAS_fnc_3dGroupIcons;
 };
 

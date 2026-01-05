@@ -15,8 +15,8 @@ private _onConfirm =
 		if (_this) then {
 			TAS_3dGroupIcons = true;
 			publicVariable "TAS_3dGroupIcons";
-			private _clientsToSpawnOn = [0, -2] select (isDedicated); //is3DENMultiplayer || is3DEN
-			[] remoteExec ["TAS_fnc_3dGroupIcons",_clientsToSpawnOn];
+			//private _clientsToSpawnOn = [0, -2] select (isDedicated); //is3DENMultiplayer || is3DEN
+			[] remoteExec ["TAS_fnc_3dGroupIcons"];
 		} else {
 			TAS_3dGroupIcons = false;
 			publicVariable "TAS_3dGroupIcons";

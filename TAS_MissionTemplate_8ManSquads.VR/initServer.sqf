@@ -113,6 +113,10 @@ if (TAS_scavSystemEnabled) then {
 	};
 };
 
+if (TAS_3dGroupIcons) then { 
+	[] spawn TAS_fnc_3dGroupIcons;
+};
+
 //at bottom because has sleep. NOTE: no longer needs to be at the bottom due to 'spawn' being added
 if (TAS_respawnInVehicle) then {
 	[] spawn { //spawn due to sleep. if not spawned, then the sleep will hold this up.
