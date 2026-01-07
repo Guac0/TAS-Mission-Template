@@ -210,7 +210,10 @@ class CfgFunctions
 			class diaryEnvironment;
 			class aceJuggernautEffects;
 			class aceJuggernautStopEffects;
-			class megaMiller;
+			//class megaMiller;
+			class whisper;
+			class whisperGui;
+			class zeusWhisper;
 		};
 		class buildFob
 		{

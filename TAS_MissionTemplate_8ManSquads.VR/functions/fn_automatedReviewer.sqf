@@ -165,11 +165,16 @@ _outputArray pushBack format ["Total number of triggers: %1, where %2 have a con
 
 //check if template settings are customized from the defaults
 _outputArray pushBack format ["Mission Template Settings Check:"];
+private _maxLen = 300;
 {
     private _settingName = _x select 0;
     private _settingValue = _x select 1;
     private _defaultValue = _x select 2;
     if (_settingValue isNotEqualTo _defaultValue) then {
+		if (count _settingValue > _maxLen) then {
+    		_settingValue = _settingValue select [0, _maxLen];
+			_settingValue = _settingValue + " omitted for brevity";
+		};
         _outputArray pushBack format ["    %1 has been set to %2!",_settingName,_settingValue];
     };
 } forEach [
@@ -260,6 +265,17 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	//role based arsenals
 	["TAS_roleBasedArsenals",TAS_roleBasedArsenals,false],
 	["TAS_visibleArsenalBoxes",TAS_visibleArsenalBoxes,["arsenal_1","arsenal_2"]],
+	//arsenal cache
+	["TAS_aceArsenalCache",TAS_aceArsenalCache,false],
+	["TAS_aceArsenalCacheItems",TAS_aceArsenalCacheItems,["Item1","Item2","Item3"]],
+	["TAS_aceArsenalCacheBoxes",TAS_aceArsenalCacheBoxes,["arsenal_1","arsenal_2"]],
+	//TAS_playerStorage
+	["TAS_playerStorage",TAS_playerStorage,false],
+	["TAS_playerStorageVar",TAS_playerStorageVar,"Test"],
+	["TAS_storageClassname",TAS_storageClassname,"Box_IND_Support_F"],
+	["TAS_storageLocation",TAS_storageLocation,[0,0,0]],
+	["TAS_storageFullSave",TAS_storageFullSave,true],
+	["TAS_storageOpenAnywhere",TAS_storageOpenAnywhere,false],
 	//////////////////////////////////
 	/////////Respawns Options/////////
 	//////////////////////////////////
@@ -328,9 +344,9 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	["TAS_vassPrebriefing",TAS_vassPrebriefing,["In this campaign, we have to buy our gear from the black market.","Each player's balance and loadout at mission end will carry over to the next mission.","All free items (cosmetics) are in the red crate's ace arsenal, everything else is in the other box.","Save your loadout at the sign to be able to rebuy it in the future for a small cost."]],
 	["TAS_vassShops",TAS_vassShops,["arsenal_1","arsenal_2"]],
 	["TAS_vassSigns",TAS_vassSigns,["AceHealObject"]],
-	["TAS_rebuyCostPrimary",TAS_rebuyCostPrimary,35],
-	["TAS_rebuyCostSecondary",TAS_rebuyCostSecondary,50],
-	["TAS_rebuyCostHandgun",TAS_rebuyCostHandgun,15],
+	//["TAS_rebuyCostPrimary",TAS_rebuyCostPrimary,35],
+	//["TAS_rebuyCostSecondary",TAS_rebuyCostSecondary,50],
+	//["TAS_rebuyCostHandgun",TAS_rebuyCostHandgun,15],
 	//other assorted stuff 
 	["TAS_vanillaStaminaDisabled",TAS_vanillaStaminaDisabled,true],
 	["TAS_doAimCoefChange",TAS_doAimCoefChange,false],
@@ -377,6 +393,11 @@ _outputArray pushBack format ["Mission Template Settings Check:"];
 	//////////////////////////////////
 	//////////Admin Options///////////
 	//////////////////////////////////
+	["TAS_whisperEnable",TAS_whisperEnable,true],
+	["TAS_whisperLimit",TAS_whisperLimit,false],
+	["TAS_whisperLog",TAS_whisperLog,true],
+	["TAS_whisperZeus",TAS_whisperZeus,true],
+	["TAS_whisperAdmin",TAS_whisperAdmin,true],
 	["TAS_ModLog",TAS_ModLog,true],
 	["TAS_ModLogShame",TAS_ModLogShame,false],
 	["TAS_trackPeformance",TAS_trackPerformance,true],

@@ -37,7 +37,7 @@ if (TAS_zeusHcTransfer) then {
 
 if (TAS_3dGroupIcons) then {
 	_systemsModuleList pushBack ["Manage 3d Group Icons", {_this call TAS_fnc_zeus3dGroupIcons}];
-	player createDiaryRecord ["tasMissionTemplate", ["3d Group Icons", "Enabled.<br/><br/>Adds 3d icons over group leaders' heads (enable/disable is managable through a zeus module). You can find the management zeus module under 'TAS Mission Template' in the module list."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Zeus 3d Group Icons", "Enabled.<br/><br/>Adds 3d icons over group leaders' heads (enable/disable is managable through a zeus module). You can find the management zeus module under 'TAS Mission Template' in the module list."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["3d Group Icons", "Disabled."]]; };
@@ -232,6 +232,10 @@ if (true) then { //always be available
 
 	_moduleList pushBack ["TAS Endex", {
 		_this call TAS_fnc_zeusEndex;
+	}];
+
+	_moduleList pushBack ["Whisper", {
+		_this call TAS_fnc_zeusWhisper;
 	}];
 
 } else {

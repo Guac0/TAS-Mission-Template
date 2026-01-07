@@ -7,7 +7,6 @@
 
 //setup diary subject
 player createDiarySubject ["tasMissionTemplate","Mission Template","media\logo256x256.paa"];
-player createDiaryRecord ["tasMissionTemplate", ["Mission Template Version", format ["v%1",TAS_templateVersion]]];
 
 //setup leadership trait for later usage
 private _leadershipVariableNames = ["Z1","Z2","Z3","CMD_Actual","CMD_JTAC","RECON_Actual","AIR_1_Actual","AIR_2_Actual","GROUND_1_Actual","GROUND_2_Actual","ALPHA_Actual","BRAVO_Actual","CHARLIE_Actual","DELTA_Actual","ECHO_Actual","FOXTROT_Actual"];
@@ -536,6 +535,8 @@ if (TAS_doAimCoefChange) then {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Sway/Recoil Coefficient Changes", "Vanilla coefficients are enabled."]]; };
 };
 
+private _scriptQuickAccessTexts = [];
+
 //Add TAS Afk Script
 if (TAS_afkEnabled) then {
 	// Register a simple keypress to an action
@@ -543,10 +544,11 @@ if (TAS_afkEnabled) then {
 	//#define USER_19 0x10C
 	//25 for P, 0x10C for User Action 19
 	//[24, [false, true, true]] is "O + lctrl + lalt", can change in cba keybindings if wanted
-	["TAS Keybindings","afk_script_key_v2","Run TAS Afk Script", {[] spawn TAS_fnc_AfkScript}, "", [24, [false, true, true]]] call CBA_fnc_addKeybind;
+	["TAS Keybindings","afk_script_key_v2","Toggle AFK", {[] spawn TAS_fnc_AfkScript}, "", [24, [false, true, true]]] call CBA_fnc_addKeybind;
 
 	//make a diary record tutorial
 	player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Enabled.<br/><br/>To start/stop the AFK script, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Run AFK Script. By default, it will be Left Control + Left Alt + O."]];
+	_scriptQuickAccessTexts pushBack "<executeClose expression='[] spawn TAS_fnc_AfkScript'>Toggle AFK.</executeClose> Default Keybind: Left Control + Left Alt + O";
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Afk Script", "Disabled."]]; };
 	//systemChat "Afk System disabled.";
@@ -563,6 +565,7 @@ if (TAS_earplugsEnabled) then {
 
 	//make a diary record tutorial
 	player createDiaryRecord ["tasMissionTemplate", ["Earplugs Script", "Enabled.<br/><br/>To enable/disable the earplugs, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Toggle Earplugs. By default, it will be Left Control + Left Alt + E."]];
+	_scriptQuickAccessTexts pushBack "<executeClose expression='[] spawn TAS_fnc_earplugs'>Toggle Earplugs.</executeClose> Default Keybind: Left Control + Left Alt + E";
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Earplugs Script", "Disabled."]]; };
 	//systemChat "Afk System disabled.";
@@ -573,9 +576,22 @@ if (TAS_musicKeyEnabled) then {
 	["TAS Keybindings","music_key","Toggle Music", {[] spawn TAS_fnc_toggleMusic}, "", [13, [false, true, true]]] call CBA_fnc_addKeybind; //13 is =
 
 	//make a diary record tutorial
-	player createDiaryRecord ["tasMissionTemplate", ["Music Hotkey Script", "Enabled.<br/><br/>To enable/disable music audio, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Toggle Music. By default, it will be Left Control + Left Alt + =."]];
+	player createDiaryRecord ["tasMissionTemplate", ["Music Hotkey Script", "Enabled.<br/><br/>To enable/disable music audio, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Toggle Music. By default, it will be Left Control + Left Alt + M."]];
+	_scriptQuickAccessTexts pushBack "<executeClose expression='[] spawn TAS_fnc_toggleMusic'>Toggle Music.</executeClose> Default Keybind: Left Control + Left Alt + M";
 } else {
 	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Music Hotkey Script", "Disabled."]]; };
+	//systemChat "Afk System disabled.";
+};
+
+if (TAS_whisperEnable) then {
+	//#define DIK_W               0x11
+	["TAS Keybindings","whisper_key","Open Whisper Menu", {[] spawn TAS_fnc_whisperGui}, "", [17, [false, true, true]]] call CBA_fnc_addKeybind;
+
+	//make a diary record tutorial
+	player createDiaryRecord ["tasMissionTemplate", ["Whisper Hotkey Script", "Enabled.<br/><br/>To open the Whisper menu to message other players, input the keybinding you added under Controls\Addon Controls\TAS Keybindings\Open Whisper Menu. By default, it will be Left Control + Left Alt + W."]];
+	_scriptQuickAccessTexts pushBack "<executeClose expression='[] spawn TAS_fnc_whisperGui'>Open Whisper Menu.</executeClose> Default Keybind: Left Control + Left Alt + W";
+} else {
+	if !(TAS_cleanBriefing) then { player createDiaryRecord ["tasMissionTemplate", ["Whisper Hotkey Script", "Disabled."]]; };
 	//systemChat "Afk System disabled.";
 };
 
@@ -801,16 +817,17 @@ if (TAS_playerStorage) then {
 };
 
 if (TAS_ModLog) then {
-	//TOOD chat not working?
+	//TOOD chat not working? probably not, not sure why I added 
 	private _logMessage = "";
 
 	if (isClass(configFile >> "CfgPatches" >> "Revo_NoWeaponSway")) then {
 		_shameMessage = format ["%1 is running No Weapon Sway",name player];
 		_shameMessage remoteExec ["diag_log",2];
 		if (TAS_ModLogShame) then {
-			//[player,"I am running No Weapon Sway!"] remoteExec ["globalChat"];
+			[player,"I am running No Weapon Sway!"] remoteExec ["globalChat"];
 		};
 	};
+	/*
 	if (isClass(configFile >> "CfgPatches" >> "cTab")) then { 
 		_shameMessage = format ["%1 is running cTab",name player];
 		_shameMessage remoteExec ["diag_log",2];
@@ -818,6 +835,7 @@ if (TAS_ModLog) then {
 			[player,"I am running cTab!"] remoteExec ["globalChat"];
 		};
 	};
+	*/
 	if (isClass(configFile >> "CfgPatches" >> "Ronon_gun_Pat")) then { 
 		_shameMessage = format ["%1 is running Stargate",name player];
 		_shameMessage remoteExec ["diag_log",2];
@@ -832,6 +850,7 @@ if (TAS_ModLog) then {
 			[player,"I am running Knock People Unconscious!"] remoteExec ["globalChat"];
 		};
 	};
+	/*
 	if !(isClass(configFile >> "CfgPatches" >> "L_Suppress_Suppress_main")) then { 
 		_shameMessage = format ["%1 is not running Suppress",name player];
 		_shameMessage remoteExec ["diag_log",2];
@@ -839,6 +858,7 @@ if (TAS_ModLog) then {
 			[player,"I am not running Suppress!"] remoteExec ["globalChat"];
 		};
 	};
+	*/
 	if (isClass(configFile >> "CfgPatches" >> "Alternative_Running")) then { 
 		_shameMessage = format ["%1 is running Alternative Running",name player];
 		_shameMessage remoteExec ["diag_log",2];
@@ -860,4 +880,16 @@ if (TAS_ModLog) then {
 		_shameMessage = format ["%1 is running AAA",name player];
 		_shameMessage remoteExec ["diag_log"];
 	};*/
+};
+
+player createDiaryRecord ["tasMissionTemplate", ["", "This is just a spacing divider :D"]];
+
+player createDiaryRecord ["tasMissionTemplate", ["Mission Template Version", format ["v%1",TAS_templateVersion]]];
+
+if (count _scriptQuickAccessTexts > 0) then {
+	private _text = "Each of the following scripts also has a keyboard hotkey that can execute it.<br>To change the set hotkey, go to Escape Menu -> Configure -> Controls -> Configure Addons -> TAS Keybindings.";
+	{
+		_text = _text + "<br/><br/>" + _x;
+	} forEach _scriptQuickAccessTexts;
+	player createDiaryRecord ["tasMissionTemplate", ["Player Tools Quick Access", _text]];
 };

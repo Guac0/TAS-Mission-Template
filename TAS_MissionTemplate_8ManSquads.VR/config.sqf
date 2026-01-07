@@ -162,7 +162,7 @@
 			Place several objects (recommend the data terminal object) where you want extraction points to be and put their names in TAS_scavExtractObjects below
 			Optionally, add blacklists for objectives/spawnpoints by placing objects and putting their variable names in TAS_scavBlacklistLocations below.
 			Optionally if there are markers normal players can see but you don't want Scav players to see, put their variable names in TAS_scavPmcMarkers below.
-			Enable VASS in config.sqf, and set the following to 0 or false or [] depending what's applicable: TAS_vassDefaultBalance, TAS_vassPrebriefing, TAS_vassShop, TAS_rebuyCostPrimary
+			Enable VASS in config.sqf, and set the following to 0 or false or [] depending what's applicable: TAS_vassDefaultBalance, TAS_vassPrebriefing, TAS_vassShop
 			Make a safe zone for Scavs for after they extract. I recommend an empty warehouse.
 				Place an object to act as a teleport helper and put its variable name in TAS_scavSafeZoneTpHelper below.
 				Place an object which will have the reinsert hold action on it and put its variable name in TAS_scavInsertActionObject below.
@@ -491,6 +491,42 @@
 
 
 
+//////////////////////////////////
+////////Moderation Options////////
+//////////////////////////////////
+
+
+		/*
+		Whisper System
+			Allows players to perform Private Messaging ingame.
+				TAS_whisperEnable - Allows players to use the whisper system by pressing Control+Alt+W (default hotkey) for via action in diary.
+									Zeuses can always use it using the Zeus module.
+				TAS_whisperLimit  -	If TAS_whisperLimit is TRUE and TAS_whisperEnable is TRUE, restricts players to only being able to whisper to admins/zeus.
+									Does not affect the Zeus module;
+				TAS_whisperLog	  - Logs all whispers to server log for moderation purposes.
+				TAS_whisperAdmin  - Displays all whispers to the logged in Admin for moderation purposes (they can toggle this off on an individual basis using a zeus module if desired).
+				TAS_whisperZeus   - Displays all whispers to all Zeuses for moderation purposes (they can toggle this off on an individual basis using a zeus module if desired).
+		*/
+		TAS_whisperEnable		= true; 	//default true
+		TAS_whisperLimit		= false; 	//default false
+		TAS_whisperLog			= true; 	//default true
+		TAS_whisperZeus			= true; 	//default true
+		TAS_whisperAdmin		= true; 	//default true
+
+
+		/*
+		Mod Log
+			Checks if certain mods are loaded on each player as they join for moderation purposes (such as loading an unfair/banned client side mod).
+			Search "TAS_ModLog" in initPlayerLocal.sqf to see the full list of mods being audited and to add your own.
+				TAS_ModLog 		- enables the whole system and logs violations to the server log.
+				TAS_ModLogShame - offenders will be publicly called out for having a banned mod via a chat message shown to everyone.
+		*/
+		TAS_ModLog 				= true;		//default true
+		TAS_ModLogShame 		= false; 	//default false
+
+
+
+
 
 
 
@@ -585,7 +621,7 @@
 			*/
 			TAS_bossEnabled 		= true;		//global on/off switch
 			TAS_bossImagePath 		= "media/logo256x256.paa"; //path to image file to use
-			TAS_bossParts 			= [[leg1,"LeftLeg",10],[leg2,"RightLeg",10],[torso,"Torso",30],[head,"Head",20]]; //2D array: object variable name, string name to show to players (one word due to limitations), integer of defaultHealth
+			TAS_bossParts 			= [[objNull,"LeftLeg",10],[objNull,"RightLeg",10],[objNull,"Torso",30],[objNull,"Head",20]]; //2D array: object variable name, string name to show to players (one word due to limitations), integer of defaultHealth
 			TAS_bossInterval 		= 0.5; 		//interval to wait between visible boss health updates
 			TAS_bossHealthModifier 	= 1; 		//factor to change the inputted health values by. 1 is no change, 1.5 is 50% more, etc
 
@@ -613,7 +649,10 @@
 			TAS_vassShops 				= ["arsenal_1","arsenal_2"]; //variable names of shop objects. These should ideally have the same shop contents, as rebuy cost is calculated from the first one in the list. note: if doing limited quantities and multiple shops, quantities will probably not be shared between shops
 			TAS_vassSigns 				= ["AceHealObject"]; 		//variable names of rebuy sign objects
 			TAS_vassRebuyFactor			= 0.5; 						// Percentage amount (in decimal form, so 1 = 100%) of total loadout value that a rebuy should cost. Default: 0.5 (50%)
-				
+			// The following have been deprecated by TAS_vassRebuyFactor
+			//TAS_rebuyCostPrimary		= 35;						//default 35
+			//TAS_rebuyCostSecondary	= 50;						//default 50
+			//TAS_rebuyCostHandgun		= 15;						//default 15
 	
 		/* Unit Marking
 			Adds an action to each player's action menu that allows them to mark enemy units and vehicles if they are looking DIRECTLY at them.
@@ -833,13 +872,6 @@
 	//////////////////////////////////
 		//these options are more geared towards logging or other admin actions and should be left at their defaults unless you know what you're doing 
 
-
-
-		//logging information for certain mods, with optional chat messages
-		TAS_ModLog 				= true;	//default true
-		TAS_ModLogShame 		= false; //default false
-		//publicVariable "TAS_ModLog";
-		//publicVariable "TAS_ModLogShame";
 
 
 		//tracks various performance statistics for each client and sends the results to the server
