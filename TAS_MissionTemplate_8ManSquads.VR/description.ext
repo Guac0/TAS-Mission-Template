@@ -214,6 +214,8 @@ class CfgFunctions
 			class whisper;
 			class whisperGui;
 			class zeusWhisper;
+			class infoText;
+			class zeusInfoText2;
 		};
 		class buildFob
 		{

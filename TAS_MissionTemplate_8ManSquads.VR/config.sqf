@@ -35,6 +35,21 @@
 
 
 
+	/* Intro Text
+		Displays fancy text to the player when they finish loading into the mission.
+			TAS_introEnabled 	- global on/off switch
+			TAS_introName 		- main text to display, intended for op name
+			TAS_introLocation 	- secondary text to display, intended for location
+			TAS_introLongDate 	- false: Short Date Format is "01/11/2010". true: Long Date Format is "1st November 2010"
+			TAS_introAnim 		- animation to play on the player while text is shown. Can be "NONE" (default), "WALK" (moves player forward!), "SIT", "WAKE", "WAKESLOW", or "COFFIN"
+		*/
+		TAS_introEnabled	= false;	// default false
+		TAS_introName 		= ""; 		// default ""
+		TAS_introLocation 	= ""; 		// default ""
+		TAS_introLongDate 	= true; 	// default true
+		TAS_introAnim 		= "NONE";	// default "NONE"
+
+
 	/* CH View Distance
 		Set the maximum view distance and whether players can disable grass ("LOW" terrain setting).
 		Only works if players are running CH View Distance, otherwise no effect (errors will not occur).
@@ -205,7 +220,7 @@
 			TAS_radioAdditionals enables automatically setting up an additional channelon every player's short range radio (and sets main channel to left ear and additional channel to right ear)
 			TAS_radioPersonal and TAS_radioBackpack are the classnames of the personal and backpack radios to give to players. Leaving TAS_radioBackpack empty will result in no radio backpacks being assigned.
 			Note: leadership backpack radio assignment requires units to be set up according to standard role description naming conventions (done by default in the template)
-			*/
+		*/
 		TAS_radiosEnabled 		= true; 				//default true
 		TAS_NoSquadleadLr 		= true; 				//default true
 		TAS_radioAdditionals 	= false; 				//default false
@@ -230,7 +245,7 @@
 				Use it when your units are named like 'SF Rifleman', 'SF Team Leader' to avoid retyping, otherwise leave blank (it is NOT the mod prefix)
 			TAS_defaultConfigUnit sets it so that if the player's role description doesn't match any unit in the faction, it falls back to this unit name for the loadout assignment
 			TAS_configLoadoutNumber is for advanced users only. When multiple loadouts are found, use the # loadout found (zero-based)
-			*/
+		*/
 		TAS_useConfigLoadout 	= false; 		//default false
 		TAS_configLoadoutCustom	= false;		//default false
 		TAS_configFaction 		= "BLU_F"; 		//default "BLU_F" (vanilla NATO)
@@ -496,7 +511,7 @@
 //////////////////////////////////
 
 
-		/*
+	/*
 		Whisper System
 			Allows players to perform Private Messaging ingame.
 				TAS_whisperEnable - Allows players to use the whisper system by pressing Control+Alt+W (default hotkey) for via action in diary.
@@ -514,7 +529,7 @@
 		TAS_whisperAdmin		= true; 	//default true
 
 
-		/*
+	/*
 		Mod Log
 			Checks if certain mods are loaded on each player as they join for moderation purposes (such as loading an unfair/banned client side mod).
 			Search "TAS_ModLog" in initPlayerLocal.sqf to see the full list of mods being audited and to add your own.
@@ -784,7 +799,6 @@
 	//////////////////////////////////
 	//////////Zeus Options////////////
 	//////////////////////////////////
-
 
 
 		//Adds two custom resupply modules to Zeus

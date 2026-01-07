@@ -893,3 +893,7 @@ if (count _scriptQuickAccessTexts > 0) then {
 	} forEach _scriptQuickAccessTexts;
 	player createDiaryRecord ["tasMissionTemplate", ["Player Tools Quick Access", _text]];
 };
+
+if (TAS_introEnabled) then { //should ideally go at the bottom
+	[TAS_introName,TAS_introLocation,TAS_introLongDate,TAS_introAnim] spawn TAS_fnc_infoText;
+};

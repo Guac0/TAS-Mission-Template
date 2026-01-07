@@ -21,6 +21,7 @@ if (TAS_respawnInVehicle) then {
 
 if (TAS_zeusInfoText) then {
 	_moduleList pushBack ["Play Info Text", {_this call TAS_fnc_zeusInfoText}];
+	_moduleList pushBack ["Play Info Text [V2]", {_this call TAS_fnc_zeusInfoText2}];
 	player createDiaryRecord ["tasMissionTemplate", ["Zeus Info Text", "Enabled.<br/><br/>Adds a Zeus module to play info text to all players. You can find it under 'TAS Mission Template' in the module list."]];
 } else {
 	//systemChat "Custom Zeus resupply modules disabled.";

@@ -178,6 +178,12 @@ private _maxLen = 300;
         _outputArray pushBack format ["    %1 has been set to %2!",_settingName,_settingValue];
     };
 } forEach [
+	//Intro Text
+	["TAS_introEnabled",TAS_introEnabled,false],
+	["TAS_introName",TAS_introName,""],
+	["TAS_introLocation",TAS_introLocation,""],
+	["TAS_introLongDate",TAS_introLongDate,true],
+	["TAS_introAnim",TAS_introAnim,"NONE"],
 	//CHVD CH View
 	["CHVD_allowNoGrass",CHVD_allowNoGrass,true],
 	["CHVD_maxView",CHVD_maxView,10000],
